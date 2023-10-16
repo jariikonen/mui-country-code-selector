@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
-import './index.css';
+import DemoForm from './demo/DemoForm';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <DemoForm id="first" />
+    <DemoForm id="second" />
   </React.StrictMode>
 );

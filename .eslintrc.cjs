@@ -7,6 +7,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'airbnb',
     'airbnb/hooks',
+    'airbnb-typescript',
     'plugin:jsx-a11y/recommended',
     'prettier',
   ],
@@ -26,5 +27,8 @@ module.exports = {
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
+  },
+  parserOptions: {
+    project: ['./tsconfig.json', './tsconfig.node.json'],
   },
 };
