@@ -179,11 +179,7 @@ const createCountryCodeStore = () =>
       errorMsg: null,
       setCursor() {
         const phoneRef = get().phoneInputRef;
-        if (
-          phoneRef &&
-          phoneRef.current &&
-          phoneRef.current === document.activeElement
-        ) {
+        if (phoneRef?.current && phoneRef.current === document.activeElement) {
           const curPos = get().cursorPosition;
           phoneRef.current.focus();
           phoneRef.current.setSelectionRange(curPos, curPos);
@@ -203,7 +199,7 @@ const createCountryCodeStore = () =>
          */
         function getCursorPosition() {
           const phoneRef = get().phoneInputRef;
-          return phoneRef && phoneRef.current && phoneRef.current.selectionStart
+          return phoneRef?.current?.selectionStart
             ? phoneRef.current.selectionStart
             : 0;
         }
@@ -270,7 +266,7 @@ const createCountryCodeStore = () =>
 
             newPossible = options.filter((countryObj) => {
               const cleanedCode = getDigits(countryObj.code);
-              const match = cleanedCode.slice(0, _digits.length) === _digits;
+              const match = cleanedCode.startsWith(_digits);
               if (match && cleanedCode.length < minCodeDigits) {
                 minCodeDigits = cleanedCode.length;
               }
@@ -334,10 +330,9 @@ const createCountryCodeStore = () =>
                 ? digits.slice(0, pastSignificantDigits.length)
                 : null;
             return Boolean(
-              (currentValue && currentValue !== pastSignificantDigits) ||
+              (currentValue && currentValue !== pastSignificantDigits) ??
                 (currentValue &&
-                  possible &&
-                  possible.maxCodeDigits &&
+                  possible?.maxCodeDigits &&
                   digits.length > currentValue.length &&
                   currentValue.length < possible.maxCodeDigits)
             );
@@ -361,7 +356,7 @@ const createCountryCodeStore = () =>
               : _digits.length;
             const options =
               (_possible &&
-                _possible.digitsConsidered.length < _possible.minCodeDigits) ||
+                _possible.digitsConsidered.length < _possible.minCodeDigits) ??
               !_possible
                 ? countries
                 : _possible.possibleCountries;
@@ -408,7 +403,7 @@ const createCountryCodeStore = () =>
                 };
               }
             }
-            if (digits.slice(0, detectedCCDigits.length) === detectedCCDigits) {
+            if (digits.startsWith(detectedCCDigits)) {
               return { significantDigits, possibleCountries };
             }
             return {
@@ -456,7 +451,7 @@ const createCountryCodeStore = () =>
           });
           return;
         }
-        if (value.match(/\s{2,}/) || value.match(/\s-/) || value.match(/-\s/)) {
+        if (value.match(/\s{2,}/) ?? value.match(/\s-/) ?? value.match(/-\s/)) {
           set({
             errorMsg: 'Only one separator character between digits allowed',
           });
@@ -553,10 +548,9 @@ const createCountryCodeStore = () =>
           phoneNum: string
         ): Partial<CCodeState> {
           const newCCPart = `+${_value.code} `;
-          const cleanedPhoneNum =
-            phoneNum[0] === '0'
-              ? phoneNum.replace(/^0*/, '')
-              : phoneNum.replace(getCCRegExp(detectedCCDigits), '');
+          const cleanedPhoneNum = phoneNum.startsWith('0')
+            ? phoneNum.replace(/^0*/, '')
+            : phoneNum.replace(getCCRegExp(detectedCCDigits), '');
           const newPhoneNum = newCCPart + cleanedPhoneNum;
           return {
             countryCodeDigits: getDigits(_value.code),
@@ -589,7 +583,7 @@ const createCountryCodeStore = () =>
         }
 
         // user selected new country code value
-        if (value && value.code) {
+        if (value?.code) {
           const phoneRef = get().phoneInputRef;
 
           set({
@@ -600,7 +594,7 @@ const createCountryCodeStore = () =>
             ),
           });
 
-          if (phoneRef && phoneRef.current) {
+          if (phoneRef?.current) {
             phoneRef.current.focus();
           }
         }

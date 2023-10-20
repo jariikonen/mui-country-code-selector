@@ -80,7 +80,7 @@ function DemoForm({ id }: { id: string }) {
                   value={countryCodeState.phoneNumStr}
                   type="text"
                   inputRef={(e) => {
-                    phoneNumberRef.current = e;
+                    phoneNumberRef.current = e as HTMLInputElement | null;
                   }}
                   sx={{
                     width: '65%',
