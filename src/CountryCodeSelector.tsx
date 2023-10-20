@@ -4,6 +4,7 @@ import {
   TextField,
   Box,
   createFilterOptions,
+  FilterOptionsState,
 } from '@mui/material';
 import { useStore } from 'zustand';
 import { CountryType, countries } from './countryCodeData';
@@ -11,11 +12,26 @@ import { useCountryCodeStore } from './countryCodeStore';
 
 interface CountryCodeSelectorProps {
   id: string;
+  filterOptions?: (
+    options: CountryType[],
+    state: FilterOptionsState<CountryType>
+  ) => CountryType[];
   label: string | null | undefined;
   sx: SxProps;
 }
 
-function CountryCodeSelector({ id, label, sx }: CountryCodeSelectorProps) {
+const defaultFilterOptions = createFilterOptions({
+  matchFrom: 'any',
+  stringify: (option: CountryType) =>
+    `${option.country} ${option.iso} +${option.code}`,
+});
+
+function CountryCodeSelector({
+  id,
+  filterOptions = defaultFilterOptions,
+  label,
+  sx,
+}: CountryCodeSelectorProps) {
   const countryCodeStore = useCountryCodeStore(id);
   const handleCountryCodeChange = useStore(
     countryCodeStore,
@@ -25,12 +41,6 @@ function CountryCodeSelector({ id, label, sx }: CountryCodeSelectorProps) {
     countryCodeStore,
     (state) => state.countryCodeValue
   );
-
-  const filterOptions = createFilterOptions({
-    matchFrom: 'any',
-    stringify: (option: CountryType) =>
-      `${option.country} (${option.iso}) +${option.code}`,
-  });
 
   return (
     <Autocomplete
@@ -54,7 +64,7 @@ function CountryCodeSelector({ id, label, sx }: CountryCodeSelectorProps) {
             src={`https://flagcdn.com/${option.iso.toLowerCase()}.svg`}
             alt=""
           />
-          {option.country} ({option.iso}) +{option.code}
+          {option.country} {option.iso} +{option.code}
         </Box>
       )}
       renderInput={(params) => (
@@ -71,5 +81,9 @@ function CountryCodeSelector({ id, label, sx }: CountryCodeSelectorProps) {
     />
   );
 }
+
+CountryCodeSelector.defaultProps = {
+  filterOptions: defaultFilterOptions,
+};
 
 export default CountryCodeSelector;
