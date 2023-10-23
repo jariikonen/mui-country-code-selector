@@ -16,6 +16,8 @@ interface CountryCodeSelectorProps {
     options: CountryType[],
     state: FilterOptionsState<CountryType>
   ) => CountryType[];
+  autoSelect?: boolean;
+  autoHighlight?: boolean;
   label: string | null | undefined;
   sx: SxProps;
 }
@@ -29,6 +31,8 @@ const defaultFilterOptions = createFilterOptions({
 function CountryCodeSelector({
   id,
   filterOptions = defaultFilterOptions,
+  autoSelect,
+  autoHighlight,
   label,
   sx,
 }: CountryCodeSelectorProps) {
@@ -48,7 +52,8 @@ function CountryCodeSelector({
       onChange={handleCountryCodeChange}
       options={countries}
       value={countryCodeValue}
-      autoHighlight
+      autoSelect={autoSelect}
+      autoHighlight={autoHighlight}
       getOptionLabel={(option) => `${option.country} (${option.iso})`}
       filterOptions={filterOptions}
       renderOption={(props, option) => (
@@ -84,6 +89,8 @@ function CountryCodeSelector({
 
 CountryCodeSelector.defaultProps = {
   filterOptions: defaultFilterOptions,
+  autoSelect: true,
+  autoHighlight: true,
 };
 
 export default CountryCodeSelector;
