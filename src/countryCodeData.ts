@@ -12,7 +12,7 @@ export interface CountryType {
   iso: string;
 }
 
-/** International calling code data for countries of the world. */
+/** International calling code data for the countries of the world. */
 export const countries: readonly CountryType[] = [
   { country: 'Afghanistan', code: '93', iso: 'AF' },
   { country: 'Albania', code: '355', iso: 'AL' },
