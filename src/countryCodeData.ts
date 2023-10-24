@@ -1,9 +1,18 @@
 export interface CountryType {
+  /** Name of the country. */
   country: string;
+
+  /** International calling code of the country. */
   code: string;
+
+  /**
+   * Two letter ISO 3166 country code of the country.
+   * @ see {@link https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes}
+   */
   iso: string;
 }
 
+/** International calling code data for countries of the world. */
 export const countries: readonly CountryType[] = [
   { country: 'Afghanistan', code: '93', iso: 'AF' },
   { country: 'Albania', code: '355', iso: 'AL' },

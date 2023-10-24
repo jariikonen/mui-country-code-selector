@@ -149,12 +149,13 @@ export interface CCodeState {
 }
 
 /**
- * Zustand state hook for establishing a common state between the country
+ * Zustand store for establishing a common state between the country
  * code autocomplete field and the external phone number input. Created
- * using Zustand's create function.
+ * using Zustand's createStore function that returns a store object.
  * @see CCodeState
  * @see {@link https://github.com/pmndrs/zustand} for more information on
  *   Zustand.
+ * @return Zusandt store object
  */
 const createCountryCodeStore = () =>
   createStore<CCodeState>(
@@ -444,6 +445,8 @@ const createCountryCodeStore = () =>
         };
 
         const { value } = e.target; // current value of the phone number field
+
+        // handle forbidden characters (only digits and separator characters allowed)
         if (getForbiddenCharacters(value).length > 0) {
           set({
             errorMsg:
@@ -460,6 +463,7 @@ const createCountryCodeStore = () =>
 
         const digits = getDigits(value); // just the digits of the current phone number value
 
+        // get data on the digits, that has been discovered earlier, from the state
         const detectedCCDigits = get().countryCodeDigits;
         let { possibleCountries: possible, significantDigits } = get();
 
@@ -609,10 +613,25 @@ const createCountryCodeStore = () =>
     })
   );
 
+/**
+ * Type for the Zusand store object used for common state between
+ * CountryCodeSelectors and their external input elements.
+ * @see CountryCodeSelector, CCodeState, createCountryCodeStore
+ */
 type CountryCodeStore = ReturnType<typeof createCountryCodeStore>;
 
+/**
+ * A record object containing key value pairs of CountryCodeStores used for
+ * different CountryCodeSelectors. Each store is identified by a string key.
+ * @see CountryCodeSelector
+ */
 const countryCodeStores: Record<string, CountryCodeStore> = {};
 
+/**
+ * Returns CountryCodeStore object corresponding to the key given as parameter.
+ * If the key does not correspond to any store, a new store is created.
+ * @param key Key that identifies the store object.
+ */
 const getCountryCodeStore = (key: string) => {
   let cCState = countryCodeStores[key];
   if (!cCState) {
@@ -622,6 +641,11 @@ const getCountryCodeStore = (key: string) => {
   return cCState;
 };
 
+/**
+ * Returns a hook to a CountryCodeStore object corresponding to the key. If the
+ * key does not correspond to any store, a new store is created.
+ * @param key Key that identifies the store object.
+ */
 export const useCountryCodeStore = (key: string) => {
   const ref = useRef(getCountryCodeStore(key));
 
