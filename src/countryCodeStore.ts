@@ -123,9 +123,9 @@ export interface CCodeState {
   clearErrorMsg: () => void;
 
   /**
-   * A handler function for the phone number input's onChange events. Takes,
-   * for example, care of detecting the country code from the input and setting
-   * the countryCodeDigits and the countryCodeVal based on that.
+   * A handler function for the phone number input's onChange events. Takes
+   * care of detecting the country code from the input and setting the
+   * countryCodeDigits and the countryCodeVal based on that.
    * @param e The onChange event object from the phone number input.
    */
   handlePhoneNumberChange: (e: { target: { value: string } }) => void;
