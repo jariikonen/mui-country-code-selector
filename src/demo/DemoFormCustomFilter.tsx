@@ -12,7 +12,7 @@ import {
 import { useStore } from 'zustand';
 import { matchSorter } from 'match-sorter';
 import CountryCodeSelector from '../CountryCodeSelector';
-import { useCountryCodeStore } from '../countryCodeStore';
+import useCountryCodeStore from '../countryCodeStore';
 import { CountryType } from '../countryCodeData';
 
 function DemoForm({ id }: { id: string }) {

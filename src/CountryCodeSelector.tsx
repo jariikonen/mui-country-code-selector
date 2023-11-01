@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { useStore } from 'zustand';
 import { CountryType, countries } from './countryCodeData';
-import { useCountryCodeStore } from './countryCodeStore';
+import useCountryCodeStore from './countryCodeStore';
 
 /** A type for the props to the CountryCodeSelector. */
 interface CountryCodeSelectorProps {

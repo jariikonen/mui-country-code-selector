@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { useStore } from 'zustand';
 import CountryCodeSelector from '../CountryCodeSelector';
-import { useCountryCodeStore } from '../countryCodeStore';
+import useCountryCodeStore from '../countryCodeStore';
 
 function DemoForm({ id }: { id: string }) {
   const countryCodeStore = useCountryCodeStore(id);
