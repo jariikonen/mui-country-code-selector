@@ -170,7 +170,7 @@ export default function handlePhoneNumberChange(
      * longer than the past significant part and there are longer possible
      * country codes available.
      */
-    function significantDigitsHaveChanged() {
+    function possibleCountriesShouldBeUpdated() {
       const currentValue =
         pastSignificantDigits.length > 0
           ? digits.slice(0, pastSignificantDigits.length)
@@ -225,7 +225,7 @@ export default function handlePhoneNumberChange(
 
     let localPossibleCountries = possible;
     let localSignificantDigits = pastSignificantDigits;
-    if (!possible || significantDigitsHaveChanged()) {
+    if (!possible || possibleCountriesShouldBeUpdated()) {
       localPossibleCountries = getPossibleCountries(digits);
       localSignificantDigits = localPossibleCountries
         ? digits.slice(0, localPossibleCountries.maxCodeDigits)
