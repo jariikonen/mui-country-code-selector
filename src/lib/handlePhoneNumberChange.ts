@@ -176,7 +176,8 @@ export default function handlePhoneNumberChange(
           ? digits.slice(0, pastSignificantDigits.length)
           : null;
       return Boolean(
-        (currentValue && currentValue !== pastSignificantDigits) ??
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        (currentValue && currentValue !== pastSignificantDigits) ||
           (currentValue &&
             possible?.maxCodeDigits &&
             digits.length > currentValue.length &&
@@ -316,7 +317,7 @@ export default function handlePhoneNumberChange(
   const digits = getDigits(phoneNumberValue); // just the digits of the current phone number value
 
   // update the values if there is a possible country code in the string but
-  // no possible countries have been detected
+  // no possible countries have yet been detected
   let newPossibleCountries = {
     ...possibleCountries,
   } as PossibleCountriesType | null;
