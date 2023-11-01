@@ -210,10 +210,10 @@ export default function handlePhoneNumberChange(
       let matches: readonly CountryType[] = [];
 
       for (rangeEnd; rangeEnd >= 0; rangeEnd -= 1) {
+        const rEnd = rangeEnd;
         matches = options.filter(
-          // eslint-disable-next-line @typescript-eslint/no-loop-func
           (countryObj) =>
-            countryObj.code.replace(/\s|-/g, '') === _digits.slice(0, rangeEnd)
+            countryObj.code.replace(/\s|-/g, '') === _digits.slice(0, rEnd)
         );
         if (matches.length > 0) {
           return matches;
