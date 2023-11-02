@@ -38,18 +38,22 @@ export interface PossibleCountriesType {
  * @see useCountryCode
  */
 export interface CCodeState {
-  /** The whole phone number including country code. */
+  /**
+   * The whole phone number including the country code as a string. This is
+   * used as the value of the phone number input element.
+   */
   phoneNumStr: string;
 
   /**
-   * The string index where the local part of the phone number starts.
+   * The string index indicating where the local part of the phone number
+   * starts.
    */
   phoneNumSplit: number;
 
   /**
    * The digits of the phone number that are significant in terms of the
    * country code. Contains only the digits without visual separator
-   * characters.
+   * characters or the plus sign.
    */
   significantDigits: string;
 
@@ -65,7 +69,8 @@ export interface CCodeState {
   /**  A ref to the phone number input element. */
   phoneInputRef: MutableRefObject<HTMLInputElement | null> | null;
 
-  /** The digits of the current country code. */
+  /** The digits of the detected country code (an empty string if no country
+   * code has yet been detected). */
   countryCodeDigits: string;
 
   /**
@@ -103,7 +108,8 @@ export interface CCodeState {
   handlePhoneNumberChange: (e: { target: { value: string } }) => void;
 
   /**
-   * A handler function for the country code autocomplete onChange events.
+   * A handler function for the CountryCodeSelector Autocomplete component's
+   * onChange events.
    * @see {@link https://mui.com/material-ui/api/autocomplete/#Autocomplete-prop-onChange}
    *   for more information on parameters.
    * @param e The event source of the callback.

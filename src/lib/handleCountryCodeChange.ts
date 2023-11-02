@@ -4,6 +4,23 @@ import { CountryType } from '../countryCodeData';
 import { CCodeState } from '../types';
 import { getDigits, resetCountryCode } from './helpers';
 
+/**
+ * Implementation of the handler function for the CountryCodeSelector
+ * Autocomplete component's onChange events.
+ * @see {@link https://mui.com/material-ui/api/autocomplete/#Autocomplete-prop-onChange}
+ * @see CCodeState.handleCountryCodeChange
+ * @param countryCodeValue Value prop of the onChange event (the value of the
+ *                         CountryCodeSelector Autocomplete component).
+ * @param phoneInputRef A ref to the phone number input element.
+ * @param countryCodeDigits Digits of the currently detected country code
+ *                          (an empty string if no country code has yet been
+ *                          detected).
+ * @param phoneNumStr The whole phone number including the country code (the
+ *                    value of the phone number input element).
+ * @param reason One of "createOption", "selectOption", "removeOption",
+ *               "blur" or "clear".
+ * @returns
+ */
 export default function handleCountryCodeChange(
   countryCodeValue: CountryType | null,
   phoneInputRef: MutableRefObject<HTMLInputElement | null> | null,
