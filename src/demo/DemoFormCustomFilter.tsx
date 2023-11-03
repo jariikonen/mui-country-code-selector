@@ -62,8 +62,8 @@ function DemoForm({ id }: { id: string }) {
       style={{ margin: '2rem 1rem' }}
     >
       <Typography align="left" variant="h5" style={{ marginBottom: '1rem' }}>
-        Phone number input with a country code selector (custom filtering with
-        kentcdodds/match-sorter)
+        Phone number input with a country code selector + custom filtering with
+        match-sorter
       </Typography>
       <form
         onSubmit={(event) => {
