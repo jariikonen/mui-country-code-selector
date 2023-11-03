@@ -89,6 +89,13 @@ export default function handleCountryCodeChange(
     };
   }
 
+  // user pressed the clear button
+  if (reason === 'clear') {
+    return {
+      ...clearCountryCodePart(countryCodeDigits, phoneNumStr),
+    };
+  }
+
   // user selected a new country code value
   if (countryCodeValue?.code) {
     if (phoneInputRef?.current) {
@@ -97,13 +104,6 @@ export default function handleCountryCodeChange(
 
     return {
       ...setNewCountryCode(countryCodeValue, countryCodeDigits, phoneNumStr),
-    };
-  }
-
-  // user pressed the clear button
-  if (reason === 'clear') {
-    return {
-      ...clearCountryCodePart(countryCodeDigits, phoneNumStr),
     };
   }
 
