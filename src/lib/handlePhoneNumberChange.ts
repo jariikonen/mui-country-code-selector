@@ -9,7 +9,8 @@ import { getDigits, resetCountryCode } from './helpers';
  * an object that can be used for setting the countryCodeDigits and the
  * countryCodeVal based on that.
  * @see CCodeState.handleCountryCodeChange
- * @param phoneNumberValue Value of the phone number input.
+ * @param phoneNumberValue Value of the phone number input as received from the
+ *   onChange event props.
  * @param phoneInputRef A ref to the phone number input DOM element.
  * @param detectedCCDigits The digits of the previously known country code.
  * @param possibleCountries An object containing possible country codes based
