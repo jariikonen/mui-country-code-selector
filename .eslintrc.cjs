@@ -39,7 +39,4 @@ module.exports = {
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
   },
-  parserOptions: {
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-  },
 };
