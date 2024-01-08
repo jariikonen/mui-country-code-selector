@@ -40,10 +40,14 @@ function DemoFormCustomFilter({ id }: { id: string }) {
   const customFilterOptions = (
     options: CountryType[],
     { inputValue }: { inputValue: string; getOptionLabel: object }
-  ) =>
-    matchSorter<CountryType>(options, inputValue, {
+  ) => {
+    const inputVal = inputValue.startsWith('+')
+      ? inputValue.substring(1)
+      : inputValue;
+    return matchSorter<CountryType>(options, inputVal, {
       keys: ['country', 'code', 'iso'],
     });
+  };
 
   return (
     <Box
