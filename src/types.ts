@@ -89,6 +89,32 @@ export interface CCodeState {
   /** Error message to be shown to the user. */
   errorMsg: string | null;
 
+  /** Timeout object for timing how long the error message is displayed. */
+  errorMsgTimeoutObj: NodeJS.Timeout | null;
+
+  /** Time of the message delay in seconds. */
+  errorMsgDelay: number;
+
+  /**
+   * Sets the phone number input reference.
+   * @param phoneRef Reference to the phone number input element.
+   */
+  setPhoneInputRef: (
+    phoneRef: MutableRefObject<HTMLInputElement | null> | null
+  ) => void;
+
+  /**
+   * Sets the error message delay (how long the message is shown).
+   * @param seconds Message delay in seconds.
+   */
+  setErrorMsgDelay: (seconds: number) => void;
+
+  /**
+   * Displays the error message for the time specified in the errorMsgDelay
+   * variable.
+   */
+  displayError: () => void;
+
   /**
    * Sets cursor position to the place it was during the last phone number
    * input's onChange event based on the cursorPosition state variable.

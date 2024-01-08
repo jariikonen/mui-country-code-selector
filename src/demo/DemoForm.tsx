@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Box,
   Grid,
@@ -15,36 +15,25 @@ import useCountryCodeStore from '../countryCodeStore';
 
 function DemoForm({ id }: { id: string }) {
   const countryCodeStore = useCountryCodeStore(id);
-  const countryCodeState = useStore(countryCodeStore, (state) => state);
-  const phoneNumberRef = useRef<HTMLInputElement | null>(null);
-  countryCodeState.phoneInputRef = phoneNumberRef;
 
-  const [phoneErrMsg, setPhoneErrMsg] = useState(countryCodeState.errorMsg);
-  const phoneErrTimeoutRef: React.MutableRefObject<NodeJS.Timeout | null> =
-    useRef(null);
+  const setPhoneInputRef = useStore(
+    countryCodeStore,
+    (state) => state.setPhoneInputRef
+  );
+  const phoneNumStr = useStore(countryCodeStore, (state) => state.phoneNumStr);
+  const errorMsg = useStore(countryCodeStore, (state) => state.errorMsg);
+  const handlePhoneNumberChange = useStore(
+    countryCodeStore,
+    (state) => state.handlePhoneNumberChange
+  );
+
+  const phoneNumberRef = useRef<HTMLInputElement | null>(null);
 
   const [result, setResult] = useState<string | null>(null);
 
   useEffect(() => {
-    const setPhoneErrClear = (seconds = 3) => {
-      if (phoneErrTimeoutRef.current) {
-        clearTimeout(phoneErrTimeoutRef.current);
-      }
-      phoneErrTimeoutRef.current = setTimeout(() => {
-        countryCodeState.clearErrorMsg();
-        phoneErrTimeoutRef.current = null;
-      }, seconds * 1000);
-    };
-
-    setPhoneErrMsg(countryCodeState.errorMsg);
-    if (countryCodeState.errorMsg) {
-      setPhoneErrClear();
-    }
-  }, [countryCodeState]);
-
-  useEffect(() => {
-    countryCodeState.setCursor();
-  });
+    setPhoneInputRef(phoneNumberRef);
+  }, [setPhoneInputRef]);
 
   return (
     <Box
@@ -57,7 +46,7 @@ function DemoForm({ id }: { id: string }) {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          setResult(countryCodeState.phoneNumStr);
+          setResult(phoneNumStr);
         }}
       >
         <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 0.7 }}>
@@ -75,9 +64,9 @@ function DemoForm({ id }: { id: string }) {
                   }}
                 />
                 <TextField
-                  error={phoneErrMsg !== null}
+                  error={errorMsg !== null}
                   label="Phone number"
-                  value={countryCodeState.phoneNumStr}
+                  value={phoneNumStr}
                   type="text"
                   inputRef={(e) => {
                     phoneNumberRef.current = e as HTMLInputElement | null;
@@ -88,11 +77,9 @@ function DemoForm({ id }: { id: string }) {
                     boxSizing: 'border-box',
                     webkitBoxSizing: 'border-box',
                   }}
-                  onChange={countryCodeState.handlePhoneNumberChange}
+                  onChange={handlePhoneNumberChange}
                 />
-                {phoneErrMsg && (
-                  <FormHelperText error>{phoneErrMsg}</FormHelperText>
-                )}
+                {errorMsg && <FormHelperText error>{errorMsg}</FormHelperText>}
               </FormGroup>
             </FormControl>
           </Grid>

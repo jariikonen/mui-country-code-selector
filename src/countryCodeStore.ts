@@ -37,6 +37,34 @@ const createCountryCodeStore = () =>
       countryCodeValue: null,
       possibleCountries: null,
       errorMsg: null,
+      errorMsgDelay: 3,
+      errorMsgTimeoutObj: null,
+      setPhoneInputRef(phoneRef) {
+        set({ phoneInputRef: phoneRef });
+      },
+      setErrorMsgDelay(seconds) {
+        set({ errorMsgDelay: seconds });
+      },
+      displayError() {
+        const message = get().errorMsg;
+        const delay = get().errorMsgDelay;
+        const timeoutObj = get().errorMsgTimeoutObj;
+
+        const setErrorMsgClear = (seconds: number) => {
+          if (timeoutObj) {
+            clearTimeout(timeoutObj);
+          }
+          const newTimeoutObj = setTimeout(() => {
+            set({ errorMsg: null });
+            set({ errorMsgTimeoutObj: null });
+          }, seconds * 1000);
+          set({ errorMsgTimeoutObj: newTimeoutObj });
+        };
+
+        if (message) {
+          setErrorMsgClear(delay);
+        }
+      },
       setCursor: () => setCursor(get().phoneInputRef, get().cursorPosition),
       clearErrorMsg() {
         set({ errorMsg: null });
@@ -56,6 +84,9 @@ const createCountryCodeStore = () =>
           significantDigits
         );
         set(result);
+        if (Object.keys(result).includes('errorMsg')) {
+          get().displayError();
+        }
       },
       handleCountryCodeChange(
         _e: SyntheticEvent<Element, Event>,
