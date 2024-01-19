@@ -1,6 +1,6 @@
 import { MutableRefObject } from 'react';
 import { PossibleCountriesType, CCodeState } from '../types';
-import { CountryType, countries } from '../countryCodeData';
+import { CountryType, countries } from './countryCodeData';
 import { getDigits, resetCountryCode } from './helpers';
 
 /**

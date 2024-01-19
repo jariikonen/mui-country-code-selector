@@ -6,7 +6,7 @@ import {
   createFilterOptions,
   FilterOptionsState,
 } from '@mui/material';
-import { CountryType, countries } from './countryCodeData';
+import { CountryType, countries } from './lib/countryCodeData';
 import useCountryCodeStore from './store/useCountryCodeStore';
 
 /** A type for the props to the CountryCodeSelector component. */

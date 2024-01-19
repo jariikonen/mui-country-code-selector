@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { MutableRefObject } from 'react';
-import { countries } from '../countryCodeData';
+import { countries } from './countryCodeData';
 import handlePhoneNumberChange from './handlePhoneNumberChange';
 
 const country = countries.filter((value) => value.country === 'Curacao')[0];

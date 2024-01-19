@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { MutableRefObject } from 'react';
-import { countries } from '../countryCodeData';
+import { countries } from './countryCodeData';
 import handleCountryCodeChange from './handleCountryCodeChange';
 
 const country = countries.filter((value) => value.country === 'Curacao')[0];

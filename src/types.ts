@@ -3,7 +3,7 @@ import {
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
 } from '@mui/material';
-import { CountryType } from './countryCodeData';
+import { CountryType } from './lib/countryCodeData';
 
 /**
  * A type for data on country codes that are possible based on the phone

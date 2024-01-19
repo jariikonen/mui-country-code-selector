@@ -1,7 +1,7 @@
 import { SyntheticEvent } from 'react';
 import { AutocompleteChangeReason } from '@mui/material';
 import { createStore } from 'zustand';
-import { CountryType } from '../countryCodeData';
+import { CountryType } from '../lib/countryCodeData';
 import { CCodeState } from '../types';
 import setCursor from '../lib/setCursor';
 import handlePhoneNumberChange from '../lib/handlePhoneNumberChange';

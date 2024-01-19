@@ -1,6 +1,6 @@
 import { MutableRefObject } from 'react';
 import { AutocompleteChangeReason } from '@mui/material';
-import { CountryType } from '../countryCodeData';
+import { CountryType } from './countryCodeData';
 import { CCodeState } from '../types';
 import { getDigits, resetCountryCode } from './helpers';
 

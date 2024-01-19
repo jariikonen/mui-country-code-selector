@@ -12,7 +12,7 @@ import {
 import { matchSorter } from 'match-sorter';
 import CountryCodeSelector from '../CountryCodeSelector';
 import useCountryCodeStore from '../store/useCountryCodeStore';
-import { CountryType } from '../countryCodeData';
+import { CountryType } from '../lib/countryCodeData';
 
 function DemoFormCustomFilter() {
   const { setPhoneInputRef, phoneNumStr, errorMsg, handlePhoneNumberChange } =
