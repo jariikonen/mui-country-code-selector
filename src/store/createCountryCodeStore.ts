@@ -1,20 +1,20 @@
-import { SyntheticEvent, useRef } from 'react';
+import { SyntheticEvent } from 'react';
 import { AutocompleteChangeReason } from '@mui/material';
-import { createStore } from 'zustand/vanilla';
-import { CountryType } from './countryCodeData';
-import { CCodeState } from './types';
-import setCursor from './lib/setCursor';
-import handlePhoneNumberChange from './lib/handlePhoneNumberChange';
-import handleCountryCodeChange from './lib/handleCountryCodeChange';
+import { createStore } from 'zustand';
+import { CountryType } from '../countryCodeData';
+import { CCodeState } from '../types';
+import setCursor from '../lib/setCursor';
+import handlePhoneNumberChange from '../lib/handlePhoneNumberChange';
+import handleCountryCodeChange from '../lib/handleCountryCodeChange';
 
 /**
  * Zustand store for establishing a common state between the country
- * code autocomplete field and the external phone number input. Created
- * using Zustand's createStore function that returns a store object.
+ * code autocomplete component and the external phone number input component.
+ * Created using Zustand's createStore function which returns a store object.
  * @see CCodeState
  * @see {@link https://github.com/pmndrs/zustand} for more information on
  *   Zustand.
- * @return Zusandt store object
+ * @return Zustand store object
  */
 const createCountryCodeStore = () =>
   createStore<CCodeState>(
@@ -106,43 +106,4 @@ const createCountryCodeStore = () =>
     })
   );
 
-/**
- * Type for the Zusand store object used for common state between
- * CountryCodeSelectors and their external input elements.
- * @see CountryCodeSelector, CCodeState, createCountryCodeStore
- */
-type CountryCodeStore = ReturnType<typeof createCountryCodeStore>;
-
-/**
- * A record object containing key value pairs of CountryCodeStores used for
- * different CountryCodeSelectors. Each store is identified by a string key.
- * @see CountryCodeSelector
- */
-const countryCodeStores: Record<string, CountryCodeStore> = {};
-
-/**
- * Returns CountryCodeStore object corresponding to the key given as parameter.
- * If the key does not correspond to any store, a new store is created.
- * @param key Key that identifies the store object.
- */
-const getCountryCodeStore = (key: string) => {
-  let cCState = countryCodeStores[key];
-  if (!cCState) {
-    countryCodeStores[key] = createCountryCodeStore();
-    cCState = countryCodeStores[key];
-  }
-  return cCState;
-};
-
-/**
- * Returns a hook to a CountryCodeStore object corresponding to the key. If the
- * key does not correspond to any store, a new store is created.
- * @param key Key that identifies the store object.
- */
-const useCountryCodeStore = (key: string) => {
-  const ref = useRef(getCountryCodeStore(key));
-
-  return ref.current;
-};
-
-export default useCountryCodeStore;
+export default createCountryCodeStore;

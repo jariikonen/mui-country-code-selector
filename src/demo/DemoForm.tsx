@@ -9,30 +9,19 @@ import {
   FormHelperText,
   Button,
 } from '@mui/material';
-import { useStore } from 'zustand';
 import CountryCodeSelector from '../CountryCodeSelector';
-import useCountryCodeStore from '../countryCodeStore';
+import useCountryCodeStore from '../store/useCountryCodeStore';
 
-function DemoForm({ id }: { id: string }) {
-  const countryCodeStore = useCountryCodeStore(id);
+function DemoForm() {
+  const { setPhoneInputRef, phoneNumStr, errorMsg, handlePhoneNumberChange } =
+    useCountryCodeStore();
 
-  const setPhoneInputRef = useStore(
-    countryCodeStore,
-    (state) => state.setPhoneInputRef
-  );
-  const phoneNumStr = useStore(countryCodeStore, (state) => state.phoneNumStr);
-  const errorMsg = useStore(countryCodeStore, (state) => state.errorMsg);
-  const handlePhoneNumberChange = useStore(
-    countryCodeStore,
-    (state) => state.handlePhoneNumberChange
-  );
-
-  const phoneNumberRef = useRef<HTMLInputElement | null>(null);
+  const phoneInputRef = useRef<HTMLInputElement | null>(null);
 
   const [result, setResult] = useState<string | null>(null);
 
   useEffect(() => {
-    setPhoneInputRef(phoneNumberRef);
+    setPhoneInputRef(phoneInputRef);
   }, [setPhoneInputRef]);
 
   return (
@@ -41,7 +30,8 @@ function DemoForm({ id }: { id: string }) {
       style={{ margin: '2rem 1rem' }}
     >
       <Typography align="left" variant="h5" style={{ marginBottom: '1rem' }}>
-        Phone number input with a country code selector
+        Phone number input and a country code selector combined using a Zustand
+        state
       </Typography>
       <form
         onSubmit={(event) => {
@@ -54,7 +44,6 @@ function DemoForm({ id }: { id: string }) {
             <FormControl fullWidth>
               <FormGroup row>
                 <CountryCodeSelector
-                  id={id}
                   label="Country code"
                   sx={{
                     width: '35%',
@@ -69,7 +58,7 @@ function DemoForm({ id }: { id: string }) {
                   value={phoneNumStr}
                   type="text"
                   inputRef={(e) => {
-                    phoneNumberRef.current = e as HTMLInputElement | null;
+                    phoneInputRef.current = e as HTMLInputElement | null;
                   }}
                   sx={{
                     width: '65%',

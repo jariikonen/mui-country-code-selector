@@ -9,25 +9,14 @@ import {
   FormHelperText,
   Button,
 } from '@mui/material';
-import { useStore } from 'zustand';
 import { matchSorter } from 'match-sorter';
 import CountryCodeSelector from '../CountryCodeSelector';
-import useCountryCodeStore from '../countryCodeStore';
+import useCountryCodeStore from '../store/useCountryCodeStore';
 import { CountryType } from '../countryCodeData';
 
-function DemoFormCustomFilter({ id }: { id: string }) {
-  const countryCodeStore = useCountryCodeStore(id);
-
-  const setPhoneInputRef = useStore(
-    countryCodeStore,
-    (state) => state.setPhoneInputRef
-  );
-  const phoneNumStr = useStore(countryCodeStore, (state) => state.phoneNumStr);
-  const errorMsg = useStore(countryCodeStore, (state) => state.errorMsg);
-  const handlePhoneNumberChange = useStore(
-    countryCodeStore,
-    (state) => state.handlePhoneNumberChange
-  );
+function DemoFormCustomFilter() {
+  const { setPhoneInputRef, phoneNumStr, errorMsg, handlePhoneNumberChange } =
+    useCountryCodeStore();
 
   const phoneNumberRef = useRef<HTMLInputElement | null>(null);
 
@@ -55,8 +44,8 @@ function DemoFormCustomFilter({ id }: { id: string }) {
       style={{ margin: '2rem 1rem' }}
     >
       <Typography align="left" variant="h5" style={{ marginBottom: '1rem' }}>
-        Phone number input with a country code selector + custom filtering with
-        match-sorter
+        Phone number input and a country code selector with match-sorter custom
+        filtering, combined with a Zustand state
       </Typography>
       <form
         onSubmit={(event) => {
@@ -69,7 +58,6 @@ function DemoFormCustomFilter({ id }: { id: string }) {
             <FormControl fullWidth>
               <FormGroup row>
                 <CountryCodeSelector
-                  id={id}
                   label="Country code"
                   filterOptions={customFilterOptions}
                   sx={{

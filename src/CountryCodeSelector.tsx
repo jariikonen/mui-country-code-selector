@@ -6,21 +6,14 @@ import {
   createFilterOptions,
   FilterOptionsState,
 } from '@mui/material';
-import { useStore } from 'zustand';
 import { CountryType, countries } from './countryCodeData';
-import useCountryCodeStore from './countryCodeStore';
+import useCountryCodeStore from './store/useCountryCodeStore';
 
-/** A type for the props to the CountryCodeSelector. */
+/** A type for the props to the CountryCodeSelector component. */
 interface CountryCodeSelectorProps {
   /**
-   * Unique identifier for the Zustand store used as the common state between
-   * the CountryCodeSelector and its external input element.
-   * @see CountryCodeStore
-   */
-  id: string;
-
-  /**
-   * Custom options for setting how the options are filtered based on the input.
+   * Custom options for setting how the select options are filtered based on
+   * the input.
    * @see {@link https://mui.com/material-ui/react-autocomplete/#custom-filter}
    */
   filterOptions?: (
@@ -70,29 +63,22 @@ const defaultFilterOptions = createFilterOptions({
 /**
  * MUI AutoComplete component that provides a selection of countries and their
  * international phone number country codes. Needs also another input element
- * for inputting the phonen number. Creates a Zustand store object for keeping
- * the state between these inputs. Store object is identified bythe given id
+ * for inputting the phone number. Creates a Zustand store object for keeping
+ * the state between these inputs. Store object is identified by the given id
  * string.
- * @see CCodeState, useCountryCodeStore
+ * @see CountryCodeSelectorProps
+ * @see CCodeState
+ * @see useCountryCodeStore
  * @see {@link https://mui.com/material-ui/react-autocomplete}
  */
 function CountryCodeSelector({
-  id,
-  filterOptions = defaultFilterOptions,
+  filterOptions,
   autoSelect,
   autoHighlight,
   label,
   sx,
 }: CountryCodeSelectorProps) {
-  const countryCodeStore = useCountryCodeStore(id);
-  const handleCountryCodeChange = useStore(
-    countryCodeStore,
-    (state) => state.handleCountryCodeChange
-  );
-  const countryCodeValue = useStore(
-    countryCodeStore,
-    (state) => state.countryCodeValue
-  );
+  const { handleCountryCodeChange, countryCodeValue } = useCountryCodeStore();
 
   return (
     <Autocomplete
