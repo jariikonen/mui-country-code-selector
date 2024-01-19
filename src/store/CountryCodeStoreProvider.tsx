@@ -5,7 +5,7 @@ import CountryCodeStoreContext from './CountryCodeStoreContext';
 /**
  * A provider component for the CountryCodeStoreContext that creates a store
  * and sets that as its value.
- * @param children of the CountryCodeStoreProvider component
+ * @param param0 Children of the CountryCodeStoreProvider component in an object.
  * @returns jsx
  */
 function CountryCodeStoreProvider({ children }: { children: ReactNode }) {
