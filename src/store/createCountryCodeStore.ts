@@ -1,4 +1,3 @@
-import { SyntheticEvent } from 'react';
 import { AutocompleteChangeReason } from '@mui/material';
 import { createStore } from 'zustand';
 import { CountryType } from '../lib/countryCodeData';
@@ -89,7 +88,7 @@ const createCountryCodeStore = () =>
         }
       },
       handleCountryCodeChange(
-        _e: SyntheticEvent<Element, Event>,
+        _e,
         value: CountryType | null,
         reason: AutocompleteChangeReason
       ) {

@@ -1,4 +1,4 @@
-import { MutableRefObject, SyntheticEvent } from 'react';
+import { MutableRefObject } from 'react';
 import {
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
@@ -145,7 +145,7 @@ export interface CCodeState {
    * @param details
    */
   handleCountryCodeChange: (
-    e: SyntheticEvent<Element, Event>,
+    _e: unknown,
     value: CountryType | null,
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<CountryType> | undefined
