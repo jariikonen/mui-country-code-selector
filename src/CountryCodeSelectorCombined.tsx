@@ -142,7 +142,6 @@ interface CountryCodeSelectorCombinedProps {
    * CountryCodeSelectorCombined component's state. The value of the ref is
    * updated when the phone number inputted by the user changes.
    */
-  // eslint-disable-next-line react/require-default-props
   countryCodeValueRef?:
     | React.MutableRefObject<CountryType | null>
     | undefined
@@ -151,13 +150,11 @@ interface CountryCodeSelectorCombinedProps {
   /**
    * Label for the country code selector input element.
    */
-  // eslint-disable-next-line react/require-default-props
   countryCodeLabel?: string;
 
   /**
    * Label for the phone number input element.
    */
-  // eslint-disable-next-line react/require-default-props
   phoneNumberLabel?: string;
 }
 

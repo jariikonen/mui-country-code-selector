@@ -38,5 +38,6 @@ module.exports = {
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
+    'react/require-default-props': ['error', { functions: 'defaultArguments' }],
   },
 };

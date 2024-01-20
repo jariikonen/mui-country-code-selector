@@ -72,9 +72,9 @@ const defaultFilterOptions = createFilterOptions({
  * @see {@link https://mui.com/material-ui/react-autocomplete}
  */
 function CountryCodeSelector({
-  filterOptions,
-  autoSelect,
-  autoHighlight,
+  filterOptions = defaultFilterOptions,
+  autoSelect = true,
+  autoHighlight = true,
   label,
   sx,
 }: CountryCodeSelectorProps) {
@@ -120,12 +120,5 @@ function CountryCodeSelector({
     />
   );
 }
-
-/** Default values for the CountryCodeSelector's props. */
-CountryCodeSelector.defaultProps = {
-  filterOptions: defaultFilterOptions,
-  autoSelect: true,
-  autoHighlight: true,
-};
 
 export default CountryCodeSelector;
