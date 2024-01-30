@@ -10,7 +10,7 @@ import {
   Button,
 } from '@mui/material';
 import { matchSorter } from 'match-sorter';
-import CountryCodeSelector from '../CountryCodeSelector';
+import CountryCodeSelector from '../CountryCodeSelectorZustand';
 import useCountryCodeStore from '../store/useCountryCodeStore';
 import { CountryType } from '../lib/countryCodeData';
 

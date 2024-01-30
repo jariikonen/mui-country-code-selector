@@ -8,7 +8,7 @@ import {
   FormGroup,
   Button,
 } from '@mui/material';
-import CountryCodeSelectorCombined from '../CountryCodeSelectorCombined';
+import CountryCodeSelectorCombined from '../CountryCodeSelectorCombinedZustand';
 import { CountryType } from '../lib/countryCodeData';
 
 function TestForm() {
