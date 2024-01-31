@@ -1,7 +1,7 @@
 import { CountryType } from '../lib/countryCodeData';
-import { PossibleCountriesType } from '../types';
+import PossibleCountries from './PossibleCountries';
 
-export interface CCodeReactState {
+interface CCSelectorReactState {
   /** The whole phone number including the country code as a string. */
   phoneNumStr: string;
 
@@ -21,7 +21,7 @@ export interface CCodeReactState {
   countryCodeValue: CountryType | null;
 
   /** Data on country codes that are possible based on the phoneNumStr. */
-  possibleCountries: PossibleCountriesType | null;
+  possibleCountries: PossibleCountries | null;
 
   /** Error message to be shown to the user. */
   errorMsg: string | null;
@@ -35,3 +35,5 @@ export interface CCodeReactState {
   /** Position index of the cursor in the phone number input field. */
   cursorPosition: number;
 }
+
+export default CCSelectorReactState;

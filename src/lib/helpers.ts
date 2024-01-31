@@ -1,4 +1,5 @@
-import { CCodeState, PossibleCountriesType } from '../types';
+import CCSelectorState from '../types/CCSelectorState';
+import PossibleCountries from '../types/PossibleCountries';
 
 /**
  * Cleans a phone number input value from everything else but the digits.
@@ -14,13 +15,13 @@ export function getDigits(value: string) {
  * initial state. Passing the returned object to Zusand's set function sets
  * countryCodeDigits, countryCodeValue and possibleCountries state variables to
  * their initial state.
- * @returns A partial CCodeState object that initializes countryCodeDigits,
+ * @returns A partial CCSelectorState object that initializes countryCodeDigits,
  *   countryCodeValue and possibleCountries state variables.
  */
 export function resetCountryCode(
   significantDigits = '',
-  possibleCountries: PossibleCountriesType | null = null
-): Partial<CCodeState> {
+  possibleCountries: PossibleCountries | null = null
+): Partial<CCSelectorState> {
   return {
     significantDigits,
     countryCodeDigits: '',

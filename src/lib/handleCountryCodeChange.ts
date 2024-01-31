@@ -1,14 +1,14 @@
 import { MutableRefObject } from 'react';
 import { AutocompleteChangeReason } from '@mui/material';
 import { CountryType } from './countryCodeData';
-import { CCodeState } from '../types';
+import CCSelectorState from '../types/CCSelectorState';
 import { getDigits, resetCountryCode } from './helpers';
 
 /**
  * Implementation of the handler function for the CountryCodeSelector
  * Autocomplete component's onChange events.
  * @see {@link https://mui.com/material-ui/api/autocomplete/#Autocomplete-prop-onChange}
- * @see CCodeState.handleCountryCodeChange
+ * @see CCSelectorState.handleCountryCodeChange
  * @param countryCodeValue Value prop of the onChange event (the value of the
  *                         CountryCodeSelector Autocomplete component).
  * @param phoneInputRef A ref to the phone number input element.
@@ -27,7 +27,7 @@ export default function handleCountryCodeChange(
   countryCodeDigits: string,
   phoneNumStr: string,
   reason: AutocompleteChangeReason
-): Partial<CCodeState> {
+): Partial<CCSelectorState> {
   /**
    * Forms a RegExp object that can be used for clearing the country code
    * part of the phone number string.
@@ -52,14 +52,14 @@ export default function handleCountryCodeChange(
    * @param value New country code as CountryType object.
    * @param detectedCCDigits The digits of the current country code.
    * @param phoneNum Current phone number string.
-   * @returns A partial CCodeState object that can be used for setting the
+   * @returns A partial CCSelectorState object that can be used for setting the
    *   state to correspond to the new country code.
    */
   function setNewCountryCode(
     _value: CountryType,
     detectedCCDigits: string,
     phoneNum: string
-  ): Partial<CCodeState> {
+  ): Partial<CCSelectorState> {
     const newCCPart = `+${_value.code} `;
     const cleanedPhoneNum = phoneNum.startsWith('0')
       ? phoneNum.replace(/^0*/, '')

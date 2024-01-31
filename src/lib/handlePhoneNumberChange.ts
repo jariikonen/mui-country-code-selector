@@ -1,5 +1,6 @@
 import { MutableRefObject } from 'react';
-import { PossibleCountriesType, CCodeState } from '../types';
+import CCSelectorState from '../types/CCSelectorState';
+import PossibleCountries from '../types/PossibleCountries';
 import { CountryType, countries } from './countryCodeData';
 import { getDigits, resetCountryCode } from './helpers';
 
@@ -8,7 +9,7 @@ import { getDigits, resetCountryCode } from './helpers';
  * events. Takes care of detecting the country code from the input and returns
  * an object that can be used for setting the countryCodeDigits and the
  * countryCodeVal based on that.
- * @see CCodeState.handleCountryCodeChange
+ * @see CCSelectorState.handleCountryCodeChange
  * @param phoneNumberValue Value of the phone number input as received from the
  *   onChange event props.
  * @param phoneInputRef A ref to the phone number input DOM element.
@@ -19,15 +20,15 @@ import { getDigits, resetCountryCode } from './helpers';
  * @param significantDigits The digits of the phone number that are significant
  *   in terms of the country code. Contains only the digits without visual
  *   separator characters.
- * @returns A partial CCodeState object that can be used to set the state.
+ * @returns A partial CCSelectorState object that can be used to set the state.
  */
 export default function handlePhoneNumberChange(
   phoneNumberValue: string,
   phoneInputRef: MutableRefObject<HTMLInputElement | null> | null,
   detectedCCDigits: string,
-  possibleCountries: PossibleCountriesType | null,
+  possibleCountries: PossibleCountries | null,
   significantDigits: string
-): Partial<CCodeState> {
+): Partial<CCSelectorState> {
   /**
    * A closure that reads the phone number input's cursor position through the
    * phoneRef ref.
@@ -72,7 +73,7 @@ export default function handlePhoneNumberChange(
   function possibleLongerCC(
     _cCPart: string,
     _detectedCCDigits: string,
-    _possible: PossibleCountriesType | null
+    _possible: PossibleCountries | null
   ) {
     return Boolean(
       _cCPart.length > 0 &&
@@ -84,26 +85,26 @@ export default function handlePhoneNumberChange(
 
   /**
    * Looks for possible country codes based on the first digits of the phone
-   * number. If found returns them as PossibleCountriesType object. Returns
+   * number. If found returns them as PossibleCountries object. Returns
    * null, if possible country codes are not found.
    * @param digits Digits from the phone number input.
-   * @returns Array of possible country codes as PossibleCountriesType object or
+   * @returns Array of possible country codes as PossibleCountries object or
    *   null if possible country codes were not found.
    */
-  function getPossibleCountries(digits: string): PossibleCountriesType | null {
+  function getPossibleCountries(digits: string): PossibleCountries | null {
     /**
      * Tries to match a range of digits to a list of country codes. If matches
      * are found these country code values are returned as a
-     * PossibleCountriesType object.
+     * PossibleCountries object.
      * @param digitRange A string of digits to be matched with the country
      *   codes.
      * @param _possible Possible countries found on a previous run.
-     * @returns Array of possible country codes as PossibleCountriesType object
+     * @returns Array of possible country codes as PossibleCountries object
      *   or null if possible country codes were not found.
      */
     function getPossibleCountriesForRange(
       digitRange: string,
-      _possible: PossibleCountriesType | null
+      _possible: PossibleCountries | null
     ) {
       const options = _possible ? _possible.possibleCountries : countries;
       let minCodeDigits = Number.MAX_SAFE_INTEGER;
@@ -157,13 +158,13 @@ export default function handlePhoneNumberChange(
    *   exists.
    * @param detectedCCValue Already detected country code as CountryType object,
    *   if exists.
-   * @returns A partial CCodeState object that can be used to set the state.
+   * @returns A partial CCSelectorState object that can be used to set the state.
    */
   const detectCountryCode = (
     digits: string,
     pastSignificantDigits: string,
     _detectedCCDigits: string,
-    possible: PossibleCountriesType | null
+    possible: PossibleCountries | null
   ) => {
     /**
      * A closure that returns true if the part of the phone number string
@@ -197,7 +198,7 @@ export default function handlePhoneNumberChange(
      */
     function getExactMatch(
       _digits: string,
-      _possible: PossibleCountriesType | null
+      _possible: PossibleCountries | null
     ) {
       let rangeEnd = _possible
         ? _possible.digitsConsidered.length
@@ -321,7 +322,7 @@ export default function handlePhoneNumberChange(
   // no possible countries have yet been detected
   let newPossibleCountries = {
     ...possibleCountries,
-  } as PossibleCountriesType | null;
+  } as PossibleCountries | null;
   let newSignificantDigits = significantDigits;
   const firstChar = phoneNumberValue.slice(0, 1);
   if (digits.length > 0 && firstChar === '+' && !possibleCountries) {

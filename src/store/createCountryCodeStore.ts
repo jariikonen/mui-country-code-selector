@@ -1,7 +1,7 @@
 import { AutocompleteChangeReason } from '@mui/material';
 import { createStore } from 'zustand';
 import { CountryType } from '../lib/countryCodeData';
-import { CCodeState } from '../types';
+import CCSelectorState from '../types/CCSelectorState';
 import setCursor from '../lib/setCursor';
 import handlePhoneNumberChange from '../lib/handlePhoneNumberChange';
 import handleCountryCodeChange from '../lib/handleCountryCodeChange';
@@ -10,22 +10,24 @@ import handleCountryCodeChange from '../lib/handleCountryCodeChange';
  * Zustand store for establishing a common state between the country
  * code autocomplete component and the external phone number input component.
  * Created using Zustand's createStore function which returns a store object.
- * @see CCodeState
+ * @see CCSelectorState
  * @see {@link https://github.com/pmndrs/zustand} for more information on
  *   Zustand.
  * @return Zustand store object
  */
 const createCountryCodeStore = () =>
-  createStore<CCodeState>(
+  createStore<CCSelectorState>(
     (
       set: (
         partial:
-          | CCodeState
-          | Partial<CCodeState>
-          | ((state: CCodeState) => CCodeState | Partial<CCodeState>),
+          | CCSelectorState
+          | Partial<CCSelectorState>
+          | ((
+              state: CCSelectorState
+            ) => CCSelectorState | Partial<CCSelectorState>),
         replace?: boolean | undefined
       ) => void,
-      get: () => CCodeState
+      get: () => CCSelectorState
     ) => ({
       phoneNumStr: '',
       phoneNumSplit: 0,

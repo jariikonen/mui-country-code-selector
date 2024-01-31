@@ -3,41 +3,15 @@ import {
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
 } from '@mui/material';
-import { CountryType } from './lib/countryCodeData';
-
-/**
- * A type for data on country codes that are possible based on the phone
- * number input.
- */
-export interface PossibleCountriesType {
-  /**
-   * Digits that were considered when selecting the codes in the possible
-   * countries array.
-   */
-  digitsConsidered: string;
-
-  /**
-   * The minimum number of digits in the codes in the possibleCountries array.
-   */
-  minCodeDigits: number;
-
-  /**
-   * The maximum number of digits in the codes in the possibleCountries array.
-   */
-  maxCodeDigits: number;
-
-  /**
-   * Array of CountryType objects corresponding to the possible country codes.
-   */
-  possibleCountries: readonly CountryType[];
-}
+import PossibleCountries from './PossibleCountries';
+import { CountryType } from '../lib/countryCodeData';
 
 /**
  * A type for a common state object for the country code autocomplete field
  * and the external phone number input.
  * @see useCountryCode
  */
-export interface CCodeState {
+interface CCSelectorState {
   /**
    * The whole phone number including the country code as a string. This is
    * used as the value of the phone number input element.
@@ -84,7 +58,7 @@ export interface CCodeState {
    * corresponding to possible country codes based on the current phoneNumStr,
    * and some additional information on the nature of the data.
    */
-  possibleCountries: PossibleCountriesType | null;
+  possibleCountries: PossibleCountries | null;
 
   /** Error message to be shown to the user. */
   errorMsg: string | null;
@@ -151,3 +125,5 @@ export interface CCodeState {
     details?: AutocompleteChangeDetails<CountryType> | undefined
   ) => void;
 }
+
+export default CCSelectorState;

@@ -12,9 +12,9 @@ import {
   FormHelperText,
   AutocompleteChangeReason,
 } from '@mui/material';
-import { CCodeReactState } from './types/CCodeReactState';
+import CCSelectorReactState from './types/CCSelectorReactState';
+import PossibleCountries from './types/PossibleCountries';
 import { CountryType } from './lib/countryCodeData';
-import { PossibleCountriesType } from './types';
 import libHandlePhoneNumberChange from './lib/handlePhoneNumberChange';
 import libHandleCountryCodeChange from './lib/handleCountryCodeChange';
 import CountryCodeSelectorReact from './CountryCodeSelectorReact';
@@ -103,7 +103,7 @@ function CountryCodeSelectorCombinedReact({
   const countryCodeDigitsRef = useRef('');
 
   /** Data on country codes that are possible based on the phoneNumStr. */
-  const possibleCountriesRef = useRef<PossibleCountriesType | null>(null);
+  const possibleCountriesRef = useRef<PossibleCountries | null>(null);
 
   /** Timeout object for timing how long the error message is displayed. */
   const errorMsgTimeoutObjRef = useRef<NodeJS.Timeout | null>(null);
@@ -116,7 +116,7 @@ function CountryCodeSelectorCombinedReact({
 
   /** Sets the React state according to the output of the library functions. */
   const set = useCallback(
-    (partialState: CCodeReactState | Partial<CCodeReactState>) => {
+    (partialState: CCSelectorReactState | Partial<CCSelectorReactState>) => {
       const keys = Object.keys(partialState);
 
       keys.forEach((key) => {
@@ -183,7 +183,7 @@ function CountryCodeSelectorCombinedReact({
    * value
    */
   const applyStateChanges = useCallback(
-    (result: Partial<CCodeReactState>) => {
+    (result: Partial<CCSelectorReactState>) => {
       // controlled
       if (
         onChange &&
