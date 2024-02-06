@@ -176,11 +176,20 @@ function CountryCodeSelectorCombinedReact({
   }, [errorMessageDelay]);
 
   /**
-   * Applies state changes to the field values. When used as a controlled
-   * component the underlying components are passed values that are part of the
-   * component's state. Values are controlled by changing these state
-   * variables. However, when the component is use as uncontrolled manner, the
-   * value
+   * Applies changes to the phoneNumStr to correct variables so that the caller
+   * can access it and a correct value is displayed on screen. Sets also the
+   * current value of the phoneInputRef's element, when in uncontrolled mode.
+   *
+   * When the component is used as a controlled component the phone number
+   * value is accessed using it's value and onChange props. Value is the state
+   * variable holding the current value of the state hook and onChange is a
+   * handler function that changes the value of the value prop according to the
+   * changes to the input element's values. In controlled mode the onChange
+   * function is used for applying the phone number value to the value prop.
+   *
+   * When the component is used as an uncontrolled component, caller accesses
+   * the value using a ref to the input element. In this case the function sets
+   * the current value of the referenced element.
    */
   const applyStateChanges = useCallback(
     (result: Partial<CCSelectorReactState>) => {
@@ -197,20 +206,12 @@ function CountryCodeSelectorCombinedReact({
       else if (!isControlled && phoneInputRef.current) {
         if ('phoneNumStr' in result) {
           phoneInputRef.current.value = result.phoneNumStr!;
-          if (inputRef?.current) {
-            // eslint-disable-next-line no-param-reassign
-            inputRef.current.value = result.phoneNumStr!;
-          }
         } else {
           phoneInputRef.current.value = phoneNumStrRef.current;
-          if (inputRef?.current) {
-            // eslint-disable-next-line no-param-reassign
-            inputRef.current.value = result.phoneNumStr!;
-          }
         }
       }
     },
-    [inputRef, isControlled, onChange]
+    [isControlled, onChange]
   );
 
   /** A handler for phone number input element's change events. */
@@ -274,7 +275,7 @@ function CountryCodeSelectorCombinedReact({
    */
   const formRef = useRef<HTMLElement | null>(null);
 
-  /** Sets the phoneInputRef and the formRef. */
+  /** Sets the phoneInputRef, inputRef and the formRef. */
   const onInputRefChange = useCallback(
     (e: HTMLInputElement | null) => {
       /** Finds the first form element that is parent to this component. */
