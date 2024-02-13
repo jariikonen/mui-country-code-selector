@@ -5,12 +5,30 @@ import {
   Box,
   createFilterOptions,
   FilterOptionsState,
+  AutocompleteChangeDetails,
+  AutocompleteChangeReason,
 } from '@mui/material';
-import { CountryType, countries } from './lib/countryCodeData';
-import useCountryCodeStore from './store/useCountryCodeStore';
+import { CountryType, countries } from '../lib/countryCodeData';
 
-/** A type for the props to the CountryCodeSelector component. */
 interface CountryCodeSelectorProps {
+  /**
+   * Value of the country code selector element. Provide this when you wish to
+   * use the component as a controlled component.
+   */
+  value: CountryType | null | undefined;
+
+  /**
+   * CountryCodeSelector's onChange event handler. Sets the component's value.
+   * Provide this when you wish to use the component as a controlled
+   * component.
+   */
+  onChange: (
+    _e: unknown,
+    value: CountryType | null,
+    reason: AutocompleteChangeReason,
+    details?: AutocompleteChangeDetails<CountryType> | undefined
+  ) => void;
+
   /**
    * Custom options for setting how the select options are filtered based on
    * the input.
@@ -44,7 +62,8 @@ interface CountryCodeSelectorProps {
    */
   label: string | null | undefined;
 
-  /** Sx prop passed to the underlying MUI AutoComplete component.
+  /**
+   * Sx prop passed to the underlying MUI AutoComplete component.
    * @see {@link https://mui.com/system/getting-started/the-sx-prop}
    */
   sx: SxProps;
@@ -72,20 +91,20 @@ const defaultFilterOptions = createFilterOptions({
  * @see {@link https://mui.com/material-ui/react-autocomplete}
  */
 function CountryCodeSelector({
+  value,
+  onChange,
   filterOptions = defaultFilterOptions,
   autoSelect = true,
   autoHighlight = true,
   label,
   sx,
 }: CountryCodeSelectorProps) {
-  const { handleCountryCodeChange, countryCodeValue } = useCountryCodeStore();
-
   return (
     <Autocomplete
       sx={sx}
-      onChange={handleCountryCodeChange}
+      value={value}
+      onChange={onChange}
       options={countries}
-      value={countryCodeValue}
       autoSelect={autoSelect}
       autoHighlight={autoHighlight}
       getOptionLabel={(option) => `${option.country} (${option.iso})`}

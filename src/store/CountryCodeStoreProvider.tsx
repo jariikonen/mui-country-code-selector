@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useRef } from 'react';
 import createCountryCodeStore from './createCountryCodeStore';
 import CountryCodeStoreContext from './CountryCodeStoreContext';
 
@@ -9,9 +9,9 @@ import CountryCodeStoreContext from './CountryCodeStoreContext';
  * @returns jsx
  */
 function CountryCodeStoreProvider({ children }: { children: ReactNode }) {
-  const store = createCountryCodeStore();
+  const storeRef = useRef(createCountryCodeStore());
   return (
-    <CountryCodeStoreContext.Provider value={store}>
+    <CountryCodeStoreContext.Provider value={storeRef.current}>
       {children}
     </CountryCodeStoreContext.Provider>
   );

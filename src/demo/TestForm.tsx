@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Box,
   Grid,
@@ -8,16 +8,32 @@ import {
   FormGroup,
   Button,
 } from '@mui/material';
-import CountryCodeSelectorCombined from '../CountryCodeSelectorCombinedZustand';
-import { CountryType } from '../lib/countryCodeData';
+import CountryCodeSelectorCombined from '../CountryCodeSelectorCombined/CountryCodeSelectorCombinedReact';
 
 function TestForm() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const homePhoneNumValueRef = useRef('');
-  const workPhoneNumValueRef = useRef('');
-  const workCountryCodeValueRef = useRef<CountryType | null>(null);
+  const [homePhoneNumValue, setHomePhoneNumValue] = useState('+358');
+  const [workPhoneNumValue, setWorkPhoneNumValue] = useState('');
   const [result, setResult] = useState('');
+
+  const homePhoneOnChange = useCallback(
+    (e: { target: { value: string } }) => setHomePhoneNumValue(e.target.value),
+    []
+  );
+
+  const workPhoneOnChange = useCallback(
+    (e: { target: { value: string } }) => setWorkPhoneNumValue(e.target.value),
+    []
+  );
+
+  const numOfRenders = useRef(0);
+
+  useEffect(() => {
+    if (numOfRenders.current !== undefined) {
+      numOfRenders.current += 1;
+    }
+  });
 
   return (
     <Box
@@ -25,16 +41,16 @@ function TestForm() {
       style={{ margin: '2rem 1rem' }}
     >
       <Typography align="left" variant="h5" style={{ marginBottom: '1rem' }}>
-        Test form with a compound country code selector and phone number input
-        component (Zustand)
+        Test form with a combined country code selector and phone number input
+        component (React)
       </Typography>
       <form
         onSubmit={(event) => {
           event.preventDefault();
           setResult(
             `First name: ${firstName}, Last name: ${lastName}, ` +
-              `Phone, home: ${homePhoneNumValueRef.current}, ` +
-              `Phone, work: ${workPhoneNumValueRef.current}`
+              `Phone, home: ${homePhoneNumValue}, ` +
+              `Phone, work: ${workPhoneNumValue}`
           );
         }}
       >
@@ -71,17 +87,18 @@ function TestForm() {
           </Grid>
           <Grid item xs={12}>
             <CountryCodeSelectorCombined
-              phoneNumValueRef={homePhoneNumValueRef}
+              value={homePhoneNumValue}
               countryCodeLabel="Country code"
               phoneNumberLabel="Home phone number"
+              onChange={homePhoneOnChange}
             />
           </Grid>
           <Grid item xs={12}>
             <CountryCodeSelectorCombined
-              phoneNumValueRef={workPhoneNumValueRef}
-              countryCodeValueRef={workCountryCodeValueRef}
+              value={workPhoneNumValue}
               countryCodeLabel="Country code"
               phoneNumberLabel="Work phone number"
+              onChange={workPhoneOnChange}
             />
           </Grid>
           <Grid item xs={12}>
@@ -99,7 +116,7 @@ function TestForm() {
               </Button>
               <Button
                 variant="contained"
-                type="reset"
+                type="button"
                 sx={{
                   marginLeft: '0.2rem',
                   boxSizing: 'border-box',
@@ -108,8 +125,8 @@ function TestForm() {
                 onClick={() => {
                   setFirstName('');
                   setLastName('');
-                  homePhoneNumValueRef.current = '';
-                  workPhoneNumValueRef.current = '';
+                  setHomePhoneNumValue('+358');
+                  setWorkPhoneNumValue('');
                   setResult('');
                 }}
               >
@@ -119,6 +136,17 @@ function TestForm() {
           </Grid>
         </Grid>
       </form>
+      <Typography
+        align="left"
+        variant="body2"
+        style={{
+          marginTop: '0.5rem',
+          marginBottom: '0.5rem',
+          marginLeft: '0.1rem',
+        }}
+      >
+        Form renders: {numOfRenders.current}
+      </Typography>
       {result && (
         <Typography align="left" variant="body2" style={{ marginTop: '1rem' }}>
           Result: {result}

@@ -12,12 +12,12 @@ import {
   FormHelperText,
   AutocompleteChangeReason,
 } from '@mui/material';
-import CCSelectorReactState from './types/CCSelectorReactState';
-import PossibleCountries from './types/PossibleCountries';
-import { CountryType } from './lib/countryCodeData';
-import libHandlePhoneNumberChange from './lib/handlePhoneNumberChange';
-import libHandleCountryCodeChange from './lib/handleCountryCodeChange';
-import CountryCodeSelectorReact from './CountryCodeSelectorReact';
+import CCSelectorReactState from '../types/CCSelectorReactState';
+import PossibleCountries from '../types/PossibleCountries';
+import { CountryType } from '../lib/countryCodeData';
+import libHandlePhoneNumberChange from '../lib/handlePhoneNumberChange';
+import libHandleCountryCodeChange from '../lib/handleCountryCodeChange';
+import CountryCodeSelectorReact from '../CountryCodeSelector/CountryCodeSelectorReact';
 
 interface CountryCodeSelectorCombinedReactProps {
   /**

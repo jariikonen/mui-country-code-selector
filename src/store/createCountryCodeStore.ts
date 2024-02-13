@@ -3,16 +3,20 @@ import { createStore } from 'zustand';
 import { CountryType } from '../lib/countryCodeData';
 import CCSelectorState from '../types/CCSelectorState';
 import setCursor from '../lib/setCursor';
-import handlePhoneNumberChange from '../lib/handlePhoneNumberChange';
-import handleCountryCodeChange from '../lib/handleCountryCodeChange';
+import libHandlePhoneNumberChange from '../lib/handlePhoneNumberChange';
+import libHandleCountryCodeChange from '../lib/handleCountryCodeChange';
 
 /**
  * Zustand store for establishing a common state between the country
  * code autocomplete component and the external phone number input component.
- * Created using Zustand's createStore function which returns a store object.
+ * The store is created using Zustand's createStore function which returns a
+ * store object instead of a hook because passing a hook through a context
+ * could allow violating the rules of hooks.
  * @see CCSelectorState
  * @see {@link https://github.com/pmndrs/zustand} for more information on
  *   Zustand.
+ * @see {@link https://github.com/pmndrs/zustand/discussions/1975} for more
+ *   on createStore vs. create.
  * @return Zustand store object
  */
 const createCountryCodeStore = () =>
@@ -40,6 +44,7 @@ const createCountryCodeStore = () =>
       errorMsg: null,
       errorMsgDelay: 3,
       errorMsgTimeoutObj: null,
+      changeHandler: undefined,
       setPhoneInputRef(phoneRef) {
         set({ phoneInputRef: phoneRef });
       },
@@ -47,9 +52,11 @@ const createCountryCodeStore = () =>
         set({ errorMsgDelay: seconds });
       },
       displayError() {
-        const message = get().errorMsg;
-        const delay = get().errorMsgDelay;
-        const timeoutObj = get().errorMsgTimeoutObj;
+        const {
+          errorMsg: message,
+          errorMsgDelay: delay,
+          errorMsgTimeoutObj: timeoutObj,
+        } = get();
 
         const setErrorMsgClear = (seconds: number) => {
           if (timeoutObj) {
@@ -66,36 +73,50 @@ const createCountryCodeStore = () =>
           setErrorMsgClear(delay);
         }
       },
-      setCursor: () => setCursor(get().phoneInputRef, get().cursorPosition),
       clearErrorMsg() {
         set({ errorMsg: null });
       },
-      handlePhoneNumberChange(e: { target: { value: string } }) {
+      setCursor: () => setCursor(get().phoneInputRef, get().cursorPosition),
+      setChangeHandler(handler) {
+        set({ changeHandler: handler });
+      },
+      handlePhoneNumberChange(event) {
         const {
           phoneInputRef,
           countryCodeDigits,
           possibleCountries,
           significantDigits,
+          applyStateChanges,
+          changeHandler,
         } = get();
-        const result = handlePhoneNumberChange(
-          e.target.value,
+        const result = libHandlePhoneNumberChange(
+          event.target.value,
           phoneInputRef,
           countryCodeDigits,
           possibleCountries,
           significantDigits
         );
         set(result);
+        applyStateChanges(result);
+        if (changeHandler && result.phoneNumStr) {
+          changeHandler({ target: { value: result.phoneNumStr } });
+        }
         if (Object.keys(result).includes('errorMsg')) {
           get().displayError();
         }
       },
       handleCountryCodeChange(
-        _e,
+        _event,
         value: CountryType | null,
         reason: AutocompleteChangeReason
       ) {
-        const { phoneInputRef, countryCodeDigits, phoneNumStr } = get();
-        const result = handleCountryCodeChange(
+        const {
+          phoneInputRef,
+          countryCodeDigits,
+          phoneNumStr,
+          applyStateChanges,
+        } = get();
+        const result = libHandleCountryCodeChange(
           value,
           phoneInputRef,
           countryCodeDigits,
@@ -103,6 +124,33 @@ const createCountryCodeStore = () =>
           reason
         );
         set(result);
+        applyStateChanges(result);
+      },
+      applyStateChanges(state) {
+        const { phoneNumStr, phoneInputRef, changeHandler } = get();
+        const isControlled = changeHandler !== undefined;
+
+        // controlled
+        if (changeHandler && state.phoneNumStr !== undefined) {
+          changeHandler({ target: { value: state.phoneNumStr } });
+        }
+
+        // uncontrolled
+        else if (!isControlled && phoneInputRef?.current) {
+          if ('phoneNumStr' in state) {
+            // eslint-disable-next-line no-param-reassign
+            phoneInputRef.current.value = state.phoneNumStr!;
+          } else {
+            // eslint-disable-next-line no-param-reassign
+            phoneInputRef.current.value = phoneNumStr;
+          }
+        }
+      },
+      handleValueChange(value) {
+        const { phoneNumStr, handlePhoneNumberChange } = get();
+        if (value !== undefined && value !== null && value !== phoneNumStr) {
+          handlePhoneNumberChange({ target: { value } });
+        }
       },
     })
   );

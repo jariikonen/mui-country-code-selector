@@ -70,6 +70,13 @@ interface CCSelectorState {
   errorMsgDelay: number;
 
   /**
+   * A change handler function that is run with the current phone number value
+   * every time the value changes.
+   * @see setChangeHandler
+   */
+  changeHandler: ((event: { target: { value: string } }) => void) | undefined;
+
+  /**
    * Sets the phone number input reference.
    * @param phoneRef Reference to the phone number input element.
    */
@@ -89,6 +96,9 @@ interface CCSelectorState {
    */
   displayError: () => void;
 
+  /** Clears the errorMsg state variable. */
+  clearErrorMsg: () => void;
+
   /**
    * Sets cursor position to the place it was during the last phone number
    * input's onChange event based on the cursorPosition state variable.
@@ -96,16 +106,25 @@ interface CCSelectorState {
    */
   setCursor: () => void;
 
-  /** Clears the errorMsg state variable. */
-  clearErrorMsg: () => void;
+  /**
+   * Sets a change handler function that is run with the current phone number
+   * value every time the value changes. This is used e.g., in the combined
+   * selector components (CountryCodeSelectorCombinedZustand and
+   * CountryCodeSelectorCombinedReact) to update the value prop when the
+   * component is used as a controlled component.
+   * @param handler The handler function.
+   */
+  setChangeHandler: (
+    handler: ((event: { target: { value: string } }) => void) | undefined
+  ) => void;
 
   /**
    * A handler function for the phone number input's onChange events. Takes
    * care of detecting the country code from the input and setting the
    * countryCodeDigits and the countryCodeVal based on that.
-   * @param e The onChange event object from the phone number input.
+   * @param event The onChange event object from the phone number input.
    */
-  handlePhoneNumberChange: (e: { target: { value: string } }) => void;
+  handlePhoneNumberChange: (event: { target: { value: string } }) => void;
 
   /**
    * A handler function for the CountryCodeSelector Autocomplete component's
@@ -119,11 +138,32 @@ interface CCSelectorState {
    * @param details
    */
   handleCountryCodeChange: (
-    _e: unknown,
+    _event: unknown,
     value: CountryType | null,
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<CountryType> | undefined
   ) => void;
+
+  /**
+   * Applies the state changes to outside variables using the changeHandler
+   * function (controlled mode) or the React ref to the phone number input
+   * element.
+   * @param state The partial state object containing the changes.
+   */
+  applyStateChanges: (state: Partial<CCSelectorState>) => void;
+
+  /**
+   * Handles changes to the value prop.
+   *
+   * When the component is used as a controlled component the value of the
+   * phone number input element can be set (is controlled) from the outside.
+   * If the value is changed directly (in contrast to changing it in the
+   * onChange() handler function), this change must be handled using the
+   * handlePhoneNumberChange() function so that the change is also taken into
+   * account in the country code selector's value.
+   * @param value The value prop of a controlled component.
+   */
+  handleValueChange: (value: string | null | undefined) => void;
 }
 
 export default CCSelectorState;
