@@ -20,6 +20,7 @@ import libHandleCountryCodeChange from '../lib/handleCountryCodeChange';
 import { getForm } from '../lib/helpers';
 import CountryCodeSelectorReact from '../CountryCodeSelector/CountryCodeSelectorReact';
 import { addResetHandler, removeResetHandler } from './common';
+import setCursor from '../lib/setCursor';
 
 interface CountryCodeSelectorCombinedReactProps {
   /**
@@ -306,6 +307,14 @@ function CountryCodeSelectorCombinedReact({
         handlePhoneNumberChange
       );
   }, [handlePhoneNumberChange]);
+
+  // Inputting a forbidden character into the phone number input makes the
+  // cursor jump to the end of the field. Until finding a better solution, this
+  // can be fixed by storing the cursor position into the state and setting it
+  // back in a useEffect hook.
+  useEffect(() => {
+    setCursor(phoneInputRef.current, cursorPositionRef.current);
+  });
 
   return (
     <FormControl fullWidth>

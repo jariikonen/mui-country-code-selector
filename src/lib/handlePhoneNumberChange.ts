@@ -300,6 +300,7 @@ export default function handlePhoneNumberChange(
     return {
       errorMsg:
         'Only digits and visual separator characters (" ", "-") allowed',
+      cursorPosition: getCursorPosition() - 1,
     };
   }
   if (
@@ -309,6 +310,7 @@ export default function handlePhoneNumberChange(
   ) {
     return {
       errorMsg: 'Only one separator character between digits allowed',
+      cursorPosition: getCursorPosition() - 1,
     };
   }
 

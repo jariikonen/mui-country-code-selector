@@ -29,10 +29,10 @@ interface CCSelectorState {
   significantDigits: string;
 
   /**
-   * The position of the cursor in the phone number input. Updating the
-   * controlled phone number input moves the cursor automatically to the end of
-   * the input. This must be fixed by storing the cursor position in this state
-   * variable and calling setCursor() function in a useEffect() hook.
+   * Inputting a forbidden character into the phone number input makes the
+   * cursor jump to the end of the field. Until finding a better solution, this
+   * can be fixed by storing the cursor position into the state and setting it
+   * back in a useEffect hook.
    * @see setCursor
    */
   cursorPosition: number;
@@ -168,7 +168,8 @@ interface CCSelectorState {
   applyStateChanges: (state: Partial<CCSelectorState>) => void;
 
   /**
-   * Handles changes to the value prop.
+   * Handles changes to the value prop. This should be called from a useEffect
+   * hook in the component's body-
    *
    * When the component is used as a controlled component the value of the
    * phone number input element can be set (is controlled) from the outside.
@@ -180,7 +181,10 @@ interface CCSelectorState {
    */
   handleValueChange: (value: string | null | undefined) => void;
 
-  /** Sets cursor position based on the cursorPosition state variable. */
+  /**
+   * Sets cursor position based on the cursorPosition state variable.
+   * @see cursorPosition
+   */
   setCursor: () => void;
 
   /** Displays the error message for the time of the delay. */

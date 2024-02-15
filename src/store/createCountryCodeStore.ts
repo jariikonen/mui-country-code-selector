@@ -156,7 +156,8 @@ const createCountryCodeStore = () =>
         }
       },
       setCursor() {
-        libSetCursor(get().phoneNumberInput, get().cursorPosition);
+        const { phoneNumberInput, cursorPosition } = get();
+        libSetCursor(phoneNumberInput, cursorPosition);
       },
       displayError() {
         const {

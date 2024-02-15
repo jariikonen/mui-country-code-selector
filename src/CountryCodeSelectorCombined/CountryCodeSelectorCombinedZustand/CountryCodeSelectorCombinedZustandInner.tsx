@@ -59,6 +59,7 @@ function CountryCodeSelectorCombinedInner({
     handlePhoneNumberChange,
     handleValueChange,
     setRefs,
+    setCursor,
   } = useCountryCodeStore();
 
   useEffect(
@@ -69,6 +70,14 @@ function CountryCodeSelectorCombinedInner({
   useEffect(() => {
     handleValueChange(value);
   }, [handleValueChange, value]);
+
+  // Inputting a forbidden character into the phone number input makes the
+  // cursor jump to the end of the field. Until finding a better solution, this
+  // can be fixed by storing the cursor position into the state and setting it
+  // back in a useEffect hook.
+  useEffect(() => {
+    setCursor();
+  });
 
   const onInputRefChange = useCallback(
     (element: HTMLInputElement | null) => {
