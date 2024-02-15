@@ -1,4 +1,3 @@
-import { MutableRefObject } from 'react';
 import { AutocompleteChangeReason } from '@mui/material';
 import { CountryType } from './countryCodeData';
 import CCSelectorState from '../types/CCSelectorState';
@@ -11,7 +10,7 @@ import { getDigits, resetCountryCode } from './helpers';
  * @see CCSelectorState.handleCountryCodeChange
  * @param countryCodeValue Value prop of the onChange event (the value of the
  *                         CountryCodeSelector Autocomplete component).
- * @param phoneInputRef A ref to the phone number input element.
+ * @param phoneNumberInput The phone number input DOM element.
  * @param countryCodeDigits Digits of the currently detected country code
  *                          (an empty string if no country code has yet been
  *                          detected).
@@ -23,7 +22,7 @@ import { getDigits, resetCountryCode } from './helpers';
  */
 export default function handleCountryCodeChange(
   countryCodeValue: CountryType | null,
-  phoneInputRef: MutableRefObject<HTMLInputElement | null> | null,
+  phoneNumberInput: HTMLInputElement | undefined | null,
   countryCodeDigits: string,
   phoneNumStr: string,
   reason: AutocompleteChangeReason
@@ -98,8 +97,8 @@ export default function handleCountryCodeChange(
 
   // user selected a new country code value
   if (countryCodeValue?.code) {
-    if (phoneInputRef?.current) {
-      phoneInputRef.current.focus();
+    if (phoneNumberInput) {
+      phoneNumberInput.focus();
     }
 
     return {

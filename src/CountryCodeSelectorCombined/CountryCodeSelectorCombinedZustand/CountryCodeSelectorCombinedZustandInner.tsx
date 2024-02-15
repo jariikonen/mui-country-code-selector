@@ -1,4 +1,4 @@
-import { MutableRefObject, useCallback, useEffect, useRef } from 'react';
+import { MutableRefObject, useCallback, useEffect } from 'react';
 import {
   TextField,
   FormControl,
@@ -7,11 +7,6 @@ import {
 } from '@mui/material';
 import CountryCodeSelector from '../../CountryCodeSelector/CountryCodeSelectorZustand';
 import useCountryCodeStore from '../../store/useCountryCodeStore';
-import {
-  removeResetHandler,
-  setResetHandler,
-  setUncontrolledRefs,
-} from '../common';
 
 interface CountryCodeSelectorCombinedInnerProps {
   /**
@@ -59,57 +54,28 @@ function CountryCodeSelectorCombinedInner({
 }: CountryCodeSelectorCombinedInnerProps) {
   const {
     errorMsg,
-    setPhoneInputRef,
-    setErrorMsgDelay,
-    setChangeHandler,
+    phoneNumberInput,
+    initialize,
     handlePhoneNumberChange,
     handleValueChange,
+    setRefs,
   } = useCountryCodeStore();
 
-  /** A React ref to the phone number input element. */
-  const phoneInputRef = useRef<HTMLInputElement | null>(null);
-
-  useEffect(() => {
-    if (onChange) {
-      setChangeHandler(onChange);
-    }
-  }, [onChange, setChangeHandler]);
-
-  useEffect(() => {
-    setPhoneInputRef(phoneInputRef);
-  }, [setPhoneInputRef]);
-
-  useEffect(() => {
-    setErrorMsgDelay(errorMessageDelay);
-  }, [errorMessageDelay, setErrorMsgDelay]);
+  useEffect(
+    () => initialize(errorMessageDelay, onChange),
+    [errorMessageDelay, initialize, onChange]
+  );
 
   useEffect(() => {
     handleValueChange(value);
   }, [handleValueChange, value]);
 
-  /**
-   * A React ref to the form element that is parent to this component. Needed
-   * for catching and handling the reset events.
-   */
-  const formRef = useRef<HTMLElement | null>(null);
-
-  /** Sets the phoneInputRef, inputRef and the formRef. */
   const onInputRefChange = useCallback(
-    (el: HTMLInputElement | null) => {
-      setUncontrolledRefs(el, formRef, phoneInputRef, inputRef);
+    (element: HTMLInputElement | null) => {
+      setRefs(element, inputRef);
     },
-    [inputRef]
+    [inputRef, setRefs]
   );
-
-  useEffect(() => {
-    const currentFormElement = formRef.current;
-    setResetHandler(currentFormElement, phoneInputRef, handlePhoneNumberChange);
-    return removeResetHandler(
-      currentFormElement,
-      phoneInputRef,
-      handlePhoneNumberChange
-    );
-  }, [handlePhoneNumberChange]);
 
   return (
     <FormControl fullWidth>
@@ -138,9 +104,8 @@ function CountryCodeSelectorCombinedInner({
           onChange={handlePhoneNumberChange}
           InputLabelProps={{
             shrink:
-              document.activeElement === phoneInputRef.current ||
-              (phoneInputRef.current?.value &&
-                phoneInputRef.current.value.length > 0)
+              document.activeElement === phoneNumberInput ||
+              (phoneNumberInput?.value && phoneNumberInput.value.length > 0)
                 ? true
                 : undefined,
           }}

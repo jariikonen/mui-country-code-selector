@@ -18,7 +18,7 @@ describe('new country code is selected', () => {
   it('an object to update phoneNumStr is returned', () => {
     const result = handleCountryCodeChange(
       country,
-      phoneInputRef,
+      phoneInputRef.current,
       '',
       phoneNumber,
       'selectOption'
@@ -34,7 +34,7 @@ describe('new country code is selected', () => {
       const spy = vi.spyOn(phoneInputRef.current, 'focus');
       handleCountryCodeChange(
         country,
-        phoneInputRef,
+        phoneInputRef.current,
         '',
         phoneNumber,
         'selectOption'
@@ -52,7 +52,7 @@ describe('clear button is pressed', () => {
     () => {
       const result = handleCountryCodeChange(
         null,
-        phoneInputRef,
+        phoneInputRef.current,
         country.code,
         phoneNumberWithCountryCode,
         'clear'
@@ -72,7 +72,7 @@ describe('clear button is pressed', () => {
     () => {
       const result = handleCountryCodeChange(
         country,
-        phoneInputRef,
+        phoneInputRef.current,
         country.code,
         phoneNumberWithCountryCode,
         'clear'

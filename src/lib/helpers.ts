@@ -29,3 +29,15 @@ export function resetCountryCode(
     possibleCountries,
   };
 }
+
+/**
+ * Finds the first form element that is parent of the element given in the
+ * element-prop.
+ */
+export function getForm(element: HTMLInputElement | null) {
+  let parent = element?.parentElement;
+  while (parent && parent.tagName !== 'FORM') {
+    parent = parent?.parentElement;
+  }
+  return parent;
+}

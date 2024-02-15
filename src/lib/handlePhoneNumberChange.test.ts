@@ -25,14 +25,14 @@ const phoneInputRef = {
 } as unknown as MutableRefObject<HTMLInputElement>;
 
 // phoneNumStr is updated
-describe('an object to update the phoneNumStr is returned', () => {
+describe('an object for updating the phoneNumStr is returned', () => {
   it(
     'when no country code has been set and the phone number value does not ' +
       'contain one',
     () => {
       const result = handlePhoneNumberChange(
         phoneNumber,
-        phoneInputRef,
+        phoneInputRef.current,
         '',
         null,
         ''
@@ -48,7 +48,7 @@ describe('an object to update the phoneNumStr is returned', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithCountryCode,
-        phoneInputRef,
+        phoneInputRef.current,
         '',
         null,
         ''
@@ -64,7 +64,7 @@ describe('an object to update the phoneNumStr is returned', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumber,
-        phoneInputRef,
+        phoneInputRef.current,
         country.code,
         possibleCountries,
         country.code
@@ -80,7 +80,7 @@ describe('an object to update the phoneNumStr is returned', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithCountryCode,
-        phoneInputRef,
+        phoneInputRef.current,
         country.code,
         possibleCountries,
         country.code
@@ -96,7 +96,7 @@ describe('an object to update the phoneNumStr is returned', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithCountryCodeNoSpaces,
-        phoneInputRef,
+        phoneInputRef.current,
         country.code,
         possibleCountries,
         country.code
@@ -115,7 +115,7 @@ describe('an object to update the phoneNumStr is returned', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithAnotherCountryCode,
-        phoneInputRef,
+        phoneInputRef.current,
         country.code,
         possibleCountries,
         country.code
@@ -137,7 +137,7 @@ describe('the country code is detected', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithCountryCode,
-        phoneInputRef,
+        phoneInputRef.current,
         '',
         null,
         ''
@@ -153,7 +153,7 @@ describe('the country code is detected', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithCountryCodeNoSpaces,
-        phoneInputRef,
+        phoneInputRef.current,
         '',
         null,
         ''
@@ -169,7 +169,7 @@ describe('the country code is detected', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithAnotherCountryCode,
-        phoneInputRef,
+        phoneInputRef.current,
         country.code,
         possibleCountries,
         country.code
@@ -188,7 +188,7 @@ describe('the country code is not updated', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithCountryCode,
-        phoneInputRef,
+        phoneInputRef.current,
         country.code,
         possibleCountries,
         country.code
@@ -202,13 +202,25 @@ describe('the country code is not updated', () => {
 // forbidden characters
 describe('an error message is returned', () => {
   it('when a forbidden character is used', () => {
-    const result = handlePhoneNumberChange('h', phoneInputRef, '', null, '');
+    const result = handlePhoneNumberChange(
+      'h',
+      phoneInputRef.current,
+      '',
+      null,
+      ''
+    );
 
     expect(result).toHaveProperty('errorMsg');
   });
 
   it('when there are more than one separator character between digits', () => {
-    const result = handlePhoneNumberChange('1  2', phoneInputRef, '', null, '');
+    const result = handlePhoneNumberChange(
+      '1  2',
+      phoneInputRef.current,
+      '',
+      null,
+      ''
+    );
 
     expect(result).toHaveProperty('errorMsg');
   });

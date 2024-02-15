@@ -1,52 +1,15 @@
-import { MutableRefObject } from 'react';
-
 /**
- * Finds the first form element that is parent to this component.
- */
-export function getForm(el: HTMLInputElement | null) {
-  let parent = el?.parentElement;
-  while (parent && parent.tagName !== 'FORM') {
-    parent = parent?.parentElement;
-  }
-  return parent;
-}
-
-/**
- * A helper function for the CountryCodeSelectorCombined functions. Sets the
- * phoneInputRef, inputRef and the formRef.
- * @param inputElement The input element for which the form parent element is
- *    searched.
- * @param formRef A React ref that is set to point to the form element that is
- *    parent to the input element.
- * @param phoneInputRef A React ref that is set to point to the phone number
- *    input element.
- * @param inputRef A React ref coming from the caller of the combined component
- *    and which is set to point to the phone number input element.
- */
-export function setUncontrolledRefs(
-  inputElement: HTMLInputElement | null,
-  formRef: MutableRefObject<HTMLElement | null>,
-  phoneInputRef: MutableRefObject<HTMLInputElement | null>,
-  inputRef: MutableRefObject<HTMLInputElement | null> | undefined
-) {
-  const form = getForm(inputElement);
-  formRef.current = form!; // eslint-disable-line no-param-reassign
-  phoneInputRef.current = inputElement; // eslint-disable-line no-param-reassign
-  if (inputRef !== undefined) {
-    inputRef.current = inputElement; // eslint-disable-line no-param-reassign
-  }
-}
-
-/**
- * KIRJOITA LOPPUUN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * @param phoneInputRef
- * @param handlePhoneNumberChange
+ * A reset event lister function for the combined country code selector
+ * components. Handles the clear event by triggering handlePhoneNumberChange
+ * function with an empty string.
+ * @param inputElement The phone number input DOM element.
+ * @param handlePhoneNumberChange The phone number change handler function.
  */
 export function resetHandler(
-  phoneInputRef: MutableRefObject<HTMLInputElement | null>,
+  inputElement: HTMLInputElement | null | undefined,
   handlePhoneNumberChange: (e: { target: { value: string } }) => void
 ) {
-  if (phoneInputRef.current?.value) {
+  if (inputElement?.value && inputElement.value.length > 0) {
     handlePhoneNumberChange({
       target: { value: '' },
     });
@@ -54,35 +17,36 @@ export function resetHandler(
 }
 
 /**
- * KIRJOITA LOPPUUN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * @param formRef
- * @param phoneInputRef
+ * Adds the reset handler function into a form element.
+ * @param formElement The form DOM element.
+ * @param inputElement The phone number input DOM element.
  * @param handlePhoneNumberChange
  */
-export function setResetHandler(
-  formElement: HTMLElement | null,
-  phoneInputRef: MutableRefObject<HTMLInputElement | null>,
+export function addResetHandler(
+  formElement: HTMLElement | null | undefined,
+  inputElement: HTMLInputElement | null,
   handlePhoneNumberChange: (event: { target: { value: string } }) => void
 ) {
   if (formElement) {
     formElement.addEventListener('reset', () =>
-      resetHandler(phoneInputRef, handlePhoneNumberChange)
+      resetHandler(inputElement, handlePhoneNumberChange)
     );
   }
 }
 
 /**
- * KIRJOITA LOPPUUN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- * @param formElement
- * @param phoneInputRef
- * @param handlePhoneNumberChange
+ * Removes the reset handler function added with setResetHandler() from a form
+ * element.
+ * @param formElement The form DOM element.
+ * @param inputElement The phone number input DOM element.
+ * @param handlePhoneNumberChange The phone number change handler function.
  */
 export function removeResetHandler(
-  formElement: HTMLElement | null,
-  phoneInputRef: MutableRefObject<HTMLInputElement | null>,
+  formElement: HTMLElement | null | undefined,
+  inputElement: HTMLInputElement | null | undefined,
   handlePhoneNumberChange: (event: { target: { value: string } }) => void
 ) {
   formElement?.removeEventListener('reset', () =>
-    resetHandler(phoneInputRef, handlePhoneNumberChange)
+    resetHandler(inputElement, handlePhoneNumberChange)
   );
 }

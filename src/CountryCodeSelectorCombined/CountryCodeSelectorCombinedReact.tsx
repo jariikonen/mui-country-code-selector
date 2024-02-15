@@ -17,7 +17,9 @@ import PossibleCountries from '../types/PossibleCountries';
 import { CountryType } from '../lib/countryCodeData';
 import libHandlePhoneNumberChange from '../lib/handlePhoneNumberChange';
 import libHandleCountryCodeChange from '../lib/handleCountryCodeChange';
+import { getForm } from '../lib/helpers';
 import CountryCodeSelectorReact from '../CountryCodeSelector/CountryCodeSelectorReact';
+import { addResetHandler, removeResetHandler } from './common';
 
 interface CountryCodeSelectorCombinedReactProps {
   /**
@@ -114,7 +116,7 @@ function CountryCodeSelectorCombinedReact({
   /** Indicates whether the component is used as a controlled component. */
   const isControlled = value !== undefined;
 
-  /** Sets the React state according to the output of the library functions. */
+  /** Sets the React state according to the output from the library functions. */
   const set = useCallback(
     (partialState: CCSelectorReactState | Partial<CCSelectorReactState>) => {
       const keys = Object.keys(partialState);
@@ -176,16 +178,17 @@ function CountryCodeSelectorCombinedReact({
   }, [errorMessageDelay]);
 
   /**
-   * Applies changes to the phoneNumStr to correct variables so that the caller
-   * can access it and a correct value is displayed on screen. Sets also the
-   * current value of the phoneInputRef's element, when in uncontrolled mode.
+   * Applies phoneNumStr changes to correct variables so that the component's
+   * user can access the correct value and a correct value is displayed on
+   * screen. Sets also the current value of the phoneInputRef, when used as
+   * uncontrolled component.
    *
    * When the component is used as a controlled component the phone number
-   * value is accessed using it's value and onChange props. Value is the state
-   * variable holding the current value of the state hook and onChange is a
-   * handler function that changes the value of the value prop according to the
-   * changes to the input element's values. In controlled mode the onChange
-   * function is used for applying the phone number value to the value prop.
+   * value is accessed using component's 'value' and 'onChange' props. 'Value'
+   * is the state variable and 'onChange' is a handler function that changes
+   * the value-prop according to the changes to the input element's value. In
+   * controlled mode the onChange function is used for applying the phone
+   * number value to the value prop.
    *
    * When the component is used as an uncontrolled component, caller accesses
    * the value using a ref to the input element. In this case the function sets
@@ -219,7 +222,7 @@ function CountryCodeSelectorCombinedReact({
     (e: { target: { value: string } }) => {
       const result = libHandlePhoneNumberChange(
         e.target.value,
-        phoneInputRef,
+        phoneInputRef.current,
         countryCodeDigitsRef.current,
         possibleCountriesRef.current,
         significantDigitsRef.current
@@ -242,7 +245,7 @@ function CountryCodeSelectorCombinedReact({
     ) => {
       const result = libHandleCountryCodeChange(
         country,
-        phoneInputRef,
+        phoneInputRef.current,
         countryCodeDigitsRef.current,
         phoneNumStrRef.current,
         reason
@@ -277,21 +280,13 @@ function CountryCodeSelectorCombinedReact({
 
   /** Sets the phoneInputRef, inputRef and the formRef. */
   const onInputRefChange = useCallback(
-    (e: HTMLInputElement | null) => {
-      /** Finds the first form element that is parent to this component. */
-      function getForm(el: HTMLInputElement | null) {
-        let parent = el?.parentElement;
-        while (parent && parent.tagName !== 'FORM') {
-          parent = parent?.parentElement;
-        }
-        return parent;
-      }
-      const form = getForm(e);
+    (element: HTMLInputElement | null) => {
+      const form = getForm(element);
       formRef.current = form!;
-      phoneInputRef.current = e;
+      phoneInputRef.current = element;
       if (inputRef !== undefined) {
         // eslint-disable-next-line no-param-reassign
-        inputRef.current = e;
+        inputRef.current = element;
       }
     },
     [inputRef]
@@ -299,20 +294,17 @@ function CountryCodeSelectorCombinedReact({
 
   // Set (and remove when the component is unmounted) reset event handler.
   useEffect(() => {
-    /** A handler for the reset events. */
-    function resetListener() {
-      if (phoneInputRef.current?.value) {
-        handlePhoneNumberChange({
-          target: { value: '' },
-        });
-      }
-    }
-    if (formRef.current) {
-      formRef.current.addEventListener('reset', resetListener);
-    }
-    return () => {
-      formRef.current?.removeEventListener('reset', resetListener);
-    };
+    addResetHandler(
+      formRef.current,
+      phoneInputRef.current,
+      handlePhoneNumberChange
+    );
+    return () =>
+      removeResetHandler(
+        formRef.current,
+        phoneInputRef.current,
+        handlePhoneNumberChange
+      );
   }, [handlePhoneNumberChange]);
 
   return (
@@ -344,7 +336,9 @@ function CountryCodeSelectorCombinedReact({
           onChange={handlePhoneNumberChange}
           InputLabelProps={{
             shrink:
-              document.activeElement === phoneInputRef.current
+              document.activeElement === phoneInputRef.current ||
+              (phoneInputRef.current?.value &&
+                phoneInputRef.current.value.length > 0)
                 ? true
                 : undefined,
           }}

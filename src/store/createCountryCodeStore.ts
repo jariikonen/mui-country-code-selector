@@ -2,9 +2,14 @@ import { AutocompleteChangeReason } from '@mui/material';
 import { createStore } from 'zustand';
 import { CountryType } from '../lib/countryCodeData';
 import CCSelectorState from '../types/CCSelectorState';
-import setCursor from '../lib/setCursor';
+import libSetCursor from '../lib/setCursor';
 import libHandlePhoneNumberChange from '../lib/handlePhoneNumberChange';
 import libHandleCountryCodeChange from '../lib/handleCountryCodeChange';
+import { getForm } from '../lib/helpers';
+import {
+  removeResetHandler,
+  addResetHandler,
+} from '../CountryCodeSelectorCombined/common';
 
 /**
  * Zustand store for establishing a common state between the country
@@ -37,19 +42,121 @@ const createCountryCodeStore = () =>
       phoneNumSplit: 0,
       significantDigits: '',
       cursorPosition: 0,
-      phoneInputRef: null,
       countryCodeDigits: '',
       countryCodeValue: null,
       possibleCountries: null,
       errorMsg: null,
       errorMsgDelay: 3,
       errorMsgTimeoutObj: null,
+      phoneNumberInput: null,
+      formElement: undefined,
       changeHandler: undefined,
-      setPhoneInputRef(phoneRef) {
-        set({ phoneInputRef: phoneRef });
+      setPhoneNumberInput(inputElement) {
+        set({ phoneNumberInput: inputElement });
       },
       setErrorMsgDelay(seconds) {
         set({ errorMsgDelay: seconds });
+      },
+      setChangeHandler(handler) {
+        set({ changeHandler: handler });
+      },
+      setRefs(inputElement, inputRef) {
+        const formElement = getForm(inputElement);
+        set({ formElement, phoneNumberInput: inputElement });
+        if (inputRef !== undefined) {
+          inputRef.current = inputElement; // eslint-disable-line no-param-reassign
+        }
+        const { handlePhoneNumberChange } = get();
+        addResetHandler(formElement, inputElement, handlePhoneNumberChange);
+      },
+      initialize(errorMsgDelay, changeHandler) {
+        set({ errorMsgDelay, changeHandler });
+        const { cleanUp } = get();
+        return cleanUp;
+      },
+      cleanUp() {
+        const { formElement, phoneNumberInput, handlePhoneNumberChange } =
+          get();
+        removeResetHandler(
+          formElement,
+          phoneNumberInput,
+          handlePhoneNumberChange
+        );
+      },
+      handlePhoneNumberChange(event) {
+        const {
+          phoneNumberInput,
+          countryCodeDigits,
+          possibleCountries,
+          significantDigits,
+          applyStateChanges,
+          changeHandler,
+        } = get();
+        const result = libHandlePhoneNumberChange(
+          event.target.value,
+          phoneNumberInput,
+          countryCodeDigits,
+          possibleCountries,
+          significantDigits
+        );
+        set(result);
+        applyStateChanges(result);
+        if (changeHandler && result.phoneNumStr) {
+          changeHandler({ target: { value: result.phoneNumStr } });
+        }
+        if (Object.keys(result).includes('errorMsg')) {
+          get().displayError();
+        }
+      },
+      handleCountryCodeChange(
+        _event,
+        value: CountryType | null,
+        reason: AutocompleteChangeReason
+      ) {
+        const {
+          phoneNumberInput,
+          countryCodeDigits,
+          phoneNumStr,
+          applyStateChanges,
+        } = get();
+        const result = libHandleCountryCodeChange(
+          value,
+          phoneNumberInput,
+          countryCodeDigits,
+          phoneNumStr,
+          reason
+        );
+        set(result);
+        applyStateChanges(result);
+      },
+      applyStateChanges(state) {
+        const { phoneNumStr, phoneNumberInput, changeHandler } = get();
+        const isControlled = changeHandler !== undefined;
+
+        // controlled
+        if (changeHandler && state.phoneNumStr !== undefined) {
+          changeHandler({ target: { value: state.phoneNumStr } });
+        }
+
+        // uncontrolled
+        else if (!isControlled && phoneNumberInput) {
+          if ('phoneNumStr' in state) {
+            // eslint-disable-next-line no-param-reassign
+            phoneNumberInput.value = state.phoneNumStr!;
+          } else {
+            // eslint-disable-next-line no-param-reassign
+            phoneNumberInput.value = phoneNumStr;
+          }
+        }
+      },
+      handleValueChange(value) {
+        const { phoneNumStr, handlePhoneNumberChange } = get();
+        if (value !== undefined && value !== null && value !== phoneNumStr) {
+          handlePhoneNumberChange({ target: { value } });
+        }
+      },
+      setCursor() {
+        libSetCursor(get().phoneNumberInput, get().cursorPosition);
       },
       displayError() {
         const {
@@ -75,82 +182,6 @@ const createCountryCodeStore = () =>
       },
       clearErrorMsg() {
         set({ errorMsg: null });
-      },
-      setCursor: () => setCursor(get().phoneInputRef, get().cursorPosition),
-      setChangeHandler(handler) {
-        set({ changeHandler: handler });
-      },
-      handlePhoneNumberChange(event) {
-        const {
-          phoneInputRef,
-          countryCodeDigits,
-          possibleCountries,
-          significantDigits,
-          applyStateChanges,
-          changeHandler,
-        } = get();
-        const result = libHandlePhoneNumberChange(
-          event.target.value,
-          phoneInputRef,
-          countryCodeDigits,
-          possibleCountries,
-          significantDigits
-        );
-        set(result);
-        applyStateChanges(result);
-        if (changeHandler && result.phoneNumStr) {
-          changeHandler({ target: { value: result.phoneNumStr } });
-        }
-        if (Object.keys(result).includes('errorMsg')) {
-          get().displayError();
-        }
-      },
-      handleCountryCodeChange(
-        _event,
-        value: CountryType | null,
-        reason: AutocompleteChangeReason
-      ) {
-        const {
-          phoneInputRef,
-          countryCodeDigits,
-          phoneNumStr,
-          applyStateChanges,
-        } = get();
-        const result = libHandleCountryCodeChange(
-          value,
-          phoneInputRef,
-          countryCodeDigits,
-          phoneNumStr,
-          reason
-        );
-        set(result);
-        applyStateChanges(result);
-      },
-      applyStateChanges(state) {
-        const { phoneNumStr, phoneInputRef, changeHandler } = get();
-        const isControlled = changeHandler !== undefined;
-
-        // controlled
-        if (changeHandler && state.phoneNumStr !== undefined) {
-          changeHandler({ target: { value: state.phoneNumStr } });
-        }
-
-        // uncontrolled
-        else if (!isControlled && phoneInputRef?.current) {
-          if ('phoneNumStr' in state) {
-            // eslint-disable-next-line no-param-reassign
-            phoneInputRef.current.value = state.phoneNumStr!;
-          } else {
-            // eslint-disable-next-line no-param-reassign
-            phoneInputRef.current.value = phoneNumStr;
-          }
-        }
-      },
-      handleValueChange(value) {
-        const { phoneNumStr, handlePhoneNumberChange } = get();
-        if (value !== undefined && value !== null && value !== phoneNumStr) {
-          handlePhoneNumberChange({ target: { value } });
-        }
       },
     })
   );

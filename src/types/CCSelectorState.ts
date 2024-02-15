@@ -7,21 +7,18 @@ import PossibleCountries from './PossibleCountries';
 import { CountryType } from '../lib/countryCodeData';
 
 /**
- * A type for a common state object for the country code autocomplete field
- * and the external phone number input.
+ * A type for a common state between the country code autocomplete component
+ * and the external phone number input component.
  * @see useCountryCode
  */
 interface CCSelectorState {
   /**
    * The whole phone number including the country code as a string. This is
-   * used as the value of the phone number input element.
+   * the value of the phone number input element.
    */
   phoneNumStr: string;
 
-  /**
-   * The string index indicating where the local part of the phone number
-   * starts.
-   */
+  /** An index indicating where the local part of the phone number starts. */
   phoneNumSplit: number;
 
   /**
@@ -40,24 +37,13 @@ interface CCSelectorState {
    */
   cursorPosition: number;
 
-  /**  A ref to the phone number input element. */
-  phoneInputRef: MutableRefObject<HTMLInputElement | null> | null;
-
-  /** The digits of the detected country code (an empty string if no country
-   * code has yet been detected). */
+  /** The digits of the detected country code. */
   countryCodeDigits: string;
 
-  /**
-   * The CountryType object corresponding to the country code currently in
-   * use.
-   */
+  /** The CountryType object corresponding to the selected country code. */
   countryCodeValue: CountryType | null;
 
-  /**
-   * PossibleCountriesType object containing an array of CountryType objects
-   * corresponding to possible country codes based on the current phoneNumStr,
-   * and some additional information on the nature of the data.
-   */
+  /** Data on country codes that are possible based on the phoneNumStr. */
   possibleCountries: PossibleCountries | null;
 
   /** Error message to be shown to the user. */
@@ -69,6 +55,12 @@ interface CCSelectorState {
   /** Time of the message delay in seconds. */
   errorMsgDelay: number;
 
+  /**  The phone number input DOM element. */
+  phoneNumberInput: HTMLInputElement | undefined | null;
+
+  /** A form DOM element that is parent of the phone number input component. */
+  formElement: HTMLElement | undefined | null;
+
   /**
    * A change handler function that is run with the current phone number value
    * every time the value changes.
@@ -77,11 +69,11 @@ interface CCSelectorState {
   changeHandler: ((event: { target: { value: string } }) => void) | undefined;
 
   /**
-   * Sets the phone number input reference.
-   * @param phoneRef Reference to the phone number input element.
+   * Sets the phoneNumberInput value.
+   * @param inputElement The phone number input DOM element.
    */
-  setPhoneInputRef: (
-    phoneRef: MutableRefObject<HTMLInputElement | null> | null
+  setPhoneNumberInput: (
+    inputElement: HTMLInputElement | undefined | null
   ) => void;
 
   /**
@@ -89,22 +81,6 @@ interface CCSelectorState {
    * @param seconds Message delay in seconds.
    */
   setErrorMsgDelay: (seconds: number) => void;
-
-  /**
-   * Displays the error message for the time specified in the errorMsgDelay
-   * variable.
-   */
-  displayError: () => void;
-
-  /** Clears the errorMsg state variable. */
-  clearErrorMsg: () => void;
-
-  /**
-   * Sets cursor position to the place it was during the last phone number
-   * input's onChange event based on the cursorPosition state variable.
-   * @see cursorPosition
-   */
-  setCursor: () => void;
 
   /**
    * Sets a change handler function that is run with the current phone number
@@ -117,6 +93,45 @@ interface CCSelectorState {
   setChangeHandler: (
     handler: ((event: { target: { value: string } }) => void) | undefined
   ) => void;
+
+  /**
+   * Sets references to the phone number input DOM element. Adds also a reset
+   * event handler to a form element that is parent to the phone number input
+   * element.
+   * @param element The phone number input DOM element.
+   * @param inputRef The React MutableRef object received as a prop. This can
+   *    be used to access the value of the component when used as an
+   *    uncontrolled component.
+   */
+  setRefs: (
+    element: HTMLInputElement | null,
+    inputRef: MutableRefObject<HTMLInputElement | null> | undefined
+  ) => void;
+
+  /**
+   * Initializes the component and returns a cleanup function. This, or the
+   * individual setter and cleanup functions, must be called in a useEffect
+   * function in the component body. Provides an easy way to take care of the
+   * initialization and the cleanup.
+   * @param errorMsgDelay Time of the message delay in seconds.
+   * @param changeHandler A change handler function that is run with the
+   *    current phone number value every time the value changes.
+   * @returns A cleanup function that removes the reset event handler from the
+   *    form element.
+   * @see cleanUp
+   */
+  initialize: (
+    errorMsgDelay: number,
+    changeHandler: ((event: { target: { value: string } }) => void) | undefined
+  ) => () => void;
+
+  /**
+   * The cleanup function which is executed when the component unmounts.
+   * Removes the reset event listener added to the form DOM element. Is
+   * returned by the initialize function.
+   * @see initialize
+   */
+  cleanUp: () => void;
 
   /**
    * A handler function for the phone number input's onChange events. Takes
@@ -146,8 +161,8 @@ interface CCSelectorState {
 
   /**
    * Applies the state changes to outside variables using the changeHandler
-   * function (controlled mode) or the React ref to the phone number input
-   * element.
+   * function (controlled mode) or the reference to the phone number input
+   * DOM element.
    * @param state The partial state object containing the changes.
    */
   applyStateChanges: (state: Partial<CCSelectorState>) => void;
@@ -164,6 +179,15 @@ interface CCSelectorState {
    * @param value The value prop of a controlled component.
    */
   handleValueChange: (value: string | null | undefined) => void;
+
+  /** Sets cursor position based on the cursorPosition state variable. */
+  setCursor: () => void;
+
+  /** Displays the error message for the time of the delay. */
+  displayError: () => void;
+
+  /** Clears the errorMsg state variable. */
+  clearErrorMsg: () => void;
 }
 
 export default CCSelectorState;

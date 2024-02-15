@@ -1,14 +1,9 @@
-import { MutableRefObject } from 'react';
-
 export default function setCursor(
-  phoneInputRef: MutableRefObject<HTMLInputElement | null> | null,
+  inputElement: HTMLInputElement | undefined | null,
   cursorPosition: number
 ) {
-  if (
-    phoneInputRef?.current &&
-    phoneInputRef.current === document.activeElement
-  ) {
-    phoneInputRef.current.focus();
-    phoneInputRef.current.setSelectionRange(cursorPosition, cursorPosition);
+  if (inputElement && inputElement === document.activeElement) {
+    inputElement.focus();
+    inputElement.setSelectionRange(cursorPosition, cursorPosition);
   }
 }

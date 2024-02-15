@@ -1,4 +1,3 @@
-import { MutableRefObject } from 'react';
 import CCSelectorState from '../types/CCSelectorState';
 import PossibleCountries from '../types/PossibleCountries';
 import { CountryType, countries } from './countryCodeData';
@@ -12,7 +11,7 @@ import { getDigits, resetCountryCode } from './helpers';
  * @see CCSelectorState.handleCountryCodeChange
  * @param phoneNumberValue Value of the phone number input as received from the
  *   onChange event props.
- * @param phoneInputRef A ref to the phone number input DOM element.
+ * @param phoneNumberInput The phone number input DOM element.
  * @param detectedCCDigits The digits of the previously known country code.
  * @param possibleCountries An object containing possible country codes based
  *   on the current phone number value and some additional information on the
@@ -24,23 +23,20 @@ import { getDigits, resetCountryCode } from './helpers';
  */
 export default function handlePhoneNumberChange(
   phoneNumberValue: string,
-  phoneInputRef: MutableRefObject<HTMLInputElement | null> | null,
+  phoneNumberInput: HTMLInputElement | undefined | null,
   detectedCCDigits: string,
   possibleCountries: PossibleCountries | null,
   significantDigits: string
 ): Partial<CCSelectorState> {
   /**
-   * A closure that reads the phone number input's cursor position through the
-   * phoneRef ref.
-   * @see {@link https://react.dev/learn/manipulating-the-dom-with-refs} for
-   *   more about React's refs.
+   * A closure that reads the phone number input's cursor position.
    * @see {@link https://stackoverflow.com/questions/2897155/get-cursor-position-in-characters-within-a-text-input-field}
    *   for more information on getting the cursor position.
    * @returns Cursor position in the phone number input element.
    */
   function getCursorPosition() {
-    return phoneInputRef?.current?.selectionStart
-      ? phoneInputRef.current.selectionStart
+    return phoneNumberInput?.selectionStart
+      ? phoneNumberInput.selectionStart
       : 0;
   }
 
