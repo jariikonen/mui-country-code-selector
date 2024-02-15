@@ -13,16 +13,25 @@ import CountryCodeSelector from '../CountryCodeSelector/CountryCodeSelectorZusta
 import useCountryCodeStore from '../store/useCountryCodeStore';
 
 function DemoForm() {
-  const { setPhoneInputRef, phoneNumStr, errorMsg, handlePhoneNumberChange } =
-    useCountryCodeStore();
+  const {
+    setPhoneNumberInput,
+    phoneNumStr,
+    errorMsg,
+    handlePhoneNumberChange,
+    setCursor,
+  } = useCountryCodeStore();
 
   const phoneInputRef = useRef<HTMLInputElement | null>(null);
 
   const [result, setResult] = useState<string | null>(null);
 
   useEffect(() => {
-    setPhoneInputRef(phoneInputRef);
-  }, [setPhoneInputRef]);
+    setPhoneNumberInput(phoneInputRef.current);
+  }, [setPhoneNumberInput]);
+
+  useEffect(() => {
+    setCursor();
+  });
 
   return (
     <Box

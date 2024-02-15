@@ -15,16 +15,25 @@ import useCountryCodeStore from '../store/useCountryCodeStore';
 import { CountryType } from '../lib/countryCodeData';
 
 function DemoFormCustomFilter() {
-  const { setPhoneInputRef, phoneNumStr, errorMsg, handlePhoneNumberChange } =
-    useCountryCodeStore();
+  const {
+    setPhoneNumberInput,
+    phoneNumStr,
+    errorMsg,
+    handlePhoneNumberChange,
+    setCursor,
+  } = useCountryCodeStore();
 
   const phoneNumberRef = useRef<HTMLInputElement | null>(null);
 
   const [result, setResult] = useState<string | null>(null);
 
   useEffect(() => {
-    setPhoneInputRef(phoneNumberRef);
-  }, [setPhoneInputRef]);
+    setPhoneNumberInput(phoneNumberRef.current);
+  }, [setPhoneNumberInput]);
+
+  useEffect(() => {
+    setCursor();
+  });
 
   const customFilterOptions = (
     options: CountryType[],
