@@ -305,6 +305,7 @@ export default function handlePhoneNumberChange(
   }
   if (
     phoneNumberValue.match(/\s{2,}/) ??
+    phoneNumberValue.match(/-{2,}/) ??
     phoneNumberValue.match(/\s-/) ??
     phoneNumberValue.match(/-\s/)
   ) {
@@ -314,7 +315,7 @@ export default function handlePhoneNumberChange(
     };
   }
 
-  const digits = getDigits(phoneNumberValue); // just the digits of the current phone number value
+  const digits = getDigits(phoneNumberValue);
 
   // update the values if there is a possible country code in the string but
   // no possible countries have yet been detected

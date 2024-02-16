@@ -214,7 +214,7 @@ describe('an error message is returned', () => {
   });
 
   it('when there are more than one separator character between digits', () => {
-    const result = handlePhoneNumberChange(
+    const spaces = handlePhoneNumberChange(
       '1  2',
       phoneInputRef.current,
       '',
@@ -222,6 +222,33 @@ describe('an error message is returned', () => {
       ''
     );
 
-    expect(result).toHaveProperty('errorMsg');
+    const dashes = handlePhoneNumberChange(
+      '1--2',
+      phoneInputRef.current,
+      '',
+      null,
+      ''
+    );
+
+    const spaceAndDash = handlePhoneNumberChange(
+      '1 -2',
+      phoneInputRef.current,
+      '',
+      null,
+      ''
+    );
+
+    const dashAndSpace = handlePhoneNumberChange(
+      '1- 2',
+      phoneInputRef.current,
+      '',
+      null,
+      ''
+    );
+
+    expect(spaces).toHaveProperty('errorMsg');
+    expect(dashes).toHaveProperty('errorMsg');
+    expect(spaceAndDash).toHaveProperty('errorMsg');
+    expect(dashAndSpace).toHaveProperty('errorMsg');
   });
 });
