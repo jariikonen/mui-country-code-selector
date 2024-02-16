@@ -295,7 +295,14 @@ export default function handlePhoneNumberChange(
     return allowFirstPlus(value.matchAll(/[^\d-\s]/g));
   };
 
-  // handle forbidden characters (only digits and separator characters allowed)
+  // handle forbidden characters (only digits and separator characters allowed,
+  // and no separators in the beginning)
+  if (phoneNumberValue.match(/^\s/) ?? phoneNumberValue.match(/^-/)) {
+    return {
+      errorMsg: 'Phone number must start with a number or a plus sign',
+      cursorPosition: getCursorPosition() - 1,
+    };
+  }
   if (getForbiddenCharacters(phoneNumberValue).length > 0) {
     return {
       errorMsg:
