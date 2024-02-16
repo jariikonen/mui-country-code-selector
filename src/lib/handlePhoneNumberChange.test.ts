@@ -210,7 +210,10 @@ describe('an error message is returned', () => {
       ''
     );
 
-    expect(result).toHaveProperty('errorMsg');
+    expect(result).toHaveProperty(
+      'errorMsg',
+      'Only digits and visual separator characters (" ", "-") allowed'
+    );
   });
 
   it('when there are more than one separator character between digits', () => {
@@ -246,9 +249,63 @@ describe('an error message is returned', () => {
       ''
     );
 
-    expect(spaces).toHaveProperty('errorMsg');
-    expect(dashes).toHaveProperty('errorMsg');
-    expect(spaceAndDash).toHaveProperty('errorMsg');
-    expect(dashAndSpace).toHaveProperty('errorMsg');
+    const errorMsgValue = 'Only one separator character between digits allowed';
+    expect(spaces).toHaveProperty('errorMsg', errorMsgValue);
+    expect(dashes).toHaveProperty('errorMsg', errorMsgValue);
+    expect(spaceAndDash).toHaveProperty('errorMsg', errorMsgValue);
+    expect(dashAndSpace).toHaveProperty('errorMsg', errorMsgValue);
+  });
+
+  it('when there are more than one plus characters', () => {
+    const result1 = handlePhoneNumberChange(
+      '++',
+      phoneInputRef.current,
+      '',
+      null,
+      ''
+    );
+
+    const result2 = handlePhoneNumberChange(
+      '+123 +',
+      phoneInputRef.current,
+      '',
+      null,
+      ''
+    );
+
+    const errorMsgValue =
+      'Only one plus character is allowed at the beginning of the phone number';
+    expect(result1).toHaveProperty('errorMsg', errorMsgValue);
+    expect(result2).toHaveProperty('errorMsg', errorMsgValue);
+  });
+
+  it('when the plus character is not in the beginning of the phone number', () => {
+    const result1 = handlePhoneNumberChange(
+      '1+',
+      phoneInputRef.current,
+      '',
+      null,
+      ''
+    );
+
+    expect(result1).toHaveProperty(
+      'errorMsg',
+      'The plus can only be the first character of the phone number'
+    );
+  });
+
+  it('when the plus character is not followed by a digit', () => {
+    const result1 = handlePhoneNumberChange(
+      '+i',
+      phoneInputRef.current,
+      '',
+      null,
+      ''
+    );
+
+    expect(result1).toHaveProperty(
+      'errorMsg',
+      'Only a digit is accepted after a plus sign'
+    );
   });
 });

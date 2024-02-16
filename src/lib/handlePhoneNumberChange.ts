@@ -262,63 +262,53 @@ export default function handlePhoneNumberChange(
     return { ...resetCountryCode() };
   };
 
-  /**
-   * Checks the value string for forbidden characters and returns them in an
-   * array if found.
-   * @param value String holding the current phone number string.
-   * @returns Forbidden characters found from the value in an array.
-   */
-  const getForbiddenCharacters = (value: string) => {
-    /**
-     * Iterates through regular expression matches pushing other characters but
-     * '+' as the first character (index 0) to an array, which is returned at
-     * the end.
-     * @param fIter Regular expression match iterator.
-     * @returns Array of forbidden characters.
-     */
-    const allowFirstPlus = (fIter: IterableIterator<RegExpMatchArray>) => {
-      let c = fIter.next();
-      const arr = [];
-      while (!c.done) {
-        if (c.value[0] === '+') {
-          if (c.value.index && c.value.index > 0) {
-            arr.push(c.value[0]);
-          }
-        } else {
-          arr.push(c.value[0]);
-        }
-        c = fIter.next();
-      }
-      return arr;
-    };
-
-    return allowFirstPlus(value.matchAll(/[^\d-\s]/g));
-  };
-
   // handle forbidden characters (only digits and separator characters allowed,
-  // and no separators in the beginning)
-  if (phoneNumberValue.match(/^\s/) ?? phoneNumberValue.match(/^-/)) {
+  // and no separators at the beginning)
+  const rawCursorPosition = getCursorPosition() - 1;
+  const cursorPosition = rawCursorPosition > 0 ? rawCursorPosition : 0;
+  if (phoneNumberValue.match(/\+\D/)) {
+    if (phoneNumberValue.startsWith('++')) {
+      return {
+        errorMsg:
+          'Only one plus character is allowed at the beginning of the phone number',
+        cursorPosition,
+      };
+    }
     return {
-      errorMsg: 'Phone number must start with a number or a plus sign',
-      cursorPosition: getCursorPosition() - 1,
+      errorMsg: 'Only a digit is accepted after a plus sign',
+      cursorPosition,
     };
   }
-  if (getForbiddenCharacters(phoneNumberValue).length > 0) {
+  if (phoneNumberValue.match(/[^+\d\s-]/)) {
     return {
       errorMsg:
         'Only digits and visual separator characters (" ", "-") allowed',
-      cursorPosition: getCursorPosition() - 1,
+      cursorPosition,
     };
   }
-  if (
-    phoneNumberValue.match(/\s{2,}/) ??
-    phoneNumberValue.match(/-{2,}/) ??
-    phoneNumberValue.match(/\s-/) ??
-    phoneNumberValue.match(/-\s/)
-  ) {
+  if (phoneNumberValue.match(/^[^+\d]/)) {
+    return {
+      errorMsg: 'Phone number must start with a number or a plus character',
+      cursorPosition,
+    };
+  }
+  if (phoneNumberValue.match(/\s{2,}|-{2,}|\s-|-\s/)) {
     return {
       errorMsg: 'Only one separator character between digits allowed',
-      cursorPosition: getCursorPosition() - 1,
+      cursorPosition,
+    };
+  }
+  if (phoneNumberValue.match(/\+.*\+/)) {
+    return {
+      errorMsg:
+        'Only one plus character is allowed at the beginning of the phone number',
+      cursorPosition,
+    };
+  }
+  if (phoneNumberValue.match(/\+/) && !phoneNumberValue.startsWith('+')) {
+    return {
+      errorMsg: 'The plus can only be the first character of the phone number',
+      cursorPosition,
     };
   }
 
