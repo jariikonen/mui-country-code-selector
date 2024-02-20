@@ -61,6 +61,9 @@ interface CCSelectorState {
   /** A form DOM element that is parent of the phone number input component. */
   formElement: HTMLElement | undefined | null;
 
+  /** A default phone number value. */
+  defaultValue: string;
+
   /**
    * A change handler function that is run with the current phone number value
    * every time the value changes.
@@ -102,10 +105,12 @@ interface CCSelectorState {
    * @param inputRef The React MutableRef object received as a prop. This can
    *    be used to access the value of the component when used as an
    *    uncontrolled component.
+   * @param defaultValue The default value for the phone number input.
    */
   setRefs: (
     element: HTMLInputElement | null,
-    inputRef: MutableRefObject<HTMLInputElement | null> | undefined
+    inputRef: MutableRefObject<HTMLInputElement | null> | undefined,
+    defaultValue: string
   ) => void;
 
   /**

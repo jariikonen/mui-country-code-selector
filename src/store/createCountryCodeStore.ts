@@ -50,6 +50,7 @@ const createCountryCodeStore = () =>
       errorMsgTimeoutObj: null,
       phoneNumberInput: null,
       formElement: undefined,
+      defaultValue: '',
       changeHandler: undefined,
       setPhoneNumberInput(inputElement) {
         set({ phoneNumberInput: inputElement });
@@ -60,14 +61,23 @@ const createCountryCodeStore = () =>
       setChangeHandler(handler) {
         set({ changeHandler: handler });
       },
-      setRefs(inputElement, inputRef) {
+      setRefs(inputElement, inputRef, defaultValue) {
         const formElement = getForm(inputElement);
-        set({ formElement, phoneNumberInput: inputElement });
+        set({ formElement, defaultValue, phoneNumberInput: inputElement });
         if (inputRef !== undefined) {
           inputRef.current = inputElement; // eslint-disable-line no-param-reassign
         }
         const { handlePhoneNumberChange } = get();
-        addResetHandler(formElement, inputElement, handlePhoneNumberChange);
+        addResetHandler(
+          formElement,
+          inputElement,
+          handlePhoneNumberChange,
+          defaultValue
+        );
+        if (inputElement) {
+          inputElement.value = defaultValue; // eslint-disable-line no-param-reassign
+          handlePhoneNumberChange({ target: { value: defaultValue } });
+        }
       },
       initialize(errorMsgDelay, changeHandler) {
         set({ errorMsgDelay, changeHandler });
@@ -75,12 +85,17 @@ const createCountryCodeStore = () =>
         return cleanUp;
       },
       cleanUp() {
-        const { formElement, phoneNumberInput, handlePhoneNumberChange } =
-          get();
+        const {
+          formElement,
+          phoneNumberInput,
+          defaultValue,
+          handlePhoneNumberChange,
+        } = get();
         removeResetHandler(
           formElement,
           phoneNumberInput,
-          handlePhoneNumberChange
+          handlePhoneNumberChange,
+          defaultValue
         );
       },
       handlePhoneNumberChange(event) {

@@ -70,6 +70,7 @@ function TestForm() {
             <CountryCodeSelectorCombined
               countryCodeLabel="Country code"
               phoneNumberLabel="Home phone number"
+              defaultValue="+358"
               inputRef={homePhoneNumRef}
             />
           </Grid>

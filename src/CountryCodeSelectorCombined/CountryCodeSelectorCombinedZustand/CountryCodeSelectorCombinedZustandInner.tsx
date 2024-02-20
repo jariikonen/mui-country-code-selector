@@ -37,6 +37,9 @@ interface CountryCodeSelectorCombinedInnerProps {
 
   /** Defines how long the error message is displayed in seconds. */
   errorMessageDelay: number;
+
+  /** A default phone number value. */
+  defaultValue: string;
 }
 
 /**
@@ -51,6 +54,7 @@ function CountryCodeSelectorCombinedInner({
   countryCodeLabel,
   phoneNumberLabel,
   errorMessageDelay,
+  defaultValue,
 }: CountryCodeSelectorCombinedInnerProps) {
   const {
     errorMsg,
@@ -81,9 +85,9 @@ function CountryCodeSelectorCombinedInner({
 
   const onInputRefChange = useCallback(
     (element: HTMLInputElement | null) => {
-      setRefs(element, inputRef);
+      setRefs(element, inputRef, defaultValue);
     },
-    [inputRef, setRefs]
+    [defaultValue, inputRef, setRefs]
   );
 
   return (

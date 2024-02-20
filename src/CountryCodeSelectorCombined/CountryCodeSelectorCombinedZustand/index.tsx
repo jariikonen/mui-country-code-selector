@@ -31,6 +31,12 @@ interface CountryCodeSelectorCombinedProps {
 
   /** Defines how long the error message is displayed in seconds. */
   errorMessageDelay?: number;
+
+  /**
+   * A default phone number value. Provide this if you wish to set the default
+   * value when using the component as an uncontrolled component.
+   */
+  defaultValue?: string;
 }
 
 /**
@@ -46,6 +52,7 @@ function CountryCodeSelectorCombined({
   countryCodeLabel = 'Country code',
   phoneNumberLabel = 'Phone number',
   errorMessageDelay = 3,
+  defaultValue = '',
 }: CountryCodeSelectorCombinedProps) {
   return (
     <CountryCodeStoreProvider>
@@ -56,6 +63,7 @@ function CountryCodeSelectorCombined({
         countryCodeLabel={countryCodeLabel}
         phoneNumberLabel={phoneNumberLabel}
         errorMessageDelay={errorMessageDelay}
+        defaultValue={defaultValue}
       />
     </CountryCodeStoreProvider>
   );

@@ -7,12 +7,17 @@
  */
 export function resetHandler(
   inputElement: HTMLInputElement | null | undefined,
-  handlePhoneNumberChange: (e: { target: { value: string } }) => void
+  handlePhoneNumberChange: (e: { target: { value: string } }) => void,
+  defaultValue: string
 ) {
-  if (inputElement?.value && inputElement.value.length > 0) {
+  if (inputElement?.value) {
     handlePhoneNumberChange({
-      target: { value: '' },
+      target: { value: defaultValue },
     });
+    setTimeout(() => {
+      // eslint-disable-next-line no-param-reassign
+      inputElement.value = defaultValue;
+    }, 0);
   }
 }
 
@@ -24,12 +29,13 @@ export function resetHandler(
  */
 export function addResetHandler(
   formElement: HTMLElement | null | undefined,
-  inputElement: HTMLInputElement | null,
-  handlePhoneNumberChange: (event: { target: { value: string } }) => void
+  inputElement: HTMLInputElement | null | undefined,
+  handlePhoneNumberChange: (event: { target: { value: string } }) => void,
+  defaultValue: string
 ) {
   if (formElement) {
     formElement.addEventListener('reset', () =>
-      resetHandler(inputElement, handlePhoneNumberChange)
+      resetHandler(inputElement, handlePhoneNumberChange, defaultValue)
     );
   }
 }
@@ -44,9 +50,10 @@ export function addResetHandler(
 export function removeResetHandler(
   formElement: HTMLElement | null | undefined,
   inputElement: HTMLInputElement | null | undefined,
-  handlePhoneNumberChange: (event: { target: { value: string } }) => void
+  handlePhoneNumberChange: (event: { target: { value: string } }) => void,
+  defaultValue: string
 ) {
   formElement?.removeEventListener('reset', () =>
-    resetHandler(inputElement, handlePhoneNumberChange)
+    resetHandler(inputElement, handlePhoneNumberChange, defaultValue)
   );
 }

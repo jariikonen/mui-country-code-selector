@@ -51,6 +51,12 @@ interface CountryCodeSelectorCombinedReactProps {
    * an uncontrolled component.
    */
   inputRef?: MutableRefObject<HTMLInputElement | null> | undefined;
+
+  /**
+   * A default phone number value. Provide this if you wish to set the default
+   * value when using the component as an uncontrolled component.
+   */
+  defaultValue?: string;
 }
 
 /**
@@ -78,6 +84,7 @@ function CountryCodeSelectorCombinedReact({
   phoneNumberLabel = 'Phone number',
   errorMessageDelay = 3,
   inputRef = undefined,
+  defaultValue = '',
 }: CountryCodeSelectorCombinedReactProps) {
   /** Value of the country code selector. */
   const [countryCodeValue, setCountryCodeValue] = useState<
@@ -298,15 +305,25 @@ function CountryCodeSelectorCombinedReact({
     addResetHandler(
       formRef.current,
       phoneInputRef.current,
-      handlePhoneNumberChange
+      handlePhoneNumberChange,
+      defaultValue
     );
     return () =>
       removeResetHandler(
         formRef.current,
         phoneInputRef.current,
-        handlePhoneNumberChange
+        handlePhoneNumberChange,
+        defaultValue
       );
-  }, [handlePhoneNumberChange]);
+  }, [defaultValue, handlePhoneNumberChange]);
+
+  // set the phone number input to it's default value if such is provided
+  useEffect(() => {
+    if (defaultValue && phoneInputRef.current?.value === '') {
+      phoneInputRef.current.value = defaultValue;
+      handlePhoneNumberChange({ target: { value: defaultValue } });
+    }
+  }, [defaultValue, handlePhoneNumberChange]);
 
   // Inputting a forbidden character into the phone number input makes the
   // cursor jump to the end of the field. Until finding a better solution, this
