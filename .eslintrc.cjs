@@ -36,7 +36,7 @@ module.exports = {
       { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
     ],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
-    quotes: ['error', 'single'],
+    quotes: ['error', 'single', { avoidEscape: true }],
     semi: ['error', 'always'],
     'react/require-default-props': ['error', { functions: 'defaultArguments' }],
   },
