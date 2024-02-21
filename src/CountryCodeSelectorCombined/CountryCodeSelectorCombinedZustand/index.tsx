@@ -1,6 +1,7 @@
 import { MutableRefObject } from 'react';
 import CountryCodeStoreProvider from '../../store/CountryCodeStoreProvider';
 import CountryCodeSelectorCombinedInner from './CountryCodeSelectorCombinedZustandInner';
+import { GroupProp } from '../../types/GroupProp';
 
 interface CountryCodeSelectorCombinedProps {
   /**
@@ -37,6 +38,14 @@ interface CountryCodeSelectorCombinedProps {
    * value when using the component as an uncontrolled component.
    */
   defaultValue?: string;
+
+  /**
+   * Defines if the selector and input component are grouped together. If set
+   * to true, the components are wrapped inside a Mui FormGroup component, and
+   * if set to 'row' the FormGroup is given the row prop which displays the
+   * components in a row.
+   */
+  group?: GroupProp;
 }
 
 /**
@@ -53,6 +62,7 @@ function CountryCodeSelectorCombined({
   phoneNumberLabel = 'Phone number',
   errorMessageDelay = 3,
   defaultValue = '',
+  group = false,
 }: CountryCodeSelectorCombinedProps) {
   return (
     <CountryCodeStoreProvider>
@@ -64,6 +74,7 @@ function CountryCodeSelectorCombined({
         phoneNumberLabel={phoneNumberLabel}
         errorMessageDelay={errorMessageDelay}
         defaultValue={defaultValue}
+        group={group}
       />
     </CountryCodeStoreProvider>
   );

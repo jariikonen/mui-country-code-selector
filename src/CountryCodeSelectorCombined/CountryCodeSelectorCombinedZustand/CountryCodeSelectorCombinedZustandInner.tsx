@@ -1,12 +1,9 @@
 import { MutableRefObject, useCallback, useEffect } from 'react';
-import {
-  TextField,
-  FormControl,
-  FormGroup,
-  FormHelperText,
-} from '@mui/material';
+import { TextField, FormHelperText } from '@mui/material';
 import CountryCodeSelector from '../../CountryCodeSelector/CountryCodeSelectorZustand';
 import useCountryCodeStore from '../../store/useCountryCodeStore';
+import { GroupProp } from '../../types/GroupProp';
+import Wrapper from '../Wrapper';
 
 interface CountryCodeSelectorCombinedInnerProps {
   /**
@@ -40,6 +37,9 @@ interface CountryCodeSelectorCombinedInnerProps {
 
   /** A default phone number value. */
   defaultValue: string;
+
+  /** Defines if the selector and input component are grouped together. */
+  group: GroupProp;
 }
 
 /**
@@ -55,6 +55,7 @@ function CountryCodeSelectorCombinedInner({
   phoneNumberLabel,
   errorMessageDelay,
   defaultValue,
+  group,
 }: CountryCodeSelectorCombinedInnerProps) {
   const {
     errorMsg,
@@ -91,41 +92,39 @@ function CountryCodeSelectorCombinedInner({
   );
 
   return (
-    <FormControl fullWidth>
-      <FormGroup row>
-        <CountryCodeSelector
-          label={countryCodeLabel}
-          sx={{
-            width: '35%',
-            paddingRight: '0.2rem',
-            boxSizing: 'border-box',
-            WebkitBoxSizing: 'border-box',
-          }}
-        />
-        <TextField
-          error={errorMsg !== null}
-          label={phoneNumberLabel}
-          value={value}
-          type="text"
-          inputRef={onInputRefChange}
-          sx={{
-            width: '65%',
-            paddingLeft: '0.2rem',
-            boxSizing: 'border-box',
-            webkitBoxSizing: 'border-box',
-          }}
-          onChange={handlePhoneNumberChange}
-          InputLabelProps={{
-            shrink:
-              document.activeElement === phoneNumberInput ||
-              (phoneNumberInput?.value && phoneNumberInput.value.length > 0)
-                ? true
-                : undefined,
-          }}
-        />
-        {errorMsg && <FormHelperText error>{errorMsg}</FormHelperText>}
-      </FormGroup>
-    </FormControl>
+    <Wrapper group={group}>
+      <CountryCodeSelector
+        label={countryCodeLabel}
+        sx={{
+          width: '35%',
+          paddingRight: '0.2rem',
+          boxSizing: 'border-box',
+          WebkitBoxSizing: 'border-box',
+        }}
+      />
+      <TextField
+        error={errorMsg !== null}
+        label={phoneNumberLabel}
+        value={value}
+        type="text"
+        inputRef={onInputRefChange}
+        sx={{
+          width: '65%',
+          paddingLeft: '0.2rem',
+          boxSizing: 'border-box',
+          webkitBoxSizing: 'border-box',
+        }}
+        onChange={handlePhoneNumberChange}
+        InputLabelProps={{
+          shrink:
+            document.activeElement === phoneNumberInput ||
+            (phoneNumberInput?.value && phoneNumberInput.value.length > 0)
+              ? true
+              : undefined,
+        }}
+      />
+      {errorMsg && <FormHelperText error>{errorMsg}</FormHelperText>}
+    </Wrapper>
   );
 }
 

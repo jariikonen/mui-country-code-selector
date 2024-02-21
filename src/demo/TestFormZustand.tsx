@@ -13,7 +13,7 @@ import CountryCodeSelectorCombined from '../CountryCodeSelectorCombined/CountryC
 function TestForm() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [homePhoneNumValue, setHomePhoneNumValue] = useState('+358');
+  const [homePhoneNumValue, setHomePhoneNumValue] = useState('+358 ');
   const [workPhoneNumValue, setWorkPhoneNumValue] = useState('');
   const [result, setResult] = useState('');
 
@@ -83,6 +83,7 @@ function TestForm() {
               onChange={homePhoneOnChange}
               countryCodeLabel="Country code"
               phoneNumberLabel="Home phone number"
+              group="row"
             />
           </Grid>
           <Grid item xs={12}>
@@ -91,6 +92,7 @@ function TestForm() {
               onChange={workPhoneOnChange}
               countryCodeLabel="Country code"
               phoneNumberLabel="Work phone number"
+              group="row"
             />
           </Grid>
           <Grid item xs={12}>

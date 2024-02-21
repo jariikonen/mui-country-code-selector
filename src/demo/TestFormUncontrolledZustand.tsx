@@ -72,6 +72,7 @@ function TestForm() {
               phoneNumberLabel="Home phone number"
               inputRef={homePhoneNumRef}
               defaultValue="+358 "
+              group="row"
             />
           </Grid>
           <Grid item xs={12}>
@@ -79,6 +80,7 @@ function TestForm() {
               countryCodeLabel="Country code"
               phoneNumberLabel="Work phone number"
               inputRef={workPhoneNumRef}
+              group="row"
             />
           </Grid>
           <Grid item xs={12}>

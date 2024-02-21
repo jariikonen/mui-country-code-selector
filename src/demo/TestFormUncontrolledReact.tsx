@@ -70,8 +70,9 @@ function TestForm() {
             <CountryCodeSelectorCombined
               countryCodeLabel="Country code"
               phoneNumberLabel="Home phone number"
-              defaultValue="+358"
+              defaultValue="+358 "
               inputRef={homePhoneNumRef}
+              group="row"
             />
           </Grid>
           <Grid item xs={12}>
@@ -79,6 +80,7 @@ function TestForm() {
               countryCodeLabel="Country code"
               phoneNumberLabel="Work phone number"
               inputRef={workPhoneNumRef}
+              group="row"
             />
           </Grid>
           <Grid item xs={12}>

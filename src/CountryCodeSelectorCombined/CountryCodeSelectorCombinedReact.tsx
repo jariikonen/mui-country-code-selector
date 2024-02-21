@@ -7,8 +7,6 @@ import {
 } from 'react';
 import {
   TextField,
-  FormControl,
-  FormGroup,
   FormHelperText,
   AutocompleteChangeReason,
 } from '@mui/material';
@@ -21,6 +19,8 @@ import { getForm } from '../lib/helpers';
 import CountryCodeSelectorReact from '../CountryCodeSelector/CountryCodeSelectorReact';
 import { addResetHandler, removeResetHandler } from './common';
 import setCursor from '../lib/setCursor';
+import { GroupProp } from '../types/GroupProp';
+import Wrapper from './Wrapper';
 
 interface CountryCodeSelectorCombinedReactProps {
   /**
@@ -57,6 +57,14 @@ interface CountryCodeSelectorCombinedReactProps {
    * value when using the component as an uncontrolled component.
    */
   defaultValue?: string;
+
+  /**
+   * Defines if the selector and input component are grouped together. If set
+   * to true, the components are wrapped inside a Mui FormGroup component, and
+   * if set to 'row' the FormGroup is given the row prop which displays the
+   * components in a row.
+   */
+  group?: GroupProp;
 }
 
 /**
@@ -85,6 +93,7 @@ function CountryCodeSelectorCombinedReact({
   errorMessageDelay = 3,
   inputRef = undefined,
   defaultValue = '',
+  group = false,
 }: CountryCodeSelectorCombinedReactProps) {
   /** Value of the country code selector. */
   const [countryCodeValue, setCountryCodeValue] = useState<
@@ -334,44 +343,42 @@ function CountryCodeSelectorCombinedReact({
   });
 
   return (
-    <FormControl fullWidth>
-      <FormGroup row>
-        <CountryCodeSelectorReact
-          label={countryCodeLabel}
-          sx={{
-            width: '35%',
-            paddingRight: '0.2rem',
-            boxSizing: 'border-box',
-            WebkitBoxSizing: 'border-box',
-          }}
-          value={countryCodeValue}
-          onChange={handleCountryCodeChange}
-        />
-        <TextField
-          error={errorMsg !== null}
-          label={phoneNumberLabel}
-          type="text"
-          inputRef={onInputRefChange}
-          sx={{
-            width: '65%',
-            paddingLeft: '0.2rem',
-            boxSizing: 'border-box',
-            webkitBoxSizing: 'border-box',
-          }}
-          value={value}
-          onChange={handlePhoneNumberChange}
-          InputLabelProps={{
-            shrink:
-              document.activeElement === phoneInputRef.current ||
-              (phoneInputRef.current?.value &&
-                phoneInputRef.current.value.length > 0)
-                ? true
-                : undefined,
-          }}
-        />
-        {errorMsg && <FormHelperText error>{errorMsg}</FormHelperText>}
-      </FormGroup>
-    </FormControl>
+    <Wrapper group={group}>
+      <CountryCodeSelectorReact
+        label={countryCodeLabel}
+        sx={{
+          width: '35%',
+          paddingRight: '0.2rem',
+          boxSizing: 'border-box',
+          WebkitBoxSizing: 'border-box',
+        }}
+        value={countryCodeValue}
+        onChange={handleCountryCodeChange}
+      />
+      <TextField
+        error={errorMsg !== null}
+        label={phoneNumberLabel}
+        type="text"
+        inputRef={onInputRefChange}
+        sx={{
+          width: '65%',
+          paddingLeft: '0.2rem',
+          boxSizing: 'border-box',
+          webkitBoxSizing: 'border-box',
+        }}
+        value={value}
+        onChange={handlePhoneNumberChange}
+        InputLabelProps={{
+          shrink:
+            document.activeElement === phoneInputRef.current ||
+            (phoneInputRef.current?.value &&
+              phoneInputRef.current.value.length > 0)
+              ? true
+              : undefined,
+        }}
+      />
+      {errorMsg && <FormHelperText error>{errorMsg}</FormHelperText>}
+    </Wrapper>
   );
 }
 
