@@ -1,45 +1,27 @@
-import { MutableRefObject, useCallback, useEffect } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import { useCallback, useEffect } from 'react';
 import { TextField, FormHelperText } from '@mui/material';
 import CountryCodeSelector from '../../CountryCodeSelector/CountryCodeSelectorZustand';
 import useCountryCodeStore from '../../store/useCountryCodeStore';
-import { GroupProp } from '../../types/GroupProp';
+import CCSelectorCombinedProps from '../../types/CCSelectorCombinedProps';
 import Wrapper from '../Wrapper';
 
-interface CountryCodeSelectorCombinedInnerProps {
-  /**
-   * Variable holding the value of the phone number input field. Provide this
-   * when you wish to use the component as a controlled component.
-   */
-  value: string | null | undefined;
+/**
+ * A utility type that makes all properties of the base type optional without
+ * stripping undefined from them (like Required does).
+ * @see {@link https://stackoverflow.com/a/76847313}
+ */
+type RequiredWithUndefined<T> = {
+  [K in keyof Required<T>]: T[K];
+};
 
-  /**
-   * Phone number input's onChange event handler. Sets the value prop.
-   * Provide this when you wish to use the component as a controlled
-   * component.
-   */
-  onChange: ((e: { target: { value: string } }) => void) | undefined;
-
-  /**
-   * A React Ref that will be set to point to the phone number input element.
-   * Provide this to access the component's value when using the component as
-   * an uncontrolled component.
-   */
-  inputRef: MutableRefObject<HTMLInputElement | null> | undefined;
-
-  /** Label for the country code selector input element. */
-  countryCodeLabel: string;
-
-  /** Label for the phone number input element. */
-  phoneNumberLabel: string;
-
-  /** Defines how long the error message is displayed in seconds. */
+/** A type interface for the combined selector's inner component's props. */
+interface CCSelectorCombinedInnerProps
+  extends RequiredWithUndefined<
+    Omit<CCSelectorCombinedProps, 'errorMessageDelay' | 'defaultValue'>
+  > {
   errorMessageDelay: number;
-
-  /** A default phone number value. */
   defaultValue: string;
-
-  /** Defines if the selector and input component are grouped together. */
-  group: GroupProp;
 }
 
 /**
@@ -56,7 +38,12 @@ function CountryCodeSelectorCombinedInner({
   errorMessageDelay,
   defaultValue,
   group,
-}: CountryCodeSelectorCombinedInnerProps) {
+  filterOptions,
+  shrink,
+  variant,
+  selectorProps,
+  inputProps,
+}: Required<CCSelectorCombinedInnerProps>) {
   const {
     errorMsg,
     phoneNumberInput,
@@ -91,16 +78,31 @@ function CountryCodeSelectorCombinedInner({
     [defaultValue, inputRef, setRefs]
   );
 
+  // only props that are not null are applied to the AutoComplete component
+  const variantIfNotNull = {
+    ...(variant === null ? null : { variant }),
+  };
+
+  const defaultShrink =
+    document.activeElement === phoneNumberInput ||
+    (phoneNumberInput?.value && phoneNumberInput.value.length > 0)
+      ? true
+      : undefined;
+
   return (
     <Wrapper group={group}>
       <CountryCodeSelector
         label={countryCodeLabel}
+        filterOptions={filterOptions}
+        shrink={shrink}
+        variant={variant}
         sx={{
           width: '35%',
           paddingRight: '0.2rem',
           boxSizing: 'border-box',
           WebkitBoxSizing: 'border-box',
         }}
+        {...selectorProps}
       />
       <TextField
         error={errorMsg !== null}
@@ -116,12 +118,10 @@ function CountryCodeSelectorCombinedInner({
         }}
         onChange={handlePhoneNumberChange}
         InputLabelProps={{
-          shrink:
-            document.activeElement === phoneNumberInput ||
-            (phoneNumberInput?.value && phoneNumberInput.value.length > 0)
-              ? true
-              : undefined,
+          shrink: shrink !== null ? shrink : defaultShrink,
         }}
+        {...variantIfNotNull}
+        {...inputProps}
       />
       {errorMsg && <FormHelperText error>{errorMsg}</FormHelperText>}
     </Wrapper>

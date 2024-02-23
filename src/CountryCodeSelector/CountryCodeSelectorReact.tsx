@@ -1,16 +1,16 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import {
-  SxProps,
   Autocomplete,
   TextField,
   Box,
-  createFilterOptions,
-  FilterOptionsState,
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
 } from '@mui/material';
 import { CountryType, countries } from '../lib/countryCodeData';
+import CCSelectorProps from '../types/CCSelectorProps';
+import { defaultFilterOptions } from '../CountryCodeSelectorCombined/common';
 
-interface CountryCodeSelectorProps {
+interface CCSelectorPropsReact extends CCSelectorProps {
   /**
    * Value of the country code selector element. Provide this when you wish to
    * use the component as a controlled component.
@@ -28,56 +28,7 @@ interface CountryCodeSelectorProps {
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<CountryType> | undefined
   ) => void;
-
-  /**
-   * Custom options for setting how the select options are filtered based on
-   * the input.
-   * @see {@link https://mui.com/material-ui/react-autocomplete/#custom-filter}
-   */
-  filterOptions?: (
-    options: CountryType[],
-    state: FilterOptionsState<CountryType>
-  ) => CountryType[];
-
-  /**
-   * Boolean to indicate whether the autoSelect prop is set on the underlying
-   * MUI AutoComplete component. When the prop is set on, AutoComplete will set
-   * the value that is currently highlighted as the selected value, when the
-   * component loses focus. Prop is set on as default.
-   * @see {@link https://mui.com/material-ui/react-autocomplete/#playground}
-   */
-  autoSelect?: boolean;
-
-  /**
-   * Boolean to indicate whether the autoHighlight prop is set on the underlying
-   * MUI AutoComplete component. When the prop is set on, AutoComplete will
-   * automatically highlight the first option. Prop is set on as default.
-   * @see {@link https://mui.com/material-ui/react-autocomplete/#playground}
-   */
-  autoHighlight?: boolean;
-
-  /**
-   * Sets the label string on underlying MUI AutoComplete component's
-   * TextField component.
-   */
-  label: string | null | undefined;
-
-  /**
-   * Sx prop passed to the underlying MUI AutoComplete component.
-   * @see {@link https://mui.com/system/getting-started/the-sx-prop}
-   */
-  sx: SxProps;
 }
-
-/**
- * Filter options used as the default value of the filterOptions prop of the
- * CountryCodeSelector.
- */
-const defaultFilterOptions = createFilterOptions({
-  matchFrom: 'any',
-  stringify: (option: CountryType) =>
-    `${option.country} ${option.iso} +${option.code}`,
-});
 
 /**
  * MUI AutoComplete component that provides a selection of countries and their
@@ -94,11 +45,24 @@ function CountryCodeSelector({
   value,
   onChange,
   filterOptions = defaultFilterOptions,
+  shrink = null,
+  variant = null,
   autoSelect = true,
   autoHighlight = true,
   label,
   sx,
-}: CountryCodeSelectorProps) {
+}: CCSelectorPropsReact) {
+  // only props that are not null are applied to the AutoComplete component
+  const filterOptionsIfNotNull = {
+    ...(filterOptions === null ? null : { filterOptions }),
+  };
+  const variantIfNotNull = {
+    ...(variant === null ? null : { variant }),
+  };
+  const shrinkIfNotNull = {
+    ...(shrink === null ? null : { shrink }),
+  };
+
   return (
     <Autocomplete
       sx={sx}
@@ -108,12 +72,10 @@ function CountryCodeSelector({
       autoSelect={autoSelect}
       autoHighlight={autoHighlight}
       getOptionLabel={(option) => `${option.country} (${option.iso})`}
-      filterOptions={filterOptions}
       renderOption={(props, option) => (
         <Box
           component="li"
           sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-          // eslint-disable-next-line react/jsx-props-no-spreading
           {...props}
         >
           <img
@@ -127,15 +89,17 @@ function CountryCodeSelector({
       )}
       renderInput={(params) => (
         <TextField
-          // eslint-disable-next-line react/jsx-props-no-spreading
           {...params}
           label={label}
           inputProps={{
             ...params.inputProps,
             autoComplete: 'new-password', // disable autocomplete and autofill
           }}
+          {...variantIfNotNull}
+          InputLabelProps={{ ...shrinkIfNotNull }}
         />
       )}
+      {...filterOptionsIfNotNull}
     />
   );
 }

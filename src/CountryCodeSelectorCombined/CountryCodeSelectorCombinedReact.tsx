@@ -1,15 +1,11 @@
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  MutableRefObject,
-} from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   TextField,
   FormHelperText,
   AutocompleteChangeReason,
 } from '@mui/material';
+import CCSelectorCombinedProps from '../types/CCSelectorCombinedProps';
 import CCSelectorReactState from '../types/CCSelectorReactState';
 import PossibleCountries from '../types/PossibleCountries';
 import { CountryType } from '../lib/countryCodeData';
@@ -19,53 +15,7 @@ import { getForm } from '../lib/helpers';
 import CountryCodeSelectorReact from '../CountryCodeSelector/CountryCodeSelectorReact';
 import { addResetHandler, removeResetHandler } from './common';
 import setCursor from '../lib/setCursor';
-import { GroupProp } from '../types/GroupProp';
 import Wrapper from './Wrapper';
-
-interface CountryCodeSelectorCombinedReactProps {
-  /**
-   * Variable holding the value of the phone number input field. Provide this
-   * when you wish to use the component as a controlled component.
-   */
-  value?: string | null;
-
-  /**
-   * Phone number input's onChange event handler. Sets the component's value.
-   * Provide this when you wish to use the component as a controlled
-   * component.
-   */
-  onChange?: ((e: { target: { value: string } }) => void) | undefined;
-
-  /** Label for the country code selector input element. */
-  countryCodeLabel?: string;
-
-  /** Label for the phone number input element. */
-  phoneNumberLabel?: string;
-
-  /** Defines how long the error message is displayed in seconds. */
-  errorMessageDelay?: number;
-
-  /**
-   * A React Ref that will be set to point to the phone number input element.
-   * Provide this to access the component's value when using the component as
-   * an uncontrolled component.
-   */
-  inputRef?: MutableRefObject<HTMLInputElement | null> | undefined;
-
-  /**
-   * A default phone number value. Provide this if you wish to set the default
-   * value when using the component as an uncontrolled component.
-   */
-  defaultValue?: string;
-
-  /**
-   * Defines if the selector and input component are grouped together. If set
-   * to true, the components are wrapped inside a Mui FormGroup component, and
-   * if set to 'row' the FormGroup is given the row prop which displays the
-   * components in a row.
-   */
-  group?: GroupProp;
-}
 
 /**
  * A React component combining a CountryCodeSelector with a TextField phone
@@ -94,7 +44,12 @@ function CountryCodeSelectorCombinedReact({
   inputRef = undefined,
   defaultValue = '',
   group = false,
-}: CountryCodeSelectorCombinedReactProps) {
+  filterOptions = null,
+  shrink = null,
+  variant = null,
+  selectorProps = {},
+  inputProps = {},
+}: CCSelectorCombinedProps) {
   /** Value of the country code selector. */
   const [countryCodeValue, setCountryCodeValue] = useState<
     CountryType | null | undefined
@@ -302,8 +257,7 @@ function CountryCodeSelectorCombinedReact({
       formRef.current = form!;
       phoneInputRef.current = element;
       if (inputRef !== undefined) {
-        // eslint-disable-next-line no-param-reassign
-        inputRef.current = element;
+        inputRef.current = element; // eslint-disable-line no-param-reassign
       }
     },
     [inputRef]
@@ -342,10 +296,24 @@ function CountryCodeSelectorCombinedReact({
     setCursor(phoneInputRef.current, cursorPositionRef.current);
   });
 
+  // only props that are not null are applied to the AutoComplete component
+  const variantIfNotNull = {
+    ...(variant === null ? null : { variant }),
+  };
+
+  const defaultShrink =
+    document.activeElement === phoneInputRef.current ||
+    (phoneInputRef.current?.value && phoneInputRef.current.value.length > 0)
+      ? true
+      : undefined;
+
   return (
     <Wrapper group={group}>
       <CountryCodeSelectorReact
         label={countryCodeLabel}
+        filterOptions={filterOptions}
+        shrink={shrink}
+        variant={variant}
         sx={{
           width: '35%',
           paddingRight: '0.2rem',
@@ -354,6 +322,7 @@ function CountryCodeSelectorCombinedReact({
         }}
         value={countryCodeValue}
         onChange={handleCountryCodeChange}
+        {...selectorProps} // eslint-disable-line react/jsx-props-no-spreading
       />
       <TextField
         error={errorMsg !== null}
@@ -369,13 +338,10 @@ function CountryCodeSelectorCombinedReact({
         value={value}
         onChange={handlePhoneNumberChange}
         InputLabelProps={{
-          shrink:
-            document.activeElement === phoneInputRef.current ||
-            (phoneInputRef.current?.value &&
-              phoneInputRef.current.value.length > 0)
-              ? true
-              : undefined,
+          shrink: shrink ?? defaultShrink,
         }}
+        {...variantIfNotNull}
+        {...inputProps}
       />
       {errorMsg && <FormHelperText error>{errorMsg}</FormHelperText>}
     </Wrapper>

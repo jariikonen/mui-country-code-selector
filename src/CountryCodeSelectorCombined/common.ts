@@ -1,3 +1,6 @@
+import { createFilterOptions } from '@mui/material';
+import { CountryType } from '../lib/countryCodeData';
+
 /**
  * A reset event lister function for the combined country code selector
  * components. Handles the clear event by triggering handlePhoneNumberChange
@@ -57,3 +60,13 @@ export function removeResetHandler(
     resetHandler(inputElement, handlePhoneNumberChange, defaultValue)
   );
 }
+
+/**
+ * Filter options used as the default value of the filterOptions prop of the
+ * CountryCodeSelector.
+ */
+export const defaultFilterOptions = createFilterOptions({
+  matchFrom: 'any',
+  stringify: (option: CountryType) =>
+    `${option.country} ${option.iso} +${option.code}`,
+});
