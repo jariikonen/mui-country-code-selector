@@ -3,7 +3,7 @@ import { Autocomplete, TextField, Box } from '@mui/material';
 import { countries } from '../lib/countryCodeData';
 import useCountryCodeStore from '../store/useCountryCodeStore';
 import CCSelectorProps from '../types/CCSelectorProps';
-import { defaultFilterOptions } from '../CountryCodeSelectorCombined/common';
+import defaultFilterOptions from './common';
 
 /**
  * MUI AutoComplete component that provides a selection of countries and their

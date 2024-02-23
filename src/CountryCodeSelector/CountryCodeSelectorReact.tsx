@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { CountryType, countries } from '../lib/countryCodeData';
 import CCSelectorProps from '../types/CCSelectorProps';
-import { defaultFilterOptions } from '../CountryCodeSelectorCombined/common';
+import defaultFilterOptions from './common';
 
 interface CCSelectorPropsReact extends CCSelectorProps {
   /**
