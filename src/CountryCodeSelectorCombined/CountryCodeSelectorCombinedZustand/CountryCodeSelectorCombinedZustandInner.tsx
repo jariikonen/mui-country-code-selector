@@ -78,12 +78,7 @@ function CountryCodeSelectorCombinedInner({
     [defaultValue, inputRef, setRefs]
   );
 
-  // only props that are not null are applied to the AutoComplete component
-  const variantIfNotNull = {
-    ...(variant === null ? null : { variant }),
-  };
-
-  const defaultShrink =
+  const defaultTextFieldShrink =
     document.activeElement === phoneNumberInput ||
     (phoneNumberInput?.value && phoneNumberInput.value.length > 0)
       ? true
@@ -92,35 +87,35 @@ function CountryCodeSelectorCombinedInner({
   return (
     <Wrapper group={group}>
       <CountryCodeSelector
-        label={countryCodeLabel}
         filterOptions={filterOptions}
+        label={countryCodeLabel}
         shrink={shrink}
-        variant={variant}
         sx={{
           width: '35%',
           paddingRight: '0.2rem',
           boxSizing: 'border-box',
           WebkitBoxSizing: 'border-box',
         }}
+        variant={variant}
         {...selectorProps}
       />
       <TextField
         error={errorMsg !== null}
-        label={phoneNumberLabel}
-        value={value}
-        type="text"
         inputRef={onInputRefChange}
+        InputLabelProps={{
+          shrink: shrink !== null ? shrink : defaultTextFieldShrink,
+        }}
+        label={phoneNumberLabel}
+        onChange={handlePhoneNumberChange}
         sx={{
           width: '65%',
           paddingLeft: '0.2rem',
           boxSizing: 'border-box',
           webkitBoxSizing: 'border-box',
         }}
-        onChange={handlePhoneNumberChange}
-        InputLabelProps={{
-          shrink: shrink !== null ? shrink : defaultShrink,
-        }}
-        {...variantIfNotNull}
+        type="text"
+        value={value}
+        variant={variant}
         {...inputProps}
       />
       {errorMsg && <FormHelperText error>{errorMsg}</FormHelperText>}

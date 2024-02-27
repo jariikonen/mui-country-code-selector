@@ -9,17 +9,17 @@ import CountryCodeSelectorCombinedInner from './CountryCodeSelectorCombinedZusta
  * @returns jsx
  */
 function CountryCodeSelectorCombined({
-  value = undefined,
-  onChange = undefined,
-  inputRef = undefined,
+  value,
+  onChange,
+  inputRef,
   countryCodeLabel = 'Country code',
   phoneNumberLabel = 'Phone number',
   errorMessageDelay = 3,
   defaultValue = '',
   group = false,
-  filterOptions = null,
-  shrink = null,
-  variant = null,
+  filterOptions,
+  shrink,
+  variant,
   selectorProps = {},
   inputProps = {},
 }: CCSelectorCombinedProps) {

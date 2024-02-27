@@ -10,21 +10,14 @@ interface CCSelectorCombinedProps {
    * Variable holding the value of the phone number input field. Provide this
    * when you wish to use the component as a controlled component.
    */
-  value?: string | null | undefined;
+  value?: string;
 
   /**
    * Phone number input's onChange event handler. Sets the value prop.
    * Provide this when you wish to use the component as a controlled
    * component.
    */
-  onChange?: ((e: { target: { value: string } }) => void) | undefined;
-
-  /**
-   * A React Ref that will be set to point to the phone number input element.
-   * Provide this to access the component's value when using the component as
-   * an uncontrolled component.
-   */
-  inputRef?: MutableRefObject<HTMLInputElement | null> | undefined;
+  onChange?: (e: { target: { value: string } }) => void;
 
   /** Label for the country code selector input element. */
   countryCodeLabel?: string;
@@ -36,6 +29,13 @@ interface CCSelectorCombinedProps {
   errorMessageDelay?: number;
 
   /**
+   * A React Ref that will be set to point to the phone number input element.
+   * Provide this to access the component's value when using the component as
+   * an uncontrolled component.
+   */
+  inputRef?: MutableRefObject<HTMLInputElement | null>;
+
+  /**
    * A default phone number value. Provide this if you wish to set the default
    * value when using the component as an uncontrolled component.
    */
@@ -44,8 +44,8 @@ interface CCSelectorCombinedProps {
   /**
    * Defines if the selector and input component are grouped together. If set
    * to true, the components are wrapped inside a Mui FormGroup component, and
-   * if set to 'row' the FormGroup is given the row prop which displays the
-   * components in a row.
+   * if set to 'row' the FormGroup is also given the row prop which displays
+   * the components in a row.
    */
   group?: GroupProp;
 
@@ -54,25 +54,24 @@ interface CCSelectorCombinedProps {
    * the input.
    * @see {@link https://mui.com/material-ui/react-autocomplete/#custom-filter}
    */
-  filterOptions?:
-    | ((
-        options: CountryType[],
-        state: FilterOptionsState<CountryType>
-      ) => CountryType[])
-    | null;
+  filterOptions?: (
+    options: CountryType[],
+    state: FilterOptionsState<CountryType>
+  ) => CountryType[];
 
   /**
    * A boolean value that specifies whether or not to shrink the selector and
    * phone number input components' labels.
    * @see {@link https://mui.com/material-ui/react-text-field/#shrink}
    */
-  shrink?: boolean | null;
+  shrink?: boolean;
 
   /**
-   * The variant of the AutoSelector and TextField component's to use.
+   * Defines which variant of the AutoSelector and TextField component's are
+   * used.
    * @see {@link https://mui.com/material-ui/react-text-field/#basic-textfield}
    */
-  variant?: Variant | null;
+  variant?: Variant;
 
   /**
    * Props applied to the underlying CountryCodeSelector element.

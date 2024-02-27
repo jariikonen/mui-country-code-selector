@@ -1,14 +1,17 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import {
   Autocomplete,
-  TextField,
-  Box,
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
 } from '@mui/material';
 import { CountryType, countries } from '../lib/countryCodeData';
 import CCSelectorProps from '../types/CCSelectorProps';
-import defaultFilterOptions from './common';
+import {
+  createDefaultRenderInput,
+  createDefaultFilterOptions,
+  defaultRenderOption,
+  defaultGetOptionLabel,
+} from './common';
 
 interface CCSelectorPropsReact extends CCSelectorProps {
   /**
@@ -42,64 +45,38 @@ interface CCSelectorPropsReact extends CCSelectorProps {
  * @see {@link https://mui.com/material-ui/react-autocomplete}
  */
 function CountryCodeSelector({
-  value,
-  onChange,
-  filterOptions = defaultFilterOptions,
-  shrink = null,
-  variant = null,
-  autoSelect = true,
   autoHighlight = true,
-  label,
-  sx,
+  autoSelect = true,
+  filterOptions = createDefaultFilterOptions(),
+  getOptionLabel = defaultGetOptionLabel,
+  handleHomeEndKeys = false,
+  label = 'Country code',
+  onChange,
+  renderOption = defaultRenderOption,
+  renderInput,
+  shrink,
+  value,
+  variant,
+  ...rest
 }: CCSelectorPropsReact) {
-  // only props that are not null are applied to the AutoComplete component
-  const filterOptionsIfNotNull = {
-    ...(filterOptions === null ? null : { filterOptions }),
-  };
-  const variantIfNotNull = {
-    ...(variant === null ? null : { variant }),
-  };
-  const shrinkIfNotNull = {
-    ...(shrink === null ? null : { shrink }),
-  };
+  let renderInputToUse = renderInput;
+  if (!renderInputToUse) {
+    renderInputToUse = createDefaultRenderInput(label, shrink, variant);
+  }
 
   return (
     <Autocomplete
-      sx={sx}
-      value={value}
+      autoHighlight={autoHighlight}
+      autoSelect={autoSelect}
+      filterOptions={filterOptions}
+      getOptionLabel={getOptionLabel}
+      handleHomeEndKeys={handleHomeEndKeys}
       onChange={onChange}
       options={countries}
-      autoSelect={autoSelect}
-      autoHighlight={autoHighlight}
-      getOptionLabel={(option) => `${option.country} (${option.iso})`}
-      renderOption={(props, option) => (
-        <Box
-          component="li"
-          sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-          {...props}
-        >
-          <img
-            loading="lazy"
-            width="30"
-            src={`https://flagcdn.com/${option.iso.toLowerCase()}.svg`}
-            alt=""
-          />
-          {option.country} {option.iso} +{option.code}
-        </Box>
-      )}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label={label}
-          inputProps={{
-            ...params.inputProps,
-            autoComplete: 'new-password', // disable autocomplete and autofill
-          }}
-          {...variantIfNotNull}
-          InputLabelProps={{ ...shrinkIfNotNull }}
-        />
-      )}
-      {...filterOptionsIfNotNull}
+      renderOption={renderOption}
+      renderInput={renderInputToUse}
+      value={value}
+      {...rest}
     />
   );
 }

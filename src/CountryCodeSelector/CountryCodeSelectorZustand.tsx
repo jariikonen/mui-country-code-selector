@@ -1,9 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Autocomplete, TextField, Box } from '@mui/material';
+import { Autocomplete } from '@mui/material';
 import { countries } from '../lib/countryCodeData';
 import useCountryCodeStore from '../store/useCountryCodeStore';
 import CCSelectorProps from '../types/CCSelectorProps';
-import defaultFilterOptions from './common';
+import {
+  createDefaultRenderInput,
+  createDefaultFilterOptions,
+  defaultRenderOption,
+  defaultGetOptionLabel,
+} from './common';
 
 /**
  * MUI AutoComplete component that provides a selection of countries and their
@@ -17,64 +22,38 @@ import defaultFilterOptions from './common';
  * @see {@link https://mui.com/material-ui/react-autocomplete}
  */
 function CountryCodeSelector({
-  filterOptions = defaultFilterOptions,
-  shrink = null,
-  variant = null,
-  autoSelect = true,
   autoHighlight = true,
-  label,
-  sx,
+  autoSelect = true,
+  filterOptions = createDefaultFilterOptions(),
+  getOptionLabel = defaultGetOptionLabel,
+  handleHomeEndKeys = false,
+  label = 'Country code',
+  renderOption = defaultRenderOption,
+  renderInput,
+  shrink,
+  variant,
+  ...rest
 }: CCSelectorProps) {
   const { handleCountryCodeChange, countryCodeValue } = useCountryCodeStore();
 
-  // only props that are not null are applied to the AutoComplete component
-  const filterOptionsIfNotNull = {
-    ...(filterOptions === null ? null : { filterOptions }),
-  };
-  const variantIfNotNull = {
-    ...(variant === null ? null : { variant }),
-  };
-  const shrinkIfNotNull = {
-    ...(shrink === null ? null : { shrink }),
-  };
+  let renderInputToUse = renderInput;
+  if (!renderInputToUse) {
+    renderInputToUse = createDefaultRenderInput(label, shrink, variant);
+  }
 
   return (
     <Autocomplete
-      sx={sx}
+      autoHighlight={autoHighlight}
+      autoSelect={autoSelect}
+      filterOptions={filterOptions}
+      getOptionLabel={getOptionLabel}
+      handleHomeEndKeys={handleHomeEndKeys}
       onChange={handleCountryCodeChange}
       options={countries}
+      renderOption={renderOption}
+      renderInput={renderInputToUse}
       value={countryCodeValue}
-      autoSelect={autoSelect}
-      autoHighlight={autoHighlight}
-      getOptionLabel={(option) => `${option.country} (${option.iso})`}
-      renderOption={(props, option) => (
-        <Box
-          component="li"
-          sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-          {...props}
-        >
-          <img
-            loading="lazy"
-            width="30"
-            src={`https://flagcdn.com/${option.iso.toLowerCase()}.svg`}
-            alt=""
-          />
-          {option.country} {option.iso} +{option.code}
-        </Box>
-      )}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label={label}
-          inputProps={{
-            ...params.inputProps,
-            autoComplete: 'new-password', // disable autocomplete and autofill
-          }}
-          {...variantIfNotNull}
-          InputLabelProps={{ ...shrinkIfNotNull }}
-        />
-      )}
-      {...filterOptionsIfNotNull}
+      {...rest}
     />
   );
 }

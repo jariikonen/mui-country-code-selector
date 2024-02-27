@@ -36,17 +36,17 @@ import Wrapper from './Wrapper';
  * @returns jsx
  */
 function CountryCodeSelectorCombinedReact({
-  value = undefined,
-  onChange = undefined,
+  value,
+  onChange,
   countryCodeLabel = 'Country code',
   phoneNumberLabel = 'Phone number',
   errorMessageDelay = 3,
   inputRef = undefined,
   defaultValue = '',
   group = false,
-  filterOptions = null,
-  shrink = null,
-  variant = null,
+  filterOptions,
+  shrink,
+  variant,
   selectorProps = {},
   inputProps = {},
 }: CCSelectorCombinedProps) {
@@ -296,12 +296,7 @@ function CountryCodeSelectorCombinedReact({
     setCursor(phoneInputRef.current, cursorPositionRef.current);
   });
 
-  // only props that are not null are applied to the AutoComplete component
-  const variantIfNotNull = {
-    ...(variant === null ? null : { variant }),
-  };
-
-  const defaultShrink =
+  const defaultTextFieldShrink =
     document.activeElement === phoneInputRef.current ||
     (phoneInputRef.current?.value && phoneInputRef.current.value.length > 0)
       ? true
@@ -310,10 +305,10 @@ function CountryCodeSelectorCombinedReact({
   return (
     <Wrapper group={group}>
       <CountryCodeSelectorReact
-        label={countryCodeLabel}
         filterOptions={filterOptions}
+        label={countryCodeLabel}
+        onChange={handleCountryCodeChange}
         shrink={shrink}
-        variant={variant}
         sx={{
           width: '35%',
           paddingRight: '0.2rem',
@@ -321,26 +316,26 @@ function CountryCodeSelectorCombinedReact({
           WebkitBoxSizing: 'border-box',
         }}
         value={countryCodeValue}
-        onChange={handleCountryCodeChange}
+        variant={variant}
         {...selectorProps} // eslint-disable-line react/jsx-props-no-spreading
       />
       <TextField
         error={errorMsg !== null}
-        label={phoneNumberLabel}
-        type="text"
         inputRef={onInputRefChange}
+        InputLabelProps={{
+          shrink: shrink ?? defaultTextFieldShrink,
+        }}
+        label={phoneNumberLabel}
+        onChange={handlePhoneNumberChange}
         sx={{
           width: '65%',
           paddingLeft: '0.2rem',
           boxSizing: 'border-box',
           webkitBoxSizing: 'border-box',
         }}
+        type="text"
         value={value}
-        onChange={handlePhoneNumberChange}
-        InputLabelProps={{
-          shrink: shrink ?? defaultShrink,
-        }}
-        {...variantIfNotNull}
+        variant={variant}
         {...inputProps}
       />
       {errorMsg && <FormHelperText error>{errorMsg}</FormHelperText>}
