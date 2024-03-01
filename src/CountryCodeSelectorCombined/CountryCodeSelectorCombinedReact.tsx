@@ -15,7 +15,7 @@ import { getForm } from '../lib/helpers';
 import CountryCodeSelectorReact from '../CountryCodeSelector/CountryCodeSelectorReact';
 import { addResetHandler, removeResetHandler } from './common';
 import setCursor from '../lib/setCursor';
-import Wrapper from './Wrapper';
+import Wrapper from './Wrapper.ts';
 
 /**
  * A React component combining a CountryCodeSelector with a TextField phone
@@ -44,6 +44,17 @@ function CountryCodeSelectorCombinedReact({
   inputRef = undefined,
   defaultValue = '',
   group = false,
+  formGroupProps,
+  gridContainerProps,
+  gridItemProps,
+  gridSelectorProps,
+  gridInputProps,
+  grid2ContainerProps,
+  grid2ItemProps,
+  grid2SelectorProps,
+  grid2InputProps,
+  selectorSize,
+  inputSize,
   filterOptions,
   shrink,
   variant,
@@ -303,36 +314,39 @@ function CountryCodeSelectorCombinedReact({
       : undefined;
 
   return (
-    <Wrapper group={group}>
+    <Wrapper
+      group={group}
+      formGroupProps={formGroupProps}
+      gridContainerProps={gridContainerProps}
+      gridItemProps={gridItemProps}
+      gridSelectorProps={gridSelectorProps}
+      gridInputProps={gridInputProps}
+      grid2ContainerProps={grid2ContainerProps}
+      grid2ItemProps={grid2ItemProps}
+      grid2SelectorProps={grid2SelectorProps}
+      grid2InputProps={grid2InputProps}
+      selectorSize={selectorSize}
+      inputSize={inputSize}
+    >
       <CountryCodeSelectorReact
         filterOptions={filterOptions}
+        fullWidth
         label={countryCodeLabel}
         onChange={handleCountryCodeChange}
         shrink={shrink}
-        sx={{
-          width: '35%',
-          paddingRight: '0.2rem',
-          boxSizing: 'border-box',
-          WebkitBoxSizing: 'border-box',
-        }}
         value={countryCodeValue}
         variant={variant}
         {...selectorProps} // eslint-disable-line react/jsx-props-no-spreading
       />
       <TextField
         error={errorMsg !== null}
+        fullWidth
         inputRef={onInputRefChange}
         InputLabelProps={{
           shrink: shrink ?? defaultTextFieldShrink,
         }}
         label={phoneNumberLabel}
         onChange={handlePhoneNumberChange}
-        sx={{
-          width: '65%',
-          paddingLeft: '0.2rem',
-          boxSizing: 'border-box',
-          webkitBoxSizing: 'border-box',
-        }}
         type="text"
         value={value}
         variant={variant}

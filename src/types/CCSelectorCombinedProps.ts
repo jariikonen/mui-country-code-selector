@@ -1,9 +1,20 @@
 import { MutableRefObject } from 'react';
-import { FilterOptionsState, TextFieldProps } from '@mui/material';
-import { GroupProp } from './GroupProp';
+import {
+  FilterOptionsState,
+  FormGroupProps,
+  TextFieldProps,
+} from '@mui/material';
 import CCSelectorProps from './CCSelectorProps';
 import { CountryType } from '../lib/countryCodeData';
 import Variant from './Variant';
+import GroupProp from './GroupProp';
+import ComponentSize from './ComponentSize';
+import {
+  Grid2ContainerProps,
+  Grid2ItemProps,
+  GridContainerProps,
+  GridItemProps,
+} from './GridProps';
 
 interface CCSelectorCombinedProps {
   /**
@@ -43,11 +54,96 @@ interface CCSelectorCombinedProps {
 
   /**
    * Defines if the selector and input component are grouped together. If set
-   * to true, the components are wrapped inside a Mui FormGroup component, and
+   * to true, the components are wrapped inside a MUI FormGroup component, and
    * if set to 'row' the FormGroup is also given the row prop which displays
    * the components in a row.
    */
   group?: GroupProp;
+
+  /**
+   * Props passed to the MUI FormGroup component if the country code components
+   * are wrapped in one.
+   */
+  formGroupProps?: Partial<FormGroupProps>;
+
+  /**
+   * Props passed to the MUI Grid container component if the country code
+   * components are wrapped in one.
+   */
+  gridContainerProps?: GridContainerProps;
+
+  /**
+   * Props passed to the MUI Grid item components if the country code
+   * components are wrapped in such. Is overwritten by gridSelectorProps and
+   * gridInputProps.
+   */
+  gridItemProps?: GridItemProps;
+
+  /**
+   * Props passed to the MUI Grid item component that the selector component
+   * is wrapped in, if the country code components are wrapped in a Grid.
+   * Overwrites the gridItemProps.
+   */
+  gridSelectorProps?: GridItemProps;
+
+  /**
+   * Props passed to the MUI Grid item component that the phone number input
+   * component is wrapped in, if the country code components are wrapped in a
+   * Grid. Overwrites the gridItemProps.
+   */
+  gridInputProps?: GridItemProps;
+
+  /**
+   * Props passed to the MUI Grid2 container component if the country code
+   * components are wrapped in one.
+   */
+  grid2ContainerProps?: Grid2ContainerProps;
+
+  /**
+   * Props passed to the MUI Grid2 item components if the country code
+   * components are wrapped in such. Is overwritten by grid2SelectorProps and
+   * grid2InputProps.
+   */
+  grid2ItemProps?: Grid2ItemProps;
+
+  /**
+   * Props passed to the MUI Grid2 item component that the selector component
+   * is wrapped in, if the country code components are wrapped in a Grid2.
+   * Overwrites the grid2ItemProps.
+   */
+  grid2SelectorProps?: Grid2ItemProps;
+
+  /**
+   * Props passed to the MUI Grid2 item component that the phone number input
+   * component is wrapped in, if the country code components are wrapped in a
+   * Grid2. Overwrites the grid2ItemProps.
+   */
+  grid2InputProps?: Grid2ItemProps;
+
+  /**
+   * Sets the breakpoint size props of the selector components grid item, when
+   * the country code components are wrapped in a MUI Grid or MUI Grid2.
+   * Accepts an object with keys for MUI's responsive breakpoints (xs, sm, md,
+   * lg, and xl), and the values can be either a number, a string 'auto' or a
+   * boolean. If the value for a breakpoint is false the prop is ignored.
+   * @see {@link https://mui.com/material-ui/api/grid/#props}
+   * @see {@link https://mui.com/material-ui/api/grid/#grid-prop-xs}
+   * @see {@link https://mui.com/material-ui/customization/breakpoints/}
+   */
+  selectorSize?: ComponentSize;
+
+  /**
+   * Sets the breakpoint size props of the phone number input components grid
+   * item, when the country code components are wrapped in a MUI Grid or MUI
+   * Grid2. Accepts an object with keys for MUI's responsive breakpoints (xs,
+   * sm, md, lg, and xl), and the values can be either a number, a string
+   * 'auto' or a boolean. If the value for a breakpoint is false the prop is
+   * ignored.
+   * @see {@link https://mui.com/material-ui/api/grid/#props}
+   * @see {@link https://mui.com/material-ui/api/grid/#grid-prop-xs}
+   * @see {@link https://mui.com/material-ui/customization/breakpoints/}
+   */
+  inputSize?: ComponentSize;
 
   /**
    * Custom options for setting how the select options are filtered based on

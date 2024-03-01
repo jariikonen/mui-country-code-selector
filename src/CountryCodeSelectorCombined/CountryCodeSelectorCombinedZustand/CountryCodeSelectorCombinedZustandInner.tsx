@@ -4,7 +4,7 @@ import { TextField, FormHelperText } from '@mui/material';
 import CountryCodeSelector from '../../CountryCodeSelector/CountryCodeSelectorZustand';
 import useCountryCodeStore from '../../store/useCountryCodeStore';
 import CCSelectorCombinedProps from '../../types/CCSelectorCombinedProps';
-import Wrapper from '../Wrapper';
+import Wrapper from '../Wrapper.ts';
 
 /**
  * A utility type that makes all properties of the base type optional without
@@ -38,6 +38,17 @@ function CountryCodeSelectorCombinedInner({
   errorMessageDelay,
   defaultValue,
   group,
+  formGroupProps,
+  gridContainerProps,
+  gridItemProps,
+  gridSelectorProps,
+  gridInputProps,
+  grid2ContainerProps,
+  grid2ItemProps,
+  grid2SelectorProps,
+  grid2InputProps,
+  selectorSize,
+  inputSize,
   filterOptions,
   shrink,
   variant,
@@ -85,34 +96,37 @@ function CountryCodeSelectorCombinedInner({
       : undefined;
 
   return (
-    <Wrapper group={group}>
+    <Wrapper
+      group={group}
+      formGroupProps={formGroupProps}
+      gridContainerProps={gridContainerProps}
+      gridItemProps={gridItemProps}
+      gridSelectorProps={gridSelectorProps}
+      gridInputProps={gridInputProps}
+      grid2ContainerProps={grid2ContainerProps}
+      grid2ItemProps={grid2ItemProps}
+      grid2SelectorProps={grid2SelectorProps}
+      grid2InputProps={grid2InputProps}
+      selectorSize={selectorSize}
+      inputSize={inputSize}
+    >
       <CountryCodeSelector
         filterOptions={filterOptions}
         label={countryCodeLabel}
         shrink={shrink}
-        sx={{
-          width: '35%',
-          paddingRight: '0.2rem',
-          boxSizing: 'border-box',
-          WebkitBoxSizing: 'border-box',
-        }}
         variant={variant}
+        fullWidth
         {...selectorProps}
       />
       <TextField
         error={errorMsg !== null}
+        fullWidth
         inputRef={onInputRefChange}
         InputLabelProps={{
           shrink: shrink !== null ? shrink : defaultTextFieldShrink,
         }}
         label={phoneNumberLabel}
         onChange={handlePhoneNumberChange}
-        sx={{
-          width: '65%',
-          paddingLeft: '0.2rem',
-          boxSizing: 'border-box',
-          webkitBoxSizing: 'border-box',
-        }}
         type="text"
         value={value}
         variant={variant}
