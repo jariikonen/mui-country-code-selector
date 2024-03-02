@@ -1,5 +1,5 @@
 /**
- * A reset event lister function for the combined country code selector
+ * A reset event handler function for the combined country code selector
  * components. Handles the clear event by triggering handlePhoneNumberChange
  * function with an empty string.
  * @param inputElement The phone number input DOM element.

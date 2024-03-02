@@ -13,7 +13,7 @@ import libHandlePhoneNumberChange from '../lib/handlePhoneNumberChange';
 import libHandleCountryCodeChange from '../lib/handleCountryCodeChange';
 import { getForm } from '../lib/helpers';
 import CountryCodeSelectorReact from '../CountryCodeSelector/CountryCodeSelectorReact';
-import { addResetHandler, removeResetHandler } from './common';
+import { addResetHandler, removeResetHandler } from '../lib/handlers';
 import setCursor from '../lib/setCursor';
 import Wrapper from './Wrapper.ts';
 

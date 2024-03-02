@@ -6,10 +6,7 @@ import libSetCursor from '../lib/setCursor';
 import libHandlePhoneNumberChange from '../lib/handlePhoneNumberChange';
 import libHandleCountryCodeChange from '../lib/handleCountryCodeChange';
 import { getForm } from '../lib/helpers';
-import {
-  removeResetHandler,
-  addResetHandler,
-} from '../CountryCodeSelectorCombined/common';
+import { removeResetHandler, addResetHandler } from '../lib/handlers';
 
 /**
  * Zustand store for establishing a common state between the country

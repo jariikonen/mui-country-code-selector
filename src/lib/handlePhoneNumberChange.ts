@@ -32,7 +32,7 @@ export default function handlePhoneNumberChange(
    * A closure that reads the phone number input's cursor position.
    * @see {@link https://stackoverflow.com/questions/2897155/get-cursor-position-in-characters-within-a-text-input-field}
    *   for more information on getting the cursor position.
-   * @returns Cursor position in the phone number input element.
+   * @returns Cursor's position in the phone number input element.
    */
   function getCursorPosition() {
     return phoneNumberInput?.selectionStart
