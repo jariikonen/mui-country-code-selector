@@ -15,6 +15,8 @@ function CountryCodeSelectorCombined({
   countryCodeLabel = 'Country code',
   phoneNumberLabel = 'Phone number',
   errorMessageDelay = 3,
+  errorMessageDisplay = 'both',
+  errorHandler = undefined,
   defaultValue = '',
   group = false,
   formGroupProps,
@@ -47,6 +49,8 @@ function CountryCodeSelectorCombined({
         countryCodeLabel={countryCodeLabel}
         phoneNumberLabel={phoneNumberLabel}
         errorMessageDelay={errorMessageDelay}
+        errorMessageDisplay={errorMessageDisplay}
+        errorHandler={errorHandler}
         defaultValue={defaultValue}
         group={group}
         formGroupProps={formGroupProps}

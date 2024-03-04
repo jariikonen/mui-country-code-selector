@@ -41,6 +41,8 @@ function CountryCodeSelectorCombinedReact({
   countryCodeLabel = 'Country code',
   phoneNumberLabel = 'Phone number',
   errorMessageDelay = 3,
+  errorMessageDisplay = 'both',
+  errorHandler = undefined,
   inputRef = undefined,
   defaultValue = '',
   group = false,
@@ -317,6 +319,12 @@ function CountryCodeSelectorCombinedReact({
       ? true
       : undefined;
 
+  useEffect(() => {
+    if (errorMsg && errorHandler) {
+      errorHandler(errorMsg);
+    }
+  }, [errorHandler, errorMsg]);
+
   return (
     <Wrapper
       group={group}
@@ -346,7 +354,10 @@ function CountryCodeSelectorCombinedReact({
         {...selectorProps} // eslint-disable-line react/jsx-props-no-spreading
       />
       <TextField
-        error={errorMsg !== null}
+        error={
+          errorMsg !== null &&
+          (errorMessageDisplay === 'status' || errorMessageDisplay === 'both')
+        }
         fullWidth
         inputRef={onInputRefChange}
         InputLabelProps={{
@@ -359,11 +370,13 @@ function CountryCodeSelectorCombinedReact({
         variant={variant}
         {...inputProps}
       />
-      {errorMsg && (
-        <FormHelperText error {...errorProps}>
-          {errorMsg}
-        </FormHelperText>
-      )}
+      {errorMsg &&
+        (errorMessageDisplay === 'message' ||
+          errorMessageDisplay === 'both') && (
+          <FormHelperText error {...errorProps}>
+            {errorMsg}
+          </FormHelperText>
+        )}
     </Wrapper>
   );
 }

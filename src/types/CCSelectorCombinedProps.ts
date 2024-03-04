@@ -41,6 +41,21 @@ interface CCSelectorCombinedProps {
   errorMessageDelay?: number;
 
   /**
+   * Determines how the error message is displayed. When set to 'both', error is
+   * displayed both as an error status of the component and by displaying an
+   * error message. When set to 'none' neither is displayed. Prop can also be
+   * set as 'message' or 'status' in which case the corresponding method is
+   * used to indicate the error.
+   */
+  errorMessageDisplay?: 'none' | 'message' | 'status' | 'both';
+
+  /**
+   * Sets a function for handling error events. The function receives the error
+   * message as a parameter.
+   */
+  errorHandler?: (error: string) => void;
+
+  /**
    * A React Ref that will be set to point to the phone number input element.
    * Provide this to access the component's value when using the component as
    * an uncontrolled component.

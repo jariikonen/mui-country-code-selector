@@ -49,11 +49,11 @@ interface CCSelectorState {
   /** Error message to be shown to the user. */
   errorMsg: string | null;
 
-  /** Timeout object for timing how long the error message is displayed. */
-  errorMsgTimeoutObj: NodeJS.Timeout | null;
-
   /** Time of the message delay in seconds. */
   errorMsgDelay: number;
+
+  /** Timeout object for timing how long the error message is displayed. */
+  errorMsgTimeoutObj: NodeJS.Timeout | null;
 
   /**  The phone number input DOM element. */
   phoneNumberInput: HTMLInputElement | undefined | null;

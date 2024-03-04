@@ -36,6 +36,8 @@ function CountryCodeSelectorCombinedInner({
   countryCodeLabel,
   phoneNumberLabel,
   errorMessageDelay,
+  errorMessageDisplay,
+  errorHandler,
   defaultValue,
   group,
   formGroupProps,
@@ -99,6 +101,12 @@ function CountryCodeSelectorCombinedInner({
       ? true
       : undefined;
 
+  useEffect(() => {
+    if (errorMsg && errorHandler) {
+      errorHandler(errorMsg);
+    }
+  }, [errorHandler, errorMsg]);
+
   return (
     <Wrapper
       group={group}
@@ -126,7 +134,10 @@ function CountryCodeSelectorCombinedInner({
         {...selectorProps}
       />
       <TextField
-        error={errorMsg !== null}
+        error={
+          errorMsg !== null &&
+          (errorMessageDisplay === 'status' || errorMessageDisplay === 'both')
+        }
         fullWidth
         inputRef={onInputRefChange}
         InputLabelProps={{
@@ -139,11 +150,13 @@ function CountryCodeSelectorCombinedInner({
         variant={variant}
         {...inputProps}
       />
-      {errorMsg && (
-        <FormHelperText error {...errorProps}>
-          {errorMsg}
-        </FormHelperText>
-      )}
+      {errorMsg &&
+        (errorMessageDisplay === 'message' ||
+          errorMessageDisplay === 'both') && (
+          <FormHelperText error {...errorProps}>
+            {errorMsg}
+          </FormHelperText>
+        )}
     </Wrapper>
   );
 }
