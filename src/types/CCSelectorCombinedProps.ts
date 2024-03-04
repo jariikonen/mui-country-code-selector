@@ -2,6 +2,7 @@ import { MutableRefObject } from 'react';
 import {
   FilterOptionsState,
   FormGroupProps,
+  FormHelperTextProps,
   TextFieldProps,
 } from '@mui/material';
 import CCSelectorProps from './CCSelectorProps';
@@ -94,6 +95,13 @@ interface CCSelectorCombinedProps {
   gridInputProps?: GridItemProps;
 
   /**
+   * Props passed to the MUI Grid item component that the error message
+   * component is wrapped in, if the country code components are wrapped in a
+   * Grid. Overwrites the gridItemProps.
+   */
+  gridErrorProps?: GridItemProps;
+
+  /**
    * Props passed to the MUI Grid2 container component if the country code
    * components are wrapped in one.
    */
@@ -121,6 +129,13 @@ interface CCSelectorCombinedProps {
   grid2InputProps?: Grid2ItemProps;
 
   /**
+   * Props passed to the MUI Grid2 item component that the error message
+   * component is wrapped in, if the country code components are wrapped in a
+   * Grid2. Overwrites the grid2ItemProps.
+   */
+  grid2ErrorProps?: Grid2ItemProps;
+
+  /**
    * Sets the breakpoint size props of the selector components grid item, when
    * the country code components are wrapped in a MUI Grid or MUI Grid2.
    * Accepts an object with keys for MUI's responsive breakpoints (xs, sm, md,
@@ -144,6 +159,19 @@ interface CCSelectorCombinedProps {
    * @see {@link https://mui.com/material-ui/customization/breakpoints/}
    */
   inputSize?: ComponentSize;
+
+  /**
+   * Sets the breakpoint size props of the error message components grid
+   * item, when the country code components are wrapped in a MUI Grid or MUI
+   * Grid2. Accepts an object with keys for MUI's responsive breakpoints (xs,
+   * sm, md, lg, and xl), and the values can be either a number, a string
+   * 'auto' or a boolean. If the value for a breakpoint is false the prop is
+   * ignored.
+   * @see {@link https://mui.com/material-ui/api/grid/#props}
+   * @see {@link https://mui.com/material-ui/api/grid/#grid-prop-xs}
+   * @see {@link https://mui.com/material-ui/customization/breakpoints/}
+   */
+  errorSize?: ComponentSize;
 
   /**
    * Custom options for setting how the select options are filtered based on
@@ -181,6 +209,13 @@ interface CCSelectorCombinedProps {
    * @see {@link https://mui.com/material-ui/api/text-field/}
    */
   inputProps?: Partial<TextFieldProps> | Record<string, never>;
+
+  /**
+   * Props applied to the FormHelperText component of the combined country code
+   * selector component (a possible error message).
+   * @see {@link https://mui.com/material-ui/api/text-field/}
+   */
+  errorProps?: Partial<FormHelperTextProps> | Record<string, never>;
 }
 
 export default CCSelectorCombinedProps;

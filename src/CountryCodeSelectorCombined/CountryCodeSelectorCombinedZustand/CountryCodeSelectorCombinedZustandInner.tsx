@@ -43,17 +43,21 @@ function CountryCodeSelectorCombinedInner({
   gridItemProps,
   gridSelectorProps,
   gridInputProps,
+  gridErrorProps,
   grid2ContainerProps,
   grid2ItemProps,
   grid2SelectorProps,
   grid2InputProps,
+  grid2ErrorProps,
   selectorSize,
   inputSize,
+  errorSize,
   filterOptions,
   shrink,
   variant,
   selectorProps,
   inputProps,
+  errorProps,
 }: Required<CCSelectorCombinedInnerProps>) {
   const {
     errorMsg,
@@ -103,12 +107,15 @@ function CountryCodeSelectorCombinedInner({
       gridItemProps={gridItemProps}
       gridSelectorProps={gridSelectorProps}
       gridInputProps={gridInputProps}
+      gridErrorProps={gridErrorProps}
       grid2ContainerProps={grid2ContainerProps}
       grid2ItemProps={grid2ItemProps}
       grid2SelectorProps={grid2SelectorProps}
       grid2InputProps={grid2InputProps}
+      grid2ErrorProps={grid2ErrorProps}
       selectorSize={selectorSize}
       inputSize={inputSize}
+      errorSize={errorSize}
     >
       <CountryCodeSelector
         filterOptions={filterOptions}
@@ -132,7 +139,11 @@ function CountryCodeSelectorCombinedInner({
         variant={variant}
         {...inputProps}
       />
-      {errorMsg && <FormHelperText error>{errorMsg}</FormHelperText>}
+      {errorMsg && (
+        <FormHelperText error {...errorProps}>
+          {errorMsg}
+        </FormHelperText>
+      )}
     </Wrapper>
   );
 }

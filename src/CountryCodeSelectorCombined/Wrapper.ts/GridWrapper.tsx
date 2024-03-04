@@ -8,8 +8,10 @@ interface GridWrapperProps {
   gridItemProps: GridItemProps | undefined;
   gridSelectorProps: GridItemProps | undefined;
   gridInputProps: GridItemProps | undefined;
+  gridErrorProps: GridItemProps | undefined;
   selectorSize: ComponentSize | undefined;
   inputSize: ComponentSize | undefined;
+  errorSize: ComponentSize | undefined;
   children: ReactNode;
 }
 
@@ -21,8 +23,10 @@ export default function GridWrapper({
   gridItemProps,
   gridSelectorProps,
   gridInputProps,
+  gridErrorProps,
   selectorSize,
   inputSize,
+  errorSize,
   children,
 }: GridWrapperProps) {
   const selectorPropsToApply = {
@@ -34,6 +38,11 @@ export default function GridWrapper({
     ...gridItemProps,
     ...gridInputProps,
     ...inputSize,
+  };
+  const errorPropsToApply = {
+    ...gridItemProps,
+    ...gridErrorProps,
+    ...errorSize,
   };
   return (
     <>
@@ -51,6 +60,12 @@ export default function GridWrapper({
                 {child}
               </Grid>
             );
+          case 2:
+            return child !== null ? (
+              <Grid item key="error" {...errorPropsToApply}>
+                {child}
+              </Grid>
+            ) : null;
           default:
             return null;
         }

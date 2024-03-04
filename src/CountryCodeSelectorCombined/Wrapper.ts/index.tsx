@@ -20,12 +20,15 @@ interface WrapperProps {
   gridItemProps?: GridItemProps;
   gridSelectorProps?: GridItemProps;
   gridInputProps?: GridItemProps;
+  gridErrorProps?: GridItemProps;
   grid2ContainerProps?: Grid2ContainerProps;
   grid2ItemProps?: Grid2ItemProps;
   grid2SelectorProps?: Grid2ItemProps;
   grid2InputProps?: Grid2ItemProps;
+  grid2ErrorProps?: Grid2ItemProps;
   selectorSize?: ComponentSize;
   inputSize?: ComponentSize;
+  errorSize?: ComponentSize;
   children: ReactNode;
 }
 
@@ -40,12 +43,15 @@ export default function Wrapper({
   gridItemProps = undefined,
   gridSelectorProps = undefined,
   gridInputProps = undefined,
+  gridErrorProps = undefined,
   grid2ContainerProps = undefined,
   grid2ItemProps = undefined,
   grid2SelectorProps = undefined,
   grid2InputProps = undefined,
+  grid2ErrorProps = undefined,
   selectorSize = undefined,
   inputSize = undefined,
+  errorSize = undefined,
   children,
 }: WrapperProps) {
   switch (group) {
@@ -56,8 +62,10 @@ export default function Wrapper({
             gridItemProps={gridItemProps}
             gridSelectorProps={gridSelectorProps}
             gridInputProps={gridInputProps}
+            gridErrorProps={gridErrorProps}
             selectorSize={selectorSize}
             inputSize={inputSize}
+            errorSize={errorSize}
           >
             {children}
           </GridWrapper>
@@ -69,8 +77,10 @@ export default function Wrapper({
           gridItemProps={gridItemProps}
           gridSelectorProps={gridSelectorProps}
           gridInputProps={gridInputProps}
+          gridErrorProps={gridErrorProps}
           selectorSize={selectorSize}
           inputSize={inputSize}
+          errorSize={errorSize}
         >
           {children}
         </GridWrapper>
@@ -82,8 +92,10 @@ export default function Wrapper({
             grid2ItemProps={grid2ItemProps}
             grid2SelectorProps={grid2SelectorProps}
             grid2InputProps={grid2InputProps}
+            grid2ErrorProps={grid2ErrorProps}
             selectorSize={selectorSize}
             inputSize={inputSize}
+            errorSize={errorSize}
           >
             {children}
           </Grid2Wrapper>
@@ -95,8 +107,10 @@ export default function Wrapper({
           grid2ItemProps={grid2ItemProps}
           grid2SelectorProps={grid2SelectorProps}
           grid2InputProps={grid2InputProps}
+          grid2ErrorProps={grid2ErrorProps}
           selectorSize={selectorSize}
           inputSize={inputSize}
+          errorSize={errorSize}
         >
           {children}
         </Grid2Wrapper>

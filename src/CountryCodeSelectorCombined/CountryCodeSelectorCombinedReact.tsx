@@ -49,17 +49,21 @@ function CountryCodeSelectorCombinedReact({
   gridItemProps,
   gridSelectorProps,
   gridInputProps,
+  gridErrorProps,
   grid2ContainerProps,
   grid2ItemProps,
   grid2SelectorProps,
   grid2InputProps,
+  grid2ErrorProps,
   selectorSize,
   inputSize,
+  errorSize,
   filterOptions,
   shrink,
   variant,
   selectorProps = {},
   inputProps = {},
+  errorProps = {},
 }: CCSelectorCombinedProps) {
   /** Value of the country code selector. */
   const [countryCodeValue, setCountryCodeValue] = useState<
@@ -321,12 +325,15 @@ function CountryCodeSelectorCombinedReact({
       gridItemProps={gridItemProps}
       gridSelectorProps={gridSelectorProps}
       gridInputProps={gridInputProps}
+      gridErrorProps={gridErrorProps}
       grid2ContainerProps={grid2ContainerProps}
       grid2ItemProps={grid2ItemProps}
       grid2SelectorProps={grid2SelectorProps}
       grid2InputProps={grid2InputProps}
+      grid2ErrorProps={grid2ErrorProps}
       selectorSize={selectorSize}
       inputSize={inputSize}
+      errorSize={errorSize}
     >
       <CountryCodeSelectorReact
         filterOptions={filterOptions}
@@ -352,7 +359,11 @@ function CountryCodeSelectorCombinedReact({
         variant={variant}
         {...inputProps}
       />
-      {errorMsg && <FormHelperText error>{errorMsg}</FormHelperText>}
+      {errorMsg && (
+        <FormHelperText error {...errorProps}>
+          {errorMsg}
+        </FormHelperText>
+      )}
     </Wrapper>
   );
 }
