@@ -61,7 +61,10 @@ interface CCSelectorState {
   /** A form DOM element that is parent of the phone number input component. */
   formElement: HTMLElement | undefined | null;
 
-  /** A default phone number value. */
+  /**
+   * A default phone number value. Used when the component is used as an
+   * uncontrolled component.
+   */
   defaultValue: string;
 
   /**

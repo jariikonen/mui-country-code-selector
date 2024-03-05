@@ -23,9 +23,11 @@ export function resetHandler(
 
 /**
  * Adds the reset handler function into a form element.
- * @param formElement The form DOM element.
+ * @param formElement Form DOM element that is parent to the country code
+ *    component.
  * @param inputElement The phone number input DOM element.
- * @param handlePhoneNumberChange
+ * @param handlePhoneNumberChange The phone number change handler function.
+ * @param defaultValue Default value for the phone number input.
  */
 export function addResetHandler(
   formElement: HTMLElement | null | undefined,
