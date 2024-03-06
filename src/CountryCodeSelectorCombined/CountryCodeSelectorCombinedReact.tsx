@@ -351,7 +351,7 @@ function CountryCodeSelectorCombinedReact({
         shrink={shrink}
         value={countryCodeValue}
         variant={variant}
-        {...selectorProps} // eslint-disable-line react/jsx-props-no-spreading
+        {...selectorProps}
       />
       <TextField
         error={

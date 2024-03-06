@@ -153,10 +153,8 @@ const createCountryCodeStore = () =>
         // uncontrolled
         else if (!isControlled && phoneNumberInput) {
           if ('phoneNumStr' in state) {
-            // eslint-disable-next-line no-param-reassign
             phoneNumberInput.value = state.phoneNumStr!;
           } else {
-            // eslint-disable-next-line no-param-reassign
             phoneNumberInput.value = phoneNumStr;
           }
         }
