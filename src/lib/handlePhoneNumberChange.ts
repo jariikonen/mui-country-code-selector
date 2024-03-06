@@ -307,7 +307,7 @@ export default function handlePhoneNumberChange(
   }
   if (phoneNumberValue.match(/\+/) && !phoneNumberValue.startsWith('+')) {
     return {
-      errorMsg: 'The plus can only be the first character of the phone number',
+      errorMsg: 'Plus can only be the first character of the phone number',
       cursorPosition,
     };
   }

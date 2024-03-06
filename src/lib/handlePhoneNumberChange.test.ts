@@ -290,7 +290,7 @@ describe('an error message is returned', () => {
 
     expect(result1).toHaveProperty(
       'errorMsg',
-      'The plus can only be the first character of the phone number'
+      'Plus can only be the first character of the phone number'
     );
   });
 
