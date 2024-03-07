@@ -50,8 +50,8 @@ interface CCSelectorCombinedProps {
   errorMessageDisplay?: 'none' | 'message' | 'status' | 'both';
 
   /**
-   * Sets a function for handling error events. The function receives the error
-   * message as a parameter.
+   * Passes a custom function for handling errors. The function receives the
+   * error message as a parameter.
    */
   errorHandler?: (error: string) => void;
 
