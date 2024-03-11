@@ -2,11 +2,16 @@ import { AutocompleteChangeReason } from '@mui/material';
 import { createStore } from 'zustand';
 import { CountryType } from '../lib/countryCodeData';
 import CCSelectorState from '../types/CCSelectorState';
-import libSetCursor from '../lib/setCursor';
+import libPlaceInputSelection from '../lib/placeInputSelection';
 import libHandlePhoneNumberChange from '../lib/handlePhoneNumberChange';
 import libHandleCountryCodeChange from '../lib/handleCountryCodeChange';
 import { getForm } from '../lib/helpers';
-import { removeResetHandler, addResetHandler } from '../lib/handlers';
+import {
+  removeResetHandler,
+  addResetHandler,
+  addKeyboardHandler,
+  removeKeyboardHandler,
+} from '../lib/handlers';
 
 /**
  * Zustand store for establishing a common state between the country
@@ -38,7 +43,6 @@ const createCountryCodeStore = () =>
       phoneNumStr: '',
       phoneNumSplit: 0,
       significantDigits: '',
-      cursorPosition: 0,
       countryCodeDigits: '',
       countryCodeValue: null,
       possibleCountries: null,
@@ -48,6 +52,7 @@ const createCountryCodeStore = () =>
       phoneNumberInput: null,
       formElement: undefined,
       defaultValue: '',
+      inputSelection: { selectionStart: 0, selectionEnd: 0 },
       changeHandler: undefined,
       setPhoneNumberInput(inputElement) {
         set({ phoneNumberInput: inputElement });
@@ -58,13 +63,20 @@ const createCountryCodeStore = () =>
       setChangeHandler(handler) {
         set({ changeHandler: handler });
       },
+      setInputSelection({ selectionStart, selectionEnd }) {
+        set({ inputSelection: { selectionStart, selectionEnd } });
+      },
       setRefs(inputElement, inputRef, defaultValue) {
         const formElement = getForm(inputElement);
-        set({ formElement, defaultValue, phoneNumberInput: inputElement });
+        set({
+          formElement,
+          defaultValue,
+          phoneNumberInput: inputElement,
+        });
         if (inputRef !== undefined) {
           inputRef.current = inputElement; // eslint-disable-line no-param-reassign
         }
-        const { handlePhoneNumberChange } = get();
+        const { handlePhoneNumberChange, setInputSelection } = get();
         addResetHandler(
           formElement,
           inputElement,
@@ -75,6 +87,7 @@ const createCountryCodeStore = () =>
           inputElement.value = defaultValue; // eslint-disable-line no-param-reassign
           handlePhoneNumberChange({ target: { value: defaultValue } });
         }
+        addKeyboardHandler(inputElement, setInputSelection);
       },
       initialize(errorMsgDelay, changeHandler) {
         set({ errorMsgDelay, changeHandler });
@@ -87,6 +100,7 @@ const createCountryCodeStore = () =>
           phoneNumberInput,
           defaultValue,
           handlePhoneNumberChange,
+          setInputSelection,
         } = get();
         removeResetHandler(
           formElement,
@@ -94,6 +108,7 @@ const createCountryCodeStore = () =>
           handlePhoneNumberChange,
           defaultValue
         );
+        removeKeyboardHandler(phoneNumberInput, setInputSelection);
       },
       handlePhoneNumberChange(event) {
         const {
@@ -102,7 +117,6 @@ const createCountryCodeStore = () =>
           possibleCountries,
           significantDigits,
           applyStateChanges,
-          changeHandler,
         } = get();
         const result = libHandlePhoneNumberChange(
           event.target.value,
@@ -113,9 +127,6 @@ const createCountryCodeStore = () =>
         );
         set(result);
         applyStateChanges(result);
-        if (changeHandler && result.phoneNumStr) {
-          changeHandler({ target: { value: result.phoneNumStr } });
-        }
         if (Object.keys(result).includes('errorMsg')) {
           get().displayError();
         }
@@ -165,9 +176,9 @@ const createCountryCodeStore = () =>
           handlePhoneNumberChange({ target: { value } });
         }
       },
-      setCursor() {
-        const { phoneNumberInput, cursorPosition } = get();
-        libSetCursor(phoneNumberInput, cursorPosition);
+      placeInputSelection() {
+        const { phoneNumberInput, inputSelection } = get();
+        libPlaceInputSelection(phoneNumberInput, inputSelection);
       },
       displayError() {
         const {

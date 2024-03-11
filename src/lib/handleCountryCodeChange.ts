@@ -68,7 +68,10 @@ export default function handleCountryCodeChange(
       countryCodeDigits: getDigits(_value.code),
       countryCodeValue: _value,
       phoneNumStr: newPhoneNum,
-      cursorPosition: newPhoneNum.length,
+      inputSelection: {
+        selectionStart: newPhoneNum.length,
+        selectionEnd: newPhoneNum.length,
+      },
     };
   }
 

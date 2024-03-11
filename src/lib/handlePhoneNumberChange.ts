@@ -1,4 +1,5 @@
 import CCSelectorState from '../types/CCSelectorState';
+import InputSelection from '../types/InputSelection';
 import PossibleCountries from '../types/PossibleCountries';
 import { CountryType, countries } from './countryCodeData';
 import { getDigits, resetCountryCode } from './helpers';
@@ -29,15 +30,23 @@ export default function handlePhoneNumberChange(
   significantDigits: string
 ): Partial<CCSelectorState> {
   /**
-   * A closure that reads the phone number input's cursor position.
+   * A closure that reads the phone number input's cursor position or more
+   * specifically the start and end indices of the text selection within the
+   * phone number input element.
    * @see {@link https://stackoverflow.com/questions/2897155/get-cursor-position-in-characters-within-a-text-input-field}
    *   for more information on getting the cursor position.
-   * @returns Cursor's position in the phone number input element.
+   * @returns Start and end indices of the text selection within the phone
+   *    number input element.
    */
-  function getCursorPosition() {
-    return phoneNumberInput?.selectionStart
-      ? phoneNumberInput.selectionStart
-      : 0;
+  function getInputSelection(): InputSelection {
+    return {
+      selectionStart: phoneNumberInput?.selectionStart
+        ? phoneNumberInput.selectionStart
+        : 0,
+      selectionEnd: phoneNumberInput?.selectionEnd
+        ? phoneNumberInput.selectionEnd
+        : 0,
+    };
   }
 
   /**
@@ -264,51 +273,56 @@ export default function handlePhoneNumberChange(
 
   // handle forbidden characters (only digits and separator characters allowed,
   // and no separators at the beginning)
-  const rawCursorPosition = getCursorPosition() - 1;
-  const cursorPosition = rawCursorPosition > 0 ? rawCursorPosition : 0;
+  const rawInputSelection = getInputSelection();
+  const selectionStart = rawInputSelection.selectionStart - 1;
+  const selectionEnd = rawInputSelection.selectionEnd - 1;
+  const inputSelection = {
+    selectionStart: selectionStart > 0 ? selectionStart : 0,
+    selectionEnd: selectionEnd > 0 ? selectionEnd : 0,
+  };
   if (phoneNumberValue.match(/\+\D/)) {
     if (phoneNumberValue.startsWith('++')) {
       return {
         errorMsg:
           'Only one plus character is allowed at the beginning of the phone number',
-        cursorPosition,
+        inputSelection,
       };
     }
     return {
       errorMsg: 'Only a digit is accepted after a plus sign',
-      cursorPosition,
+      inputSelection,
     };
   }
   if (phoneNumberValue.match(/[^+\d\s-]/)) {
     return {
       errorMsg:
         'Only digits and visual separator characters (" ", "-") allowed',
-      cursorPosition,
+      inputSelection,
     };
   }
   if (phoneNumberValue.match(/^[^+\d]/)) {
     return {
       errorMsg: 'Phone number must start with a number or a plus character',
-      cursorPosition,
+      inputSelection,
     };
   }
   if (phoneNumberValue.match(/\s{2,}|-{2,}|\s-|-\s/)) {
     return {
       errorMsg: 'Only one separator character between digits allowed',
-      cursorPosition,
+      inputSelection,
     };
   }
   if (phoneNumberValue.match(/\+.*\+/)) {
     return {
       errorMsg:
         'Only one plus character is allowed at the beginning of the phone number',
-      cursorPosition,
+      inputSelection,
     };
   }
   if (phoneNumberValue.match(/\+/) && !phoneNumberValue.startsWith('+')) {
     return {
       errorMsg: 'Plus can only be the first character of the phone number',
-      cursorPosition,
+      inputSelection,
     };
   }
 
@@ -334,7 +348,7 @@ export default function handlePhoneNumberChange(
     return {
       ...resetCountryCode(),
       phoneNumStr: phoneNumberValue,
-      cursorPosition: getCursorPosition(),
+      inputSelection: getInputSelection(),
     };
   }
 
@@ -356,10 +370,10 @@ export default function handlePhoneNumberChange(
         newPossibleCountries
       ),
       phoneNumStr: phoneNumberValue,
-      cursorPosition: getCursorPosition(),
+      inputSelection: getInputSelection(),
     };
   }
 
   // all other cases
-  return { phoneNumStr: phoneNumberValue, cursorPosition: getCursorPosition() };
+  return { phoneNumStr: phoneNumberValue, inputSelection: getInputSelection() };
 }

@@ -1,4 +1,5 @@
 import { CountryType } from '../lib/countryCodeData';
+import InputSelection from './InputSelection';
 import PossibleCountries from './PossibleCountries';
 
 interface CCSelectorReactState {
@@ -32,8 +33,18 @@ interface CCSelectorReactState {
   /** Time of the message delay in seconds. */
   errorMsgDelay: number;
 
-  /** Position index of the cursor in the phone number input field. */
-  cursorPosition: number;
+  /**
+   * The start and end indices of the selected text within the phone number
+   * input.
+   *
+   * React keeps track of the cursor position and selection of the controlled
+   * input elements. In some situations, however, React doesn't know where to
+   * place the cursor. For example, when an input does not get accepted by the
+   * onChange handler and the value is not changed, React places the cursor at
+   * the end of the value string. Only remedy to this seems to be to keep track
+   * of the cursor position internally, within the application.
+   */
+  inputSelection: InputSelection;
 }
 
 export default CCSelectorReactState;

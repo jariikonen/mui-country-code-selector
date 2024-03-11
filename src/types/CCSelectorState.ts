@@ -4,6 +4,7 @@ import {
   AutocompleteChangeReason,
 } from '@mui/material';
 import PossibleCountries from './PossibleCountries';
+import InputSelection from './InputSelection';
 import { CountryType } from '../lib/countryCodeData';
 
 /**
@@ -27,15 +28,6 @@ interface CCSelectorState {
    * characters or the plus sign.
    */
   significantDigits: string;
-
-  /**
-   * Inputting a forbidden character into the phone number input makes the
-   * cursor jump to the end of the field. Until finding a better solution, this
-   * can be fixed by storing the cursor position into the state and setting it
-   * back in a useEffect hook.
-   * @see setCursor
-   */
-  cursorPosition: number;
 
   /** The digits of the detected country code. */
   countryCodeDigits: string;
@@ -66,6 +58,19 @@ interface CCSelectorState {
    * uncontrolled component.
    */
   defaultValue: string;
+
+  /**
+   * The start and end indices of the selected text within the phone number
+   * input.
+   *
+   * React keeps track of the cursor position and selection of the controlled
+   * input elements. In some situations, however, React doesn't know where to
+   * place the cursor. For example, when an input does not get accepted by the
+   * onChange handler and the value is not changed, React places the cursor at
+   * the end of the value string. Only remedy to this seems to be to keep track
+   * of the cursor position internally, within the application.
+   */
+  inputSelection: InputSelection;
 
   /**
    * A change handler function that is run with the current phone number value
@@ -101,9 +106,16 @@ interface CCSelectorState {
   ) => void;
 
   /**
-   * Sets references to the phone number input DOM element. Adds also a reset
-   * event handler to a form element that is parent to the phone number input
-   * element.
+   * Sets the inputSelection state variable.
+   * @param cursorSelection An object containing the start and end indices of
+   *    the text selection within the phone number input element.
+   * @see inputSelection
+   */
+  setInputSelection: (inputSelection: InputSelection) => void;
+
+  /**
+   * Sets references to the phone number input DOM element. Adds also some event
+   * handlers and initializes the phone number input with the default value.
    * @param element The phone number input DOM element.
    * @param inputRef The React MutableRef object received as a prop. This can
    *    be used to access the value of the component when used as an
@@ -190,10 +202,12 @@ interface CCSelectorState {
   handleValueChange: (value: string | null | undefined) => void;
 
   /**
-   * Sets cursor position based on the cursorPosition state variable.
-   * @see cursorPosition
+   * Places the cursor position, or more specifically the start and end indices
+   * of the text selection within the phone number input element.
+   * @see inputSelection
+   * @see setInputSelection
    */
-  setCursor: () => void;
+  placeInputSelection: () => void;
 
   /** Displays the error message for the time of the delay. */
   displayError: () => void;

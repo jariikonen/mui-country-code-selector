@@ -13,9 +13,15 @@ import libHandlePhoneNumberChange from '../lib/handlePhoneNumberChange';
 import libHandleCountryCodeChange from '../lib/handleCountryCodeChange';
 import { getForm } from '../lib/helpers';
 import CountryCodeSelectorReact from '../CountryCodeSelector/CountryCodeSelectorReact';
-import { addResetHandler, removeResetHandler } from '../lib/handlers';
-import setCursor from '../lib/setCursor';
+import {
+  addKeyboardHandler,
+  addResetHandler,
+  removeKeyboardHandler,
+  removeResetHandler,
+} from '../lib/handlers';
+import placeInputSelection from '../lib/placeInputSelection';
 import Wrapper from './Wrapper.ts';
+import InputSelection from '../types/InputSelection';
 
 /**
  * A React component combining a CountryCodeSelector with a TextField phone
@@ -99,8 +105,14 @@ function CountryCodeSelectorCombinedReact({
   /** Timeout object for timing how long the error message is displayed. */
   const errorMsgTimeoutObjRef = useRef<NodeJS.Timeout | null>(null);
 
-  /** Position index of the cursor in the phone number input field. */
-  const cursorPositionRef = useRef(0);
+  /**
+   * The start and end indices of the text selection within the phone number
+   * input (i.e., the cursor position).
+   */
+  const inputSelectionRef = useRef<InputSelection>({
+    selectionStart: 0,
+    selectionEnd: 0,
+  });
 
   /** Indicates whether the component is used as a controlled component. */
   const isControlled = value !== undefined;
@@ -137,8 +149,8 @@ function CountryCodeSelectorCombinedReact({
           case 'errorMsgTimeoutObj':
             errorMsgTimeoutObjRef.current = partialState[key]!;
             break;
-          case 'cursorPosition':
-            cursorPositionRef.current = partialState[key]!;
+          case 'inputSelection':
+            inputSelectionRef.current = partialState[key]!;
             break;
 
           default:
@@ -280,6 +292,10 @@ function CountryCodeSelectorCombinedReact({
     [inputRef]
   );
 
+  const setInputSelection = useCallback((inputSelection: InputSelection) => {
+    inputSelectionRef.current = inputSelection;
+  }, []);
+
   // Set (and remove when the component is unmounted) reset event handler.
   useEffect(() => {
     addResetHandler(
@@ -288,14 +304,17 @@ function CountryCodeSelectorCombinedReact({
       handlePhoneNumberChange,
       defaultValue
     );
-    return () =>
+    addKeyboardHandler(phoneInputRef.current, setInputSelection);
+    return () => {
       removeResetHandler(
         formRef.current,
         phoneInputRef.current,
         handlePhoneNumberChange,
         defaultValue
       );
-  }, [defaultValue, handlePhoneNumberChange]);
+      removeKeyboardHandler(phoneInputRef.current, setInputSelection);
+    };
+  }, [defaultValue, handlePhoneNumberChange, setInputSelection]);
 
   // set the phone number input to it's default value if such is provided
   useEffect(() => {
@@ -306,11 +325,13 @@ function CountryCodeSelectorCombinedReact({
   }, [defaultValue, handlePhoneNumberChange]);
 
   // Inputting a forbidden character into the phone number input makes the
-  // cursor jump to the end of the field. Until finding a better solution, this
-  // can be fixed by storing the cursor position into the state and setting it
-  // back in a useEffect hook.
+  // cursor jump to the end of the field. This can be fixed by keeping track of
+  // the cursor position (more specifically the end and start indices of the
+  // selected text within the input element) in the state and setting those
+  // values again on every render. The placeInputSelection() function is used
+  // for setting the selection range based on values stored in the state.
   useEffect(() => {
-    setCursor(phoneInputRef.current, cursorPositionRef.current);
+    placeInputSelection(phoneInputRef.current, inputSelectionRef.current);
   });
 
   const defaultTextFieldShrink =
@@ -319,6 +340,7 @@ function CountryCodeSelectorCombinedReact({
       ? true
       : undefined;
 
+  // pass error message to outside error handler if such exists
   useEffect(() => {
     if (errorMsg && errorHandler) {
       errorHandler(errorMsg);

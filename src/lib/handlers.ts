@@ -1,61 +1,115 @@
+import InputSelection from '../types/InputSelection';
+
 /**
  * A reset event handler function for the combined country code selector
- * components. Handles the clear event by triggering handlePhoneNumberChange
+ * components. Handles the clear event by triggering the changeHandler
  * function with an empty string.
- * @param inputElement The phone number input DOM element.
- * @param handlePhoneNumberChange The phone number change handler function.
+ * @param phoneNumberInput The phone number input DOM element.
+ * @param changeHandler A handler function for the phone number changes.
  */
 export function resetHandler(
-  inputElement: HTMLInputElement | null | undefined,
-  handlePhoneNumberChange: (e: { target: { value: string } }) => void,
+  phoneNumberInput: HTMLInputElement | null | undefined,
+  changeHandler: (e: { target: { value: string } }) => void,
   defaultValue: string
 ) {
-  if (inputElement?.value) {
-    handlePhoneNumberChange({
+  if (phoneNumberInput?.value) {
+    changeHandler({
       target: { value: defaultValue },
     });
     setTimeout(() => {
-      // eslint-disable-next-line no-param-reassign
-      inputElement.value = defaultValue;
+      phoneNumberInput.value = defaultValue; // eslint-disable-line no-param-reassign
     }, 0);
   }
 }
 
 /**
- * Adds the reset handler function into a form element.
- * @param formElement Form DOM element that is parent to the country code
- *    component.
- * @param inputElement The phone number input DOM element.
- * @param handlePhoneNumberChange The phone number change handler function.
+ * Adds the resetHandler to a form element that is parent to the country code
+ * component.
+ * @param parentForm The DOM element of the parent form.
+ * @param phoneNumberInput The phone number input DOM element.
+ * @param changeHandler A handler function for the phone number changes.
  * @param defaultValue Default value for the phone number input.
  */
 export function addResetHandler(
-  formElement: HTMLElement | null | undefined,
-  inputElement: HTMLInputElement | null | undefined,
-  handlePhoneNumberChange: (event: { target: { value: string } }) => void,
+  parentForm: HTMLElement | null | undefined,
+  phoneNumberInput: HTMLInputElement | null | undefined,
+  changeHandler: (event: { target: { value: string } }) => void,
   defaultValue: string
 ) {
-  if (formElement) {
-    formElement.addEventListener('reset', () =>
-      resetHandler(inputElement, handlePhoneNumberChange, defaultValue)
+  if (parentForm) {
+    parentForm.addEventListener('reset', () =>
+      resetHandler(phoneNumberInput, changeHandler, defaultValue)
     );
   }
 }
 
 /**
- * Removes the reset handler function added with setResetHandler() from a form
- * element.
- * @param formElement The form DOM element.
- * @param inputElement The phone number input DOM element.
- * @param handlePhoneNumberChange The phone number change handler function.
+ * Removes the reset handler function added with setResetHandler() from the
+ * parent form element of the combined country code selector component.
+ * @param parentForm The DOM element of the parent form.
+ * @param phoneNumberInput The phone number input DOM element.
+ * @param changeHandler A handler function for the phone number changes.
  */
 export function removeResetHandler(
-  formElement: HTMLElement | null | undefined,
-  inputElement: HTMLInputElement | null | undefined,
-  handlePhoneNumberChange: (event: { target: { value: string } }) => void,
+  parentForm: HTMLElement | null | undefined,
+  phoneNumberInput: HTMLInputElement | null | undefined,
+  changeHandler: (event: { target: { value: string } }) => void,
   defaultValue: string
 ) {
-  formElement?.removeEventListener('reset', () =>
-    resetHandler(inputElement, handlePhoneNumberChange, defaultValue)
+  parentForm?.removeEventListener('reset', () =>
+    resetHandler(phoneNumberInput, changeHandler, defaultValue)
+  );
+}
+
+/**
+ * A keyboard event handler function for the combined country code selector
+ * components. Updates the inputSelection state variable based on the keyboard
+ * events.
+ * @param event The KeyboardEvent received from the phone number input.
+ * @param inputSelectionSetter A function that sets the inputSelection state
+ *    variable.
+ */
+export function keyboardHandler(
+  event: KeyboardEvent,
+  inputSelectionSetter: (inputSelection: InputSelection) => void
+) {
+  if (!event.shiftKey) {
+    const inputElement = event.target as HTMLInputElement;
+    inputSelectionSetter({
+      selectionStart: inputElement.selectionStart
+        ? inputElement.selectionStart
+        : 0,
+      selectionEnd: inputElement.selectionEnd ? inputElement.selectionEnd : 0,
+    });
+  }
+}
+
+/**
+ * Adds the keyboardHandler function to the phone number input element.
+ * @param phoneNumberInput The phone number input DOM element.
+ * @param inputSelectionSetter A function that sets the inputSelection state
+ *    variable.
+ */
+export function addKeyboardHandler(
+  phoneNumberInput: HTMLInputElement | null | undefined,
+  inputSelectionSetter: (inputSelection: InputSelection) => void
+) {
+  phoneNumberInput?.addEventListener('keyup', (event) =>
+    keyboardHandler(event, inputSelectionSetter)
+  );
+}
+
+/**
+ * Removes the keyboardHandler function from the phone number input element.
+ * @param phoneNumberInput The phone number input DOM element.
+ * @param inputSelectionSetter A function that sets the inputSelection state
+ *    variable.
+ */
+export function removeKeyboardHandler(
+  phoneNumberInput: HTMLInputElement | null | undefined,
+  inputSelectionSetter: (inputSelection: InputSelection) => void
+) {
+  phoneNumberInput?.removeEventListener('keyup', (event) =>
+    keyboardHandler(event, inputSelectionSetter)
   );
 }
