@@ -189,7 +189,7 @@ interface CCSelectorState {
 
   /**
    * Handles changes to the value prop. This should be called from a useEffect
-   * hook in the component's body-
+   * hook in the component's body.
    *
    * When the component is used as a controlled component the value of the
    * phone number input element can be set (is controlled) from the outside.
