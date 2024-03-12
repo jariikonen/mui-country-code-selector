@@ -144,7 +144,7 @@ function CountryCodeSelectorCombinedInner({
         fullWidth
         inputRef={onInputRefChange}
         InputLabelProps={{
-          shrink: shrink !== null ? shrink : defaultTextFieldShrink,
+          shrink: shrink ?? defaultTextFieldShrink,
         }}
         label={phoneNumberLabel}
         onChange={handlePhoneNumberChange}
