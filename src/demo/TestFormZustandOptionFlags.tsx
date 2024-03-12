@@ -5,7 +5,6 @@ import {
   Grid,
   Typography,
   TextField,
-  FormControl,
   FormGroup,
   Button,
 } from '@mui/material';
@@ -50,6 +49,14 @@ function TestForm() {
     );
   }
 
+  function getOptionLabel(option: CountryType) {
+    return `${option.country}`;
+  }
+
+  const errorHandler = useCallback((error: string) => {
+    console.log('errorHandler:', error);
+  }, []);
+
   return (
     <Box
       sx={{ flexGrow: 1, maxWidth: '600px' }}
@@ -69,45 +76,44 @@ function TestForm() {
           );
         }}
       >
-        <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 0.7 }}>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <FormGroup row>
-                <TextField
-                  label="First name"
-                  value={firstName}
-                  type="text"
-                  sx={{
-                    width: '50%',
-                    paddingRight: '0.2rem',
-                    boxSizing: 'border-box',
-                    webkitBoxSizing: 'border-box',
-                  }}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-                <TextField
-                  label="Last name"
-                  value={lastName}
-                  type="text"
-                  sx={{
-                    width: '50%',
-                    paddingLeft: '0.2rem',
-                    boxSizing: 'border-box',
-                    webkitBoxSizing: 'border-box',
-                  }}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-              </FormGroup>
-            </FormControl>
+        <Grid container columnSpacing={1} rowSpacing={{ xs: 1 }}>
+          <Grid item xs={6}>
+            <TextField
+              label="First name"
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              label="Last name"
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              fullWidth
+            />
           </Grid>
           <Grid item xs={12}>
             <CountryCodeSelectorCombined
               value={homePhoneNumValue}
               onChange={homePhoneOnChange}
-              countryCodeLabel="Country code"
-              phoneNumberLabel="Home phone number"
-              group="row"
-              selectorProps={{ renderOption }}
+              countryCodeLabel="Code"
+              group="grid"
+              gridContainerProps={{ columns: 12, spacing: 1 }}
+              selectorSize={{ xs: 3 }}
+              inputSize={{ xs: 9 }}
+              selectorProps={{
+                renderOption,
+                getOptionLabel,
+                componentsProps: { paper: { sx: { width: 300 } } },
+              }}
+              gridErrorProps={{ margin: 'dense' }}
+              /* errorProps={{ error: false }} */
+              errorHandler={errorHandler}
+              errorMessageDelay={3}
+              errorMessageDisplay="both"
             />
           </Grid>
           <Grid item xs={12}>
@@ -117,7 +123,23 @@ function TestForm() {
               countryCodeLabel="Country code"
               phoneNumberLabel="Work phone number"
               group="row"
-              selectorProps={{ renderOption }}
+              selectorProps={{
+                renderOption,
+                sx: {
+                  width: 1 / 3,
+                  paddingRight: 0.5,
+                  boxSizing: 'border-box',
+                  WebkitBoxSizing: 'border-box',
+                },
+              }}
+              inputProps={{
+                sx: {
+                  width: 2 / 3,
+                  paddingLeft: 0.5,
+                  boxSizing: 'border-box',
+                  WebkitBoxSizing: 'border-box',
+                },
+              }}
             />
           </Grid>
           <Grid item xs={12}>

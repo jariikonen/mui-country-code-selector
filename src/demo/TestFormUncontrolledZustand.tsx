@@ -4,7 +4,6 @@ import {
   Grid,
   Typography,
   TextField,
-  FormControl,
   FormGroup,
   Button,
 } from '@mui/material';
@@ -37,52 +36,40 @@ function TestForm() {
           );
         }}
       >
-        <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 0.7 }}>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <FormGroup row>
-                <TextField
-                  label="First name"
-                  type="text"
-                  sx={{
-                    width: '50%',
-                    paddingRight: '0.2rem',
-                    boxSizing: 'border-box',
-                    webkitBoxSizing: 'border-box',
-                  }}
-                  inputRef={firstNameRef}
-                />
-                <TextField
-                  label="Last name"
-                  type="text"
-                  sx={{
-                    width: '50%',
-                    paddingLeft: '0.2rem',
-                    boxSizing: 'border-box',
-                    webkitBoxSizing: 'border-box',
-                  }}
-                  inputRef={lastNameRef}
-                />
-              </FormGroup>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <CountryCodeSelectorCombined
-              countryCodeLabel="Country code"
-              phoneNumberLabel="Home phone number"
-              inputRef={homePhoneNumRef}
-              defaultValue="+358 "
-              group="row"
+        <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 1 }}>
+          <Grid item xs={6}>
+            <TextField
+              label="First name"
+              type="text"
+              inputRef={firstNameRef}
+              fullWidth
             />
           </Grid>
-          <Grid item xs={12}>
-            <CountryCodeSelectorCombined
-              countryCodeLabel="Country code"
-              phoneNumberLabel="Work phone number"
-              inputRef={workPhoneNumRef}
-              group="row"
+          <Grid item xs={6}>
+            <TextField
+              label="Last name"
+              type="text"
+              inputRef={lastNameRef}
+              fullWidth
             />
           </Grid>
+          <CountryCodeSelectorCombined
+            countryCodeLabel="Country code"
+            phoneNumberLabel="Home phone number"
+            inputRef={homePhoneNumRef}
+            defaultValue="+358 "
+            group="gridItems"
+            selectorSize={{ xs: 4 }}
+            inputSize={{ xs: 8 }}
+          />
+          <CountryCodeSelectorCombined
+            countryCodeLabel="Country code"
+            phoneNumberLabel="Work phone number"
+            inputRef={workPhoneNumRef}
+            group="gridItems"
+            selectorSize={{ xs: 4 }}
+            inputSize={{ xs: 8 }}
+          />
           <Grid item xs={12}>
             <FormGroup row>
               <Button

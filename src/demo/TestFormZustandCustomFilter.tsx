@@ -4,7 +4,6 @@ import {
   Grid,
   Typography,
   TextField,
-  FormControl,
   FormGroup,
   Button,
 } from '@mui/material';
@@ -60,57 +59,45 @@ function TestForm() {
           );
         }}
       >
-        <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 0.7 }}>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <FormGroup row>
-                <TextField
-                  label="First name"
-                  value={firstName}
-                  type="text"
-                  sx={{
-                    width: '50%',
-                    paddingRight: '0.2rem',
-                    boxSizing: 'border-box',
-                    webkitBoxSizing: 'border-box',
-                  }}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-                <TextField
-                  label="Last name"
-                  value={lastName}
-                  type="text"
-                  sx={{
-                    width: '50%',
-                    paddingLeft: '0.2rem',
-                    boxSizing: 'border-box',
-                    webkitBoxSizing: 'border-box',
-                  }}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-              </FormGroup>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <CountryCodeSelectorCombined
-              value={homePhoneNumValue}
-              onChange={homePhoneOnChange}
-              countryCodeLabel="Country code"
-              phoneNumberLabel="Home phone number"
-              group="row"
-              filterOptions={customFilterOptions}
+        <Grid container rowSpacing={{ xs: 1 }} columnSpacing={{ xs: 1 }}>
+          <Grid item xs={6}>
+            <TextField
+              label="First name"
+              value={firstName}
+              type="text"
+              onChange={(e) => setFirstName(e.target.value)}
+              fullWidth
             />
           </Grid>
-          <Grid item xs={12}>
-            <CountryCodeSelectorCombined
-              value={workPhoneNumValue}
-              onChange={workPhoneOnChange}
-              countryCodeLabel="Country code"
-              phoneNumberLabel="Work phone number"
-              group="row"
-              filterOptions={customFilterOptions}
+          <Grid item xs={6}>
+            <TextField
+              label="Last name"
+              value={lastName}
+              type="text"
+              onChange={(e) => setLastName(e.target.value)}
+              fullWidth
             />
           </Grid>
+          <CountryCodeSelectorCombined
+            value={homePhoneNumValue}
+            onChange={homePhoneOnChange}
+            countryCodeLabel="Country code"
+            phoneNumberLabel="Home phone number"
+            group="gridItems"
+            selectorSize={{ xs: 4 }}
+            inputSize={{ xs: 8 }}
+            filterOptions={customFilterOptions}
+          />
+          <CountryCodeSelectorCombined
+            value={workPhoneNumValue}
+            onChange={workPhoneOnChange}
+            countryCodeLabel="Country code"
+            phoneNumberLabel="Work phone number"
+            group="gridItems"
+            selectorSize={{ xs: 4 }}
+            inputSize={{ xs: 8 }}
+            filterOptions={customFilterOptions}
+          />
           <Grid item xs={12}>
             <FormGroup row>
               <Button

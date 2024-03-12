@@ -1,13 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  Box,
-  Grid,
-  Typography,
-  TextField,
-  FormGroup,
-  Button,
-} from '@mui/material';
+import { Box, Typography, TextField, FormGroup, Button } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import CountryCodeSelectorCombined from '../CountryCodeSelectorCombined/CountryCodeSelectorCombinedReact';
 import { CountryType } from '../lib/countryCodeData';
 
@@ -35,10 +29,6 @@ function TestForm() {
       numOfRenders.current += 1;
     }
   });
-
-  const errorHandler = useCallback((error: string) => {
-    console.log('errorHandler:', error);
-  }, []);
 
   function renderOption(
     props: React.HTMLAttributes<HTMLLIElement>,
@@ -85,7 +75,7 @@ function TestForm() {
         }}
       >
         <Grid container columnSpacing={1} rowSpacing={{ xs: 1 }}>
-          <Grid item xs={6}>
+          <Grid xs={6}>
             <TextField
               type="text"
               label="First name"
@@ -94,7 +84,7 @@ function TestForm() {
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid xs={6}>
             <TextField
               type="text"
               label="Last name"
@@ -107,22 +97,20 @@ function TestForm() {
             value={homePhoneNumValue}
             onChange={homePhoneOnChange}
             countryCodeLabel="Code"
-            group="gridItems"
-            gridContainerProps={{ columns: 9, spacing: 1 }}
+            group="grid2Items"
+            grid2ContainerProps={{ columns: 9, spacing: 1 }}
             selectorSize={{ xs: 3 }}
-            inputSize={{ xs: 9 }}
+            inputSize={{ xs: 6 }}
             selectorProps={{
               renderOption,
               getOptionLabel,
               componentsProps: { paper: { sx: { width: 300 } } },
             }}
-            gridErrorProps={{ margin: 'dense' }}
-            /* errorProps={{ error: false }} */
-            errorHandler={errorHandler}
-            errorMessageDelay={3}
-            errorMessageDisplay="message"
+            gridErrorProps={{ xs: 5, classes: { root: 'testi' } }}
+            errorSize={{ xs: 3 }}
+            errorProps={{ error: false }}
           />
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <CountryCodeSelectorCombined
               value={workPhoneNumValue}
               countryCodeLabel="Country code"
@@ -148,7 +136,7 @@ function TestForm() {
               }}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <FormGroup row>
               <Button
                 variant="contained"

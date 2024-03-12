@@ -1,14 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  Box,
-  Grid,
-  Typography,
-  TextField,
-  FormGroup,
-  Button,
-} from '@mui/material';
-import CountryCodeSelectorCombined from '../CountryCodeSelectorCombined/CountryCodeSelectorCombinedReact';
+import { useState, useCallback } from 'react';
+import { Box, Typography, TextField, FormGroup, Button } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import CountryCodeSelectorCombined from '../CountryCodeSelectorCombined/CountryCodeSelectorCombinedZustand';
 import { CountryType } from '../lib/countryCodeData';
 
 function TestForm() {
@@ -27,18 +21,6 @@ function TestForm() {
     (e: { target: { value: string } }) => setWorkPhoneNumValue(e.target.value),
     []
   );
-
-  const numOfRenders = useRef(0);
-
-  useEffect(() => {
-    if (numOfRenders.current !== undefined) {
-      numOfRenders.current += 1;
-    }
-  });
-
-  const errorHandler = useCallback((error: string) => {
-    console.log('errorHandler:', error);
-  }, []);
 
   function renderOption(
     props: React.HTMLAttributes<HTMLLIElement>,
@@ -72,7 +54,7 @@ function TestForm() {
     >
       <Typography align="left" variant="h5" style={{ marginBottom: '1rem' }}>
         Test form with a combined country code selector and phone number input
-        component (React)
+        component (Zustand)
       </Typography>
       <form
         onSubmit={(event) => {
@@ -85,49 +67,47 @@ function TestForm() {
         }}
       >
         <Grid container columnSpacing={1} rowSpacing={{ xs: 1 }}>
-          <Grid item xs={6}>
+          <Grid xs={6}>
             <TextField
-              type="text"
               label="First name"
+              type="text"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid xs={6}>
             <TextField
-              type="text"
               label="Last name"
+              type="text"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               fullWidth
             />
           </Grid>
-          <CountryCodeSelectorCombined
-            value={homePhoneNumValue}
-            onChange={homePhoneOnChange}
-            countryCodeLabel="Code"
-            group="gridItems"
-            gridContainerProps={{ columns: 9, spacing: 1 }}
-            selectorSize={{ xs: 3 }}
-            inputSize={{ xs: 9 }}
-            selectorProps={{
-              renderOption,
-              getOptionLabel,
-              componentsProps: { paper: { sx: { width: 300 } } },
-            }}
-            gridErrorProps={{ margin: 'dense' }}
-            /* errorProps={{ error: false }} */
-            errorHandler={errorHandler}
-            errorMessageDelay={3}
-            errorMessageDisplay="message"
-          />
-          <Grid item xs={12}>
+          <Grid xs={12}>
+            <CountryCodeSelectorCombined
+              value={homePhoneNumValue}
+              onChange={homePhoneOnChange}
+              countryCodeLabel="Code"
+              group="grid2"
+              grid2ContainerProps={{ columnSpacing: 1, columns: 12 }}
+              selectorSize={{ xs: 3 }}
+              inputSize={{ xs: 9 }}
+              selectorProps={{
+                renderOption,
+                getOptionLabel,
+                componentsProps: { paper: { sx: { width: 300 } } },
+              }}
+              inputProps={{ fullWidth: true }}
+            />
+          </Grid>
+          <Grid xs={12}>
             <CountryCodeSelectorCombined
               value={workPhoneNumValue}
+              onChange={workPhoneOnChange}
               countryCodeLabel="Country code"
               phoneNumberLabel="Work phone number"
-              onChange={workPhoneOnChange}
               group="row"
               selectorProps={{
                 renderOption,
@@ -148,7 +128,7 @@ function TestForm() {
               }}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid xs={12}>
             <FormGroup row>
               <Button
                 variant="contained"
@@ -183,17 +163,6 @@ function TestForm() {
           </Grid>
         </Grid>
       </form>
-      <Typography
-        align="left"
-        variant="body2"
-        style={{
-          marginTop: '0.5rem',
-          marginBottom: '0.5rem',
-          marginLeft: '0.1rem',
-        }}
-      >
-        Form renders: {numOfRenders.current}
-      </Typography>
       {result && (
         <Typography align="left" variant="body2" style={{ marginTop: '1rem' }}>
           Result: {result}

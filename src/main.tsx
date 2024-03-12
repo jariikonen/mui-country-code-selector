@@ -6,10 +6,12 @@ import ReactDOM from 'react-dom/client';
 // import TestForm from './demo/TestFormReact';
 // import TestForm from './demo/TestFormUncontrolledReact';
 // import TestForm from './demo/TestFormReactOptionFlags';
+// import TestForm from './demo/TestFormReactOptionFlagsGrid2';
 // import TestForm from './demo/TestFormZustand';
 // import TestForm from './demo/TestFormUncontrolledZustand';
 // import TestForm from './demo/TestFormZustandCustomFilter';
-import TestForm from './demo/TestFormZustandOptionFlags';
+// import TestForm from './demo/TestFormZustandOptionFlags';
+import TestForm from './demo/TestFormZustandOptionFlagsGrid2';
 // import RenderCountDisplay from './demo/RenderCountDisplay';
 
 /* const data = [

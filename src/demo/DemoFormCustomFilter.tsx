@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   Box,
   Grid,
@@ -16,28 +16,34 @@ import { CountryType } from '../lib/countryCodeData';
 
 function DemoFormCustomFilter() {
   const {
-    setPhoneNumberInput,
+    initialize,
     phoneNumStr,
     errorMsg,
     handlePhoneNumberChange,
-    setCursor,
+    placeInputSelection,
+    setRefs,
   } = useCountryCodeStore();
-
-  const phoneNumberRef = useRef<HTMLInputElement | null>(null);
 
   const [result, setResult] = useState<string | null>(null);
 
-  useEffect(() => {
-    setPhoneNumberInput(phoneNumberRef.current);
-  }, [setPhoneNumberInput]);
+  useEffect(() => initialize(3, undefined), [initialize]);
 
   // Inputting a forbidden character into the phone number input makes the
-  // cursor jump to the end of the field. Until finding a better solution, this
-  // can be fixed by storing the cursor position into the state and setting it
-  // back in a useEffect hook.
+  // cursor jump to the end of the field. This can be fixed by keeping track of
+  // the cursor position (more specifically the end and start indices of the
+  // selected text within the input element) in the state and setting those
+  // values again on every render. The placeInputSelection() store-function
+  // sets the selection range based on values stored in the store.
   useEffect(() => {
-    setCursor();
+    placeInputSelection();
   });
+
+  const onInputRefChange = useCallback(
+    (element: HTMLInputElement | null) => {
+      setRefs(element, undefined, '');
+    },
+    [setRefs]
+  );
 
   const customFilterOptions = (
     options: CountryType[],
@@ -73,6 +79,7 @@ function DemoFormCustomFilter() {
                 <CountryCodeSelector
                   label="Country code"
                   filterOptions={customFilterOptions}
+                  classes={{ root: 'testi' }}
                   sx={{
                     width: '35%',
                     paddingRight: '0.2rem',
@@ -85,9 +92,7 @@ function DemoFormCustomFilter() {
                   label="Phone number"
                   value={phoneNumStr}
                   type="text"
-                  inputRef={(e) => {
-                    phoneNumberRef.current = e as HTMLInputElement | null;
-                  }}
+                  inputRef={onInputRefChange}
                   sx={{
                     width: '65%',
                     paddingLeft: '0.2rem',
