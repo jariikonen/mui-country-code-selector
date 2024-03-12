@@ -23,6 +23,11 @@ function TestComponentZustand() {
         phoneNumberLabel="Phone number"
         selectorProps={{ classes: { input: 'selectorTest' } }}
         inputProps={{ InputProps: { classes: { input: 'inputTest' } } }}
+        // NOTICE! Because the cursor tests must wait for the error display to
+        // disappear, the error message delay is set unusually short. This
+        // may cause some error detection tests to fail in some situations.
+        // Increase the delay if you suspect that this is the case.
+        errorMessageDelay={0.1}
       />
       {phoneNumValue && <p>{phoneNumValue}</p>}
     </div>
@@ -42,6 +47,11 @@ function TestComponentReact() {
         phoneNumberLabel="Phone number"
         selectorProps={{ classes: { input: 'selectorTest' } }}
         inputProps={{ InputProps: { classes: { input: 'inputTest' } } }}
+        // NOTICE! Because the cursor tests must wait for the error display to
+        // disappear, the error message delay is set unusually short. This
+        // may cause some error detection tests to fail in some situations.
+        // Increase the delay if you suspect that this is the case.
+        errorMessageDelay={0.1}
       />
       {phoneNumValue && <p>{phoneNumValue}</p>}
     </div>
@@ -50,11 +60,13 @@ function TestComponentReact() {
 
 beforeEach(() => {
   const testName = expect.getState().currentTestName;
+  if (testName?.includes('no default render')) {
+    return;
+  }
   if (testName?.includes('Zustand')) {
     cleanup();
     render(<TestComponentZustand />);
-  }
-  if (testName?.includes('React')) {
+  } else if (testName?.includes('React')) {
     cleanup();
     render(<TestComponentReact />);
   }
@@ -142,7 +154,7 @@ describe('error detection', () => {
 
       await user.type(input, 'a');
       const error3 = screen.getByText(
-        'Only digits and visual separator characters (" ", "-") allowed'
+        'Only digits and visual separator characters (" ", "-") are allowed'
       );
       expect(error3).toBeDefined();
     }

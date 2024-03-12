@@ -280,23 +280,10 @@ export default function handlePhoneNumberChange(
     selectionStart: selectionStart > 0 ? selectionStart : 0,
     selectionEnd: selectionEnd > 0 ? selectionEnd : 0,
   };
-  if (phoneNumberValue.match(/\+\D/)) {
-    if (phoneNumberValue.startsWith('++')) {
-      return {
-        errorMsg:
-          'Only one plus character is allowed at the beginning of the phone number',
-        inputSelection,
-      };
-    }
-    return {
-      errorMsg: 'Only a digit is accepted after a plus sign',
-      inputSelection,
-    };
-  }
   if (phoneNumberValue.match(/[^+\d\s-]/)) {
     return {
       errorMsg:
-        'Only digits and visual separator characters (" ", "-") allowed',
+        'Only digits and visual separator characters (" ", "-") are allowed',
       inputSelection,
     };
   }

@@ -212,7 +212,7 @@ describe('an error message is returned', () => {
 
     expect(result).toHaveProperty(
       'errorMsg',
-      'Only digits and visual separator characters (" ", "-") allowed'
+      'Only digits and visual separator characters (" ", "-") are allowed'
     );
   });
 
@@ -305,7 +305,7 @@ describe('an error message is returned', () => {
 
     expect(result1).toHaveProperty(
       'errorMsg',
-      'Only a digit is accepted after a plus sign'
+      'Only digits and visual separator characters (" ", "-") are allowed'
     );
   });
 });

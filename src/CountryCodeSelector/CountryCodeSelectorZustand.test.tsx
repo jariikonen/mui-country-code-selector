@@ -118,7 +118,7 @@ describe('error detection', () => {
 
     await user.type(input, 'a');
     const error3 = screen.getByText(
-      'Only digits and visual separator characters (" ", "-") allowed'
+      'Only digits and visual separator characters (" ", "-") are allowed'
     );
     expect(error3).toBeDefined();
   });
