@@ -44,8 +44,8 @@ export function addResetHandler(
 }
 
 /**
- * Removes the reset handler function added with setResetHandler() from the
- * parent form element of the combined country code selector component.
+ * Removes the reset event lister from the parent form element of the combined
+ * country code selector component.
  * @param parentForm The DOM element of the parent form.
  * @param phoneNumberInput The phone number input DOM element.
  * @param changeHandler A handler function for the phone number changes.
@@ -78,14 +78,17 @@ export function keyboardHandler(
     inputSelectionSetter({
       selectionStart: inputElement.selectionStart
         ? inputElement.selectionStart
-        : 0,
-      selectionEnd: inputElement.selectionEnd ? inputElement.selectionEnd : 0,
+        : inputElement.value.length,
+      selectionEnd: inputElement.selectionEnd
+        ? inputElement.selectionEnd
+        : inputElement.value.length,
     });
   }
 }
 
 /**
- * Adds the keyboardHandler function to the phone number input element.
+ * Adds the keyboardHandler function to the phone number input element as an
+ * event listener.
  * @param phoneNumberInput The phone number input DOM element.
  * @param inputSelectionSetter A function that sets the inputSelection state
  *    variable.
@@ -100,7 +103,7 @@ export function addKeyboardHandler(
 }
 
 /**
- * Removes the keyboardHandler function from the phone number input element.
+ * Removes the keyboard event listener from the phone number input element.
  * @param phoneNumberInput The phone number input DOM element.
  * @param inputSelectionSetter A function that sets the inputSelection state
  *    variable.
@@ -111,5 +114,58 @@ export function removeKeyboardHandler(
 ) {
   phoneNumberInput?.removeEventListener('keyup', (event) =>
     keyboardHandler(event, inputSelectionSetter)
+  );
+}
+
+/**
+ * A mouse event handler function for the combined country code selector
+ * components. Updates the inputSelection state variable based on the mouse
+ * events.
+ * @param event The event received from the phone number input.
+ * @param phoneNumberInput The phone number input DOM element.
+ * @param inputSelectionSetter A function that sets the inputSelection state
+ *    variable.
+ */
+export function mouseHandler(
+  event: Event,
+  inputSelectionSetter: (inputSelection: InputSelection) => void
+) {
+  const phoneNumberInput = event.target as HTMLInputElement;
+  inputSelectionSetter({
+    selectionStart:
+      phoneNumberInput.selectionStart ?? phoneNumberInput.value.length,
+    selectionEnd:
+      phoneNumberInput.selectionEnd ?? phoneNumberInput.value.length,
+  });
+}
+
+/**
+ * Adds the mouseHandler function to the phone number input element as an
+ * event listener.
+ * @param phoneNumberInput The phone number input DOM element.
+ * @param inputSelectionSetter A function that sets the inputSelection state
+ *    variable.
+ */
+export function addMouseHandler(
+  phoneNumberInput: HTMLInputElement | null | undefined,
+  inputSelectionSetter: (inputSelection: InputSelection) => void
+) {
+  phoneNumberInput?.addEventListener('mouseup', (event) =>
+    mouseHandler(event, inputSelectionSetter)
+  );
+}
+
+/**
+ * Removes the mouse event listener from the phone number input element.
+ * @param phoneNumberInput The phone number input DOM element.
+ * @param inputSelectionSetter A function that sets the inputSelection state
+ *    variable.
+ */
+export function removeMouseHandler(
+  phoneNumberInput: HTMLInputElement | null | undefined,
+  inputSelectionSetter: (inputSelection: InputSelection) => void
+) {
+  phoneNumberInput?.removeEventListener('mouseUp', (event) =>
+    mouseHandler(event, inputSelectionSetter)
   );
 }

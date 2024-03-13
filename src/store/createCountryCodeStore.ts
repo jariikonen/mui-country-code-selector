@@ -11,6 +11,8 @@ import {
   addResetHandler,
   addKeyboardHandler,
   removeKeyboardHandler,
+  addMouseHandler,
+  removeMouseHandler,
 } from '../lib/handlers';
 
 /**
@@ -88,6 +90,7 @@ const createCountryCodeStore = () =>
           handlePhoneNumberChange({ target: { value: defaultValue } });
         }
         addKeyboardHandler(inputElement, setInputSelection);
+        addMouseHandler(inputElement, setInputSelection);
       },
       initialize(errorMsgDelay, changeHandler) {
         set({ errorMsgDelay, changeHandler });
@@ -109,6 +112,7 @@ const createCountryCodeStore = () =>
           defaultValue
         );
         removeKeyboardHandler(phoneNumberInput, setInputSelection);
+        removeMouseHandler(phoneNumberInput, setInputSelection);
       },
       handlePhoneNumberChange(event) {
         const {

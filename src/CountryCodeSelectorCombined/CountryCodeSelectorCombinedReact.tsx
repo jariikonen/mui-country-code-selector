@@ -15,9 +15,11 @@ import { getForm } from '../lib/helpers';
 import CountryCodeSelectorReact from '../CountryCodeSelector/CountryCodeSelectorReact';
 import {
   addKeyboardHandler,
+  addMouseHandler,
   addResetHandler,
   removeKeyboardHandler,
   removeResetHandler,
+  removeMouseHandler,
 } from '../lib/handlers';
 import placeInputSelection from '../lib/placeInputSelection';
 import Wrapper from './Wrapper.ts';
@@ -305,6 +307,7 @@ function CountryCodeSelectorCombinedReact({
       defaultValue
     );
     addKeyboardHandler(phoneInputRef.current, setInputSelection);
+    addMouseHandler(phoneInputRef.current, setInputSelection);
     return () => {
       removeResetHandler(
         formRef.current,
@@ -313,6 +316,7 @@ function CountryCodeSelectorCombinedReact({
         defaultValue
       );
       removeKeyboardHandler(phoneInputRef.current, setInputSelection);
+      removeMouseHandler(phoneInputRef.current, setInputSelection);
     };
   }, [defaultValue, handlePhoneNumberChange, setInputSelection]);
 

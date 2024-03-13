@@ -4,7 +4,12 @@
 
 import { useState } from 'react';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { cleanup, render, screen } from '@testing-library/react';
+import {
+  cleanup,
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import CountryCodeSelectorCombinedZustand from './CountryCodeSelectorCombinedZustand';
@@ -27,7 +32,7 @@ function TestComponentZustand() {
         // disappear, the error message delay is set unusually short. This
         // may cause some error detection tests to fail in some situations.
         // Increase the delay if you suspect that this is the case.
-        errorMessageDelay={0.1}
+        errorMessageDelay={0.2}
       />
       {phoneNumValue && <p>{phoneNumValue}</p>}
     </div>
@@ -51,7 +56,7 @@ function TestComponentReact() {
         // disappear, the error message delay is set unusually short. This
         // may cause some error detection tests to fail in some situations.
         // Increase the delay if you suspect that this is the case.
-        errorMessageDelay={0.1}
+        errorMessageDelay={0.2}
       />
       {phoneNumValue && <p>{phoneNumValue}</p>}
     </div>
@@ -215,6 +220,227 @@ describe('generic API functionality', () => {
       const phoneNumberInput = screen.getByLabelText('Phone number');
       expect(countryCodeSelector).toHaveClass('selectorTest');
       expect(phoneNumberInput).toHaveClass('inputTest');
+    }
+  );
+});
+
+describe('cursor stability', () => {
+  it.each([{ type: 'Zustand' }, { type: 'React' }])(
+    'cursor does not jump to the end of the value when a forbidden character is typed in the middle of the input and cursor was moved with arrow keys ($type)',
+    async () => {
+      const user = userEvent.setup();
+      const input = screen.getByLabelText('Phone number');
+      const inputElement = input as HTMLInputElement;
+
+      await user.type(input, '12345');
+      expect(inputElement.selectionStart).toEqual(5);
+      expect(inputElement.selectionEnd).toEqual(5);
+
+      await user.keyboard('{ArrowLeft}{ArrowLeft}{ArrowLeft}');
+      expect(inputElement.selectionStart).toEqual(2);
+      expect(inputElement.selectionEnd).toEqual(2);
+
+      await user.keyboard('{w}');
+      const error = screen.getByText(
+        'Only digits and visual separator characters (" ", "-") are allowed'
+      );
+      expect(error).toBeDefined();
+      expect(inputElement.selectionStart).toEqual(2);
+      expect(inputElement.selectionEnd).toEqual(2);
+      expect(input).toHaveValue('12345');
+    }
+  );
+
+  it.each([{ type: 'Zustand' }, { type: 'React' }])(
+    'cursor does not jump to the last position when the cursor is moved with arrow keys before a rerender ($type)',
+    async () => {
+      const user = userEvent.setup();
+      const input = screen.getByLabelText('Phone number');
+      const inputElement = input as HTMLInputElement;
+
+      await user.type(input, '12345');
+      expect(inputElement.selectionStart).toEqual(5);
+      expect(inputElement.selectionEnd).toEqual(5);
+
+      await user.keyboard('{ArrowLeft}{ArrowLeft}');
+      expect(inputElement.selectionStart).toEqual(3);
+      expect(inputElement.selectionEnd).toEqual(3);
+
+      await user.keyboard('{w}{ArrowLeft}{ArrowLeft}');
+      const error = screen.getByText(
+        'Only digits and visual separator characters (" ", "-") are allowed'
+      );
+      expect(error).toBeDefined();
+      // a rerender is triggered when the error display times out and the
+      // error message is removed from the DOM
+      await waitForElementToBeRemoved(
+        screen.queryByText(
+          'Only digits and visual separator characters (" ", "-") are allowed'
+        )
+      );
+      expect(inputElement.selectionStart).toEqual(1);
+      expect(input).toHaveValue('12345');
+    }
+  );
+
+  // React testing library's keyboard API does not yet support testing cursor
+  // selections yet (the selectionStart and selectionEnd properties of the
+  // input element). See https://github.com/testing-library/user-event/issues/966
+  // for more information.
+  it.todo.each([{ type: 'Zustand' }, { type: 'React' }])(
+    'text selection does not change when it is selected with shift and arrow keys before a rerender ($type)',
+    async () => {
+      const user = userEvent.setup();
+      const input = screen.getByLabelText('Phone number');
+      const inputElement = input as HTMLInputElement;
+
+      await user.type(input, '12345');
+      expect(inputElement.selectionStart).toEqual(5);
+      expect(inputElement.selectionEnd).toEqual(5);
+
+      await user.keyboard('{ArrowLeft}{ArrowLeft}');
+      expect(inputElement.selectionStart).toEqual(3);
+      expect(inputElement.selectionEnd).toEqual(3);
+
+      await user.keyboard('{w}{Shift>}{ArrowLeft}{ArrowLeft}{/Shift}');
+      const error = screen.getByText(
+        'Only digits and visual separator characters (" ", "-") are allowed'
+      );
+      expect(error).toBeDefined();
+      // a rerender is triggered when the error display times out and the
+      // error message is removed from the DOM
+      await waitForElementToBeRemoved(
+        screen.queryByText(
+          'Only digits and visual separator characters (" ", "-") are allowed'
+        )
+      );
+      expect(inputElement.selectionStart).toEqual(1);
+      expect(inputElement.selectionEnd).toEqual(3);
+      expect(input).toHaveValue('12345');
+    }
+  );
+
+  it.each([
+    { type: 'Zustand', pointer: 'mouse' },
+    { type: 'React', pointer: 'mouse' },
+    { type: 'Zustand', pointer: 'touch' },
+    { type: 'React', pointer: 'touch' },
+  ])(
+    'cursor does not jump to the end of the input when it is positioned with $pointer and a forbidden character is typed ($type)',
+    async ({ pointer }: { type: string; pointer: string }) => {
+      const user = userEvent.setup();
+      const input = screen.getByLabelText('Phone number');
+      const inputElement = input as HTMLInputElement;
+
+      const keys = pointer === 'touch' ? '[TouchA]' : '[MouseLeft]';
+
+      await user.type(input, '12345');
+      expect(inputElement.selectionStart).toEqual(5);
+      expect(inputElement.selectionEnd).toEqual(5);
+
+      await user.pointer({ target: input, offset: 2, keys });
+      expect(inputElement.selectionStart).toEqual(2);
+      expect(inputElement.selectionEnd).toEqual(2);
+
+      await user.keyboard('{w}');
+      const error = screen.getByText(
+        'Only digits and visual separator characters (" ", "-") are allowed'
+      );
+      expect(error).toBeDefined();
+      expect(inputElement.selectionStart).toEqual(2);
+      expect(inputElement.selectionEnd).toEqual(2);
+      expect(input).toHaveValue('12345');
+    }
+  );
+
+  it.each([
+    { type: 'Zustand', pointer: 'mouse' },
+    { type: 'React', pointer: 'mouse' },
+    { type: 'Zustand', pointer: 'touch' },
+    { type: 'React', pointer: 'touch' },
+  ])(
+    'cursor does not jump to the last position when the cursor is moved with $pointer before a rerender ($type)',
+    async ({ pointer }: { type: string; pointer: string }) => {
+      const user = userEvent.setup();
+      const input = screen.getByLabelText('Phone number');
+      const inputElement = input as HTMLInputElement;
+
+      const keys = pointer === 'touch' ? '[TouchA]' : '[MouseLeft]';
+
+      await user.type(input, '12345');
+      expect(inputElement.selectionStart).toEqual(5);
+      expect(inputElement.selectionEnd).toEqual(5);
+
+      await user.pointer({ target: input, offset: 2, keys });
+      expect(inputElement.selectionStart).toEqual(2);
+      expect(inputElement.selectionEnd).toEqual(2);
+
+      await user.keyboard('{w}');
+      await user.pointer({ target: input, offset: 4, keys });
+      const error = screen.getByText(
+        'Only digits and visual separator characters (" ", "-") are allowed'
+      );
+      expect(error).toBeDefined();
+      // a rerender is triggered when the error display times out and the
+      // error message is removed from the DOM
+      await waitForElementToBeRemoved(
+        screen.queryByText(
+          'Only digits and visual separator characters (" ", "-") are allowed'
+        )
+      );
+      expect(inputElement.selectionStart).toEqual(4);
+      expect(input).toHaveValue('12345');
+    }
+  );
+
+  // Making text selections with a pointer doesn't seem to work either. See the
+  // issue on selecting text using the keyboard:
+  // https://github.com/testing-library/user-event/issues/966 and
+  // https://testing-library.com/docs/user-event/pointer#selectiontarget for
+  // documentation about how the selection could in theory be made.
+  it.todo.each([
+    { type: 'Zustand', pointer: 'mouse' },
+    { type: 'React', pointer: 'mouse' },
+    { type: 'Zustand', pointer: 'touch' },
+    { type: 'React', pointer: 'touch' },
+  ])(
+    'text selection does not change when it is created with $pointer before the rerender ($type)',
+    async ({ pointer }: { type: string; pointer: string }) => {
+      const user = userEvent.setup();
+      const input = screen.getByLabelText('Phone number');
+      const inputElement = input as HTMLInputElement;
+
+      const keys = pointer === 'touch' ? 'TouchA' : 'MouseLeft';
+
+      await user.type(input, '12345');
+      expect(inputElement.selectionStart).toEqual(5);
+      expect(inputElement.selectionEnd).toEqual(5);
+
+      await user.pointer({ target: input, offset: 2, keys: `[${keys}]` });
+      expect(inputElement.selectionStart).toEqual(2);
+      expect(inputElement.selectionEnd).toEqual(2);
+
+      await user.keyboard('{w}');
+      await user.pointer([
+        { target: input, offset: 4, keys: `[${keys}>]` },
+        { offset: 5, keys: `[/${keys}]` },
+      ]);
+      expect(inputElement.selectionStart).toEqual(0);
+      expect(inputElement.selectionEnd).toEqual(4);
+      const error = screen.getByText(
+        'Only digits and visual separator characters (" ", "-") are allowed'
+      );
+      expect(error).toBeDefined();
+      // a rerender is triggered when the error display times out and the
+      // error message is removed from DOM
+      await waitForElementToBeRemoved(
+        screen.queryByText(
+          'Only digits and visual separator characters (" ", "-") are allowed'
+        )
+      );
+      expect(inputElement.selectionStart).toEqual(0);
+      expect(inputElement.selectionEnd).toEqual(0);
+      expect(input).toHaveValue('12345');
     }
   );
 });
