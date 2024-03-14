@@ -69,10 +69,18 @@ interface CCSelectorCombinedProps {
   defaultValue?: string;
 
   /**
-   * Defines if the selector and input component are grouped together. If set
-   * to true, the components are wrapped inside a MUI FormGroup component, and
-   * if set to 'row' the FormGroup is also given the row prop which displays
-   * the components in a row.
+   * Defines if and how the country code selector and phone number input
+   * components are grouped together. Prop accepts the following values:
+   * 'grid', 'gridItems', 'grid2', 'grid2Items', 'row', and boolean true and
+   * false. Option 'grid' wraps the components into a MUI Grid item components
+   * and creates a Grid container around them. Option 'gridItems' just wraps
+   * the components into Grid items and leaves the container out. Options
+   * 'grid2' and 'grid2Items' do the same with MUI Grid2 components.
+   *
+   * If the prop is set to true, the components are wrapped inside a MUI
+   * FormGroup component, and if set to 'row' the FormGroup is also given the
+   * row property which makes the components to be displayed in a row. All
+   * layout wrappers can be ommitted by setting the prop value to false.
    */
   group?: GroupProp;
 
