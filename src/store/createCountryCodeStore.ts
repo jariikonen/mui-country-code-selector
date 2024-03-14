@@ -68,7 +68,7 @@ const createCountryCodeStore = () =>
       setInputSelection({ selectionStart, selectionEnd }) {
         set({ inputSelection: { selectionStart, selectionEnd } });
       },
-      setRefs(inputElement, inputRef, defaultValue) {
+      setRefs(inputElement, inputRef = undefined, defaultValue = '') {
         const formElement = getForm(inputElement);
         set({
           formElement,

@@ -37,7 +37,7 @@ function DemoForm() {
 
   const onInputRefChange = useCallback(
     (element: HTMLInputElement | null) => {
-      setRefs(element, undefined, '');
+      setRefs(element);
     },
     [setRefs]
   );

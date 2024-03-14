@@ -40,7 +40,7 @@ function DemoFormCustomFilter() {
 
   const onInputRefChange = useCallback(
     (element: HTMLInputElement | null) => {
-      setRefs(element, undefined, '');
+      setRefs(element);
     },
     [setRefs]
   );

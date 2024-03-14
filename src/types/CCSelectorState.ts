@@ -124,8 +124,8 @@ interface CCSelectorState {
    */
   setRefs: (
     element: HTMLInputElement | null,
-    inputRef: MutableRefObject<HTMLInputElement | null> | undefined,
-    defaultValue: string
+    inputRef?: MutableRefObject<HTMLInputElement | null>,
+    defaultValue?: string
   ) => void;
 
   /**
