@@ -2,7 +2,7 @@
  * Tests for both CountryCodeSelectorCombinedZustand and CountryCodeSelectorCombinedReact.
  */
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
   cleanup,
@@ -15,7 +15,7 @@ import '@testing-library/jest-dom/vitest';
 import CountryCodeSelectorCombinedZustand from './CountryCodeSelectorCombinedZustand';
 import CountryCodeSelectorCombinedReact from './CountryCodeSelectorCombinedReact';
 
-function TestComponentZustand() {
+function TestComponentZustandControlled() {
   const [phoneNumValue, setPhoneNumValue] = useState('');
   return (
     <div data-testid="container">
@@ -34,12 +34,11 @@ function TestComponentZustand() {
         // Increase the delay if you suspect that this is the case.
         errorMessageDelay={0.2}
       />
-      {phoneNumValue && <p>{phoneNumValue}</p>}
     </div>
   );
 }
 
-function TestComponentReact() {
+function TestComponentReactControlled() {
   const [phoneNumValue, setPhoneNumValue] = useState('');
   return (
     <div data-testid="container">
@@ -58,7 +57,46 @@ function TestComponentReact() {
         // Increase the delay if you suspect that this is the case.
         errorMessageDelay={0.2}
       />
-      {phoneNumValue && <p>{phoneNumValue}</p>}
+    </div>
+  );
+}
+
+function TestComponentZustandUncontrolled() {
+  const phoneNumRef = useRef<HTMLInputElement | null>(null);
+  return (
+    <div data-testid="container">
+      <CountryCodeSelectorCombinedZustand
+        inputRef={phoneNumRef}
+        countryCodeLabel="Country code"
+        phoneNumberLabel="Phone number"
+        selectorProps={{ classes: { input: 'selectorTest' } }}
+        inputProps={{ InputProps: { classes: { input: 'inputTest' } } }}
+        // NOTICE! Because the cursor tests must wait for the error display to
+        // disappear, the error message delay is set unusually short. This
+        // may cause some error detection tests to fail in some situations.
+        // Increase the delay if you suspect that this is the case.
+        errorMessageDelay={0.2}
+      />
+    </div>
+  );
+}
+
+function TestComponentReactUncontrolled() {
+  const phoneNumRef = useRef<HTMLInputElement | null>(null);
+  return (
+    <div data-testid="container">
+      <CountryCodeSelectorCombinedReact
+        inputRef={phoneNumRef}
+        countryCodeLabel="Country code"
+        phoneNumberLabel="Phone number"
+        selectorProps={{ classes: { input: 'selectorTest' } }}
+        inputProps={{ InputProps: { classes: { input: 'inputTest' } } }}
+        // NOTICE! Because the cursor tests must wait for the error display to
+        // disappear, the error message delay is set unusually short. This
+        // may cause some error detection tests to fail in some situations.
+        // Increase the delay if you suspect that this is the case.
+        errorMessageDelay={0.2}
+      />
     </div>
   );
 }
@@ -68,40 +106,55 @@ beforeEach(() => {
   if (testName?.includes('no default render')) {
     return;
   }
-  if (testName?.includes('Zustand')) {
+  if (testName?.includes('ZustandControlled')) {
     cleanup();
-    render(<TestComponentZustand />);
-  } else if (testName?.includes('React')) {
+    render(<TestComponentZustandControlled />);
+  } else if (testName?.includes('ZustandUncontrolled')) {
     cleanup();
-    render(<TestComponentReact />);
+    render(<TestComponentZustandUncontrolled />);
+  } else if (testName?.includes('ReactControlled')) {
+    cleanup();
+    render(<TestComponentReactControlled />);
+  } else if (testName?.includes('ReactUncontrolled')) {
+    cleanup();
+    render(<TestComponentReactUncontrolled />);
   }
 });
 
 afterEach(() => cleanup());
 
 describe('basic functionality', () => {
-  it.each([{ type: 'Zustand' }, { type: 'React' }])(
-    'component is rendered ($type)',
-    () => {
-      const countryCodeSelector = screen.getByLabelText('Country code');
-      const phoneNumberInput = screen.getByLabelText('Phone number');
-      expect(countryCodeSelector).toBeDefined();
-      expect(phoneNumberInput).toBeDefined();
-    }
-  );
+  it.each([
+    { type: 'ZustandControlled' },
+    { type: 'ReactControlled' },
+    { type: 'ZustandUncontrolled' },
+    { type: 'ReactUncontrolled' },
+  ])('component is rendered ($type)', () => {
+    const countryCodeSelector = screen.getByLabelText('Country code');
+    const phoneNumberInput = screen.getByLabelText('Phone number');
+    expect(countryCodeSelector).toBeDefined();
+    expect(phoneNumberInput).toBeDefined();
+  });
 
-  it.each([{ type: 'Zustand' }, { type: 'React' }])(
-    'value is changed when the phone number changes ($type)',
-    async () => {
-      const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
-      const selector = screen.getByLabelText('Country code');
-      await user.type(input, '+358 12345');
-      expect(selector).toHaveValue('Finland (FI)');
-    }
-  );
+  it.each([
+    { type: 'ZustandControlled' },
+    { type: 'ReactControlled' },
+    { type: 'ZustandUncontrolled' },
+    { type: 'ReactUncontrolled' },
+  ])('value is changed when the phone number changes ($type)', async () => {
+    const user = userEvent.setup();
+    const input = screen.getByLabelText('Phone number');
+    const selector = screen.getByLabelText('Country code');
+    await user.type(input, '+358 12345');
+    expect(selector).toHaveValue('Finland (FI)');
+  });
 
-  it.each([{ type: 'Zustand' }, { type: 'React' }])(
+  it.each([
+    { type: 'ZustandControlled' },
+    { type: 'ReactControlled' },
+    { type: 'ZustandUncontrolled' },
+    { type: 'ReactUncontrolled' },
+  ])(
     'country code is cleared when the clear button is pressed ($type)',
     async () => {
       const user = userEvent.setup();
@@ -117,7 +170,12 @@ describe('basic functionality', () => {
     }
   );
 
-  it.each([{ type: 'Zustand' }, { type: 'React' }])(
+  it.each([
+    { type: 'ZustandControlled' },
+    { type: 'ReactControlled' },
+    { type: 'ZustandUncontrolled' },
+    { type: 'ReactUncontrolled' },
+  ])(
     'selector is opened with suitable options when text is typed into selector, and one can be selected ($type)',
     async () => {
       const user = userEvent.setup();
@@ -139,7 +197,12 @@ describe('basic functionality', () => {
 });
 
 describe('error detection', () => {
-  it.each([{ type: 'Zustand' }, { type: 'React' }])(
+  it.each([
+    { type: 'ZustandControlled' },
+    { type: 'ReactControlled' },
+    { type: 'ZustandUncontrolled' },
+    { type: 'ReactUncontrolled' },
+  ])(
     'displays an error when something else than a number or plus sign is typed as the first character of the phone number ($type)',
     async () => {
       const user = userEvent.setup();
@@ -165,7 +228,12 @@ describe('error detection', () => {
     }
   );
 
-  it.each([{ type: 'Zustand' }, { type: 'React' }])(
+  it.each([
+    { type: 'ZustandControlled' },
+    { type: 'ReactControlled' },
+    { type: 'ZustandUncontrolled' },
+    { type: 'ReactUncontrolled' },
+  ])(
     'displays an error when two separator characters are typed into the phone number ($type)',
     async () => {
       const user = userEvent.setup();
@@ -197,7 +265,12 @@ describe('error detection', () => {
     }
   );
 
-  it.each([{ type: 'Zustand' }, { type: 'React' }])(
+  it.each([
+    { type: 'ZustandControlled' },
+    { type: 'ReactControlled' },
+    { type: 'ZustandUncontrolled' },
+    { type: 'ReactUncontrolled' },
+  ])(
     'displays an error when plus sign is used in any other place than in the beginning of the phone number ($type)',
     async () => {
       const user = userEvent.setup();
@@ -213,19 +286,26 @@ describe('error detection', () => {
 });
 
 describe('generic API functionality', () => {
-  it.each([{ type: 'Zustand' }, { type: 'React' }])(
-    'props can be passed to underlying components ($type)',
-    () => {
-      const countryCodeSelector = screen.getByLabelText('Country code');
-      const phoneNumberInput = screen.getByLabelText('Phone number');
-      expect(countryCodeSelector).toHaveClass('selectorTest');
-      expect(phoneNumberInput).toHaveClass('inputTest');
-    }
-  );
+  it.each([
+    { type: 'ZustandControlled' },
+    { type: 'ReactControlled' },
+    { type: 'ZustandUncontrolled' },
+    { type: 'ReactUncontrolled' },
+  ])('props can be passed to underlying components ($type)', () => {
+    const countryCodeSelector = screen.getByLabelText('Country code');
+    const phoneNumberInput = screen.getByLabelText('Phone number');
+    expect(countryCodeSelector).toHaveClass('selectorTest');
+    expect(phoneNumberInput).toHaveClass('inputTest');
+  });
 });
 
 describe('cursor stability', () => {
-  it.each([{ type: 'Zustand' }, { type: 'React' }])(
+  it.each([
+    { type: 'ZustandControlled' },
+    { type: 'ReactControlled' },
+    { type: 'ZustandUncontrolled' },
+    { type: 'ReactUncontrolled' },
+  ])(
     'cursor does not jump to the end of the value when a forbidden character is typed in the middle of the input and cursor was moved with arrow keys ($type)',
     async () => {
       const user = userEvent.setup();
@@ -251,7 +331,12 @@ describe('cursor stability', () => {
     }
   );
 
-  it.each([{ type: 'Zustand' }, { type: 'React' }])(
+  it.each([
+    { type: 'ZustandControlled' },
+    { type: 'ReactControlled' },
+    { type: 'ZustandUncontrolled' },
+    { type: 'ReactUncontrolled' },
+  ])(
     'cursor does not jump to the last position when the cursor is moved with arrow keys before a rerender ($type)',
     async () => {
       const user = userEvent.setup();
@@ -287,7 +372,7 @@ describe('cursor stability', () => {
   // selections yet (the selectionStart and selectionEnd properties of the
   // input element). See https://github.com/testing-library/user-event/issues/966
   // for more information.
-  it.todo.each([{ type: 'Zustand' }, { type: 'React' }])(
+  it.todo.each([{ type: 'ZustandControlled' }, { type: 'React' }])(
     'text selection does not change when it is selected with shift and arrow keys before a rerender ($type)',
     async () => {
       const user = userEvent.setup();
@@ -321,10 +406,10 @@ describe('cursor stability', () => {
   );
 
   it.each([
-    { type: 'Zustand', pointer: 'mouse' },
-    { type: 'React', pointer: 'mouse' },
-    { type: 'Zustand', pointer: 'touch' },
-    { type: 'React', pointer: 'touch' },
+    { type: 'ZustandControlled', pointer: 'mouse' },
+    { type: 'ReactControlled', pointer: 'mouse' },
+    { type: 'ZustandControlled', pointer: 'touch' },
+    { type: 'ReactControlled', pointer: 'touch' },
   ])(
     'cursor does not jump to the end of the input when it is positioned with $pointer and a forbidden character is typed ($type)',
     async ({ pointer }: { type: string; pointer: string }) => {
@@ -354,10 +439,10 @@ describe('cursor stability', () => {
   );
 
   it.each([
-    { type: 'Zustand', pointer: 'mouse' },
-    { type: 'React', pointer: 'mouse' },
-    { type: 'Zustand', pointer: 'touch' },
-    { type: 'React', pointer: 'touch' },
+    { type: 'ZustandControlled', pointer: 'mouse' },
+    { type: 'ReactControlled', pointer: 'mouse' },
+    { type: 'ZustandControlled', pointer: 'touch' },
+    { type: 'ReactControlled', pointer: 'touch' },
   ])(
     'cursor does not jump to the last position when the cursor is moved with $pointer before a rerender ($type)',
     async ({ pointer }: { type: string; pointer: string }) => {
@@ -399,10 +484,10 @@ describe('cursor stability', () => {
   // https://testing-library.com/docs/user-event/pointer#selectiontarget for
   // documentation about how the selection could in theory be made.
   it.todo.each([
-    { type: 'Zustand', pointer: 'mouse' },
-    { type: 'React', pointer: 'mouse' },
-    { type: 'Zustand', pointer: 'touch' },
-    { type: 'React', pointer: 'touch' },
+    { type: 'ZustandControlled', pointer: 'mouse' },
+    { type: 'ReactControlled', pointer: 'mouse' },
+    { type: 'ZustandControlled', pointer: 'touch' },
+    { type: 'ReactControlled', pointer: 'touch' },
   ])(
     'text selection does not change when it is created with $pointer before the rerender ($type)',
     async ({ pointer }: { type: string; pointer: string }) => {
