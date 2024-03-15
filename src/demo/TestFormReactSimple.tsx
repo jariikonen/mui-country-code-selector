@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import CountryCodeSelectorCombined from '../CountryCodeSelectorCombined/CountryCodeSelectorCombinedReact';
 
 function TestForm() {
@@ -7,9 +7,10 @@ function TestForm() {
       sx={{ flexGrow: 1, maxWidth: '600px' }}
       style={{ margin: '2rem 1rem' }}
     >
-      <Grid container columnSpacing={{ xs: 1 }} rowSpacing={{ xs: 1 }}>
-        <CountryCodeSelectorCombined />
-      </Grid>
+      <Typography align="left" variant="h5" style={{ marginBottom: '1rem' }}>
+        Just a simple CountryCodeSelectorCombinedReact component
+      </Typography>
+      <CountryCodeSelectorCombined errorMessageDisplay="both" />
     </Box>
   );
 }
