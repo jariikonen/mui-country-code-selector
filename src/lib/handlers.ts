@@ -76,12 +76,8 @@ export function keyboardHandler(
   if (!event.shiftKey) {
     const inputElement = event.target as HTMLInputElement;
     inputSelectionSetter({
-      selectionStart: inputElement.selectionStart
-        ? inputElement.selectionStart
-        : inputElement.value.length,
-      selectionEnd: inputElement.selectionEnd
-        ? inputElement.selectionEnd
-        : inputElement.value.length,
+      selectionStart: inputElement.selectionStart ?? inputElement.value.length,
+      selectionEnd: inputElement.selectionEnd ?? inputElement.value.length,
     });
   }
 }

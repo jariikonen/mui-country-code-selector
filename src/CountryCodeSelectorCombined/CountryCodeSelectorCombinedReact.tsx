@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import {
   TextField,
   FormHelperText,
@@ -220,6 +220,8 @@ function CountryCodeSelectorCombinedReact({
     [isControlled, onChange]
   );
 
+  const [, forceRerender] = useReducer((x: number) => x + 1, 0);
+
   /** A handler for phone number input element's change events. */
   const handlePhoneNumberChange = useCallback(
     (e: { target: { value: string } }) => {
@@ -234,6 +236,7 @@ function CountryCodeSelectorCombinedReact({
       applyStateChanges(result);
       if (Object.keys(result).includes('errorMsg')) {
         displayError();
+        forceRerender();
       }
     },
     [applyStateChanges, displayError, set]
