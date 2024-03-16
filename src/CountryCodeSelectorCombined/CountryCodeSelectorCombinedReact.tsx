@@ -74,6 +74,8 @@ function CountryCodeSelectorCombinedReact({
   selectorProps = {},
   inputProps = {},
   errorProps = {},
+  selectorRenderCountRef,
+  inputRenderCountRef,
 }: CCSelectorCombinedProps) {
   /** Value of the country code selector. */
   const [countryCodeValue, setCountryCodeValue] = useState<
@@ -339,6 +341,9 @@ function CountryCodeSelectorCombinedReact({
   // for setting the selection range based on values stored in the state.
   useEffect(() => {
     placeInputSelection(phoneInputRef.current, inputSelectionRef.current);
+    if (inputRenderCountRef) {
+      inputRenderCountRef.current += 1; // eslint-disable-line no-param-reassign
+    }
   });
 
   const defaultTextFieldShrink =
@@ -380,6 +385,7 @@ function CountryCodeSelectorCombinedReact({
         shrink={shrink}
         value={countryCodeValue}
         variant={variant}
+        renderCountRef={selectorRenderCountRef}
         {...selectorProps}
       />
       <TextField

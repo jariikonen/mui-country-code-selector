@@ -60,6 +60,8 @@ function CountryCodeSelectorCombinedInner({
   selectorProps,
   inputProps,
   errorProps,
+  selectorRenderCountRef,
+  inputRenderCountRef,
 }: Required<CCSelectorCombinedInnerProps>) {
   const {
     errorMsg,
@@ -88,6 +90,9 @@ function CountryCodeSelectorCombinedInner({
   // sets the selection range based on values stored in the store.
   useEffect(() => {
     placeInputSelection();
+    if (inputRenderCountRef) {
+      inputRenderCountRef.current += 1; // eslint-disable-line no-param-reassign
+    }
   });
 
   const onInputRefChange = useCallback(
@@ -134,6 +139,7 @@ function CountryCodeSelectorCombinedInner({
         shrink={shrink}
         variant={variant}
         fullWidth
+        renderCountRef={selectorRenderCountRef}
         {...selectorProps}
       />
       <TextField

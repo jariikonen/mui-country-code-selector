@@ -39,6 +39,8 @@ function CountryCodeSelectorCombined({
   selectorProps = {},
   inputProps = {},
   errorProps = {},
+  selectorRenderCountRef,
+  inputRenderCountRef,
 }: CCSelectorCombinedProps) {
   return (
     <CountryCodeStoreProvider>
@@ -73,6 +75,8 @@ function CountryCodeSelectorCombined({
         selectorProps={selectorProps}
         inputProps={inputProps}
         errorProps={errorProps}
+        selectorRenderCountRef={selectorRenderCountRef}
+        inputRenderCountRef={inputRenderCountRef}
       />
     </CountryCodeStoreProvider>
   );

@@ -239,6 +239,10 @@ interface CCSelectorCombinedProps {
    * @see {@link https://mui.com/material-ui/api/text-field/}
    */
   errorProps?: Partial<FormHelperTextProps> | Record<string, never>;
+
+  selectorRenderCountRef?: MutableRefObject<number>;
+
+  inputRenderCountRef?: MutableRefObject<number>;
 }
 
 export default CCSelectorCombinedProps;

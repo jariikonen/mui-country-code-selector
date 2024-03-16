@@ -1,3 +1,4 @@
+import { MutableRefObject } from 'react';
 import {
   AutocompleteProps,
   AutocompleteRenderInputParams,
@@ -37,6 +38,8 @@ interface CCSelectorProps
    * @see {@link https://mui.com/material-ui/react-text-field/#basic-textfield}
    */
   variant?: Variant;
+
+  renderCountRef?: MutableRefObject<number>;
 }
 
 export default CCSelectorProps;

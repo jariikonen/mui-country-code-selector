@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useEffect } from 'react';
 import {
   Autocomplete,
   AutocompleteChangeDetails,
@@ -57,8 +58,15 @@ function CountryCodeSelector({
   shrink,
   value,
   variant,
+  renderCountRef,
   ...rest
 }: CCSelectorPropsReact) {
+  useEffect(() => {
+    if (renderCountRef) {
+      renderCountRef.current += 1; // eslint-disable-line no-param-reassign
+    }
+  });
+
   let renderInputToUse = renderInput;
   if (!renderInputToUse) {
     renderInputToUse = createDefaultRenderInput(label, shrink, variant);

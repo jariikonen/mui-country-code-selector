@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useEffect } from 'react';
 import { Autocomplete } from '@mui/material';
 import { countries } from '../lib/countryCodeData';
 import useCountryCodeStore from '../store/useCountryCodeStore';
@@ -32,9 +33,16 @@ function CountryCodeSelector({
   renderInput,
   shrink,
   variant,
+  renderCountRef,
   ...rest
 }: CCSelectorProps) {
   const { handleCountryCodeChange, countryCodeValue } = useCountryCodeStore();
+
+  useEffect(() => {
+    if (renderCountRef) {
+      renderCountRef.current += 1; // eslint-disable-line no-param-reassign
+    }
+  });
 
   let renderInputToUse = renderInput;
   if (!renderInputToUse) {
