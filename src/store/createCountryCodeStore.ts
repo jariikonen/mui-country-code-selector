@@ -1,5 +1,5 @@
 import { AutocompleteChangeReason } from '@mui/material';
-import { createStore } from 'zustand';
+import { createStore, StoreApi } from 'zustand';
 import { CountryType } from '../lib/countryCodeData';
 import CCSelectorState from '../types/CCSelectorState';
 import libPlaceInputSelection from '../lib/placeInputSelection';
@@ -31,15 +31,7 @@ import {
 const createCountryCodeStore = () =>
   createStore<CCSelectorState>(
     (
-      set: (
-        partial:
-          | CCSelectorState
-          | Partial<CCSelectorState>
-          | ((
-              state: CCSelectorState
-            ) => CCSelectorState | Partial<CCSelectorState>),
-        replace?: boolean | undefined
-      ) => void,
+      set: StoreApi<CCSelectorState>['setState'],
       get: () => CCSelectorState
     ) => ({
       phoneNumStr: '',

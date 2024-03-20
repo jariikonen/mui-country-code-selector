@@ -10,7 +10,7 @@ function TestForm() {
       <Typography align="left" variant="h5" style={{ marginBottom: '1rem' }}>
         Just a simple CountryCodeSelectorCombinedReact component
       </Typography>
-      <CountryCodeSelectorCombined errorMessageDisplay="both" />
+      <CountryCodeSelectorCombined />
     </Box>
   );
 }
