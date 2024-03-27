@@ -71,6 +71,7 @@ function CountryCodeSelectorCombinedInner({
     handleValueChange,
     setRefs,
     placeInputSelection,
+    clearedRerender,
   } = useCountryCodeStore();
 
   useEffect(
@@ -102,11 +103,16 @@ function CountryCodeSelectorCombinedInner({
     [defaultValue, inputRef, setRefs]
   );
 
-  const defaultTextFieldShrink =
-    document.activeElement === phoneNumberInput ||
-    (phoneNumberInput?.value && phoneNumberInput.value.length > 0)
+  let defaultTextFieldShrink =
+    document.activeElement === phoneNumberInput || phoneNumberInput?.value
       ? true
       : undefined;
+
+  useEffect(() => {
+    if (clearedRerender) {
+      defaultTextFieldShrink = false; // eslint-disable-line react-hooks/exhaustive-deps
+    }
+  }, [clearedRerender]);
 
   // pass error message to outside error handler if such exists
   useEffect(() => {

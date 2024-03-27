@@ -74,6 +74,11 @@ const useCountryCodeStore = () => {
       (state) => state.defaultValue,
       shallow
     ),
+    clearedRerender: useStoreWithEqualityFn(
+      store,
+      (state) => state.clearedRerender,
+      shallow
+    ),
     changeHandler: useStoreWithEqualityFn(
       store,
       (state) => state.changeHandler,
@@ -139,6 +144,11 @@ const useCountryCodeStore = () => {
     clearErrorMsg: useStoreWithEqualityFn(
       store,
       (state) => state.clearErrorMsg,
+      shallow
+    ),
+    isCleared: useStoreWithEqualityFn(
+      store,
+      (state) => state.isCleared,
       shallow
     ),
   };

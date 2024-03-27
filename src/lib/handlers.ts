@@ -165,3 +165,55 @@ export function removeMouseHandler(
     mouseHandler(event, inputSelectionSetter)
   );
 }
+
+/**
+ * A blur event handler function for the combined country code selector
+ * components. Sets the phone number input TextField components label to be
+ * enlarged if the value has been cleared.
+ * @param isCleared Boolean indicating whether the input's value is cleared.
+ * @param rerenderToggler A function that toggles the value of the rerender
+ *    state variable.
+ */
+export function blurHandler(
+  isCleared: () => boolean,
+  rerenderToggler: () => void
+) {
+  if (isCleared()) {
+    rerenderToggler();
+  }
+}
+
+/**
+ * Adds the blurHandler function to the phone number input element as an
+ * event listener.
+ * @param phoneNumberInput The phone number input DOM element.
+ * @param isCleared Boolean indicating whether the input's value is cleared.
+ * @param rerenderToggler A function that toggles the value of the rerender
+ *    state variable.
+ */
+export function addBlurHandler(
+  phoneNumberInput: HTMLInputElement | null | undefined,
+  isCleared: () => boolean,
+  rerenderToggler: () => void
+) {
+  phoneNumberInput?.addEventListener('blur', () =>
+    blurHandler(isCleared, rerenderToggler)
+  );
+}
+
+/**
+ * Removes the blur event listener from the phone number input element.
+ * @param phoneNumberInput The phone number input DOM element.
+ * @param isCleared Boolean indicating whether the input's value is cleared.
+ * @param rerenderToggler A function that toggles the value of the rerender
+ *    state variable.
+ */
+export function removeBlurHandler(
+  phoneNumberInput: HTMLInputElement | null | undefined,
+  isCleared: () => boolean,
+  rerenderToggler: () => void
+) {
+  phoneNumberInput?.removeEventListener('blur', () =>
+    blurHandler(isCleared, rerenderToggler)
+  );
+}

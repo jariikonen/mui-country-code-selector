@@ -72,6 +72,19 @@ interface CCSelectorState {
    */
   inputSelection: InputSelection;
 
+  /** A boolean indicating whether the phone number input has been cleared. */
+  cleared: boolean;
+
+  /**
+   * Changing this variable causes the component to rerender and indicates that
+   * the phone number input has been cleared. A custom component should
+   * subscribe to this variable and implement functionality to enlarge the
+   * phone number input's label when the value changes. The blur handler
+   * toggles the value after the input has been cleared and the element loses
+   * the focus.
+   */
+  clearedRerender: boolean;
+
   /**
    * A change handler function that is run with the current phone number value
    * every time the value changes.
@@ -112,6 +125,9 @@ interface CCSelectorState {
    * @see inputSelection
    */
   setInputSelection: (inputSelection: InputSelection) => void;
+
+  /** Toggles the clearedRerender state variable */
+  toggleClearedRerender: () => void;
 
   /**
    * Sets references to the phone number input DOM element. Adds also some event
@@ -214,6 +230,9 @@ interface CCSelectorState {
 
   /** Clears the errorMsg state variable. */
   clearErrorMsg: () => void;
+
+  /** Returns the value of the state variable 'cleared' and resets it. */
+  isCleared: () => boolean;
 }
 
 export default CCSelectorState;

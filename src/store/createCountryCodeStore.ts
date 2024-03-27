@@ -13,6 +13,8 @@ import {
   removeKeyboardHandler,
   addMouseHandler,
   removeMouseHandler,
+  addBlurHandler,
+  removeBlurHandler,
 } from '../lib/handlers';
 
 /**
@@ -47,6 +49,8 @@ const createCountryCodeStore = () =>
       formElement: undefined,
       defaultValue: '',
       inputSelection: { selectionStart: 0, selectionEnd: 0 },
+      cleared: false,
+      clearedRerender: false,
       changeHandler: undefined,
       setPhoneNumberInput(inputElement) {
         set({ phoneNumberInput: inputElement });
@@ -60,6 +64,10 @@ const createCountryCodeStore = () =>
       setInputSelection({ selectionStart, selectionEnd }) {
         set({ inputSelection: { selectionStart, selectionEnd } });
       },
+      toggleClearedRerender() {
+        const { clearedRerender } = get();
+        set({ clearedRerender: !clearedRerender });
+      },
       setRefs(inputElement, inputRef = undefined, defaultValue = '') {
         const formElement = getForm(inputElement);
         set({
@@ -70,7 +78,12 @@ const createCountryCodeStore = () =>
         if (inputRef !== undefined) {
           inputRef.current = inputElement; // eslint-disable-line no-param-reassign
         }
-        const { handlePhoneNumberChange, setInputSelection } = get();
+        const {
+          handlePhoneNumberChange,
+          setInputSelection,
+          toggleClearedRerender,
+          isCleared,
+        } = get();
         addResetHandler(
           formElement,
           inputElement,
@@ -83,6 +96,7 @@ const createCountryCodeStore = () =>
         }
         addKeyboardHandler(inputElement, setInputSelection);
         addMouseHandler(inputElement, setInputSelection);
+        addBlurHandler(inputElement, isCleared, toggleClearedRerender);
       },
       initialize(errorMsgDelay, changeHandler) {
         set({ errorMsgDelay, changeHandler });
@@ -96,6 +110,8 @@ const createCountryCodeStore = () =>
           defaultValue,
           handlePhoneNumberChange,
           setInputSelection,
+          toggleClearedRerender,
+          isCleared,
         } = get();
         removeResetHandler(
           formElement,
@@ -105,9 +121,11 @@ const createCountryCodeStore = () =>
         );
         removeKeyboardHandler(phoneNumberInput, setInputSelection);
         removeMouseHandler(phoneNumberInput, setInputSelection);
+        removeBlurHandler(phoneNumberInput, isCleared, toggleClearedRerender);
       },
       handlePhoneNumberChange(event) {
         const {
+          phoneNumStr,
           phoneNumberInput,
           countryCodeDigits,
           possibleCountries,
@@ -116,6 +134,7 @@ const createCountryCodeStore = () =>
         } = get();
         const result = libHandlePhoneNumberChange(
           event.target.value,
+          phoneNumStr,
           phoneNumberInput,
           countryCodeDigits,
           possibleCountries,
@@ -200,6 +219,13 @@ const createCountryCodeStore = () =>
       },
       clearErrorMsg() {
         set({ errorMsg: null });
+      },
+      isCleared() {
+        const { cleared } = get();
+        if (cleared) {
+          set({ cleared: false });
+        }
+        return cleared;
       },
     })
   );

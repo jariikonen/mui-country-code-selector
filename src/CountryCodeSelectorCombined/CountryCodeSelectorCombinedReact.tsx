@@ -17,9 +17,11 @@ import {
   addKeyboardHandler,
   addMouseHandler,
   addResetHandler,
+  addBlurHandler,
   removeKeyboardHandler,
   removeResetHandler,
   removeMouseHandler,
+  removeBlurHandler,
 } from '../lib/handlers';
 import placeInputSelection from '../lib/placeInputSelection';
 import Wrapper from './Wrapper.ts';
@@ -118,6 +120,10 @@ function CountryCodeSelectorCombinedReact({
     selectionEnd: 0,
   });
 
+  const clearedRef = useRef(false);
+
+  const [clearedRerender, setClearedRerender] = useState(false);
+
   /** Indicates whether the component is used as a controlled component. */
   const isControlled = value !== undefined;
 
@@ -155,6 +161,9 @@ function CountryCodeSelectorCombinedReact({
             break;
           case 'inputSelection':
             inputSelectionRef.current = partialState[key]!;
+            break;
+          case 'cleared':
+            clearedRef.current = partialState[key]!;
             break;
 
           default:
@@ -229,6 +238,7 @@ function CountryCodeSelectorCombinedReact({
     (e: { target: { value: string } }) => {
       const result = libHandlePhoneNumberChange(
         e.target.value,
+        phoneNumStrRef.current,
         phoneInputRef.current,
         countryCodeDigitsRef.current,
         possibleCountriesRef.current,
@@ -303,6 +313,16 @@ function CountryCodeSelectorCombinedReact({
     inputSelectionRef.current = inputSelection;
   }, []);
 
+  const isCleared = useCallback(() => {
+    const localCleared = clearedRef.current;
+    clearedRef.current = false;
+    return localCleared;
+  }, []);
+
+  const toggleClearedRerender = useCallback(() => {
+    setClearedRerender(!clearedRerender);
+  }, [clearedRerender]);
+
   // Set (and remove when the component is unmounted) reset event handler.
   useEffect(() => {
     addResetHandler(
@@ -313,6 +333,7 @@ function CountryCodeSelectorCombinedReact({
     );
     addKeyboardHandler(phoneInputRef.current, setInputSelection);
     addMouseHandler(phoneInputRef.current, setInputSelection);
+    addBlurHandler(phoneInputRef.current, isCleared, toggleClearedRerender);
     return () => {
       removeResetHandler(
         formRef.current,
@@ -322,8 +343,19 @@ function CountryCodeSelectorCombinedReact({
       );
       removeKeyboardHandler(phoneInputRef.current, setInputSelection);
       removeMouseHandler(phoneInputRef.current, setInputSelection);
+      removeBlurHandler(
+        phoneInputRef.current,
+        isCleared,
+        toggleClearedRerender
+      );
     };
-  }, [defaultValue, handlePhoneNumberChange, setInputSelection]);
+  }, [
+    defaultValue,
+    handlePhoneNumberChange,
+    isCleared,
+    setInputSelection,
+    toggleClearedRerender,
+  ]);
 
   // set the phone number input to it's default value if such is provided
   useEffect(() => {
@@ -346,11 +378,17 @@ function CountryCodeSelectorCombinedReact({
     }
   });
 
-  const defaultTextFieldShrink =
+  let defaultTextFieldShrink =
     document.activeElement === phoneInputRef.current ||
-    (phoneInputRef.current?.value && phoneInputRef.current.value.length > 0)
+    phoneInputRef.current?.value
       ? true
       : undefined;
+
+  useEffect(() => {
+    if (clearedRerender) {
+      defaultTextFieldShrink = false; // eslint-disable-line react-hooks/exhaustive-deps
+    }
+  }, [clearedRerender]);
 
   // pass error message to outside error handler if such exists
   useEffect(() => {

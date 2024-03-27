@@ -12,6 +12,7 @@ import { getDigits, resetCountryCode } from './helpers';
  * @see CCSelectorState.handleCountryCodeChange
  * @param phoneNumberValue Value of the phone number input as received from the
  *   onChange event props.
+ * @param previousPhoneNumValue The previous value of the phone number input.
  * @param phoneNumberInput The phone number input DOM element.
  * @param detectedCCDigits The digits of the previously known country code.
  * @param possibleCountries An object containing possible country codes based
@@ -24,6 +25,7 @@ import { getDigits, resetCountryCode } from './helpers';
  */
 export default function handlePhoneNumberChange(
   phoneNumberValue: string,
+  previousPhoneNumValue: string,
   phoneNumberInput: HTMLInputElement | undefined | null,
   detectedCCDigits: string,
   possibleCountries: PossibleCountries | null,
@@ -332,10 +334,15 @@ export default function handlePhoneNumberChange(
   // the country code is set, but the first character is no longer a plus
   // => reset country code
   if (detectedCCDigits.length > 0 && firstChar !== '+') {
+    let cleared = false;
+    if (phoneNumberValue === '' && phoneNumberValue !== previousPhoneNumValue) {
+      cleared = true;
+    }
     return {
       ...resetCountryCode(),
       phoneNumStr: phoneNumberValue,
       inputSelection: getInputSelection(),
+      cleared,
     };
   }
 

@@ -32,6 +32,7 @@ describe('an object for updating the phoneNumStr is returned', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumber,
+        '',
         phoneInputRef.current,
         '',
         null,
@@ -48,6 +49,7 @@ describe('an object for updating the phoneNumStr is returned', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithCountryCode,
+        '',
         phoneInputRef.current,
         '',
         null,
@@ -64,6 +66,7 @@ describe('an object for updating the phoneNumStr is returned', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumber,
+        '',
         phoneInputRef.current,
         country.code,
         possibleCountries,
@@ -80,6 +83,7 @@ describe('an object for updating the phoneNumStr is returned', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithCountryCode,
+        '',
         phoneInputRef.current,
         country.code,
         possibleCountries,
@@ -96,6 +100,7 @@ describe('an object for updating the phoneNumStr is returned', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithCountryCodeNoSpaces,
+        '',
         phoneInputRef.current,
         country.code,
         possibleCountries,
@@ -115,6 +120,7 @@ describe('an object for updating the phoneNumStr is returned', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithAnotherCountryCode,
+        '',
         phoneInputRef.current,
         country.code,
         possibleCountries,
@@ -137,6 +143,7 @@ describe('the country code is detected', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithCountryCode,
+        '',
         phoneInputRef.current,
         '',
         null,
@@ -153,6 +160,7 @@ describe('the country code is detected', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithCountryCodeNoSpaces,
+        '',
         phoneInputRef.current,
         '',
         null,
@@ -169,6 +177,7 @@ describe('the country code is detected', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithAnotherCountryCode,
+        '',
         phoneInputRef.current,
         country.code,
         possibleCountries,
@@ -188,6 +197,7 @@ describe('the country code is not updated', () => {
     () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithCountryCode,
+        '',
         phoneInputRef.current,
         country.code,
         possibleCountries,
@@ -204,6 +214,7 @@ describe('an error message is returned', () => {
   it('when a forbidden character is used', () => {
     const result = handlePhoneNumberChange(
       'h',
+      '',
       phoneInputRef.current,
       '',
       null,
@@ -219,6 +230,7 @@ describe('an error message is returned', () => {
   it('when there are more than one separator character between digits', () => {
     const spaces = handlePhoneNumberChange(
       '1  2',
+      '',
       phoneInputRef.current,
       '',
       null,
@@ -227,6 +239,7 @@ describe('an error message is returned', () => {
 
     const dashes = handlePhoneNumberChange(
       '1--2',
+      '',
       phoneInputRef.current,
       '',
       null,
@@ -235,6 +248,7 @@ describe('an error message is returned', () => {
 
     const spaceAndDash = handlePhoneNumberChange(
       '1 -2',
+      '',
       phoneInputRef.current,
       '',
       null,
@@ -243,6 +257,7 @@ describe('an error message is returned', () => {
 
     const dashAndSpace = handlePhoneNumberChange(
       '1- 2',
+      '',
       phoneInputRef.current,
       '',
       null,
@@ -259,6 +274,7 @@ describe('an error message is returned', () => {
   it('when there are more than one plus characters', () => {
     const result1 = handlePhoneNumberChange(
       '++',
+      '',
       phoneInputRef.current,
       '',
       null,
@@ -267,6 +283,7 @@ describe('an error message is returned', () => {
 
     const result2 = handlePhoneNumberChange(
       '+123 +',
+      '',
       phoneInputRef.current,
       '',
       null,
@@ -282,6 +299,7 @@ describe('an error message is returned', () => {
   it('when the plus character is not in the beginning of the phone number', () => {
     const result1 = handlePhoneNumberChange(
       '1+',
+      '',
       phoneInputRef.current,
       '',
       null,
@@ -297,6 +315,7 @@ describe('an error message is returned', () => {
   it('when the plus character is not followed by a digit', () => {
     const result1 = handlePhoneNumberChange(
       '+i',
+      '',
       phoneInputRef.current,
       '',
       null,

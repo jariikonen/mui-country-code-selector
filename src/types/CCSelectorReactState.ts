@@ -45,6 +45,10 @@ interface CCSelectorReactState {
    * of the cursor position internally, within the application.
    */
   inputSelection: InputSelection;
+
+  cleared: boolean;
+
+  clearedRerender: boolean;
 }
 
 export default CCSelectorReactState;
