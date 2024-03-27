@@ -49,9 +49,9 @@ export default function Wrapper({
   grid2SelectorProps = undefined,
   grid2InputProps = undefined,
   grid2ErrorProps = undefined,
-  selectorSize = undefined,
-  inputSize = undefined,
-  errorSize = undefined,
+  selectorSize = { xs: 4 },
+  inputSize = { xs: 8 },
+  errorSize = { xs: 12 },
   children,
 }: WrapperProps) {
   switch (group) {
