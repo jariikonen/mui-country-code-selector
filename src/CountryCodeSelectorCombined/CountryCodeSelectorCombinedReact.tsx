@@ -120,12 +120,24 @@ function CountryCodeSelectorCombinedReact({
     selectionEnd: 0,
   });
 
+  /** A boolean indicating whether the phone number input has been cleared. */
   const clearedRef = useRef(false);
 
-  const [clearedRerender, setClearedRerender] = useState(false);
+  // The state variable clearedRerender is used for triggering a rerender of
+  // the component after the phone number input has been cleared and the
+  // component has lost focus. The rerender is needed for getting the MUI
+  // TextField's label to enlarge back to it's initial state. Variable does
+  // not need to be used anywhere to trigger the rerender. The value is toggled
+  // by the blur handler when the input has been cleared and the element loses
+  // the focus.
+  const [, setClearedRerender] = useState(false);
 
   /** Indicates whether the component is used as a controlled component. */
   const isControlled = value !== undefined;
+
+  /** The variable to be used as the phone number input's value. */
+  const [localValue, setLocalValue] = useState(phoneNumStrRef.current);
+  const valueToUse = value ?? localValue;
 
   /** Sets the React state according to the output from the library functions. */
   const set = useCallback(
@@ -222,8 +234,10 @@ function CountryCodeSelectorCombinedReact({
       // uncontrolled
       else if (!isControlled && phoneInputRef.current) {
         if ('phoneNumStr' in result) {
+          setLocalValue(result.phoneNumStr!);
           phoneInputRef.current.value = result.phoneNumStr!;
         } else {
+          setLocalValue(phoneNumStrRef.current);
           phoneInputRef.current.value = phoneNumStrRef.current;
         }
       }
@@ -313,6 +327,7 @@ function CountryCodeSelectorCombinedReact({
     inputSelectionRef.current = inputSelection;
   }, []);
 
+  /** Returns the value of the state variable 'cleared' and resets it. */
   const isCleared = useCallback(() => {
     const localCleared = clearedRef.current;
     clearedRef.current = false;
@@ -320,35 +335,14 @@ function CountryCodeSelectorCombinedReact({
   }, []);
 
   const toggleClearedRerender = useCallback(() => {
-    setClearedRerender(!clearedRerender);
-  }, [clearedRerender]);
+    setClearedRerender((previousValue) => !previousValue);
+  }, []);
 
-  // Set (and remove when the component is unmounted) reset event handler.
-  useEffect(() => {
-    addResetHandler(
-      formRef.current,
-      phoneInputRef.current,
-      handlePhoneNumberChange,
-      defaultValue
-    );
+  const addEventListeners = useCallback(() => {
+    addResetHandler(formRef.current, handlePhoneNumberChange, defaultValue);
     addKeyboardHandler(phoneInputRef.current, setInputSelection);
     addMouseHandler(phoneInputRef.current, setInputSelection);
     addBlurHandler(phoneInputRef.current, isCleared, toggleClearedRerender);
-    return () => {
-      removeResetHandler(
-        formRef.current,
-        phoneInputRef.current,
-        handlePhoneNumberChange,
-        defaultValue
-      );
-      removeKeyboardHandler(phoneInputRef.current, setInputSelection);
-      removeMouseHandler(phoneInputRef.current, setInputSelection);
-      removeBlurHandler(
-        phoneInputRef.current,
-        isCleared,
-        toggleClearedRerender
-      );
-    };
   }, [
     defaultValue,
     handlePhoneNumberChange,
@@ -357,10 +351,28 @@ function CountryCodeSelectorCombinedReact({
     toggleClearedRerender,
   ]);
 
+  const cleanUpEventListeners = useCallback(() => {
+    removeResetHandler(formRef.current, handlePhoneNumberChange, defaultValue);
+    removeKeyboardHandler(phoneInputRef.current, setInputSelection);
+    removeMouseHandler(phoneInputRef.current, setInputSelection);
+    removeBlurHandler(phoneInputRef.current, isCleared, toggleClearedRerender);
+  }, [
+    defaultValue,
+    handlePhoneNumberChange,
+    isCleared,
+    setInputSelection,
+    toggleClearedRerender,
+  ]);
+
+  // Set (and remove when the component is unmounted) reset event handler.
+  useEffect(() => {
+    addEventListeners();
+    return cleanUpEventListeners;
+  }, [addEventListeners, cleanUpEventListeners]);
+
   // set the phone number input to it's default value if such is provided
   useEffect(() => {
     if (defaultValue && phoneInputRef.current?.value === '') {
-      phoneInputRef.current.value = defaultValue;
       handlePhoneNumberChange({ target: { value: defaultValue } });
     }
   }, [defaultValue, handlePhoneNumberChange]);
@@ -378,17 +390,11 @@ function CountryCodeSelectorCombinedReact({
     }
   });
 
-  let defaultTextFieldShrink =
+  const defaultTextFieldShrink =
     document.activeElement === phoneInputRef.current ||
     phoneInputRef.current?.value
       ? true
       : undefined;
-
-  useEffect(() => {
-    if (clearedRerender) {
-      defaultTextFieldShrink = false; // eslint-disable-line react-hooks/exhaustive-deps
-    }
-  }, [clearedRerender]);
 
   // pass error message to outside error handler if such exists
   useEffect(() => {
@@ -439,7 +445,7 @@ function CountryCodeSelectorCombinedReact({
         label={phoneNumberLabel}
         onChange={handlePhoneNumberChange}
         type="text"
-        value={value}
+        value={valueToUse}
         variant={variant}
         {...inputProps}
       />

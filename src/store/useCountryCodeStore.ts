@@ -23,29 +23,9 @@ const useCountryCodeStore = () => {
       (state) => state.phoneNumStr,
       shallow
     ),
-    phoneNumSplit: useStoreWithEqualityFn(
-      store,
-      (state) => state.phoneNumSplit,
-      shallow
-    ),
-    significantDigits: useStoreWithEqualityFn(
-      store,
-      (state) => state.significantDigits,
-      shallow
-    ),
-    countryCodeDigits: useStoreWithEqualityFn(
-      store,
-      (state) => state.countryCodeDigits,
-      shallow
-    ),
     countryCodeValue: useStoreWithEqualityFn(
       store,
       (state) => state.countryCodeValue,
-      shallow
-    ),
-    possibleCountries: useStoreWithEqualityFn(
-      store,
-      (state) => state.possibleCountries,
       shallow
     ),
     errorMsg: useStoreWithEqualityFn(store, (state) => state.errorMsg, shallow),
@@ -64,44 +44,14 @@ const useCountryCodeStore = () => {
       (state) => state.phoneNumberInput,
       shallow
     ),
-    formElement: useStoreWithEqualityFn(
-      store,
-      (state) => state.formElement,
-      shallow
-    ),
-    defaultValue: useStoreWithEqualityFn(
-      store,
-      (state) => state.defaultValue,
-      shallow
-    ),
     clearedRerender: useStoreWithEqualityFn(
       store,
       (state) => state.clearedRerender,
       shallow
     ),
-    changeHandler: useStoreWithEqualityFn(
-      store,
-      (state) => state.changeHandler,
-      shallow
-    ),
     setPhoneNumberInput: useStoreWithEqualityFn(
       store,
       (state) => state.setPhoneNumberInput,
-      shallow
-    ),
-    setErrorMsgDelay: useStoreWithEqualityFn(
-      store,
-      (state) => state.setErrorMsgDelay,
-      shallow
-    ),
-    setChangeHandler: useStoreWithEqualityFn(
-      store,
-      (state) => state.setChangeHandler,
-      shallow
-    ),
-    setInputSelection: useStoreWithEqualityFn(
-      store,
-      (state) => state.setInputSelection,
       shallow
     ),
     setRefs: useStoreWithEqualityFn(store, (state) => state.setRefs, shallow),
@@ -121,11 +71,6 @@ const useCountryCodeStore = () => {
       (state) => state.handleCountryCodeChange,
       shallow
     ),
-    applyStateChanges: useStoreWithEqualityFn(
-      store,
-      (state) => state.applyStateChanges,
-      shallow
-    ),
     handleValueChange: useStoreWithEqualityFn(
       store,
       (state) => state.handleValueChange,
@@ -134,21 +79,6 @@ const useCountryCodeStore = () => {
     placeInputSelection: useStoreWithEqualityFn(
       store,
       (state) => state.placeInputSelection,
-      shallow
-    ),
-    displayError: useStoreWithEqualityFn(
-      store,
-      (state) => state.displayError,
-      shallow
-    ),
-    clearErrorMsg: useStoreWithEqualityFn(
-      store,
-      (state) => state.clearErrorMsg,
-      shallow
-    ),
-    isCleared: useStoreWithEqualityFn(
-      store,
-      (state) => state.isCleared,
       shallow
     ),
   };

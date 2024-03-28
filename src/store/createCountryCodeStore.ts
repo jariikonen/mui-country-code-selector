@@ -84,12 +84,7 @@ const createCountryCodeStore = () =>
           toggleClearedRerender,
           isCleared,
         } = get();
-        addResetHandler(
-          formElement,
-          inputElement,
-          handlePhoneNumberChange,
-          defaultValue
-        );
+        addResetHandler(formElement, handlePhoneNumberChange, defaultValue);
         if (inputElement) {
           inputElement.value = defaultValue; // eslint-disable-line no-param-reassign
           handlePhoneNumberChange({ target: { value: defaultValue } });
@@ -113,12 +108,7 @@ const createCountryCodeStore = () =>
           toggleClearedRerender,
           isCleared,
         } = get();
-        removeResetHandler(
-          formElement,
-          phoneNumberInput,
-          handlePhoneNumberChange,
-          defaultValue
-        );
+        removeResetHandler(formElement, handlePhoneNumberChange, defaultValue);
         removeKeyboardHandler(phoneNumberInput, setInputSelection);
         removeMouseHandler(phoneNumberInput, setInputSelection);
         removeBlurHandler(phoneNumberInput, isCleared, toggleClearedRerender);

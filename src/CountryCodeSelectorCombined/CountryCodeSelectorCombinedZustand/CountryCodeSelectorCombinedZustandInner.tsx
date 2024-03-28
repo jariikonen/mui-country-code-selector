@@ -64,15 +64,17 @@ function CountryCodeSelectorCombinedInner({
   inputRenderCountRef,
 }: Required<CCSelectorCombinedInnerProps>) {
   const {
+    phoneNumStr,
     errorMsg,
     phoneNumberInput,
+    setRefs,
     initialize,
     handlePhoneNumberChange,
     handleValueChange,
-    setRefs,
     placeInputSelection,
-    clearedRerender,
   } = useCountryCodeStore();
+
+  const valueToUse = value ?? phoneNumStr;
 
   useEffect(
     () => initialize(errorMessageDelay, onChange),
@@ -103,16 +105,10 @@ function CountryCodeSelectorCombinedInner({
     [defaultValue, inputRef, setRefs]
   );
 
-  let defaultTextFieldShrink =
+  const defaultTextFieldShrink =
     document.activeElement === phoneNumberInput || phoneNumberInput?.value
       ? true
       : undefined;
-
-  useEffect(() => {
-    if (clearedRerender) {
-      defaultTextFieldShrink = false; // eslint-disable-line react-hooks/exhaustive-deps
-    }
-  }, [clearedRerender]);
 
   // pass error message to outside error handler if such exists
   useEffect(() => {
@@ -161,7 +157,7 @@ function CountryCodeSelectorCombinedInner({
         label={phoneNumberLabel}
         onChange={handlePhoneNumberChange}
         type="text"
-        value={value}
+        value={valueToUse}
         variant={variant}
         {...inputProps}
       />

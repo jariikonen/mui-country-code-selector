@@ -331,13 +331,15 @@ export default function handlePhoneNumberChange(
       : '';
   }
 
+  // has the phone number input been cleared?
+  let cleared = false;
+  if (phoneNumberValue === '' && phoneNumberValue !== previousPhoneNumValue) {
+    cleared = true;
+  }
+
   // the country code is set, but the first character is no longer a plus
   // => reset country code
   if (detectedCCDigits.length > 0 && firstChar !== '+') {
-    let cleared = false;
-    if (phoneNumberValue === '' && phoneNumberValue !== previousPhoneNumValue) {
-      cleared = true;
-    }
     return {
       ...resetCountryCode(),
       phoneNumStr: phoneNumberValue,
@@ -365,9 +367,14 @@ export default function handlePhoneNumberChange(
       ),
       phoneNumStr: phoneNumberValue,
       inputSelection: getInputSelection(),
+      cleared,
     };
   }
 
   // all other cases
-  return { phoneNumStr: phoneNumberValue, inputSelection: getInputSelection() };
+  return {
+    phoneNumStr: phoneNumberValue,
+    inputSelection: getInputSelection(),
+    cleared,
+  };
 }

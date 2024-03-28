@@ -76,12 +76,13 @@ interface CCSelectorState {
   cleared: boolean;
 
   /**
-   * Changing this variable causes the component to rerender and indicates that
-   * the phone number input has been cleared. A custom component should
-   * subscribe to this variable and implement functionality to enlarge the
-   * phone number input's label when the value changes. The blur handler
-   * toggles the value after the input has been cleared and the element loses
-   * the focus.
+   * The state variable clearedRerender is used for triggering a rerender of
+   * the component after the phone number input has been cleared and the
+   * component has lost focus. The rerender is needed for getting the MUI
+   * TextField's label to enlarge back to it's initial state. It is important
+   * that the value is subscribed to in the useCountryCodeStore for it to be
+   * able to trigger the rerender. The value is toggled by the blur handler
+   * when the input has been cleared and the element loses the focus.
    */
   clearedRerender: boolean;
 
