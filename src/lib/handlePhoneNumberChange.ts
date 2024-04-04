@@ -282,23 +282,30 @@ export default function handlePhoneNumberChange(
     selectionStart: selectionStart > 0 ? selectionStart : 0,
     selectionEnd: selectionEnd > 0 ? selectionEnd : 0,
   };
+  // the component needs to be rerended, if the phone number input is empty
+  // when a non-displayed character is typed - the state variable 'cleared'
+  // indicates this to the blur handler
+  const empty = phoneNumberValue.length === 1;
   if (phoneNumberValue.match(/[^+\d\s-]/)) {
     return {
       errorMsg:
         'Only digits and visual separator characters (" ", "-") are allowed',
       inputSelection,
+      cleared: empty,
     };
   }
   if (phoneNumberValue.match(/^[^+\d]/)) {
     return {
       errorMsg: 'Phone number must start with a number or a plus character',
       inputSelection,
+      cleared: empty,
     };
   }
   if (phoneNumberValue.match(/\s{2,}|-{2,}|\s-|-\s/)) {
     return {
       errorMsg: 'Only one separator character between digits allowed',
       inputSelection,
+      cleared: empty,
     };
   }
   if (phoneNumberValue.match(/\+.*\+/)) {
@@ -306,12 +313,14 @@ export default function handlePhoneNumberChange(
       errorMsg:
         'Only one plus character is allowed at the beginning of the phone number',
       inputSelection,
+      cleared: empty,
     };
   }
   if (phoneNumberValue.match(/\+/) && !phoneNumberValue.startsWith('+')) {
     return {
       errorMsg: 'Plus can only be the first character of the phone number',
       inputSelection,
+      cleared: empty,
     };
   }
 
@@ -331,7 +340,8 @@ export default function handlePhoneNumberChange(
       : '';
   }
 
-  // has the phone number input been cleared?
+  // if the input has been cleared, the component needs to be rerendered when
+  // it looses focus, or the TextField label won't enlarge
   let cleared = false;
   if (phoneNumberValue === '' && phoneNumberValue !== previousPhoneNumValue) {
     cleared = true;
