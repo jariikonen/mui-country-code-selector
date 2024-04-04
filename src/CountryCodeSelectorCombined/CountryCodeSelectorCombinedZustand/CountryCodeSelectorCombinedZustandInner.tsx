@@ -37,9 +37,9 @@ function CountryCodeSelectorCombinedInner({
   phoneNumberLabel,
   errorMessageDelay,
   errorMessageDisplay,
-  errorHandler,
+  onError,
   defaultValue,
-  group,
+  layout,
   formGroupProps,
   gridContainerProps,
   gridItemProps,
@@ -51,6 +51,7 @@ function CountryCodeSelectorCombinedInner({
   grid2SelectorProps,
   grid2InputProps,
   grid2ErrorProps,
+  stackProps,
   selectorSize,
   inputSize,
   errorSize,
@@ -75,6 +76,11 @@ function CountryCodeSelectorCombinedInner({
   } = useCountryCodeStore();
 
   const valueToUse = value ?? phoneNumStr;
+
+  const errorStatusProp =
+    errorMessageDisplay === 'both' || errorMessageDisplay === 'status'
+      ? { error: true }
+      : { error: false };
 
   useEffect(
     () => initialize(errorMessageDelay, onChange),
@@ -112,14 +118,14 @@ function CountryCodeSelectorCombinedInner({
 
   // pass error message to outside error handler if such exists
   useEffect(() => {
-    if (errorMsg && errorHandler) {
-      errorHandler(errorMsg);
+    if (errorMsg && onError) {
+      onError(errorMsg);
     }
-  }, [errorHandler, errorMsg]);
+  }, [onError, errorMsg]);
 
   return (
     <Wrapper
-      group={group}
+      layout={layout}
       formGroupProps={formGroupProps}
       gridContainerProps={gridContainerProps}
       gridItemProps={gridItemProps}
@@ -131,6 +137,7 @@ function CountryCodeSelectorCombinedInner({
       grid2SelectorProps={grid2SelectorProps}
       grid2InputProps={grid2InputProps}
       grid2ErrorProps={grid2ErrorProps}
+      stackProps={stackProps}
       selectorSize={selectorSize}
       inputSize={inputSize}
       errorSize={errorSize}
@@ -164,7 +171,7 @@ function CountryCodeSelectorCombinedInner({
       {errorMsg &&
         (errorMessageDisplay === 'message' ||
           errorMessageDisplay === 'both') && (
-          <FormHelperText error {...errorProps}>
+          <FormHelperText {...errorStatusProp} {...errorProps}>
             {errorMsg}
           </FormHelperText>
         )}

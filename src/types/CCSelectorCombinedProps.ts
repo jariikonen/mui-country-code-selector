@@ -3,12 +3,13 @@ import {
   FilterOptionsState,
   FormGroupProps,
   FormHelperTextProps,
+  StackProps,
   TextFieldProps,
 } from '@mui/material';
 import CCSelectorProps from './CCSelectorProps';
 import { CountryType } from '../lib/countryCodeData';
 import Variant from './Variant';
-import GroupProp from './GroupProp';
+import LayoutProp from './LayoutProp';
 import ComponentSize from './ComponentSize';
 import {
   Grid2ContainerProps,
@@ -53,7 +54,7 @@ interface CCSelectorCombinedProps {
    * Passes a custom function for handling errors. The function receives the
    * error message as a parameter.
    */
-  errorHandler?: (error: string) => void;
+  onError?: (error: string) => void;
 
   /**
    * A React Ref that will be set to point to the phone number input element.
@@ -69,20 +70,18 @@ interface CCSelectorCombinedProps {
   defaultValue?: string;
 
   /**
-   * Defines if and how the country code selector and phone number input
-   * components are grouped together. Prop accepts the following values:
-   * 'grid', 'gridItems', 'grid2', 'grid2Items', 'row', and boolean true and
-   * false. Option 'grid' wraps the components into a MUI Grid item components
-   * and creates a Grid container around them. Option 'gridItems' just wraps
-   * the components into Grid items and leaves the container out. Options
-   * 'grid2' and 'grid2Items' do the same with MUI Grid2 components.
-   *
-   * If the prop is set to true, the components are wrapped inside a MUI
-   * FormGroup component, and if set to 'row' the FormGroup is also given the
-   * row property which makes the components to be displayed in a row. All
-   * layout wrappers can be ommitted by setting the prop value to false.
+   * Defines if the subcomponents of a combined component are wrapped in
+   * layout components, and what kind of components are used, if they are. Prop
+   * accepts the following values: 'grid', 'gridItems', 'grid2', 'grid2Items',
+   * 'stack', and 'group'. Option 'grid' wraps the components into MUI Grid
+   * item components and creates a Grid container around them. Option
+   * 'gridItems' just wraps the components into Grid items and leaves the
+   * container out. Options 'grid2' and 'grid2Items' do the same with MUI Grid2
+   * components. Option 'stack' wraps the components in a MUI Stack component,
+   * and with the 'group' option the components are wrapped in a MUI FormGroup
+   * component.
    */
-  group?: GroupProp;
+  layout?: LayoutProp;
 
   /**
    * Props passed to the MUI FormGroup component if the country code components
@@ -157,6 +156,12 @@ interface CCSelectorCombinedProps {
    * Grid2. Overwrites the grid2ItemProps.
    */
   grid2ErrorProps?: Grid2ItemProps;
+
+  /**
+   * Props passed to the MUI Stack component if the country code components are
+   * wrapped in one.
+   */
+  stackProps?: Partial<StackProps>;
 
   /**
    * Sets the breakpoint size props of the selector components grid item, when
@@ -240,8 +245,16 @@ interface CCSelectorCombinedProps {
    */
   errorProps?: Partial<FormHelperTextProps> | Record<string, never>;
 
+  /**
+   * Passes a numeric React ref object to the selector component, which is then
+   * increased by one every time the component is rendered.
+   */
   selectorRenderCountRef?: MutableRefObject<number>;
 
+  /**
+   * Passes a numeric React ref object to the phone number input component,
+   * which is then increased by one every time the component is rendered.
+   */
   inputRenderCountRef?: MutableRefObject<number>;
 }
 

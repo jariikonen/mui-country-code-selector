@@ -52,10 +52,10 @@ function CountryCodeSelectorCombinedReact({
   phoneNumberLabel = 'Phone number',
   errorMessageDelay = 3,
   errorMessageDisplay = 'both',
-  errorHandler = undefined,
+  onError = undefined,
   inputRef = undefined,
   defaultValue = '',
-  group = false,
+  layout = undefined,
   formGroupProps,
   gridContainerProps,
   gridItemProps,
@@ -67,6 +67,7 @@ function CountryCodeSelectorCombinedReact({
   grid2SelectorProps,
   grid2InputProps,
   grid2ErrorProps,
+  stackProps,
   selectorSize,
   inputSize,
   errorSize,
@@ -398,14 +399,14 @@ function CountryCodeSelectorCombinedReact({
 
   // pass error message to outside error handler if such exists
   useEffect(() => {
-    if (errorMsg && errorHandler) {
-      errorHandler(errorMsg);
+    if (errorMsg && onError) {
+      onError(errorMsg);
     }
-  }, [errorHandler, errorMsg]);
+  }, [onError, errorMsg]);
 
   return (
     <Wrapper
-      group={group}
+      layout={layout}
       formGroupProps={formGroupProps}
       gridContainerProps={gridContainerProps}
       gridItemProps={gridItemProps}
@@ -417,6 +418,7 @@ function CountryCodeSelectorCombinedReact({
       grid2SelectorProps={grid2SelectorProps}
       grid2InputProps={grid2InputProps}
       grid2ErrorProps={grid2ErrorProps}
+      stackProps={stackProps}
       selectorSize={selectorSize}
       inputSize={inputSize}
       errorSize={errorSize}

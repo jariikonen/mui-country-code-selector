@@ -1,8 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { ReactNode } from 'react';
-import { FormGroup, FormGroupProps, Grid } from '@mui/material';
+import {
+  FormGroup,
+  FormGroupProps,
+  Grid,
+  Stack,
+  StackProps,
+} from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2';
-import GroupProp from '../../types/GroupProp';
+import LayoutProp from '../../types/LayoutProp';
 import ComponentSize from '../../types/ComponentSize';
 import {
   Grid2ContainerProps,
@@ -14,7 +20,7 @@ import GridWrapper from './GridWrapper';
 import Grid2Wrapper from './Grid2Wrapper';
 
 interface WrapperProps {
-  group?: GroupProp;
+  layout?: LayoutProp;
   formGroupProps?: Partial<FormGroupProps>;
   gridContainerProps?: GridContainerProps;
   gridItemProps?: GridItemProps;
@@ -26,6 +32,7 @@ interface WrapperProps {
   grid2SelectorProps?: Grid2ItemProps;
   grid2InputProps?: Grid2ItemProps;
   grid2ErrorProps?: Grid2ItemProps;
+  stackProps?: Partial<StackProps>;
   selectorSize?: ComponentSize;
   inputSize?: ComponentSize;
   errorSize?: ComponentSize;
@@ -37,7 +44,7 @@ interface WrapperProps {
  * or FormGroup components according to the grid prop's value.
  */
 export default function Wrapper({
-  group = false,
+  layout = undefined,
   formGroupProps = undefined,
   gridContainerProps = undefined,
   gridItemProps = undefined,
@@ -49,12 +56,13 @@ export default function Wrapper({
   grid2SelectorProps = undefined,
   grid2InputProps = undefined,
   grid2ErrorProps = undefined,
+  stackProps = undefined,
   selectorSize = { xs: 4 },
   inputSize = { xs: 8 },
   errorSize = { xs: 12 },
   children,
 }: WrapperProps) {
-  switch (group) {
+  switch (layout) {
     case 'grid':
       return (
         <Grid container {...gridContainerProps}>
@@ -115,6 +123,10 @@ export default function Wrapper({
           {children}
         </Grid2Wrapper>
       );
+    case 'stack':
+      return <Stack {...stackProps}>{children}</Stack>;
+    case 'group':
+      return <FormGroup {...formGroupProps}>{children}</FormGroup>;
     case 'row':
       return (
         <FormGroup row {...formGroupProps}>
@@ -122,9 +134,6 @@ export default function Wrapper({
         </FormGroup>
       );
     default:
-      if (typeof group === 'boolean' && group) {
-        return <FormGroup {...formGroupProps}>{children}</FormGroup>;
-      }
       return <>{children}</>; // eslint-disable-line react/jsx-no-useless-fragment
   }
 }

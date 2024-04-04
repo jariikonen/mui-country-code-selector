@@ -16,9 +16,9 @@ function CountryCodeSelectorCombined({
   phoneNumberLabel = 'Phone number',
   errorMessageDelay = 3,
   errorMessageDisplay = 'both',
-  errorHandler = undefined,
+  onError = undefined,
   defaultValue = '',
-  group = false,
+  layout = undefined,
   formGroupProps,
   gridContainerProps,
   gridItemProps,
@@ -30,6 +30,7 @@ function CountryCodeSelectorCombined({
   grid2SelectorProps,
   grid2InputProps,
   grid2ErrorProps,
+  stackProps,
   selectorSize,
   inputSize,
   errorSize,
@@ -52,9 +53,9 @@ function CountryCodeSelectorCombined({
         phoneNumberLabel={phoneNumberLabel}
         errorMessageDelay={errorMessageDelay}
         errorMessageDisplay={errorMessageDisplay}
-        errorHandler={errorHandler}
+        onError={onError}
         defaultValue={defaultValue}
-        group={group}
+        layout={layout}
         formGroupProps={formGroupProps}
         gridContainerProps={gridContainerProps}
         gridItemProps={gridItemProps}
@@ -66,6 +67,7 @@ function CountryCodeSelectorCombined({
         grid2SelectorProps={grid2SelectorProps}
         grid2InputProps={grid2InputProps}
         grid2ErrorProps={grid2ErrorProps}
+        stackProps={stackProps}
         selectorSize={selectorSize}
         inputSize={inputSize}
         errorSize={errorSize}
