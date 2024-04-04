@@ -121,9 +121,6 @@ function CountryCodeSelectorCombinedReact({
     selectionEnd: 0,
   });
 
-  /** A boolean indicating whether the phone number input has been cleared. */
-  const clearedRef = useRef(false);
-
   // The state variable clearedRerender is used for triggering a rerender of
   // the component after the phone number input has been cleared and the
   // component has lost focus. The rerender is needed for getting the MUI
@@ -174,9 +171,6 @@ function CountryCodeSelectorCombinedReact({
             break;
           case 'inputSelection':
             inputSelectionRef.current = partialState[key]!;
-            break;
-          case 'cleared':
-            clearedRef.current = partialState[key]!;
             break;
 
           default:
@@ -253,7 +247,6 @@ function CountryCodeSelectorCombinedReact({
     (e: { target: { value: string } }) => {
       const result = libHandlePhoneNumberChange(
         e.target.value,
-        phoneNumStrRef.current,
         phoneInputRef.current,
         countryCodeDigitsRef.current,
         possibleCountriesRef.current,
@@ -328,13 +321,6 @@ function CountryCodeSelectorCombinedReact({
     inputSelectionRef.current = inputSelection;
   }, []);
 
-  /** Returns the value of the state variable 'cleared' and resets it. */
-  const isCleared = useCallback(() => {
-    const localCleared = clearedRef.current;
-    clearedRef.current = false;
-    return localCleared;
-  }, []);
-
   const toggleClearedRerender = useCallback(() => {
     setClearedRerender((previousValue) => !previousValue);
   }, []);
@@ -343,11 +329,10 @@ function CountryCodeSelectorCombinedReact({
     addResetHandler(formRef.current, handlePhoneNumberChange, defaultValue);
     addKeyboardHandler(phoneInputRef.current, setInputSelection);
     addMouseHandler(phoneInputRef.current, setInputSelection);
-    addBlurHandler(phoneInputRef.current, isCleared, toggleClearedRerender);
+    addBlurHandler(phoneInputRef.current, toggleClearedRerender);
   }, [
     defaultValue,
     handlePhoneNumberChange,
-    isCleared,
     setInputSelection,
     toggleClearedRerender,
   ]);
@@ -356,11 +341,10 @@ function CountryCodeSelectorCombinedReact({
     removeResetHandler(formRef.current, handlePhoneNumberChange, defaultValue);
     removeKeyboardHandler(phoneInputRef.current, setInputSelection);
     removeMouseHandler(phoneInputRef.current, setInputSelection);
-    removeBlurHandler(phoneInputRef.current, isCleared, toggleClearedRerender);
+    removeBlurHandler(phoneInputRef.current, toggleClearedRerender);
   }, [
     defaultValue,
     handlePhoneNumberChange,
-    isCleared,
     setInputSelection,
     toggleClearedRerender,
   ]);

@@ -49,7 +49,6 @@ const createCountryCodeStore = () =>
       formElement: undefined,
       defaultValue: '',
       inputSelection: { selectionStart: 0, selectionEnd: 0 },
-      cleared: false,
       clearedRerender: false,
       changeHandler: undefined,
       setPhoneNumberInput(inputElement) {
@@ -82,7 +81,6 @@ const createCountryCodeStore = () =>
           handlePhoneNumberChange,
           setInputSelection,
           toggleClearedRerender,
-          isCleared,
         } = get();
         addResetHandler(formElement, handlePhoneNumberChange, defaultValue);
         if (inputElement) {
@@ -91,7 +89,7 @@ const createCountryCodeStore = () =>
         }
         addKeyboardHandler(inputElement, setInputSelection);
         addMouseHandler(inputElement, setInputSelection);
-        addBlurHandler(inputElement, isCleared, toggleClearedRerender);
+        addBlurHandler(inputElement, toggleClearedRerender);
       },
       initialize(errorMsgDelay, changeHandler) {
         set({ errorMsgDelay, changeHandler });
@@ -106,16 +104,14 @@ const createCountryCodeStore = () =>
           handlePhoneNumberChange,
           setInputSelection,
           toggleClearedRerender,
-          isCleared,
         } = get();
         removeResetHandler(formElement, handlePhoneNumberChange, defaultValue);
         removeKeyboardHandler(phoneNumberInput, setInputSelection);
         removeMouseHandler(phoneNumberInput, setInputSelection);
-        removeBlurHandler(phoneNumberInput, isCleared, toggleClearedRerender);
+        removeBlurHandler(phoneNumberInput, toggleClearedRerender);
       },
       handlePhoneNumberChange(event) {
         const {
-          phoneNumStr,
           phoneNumberInput,
           countryCodeDigits,
           possibleCountries,
@@ -124,7 +120,6 @@ const createCountryCodeStore = () =>
         } = get();
         const result = libHandlePhoneNumberChange(
           event.target.value,
-          phoneNumStr,
           phoneNumberInput,
           countryCodeDigits,
           possibleCountries,
@@ -209,13 +204,6 @@ const createCountryCodeStore = () =>
       },
       clearErrorMsg() {
         set({ errorMsg: null });
-      },
-      isCleared() {
-        const { cleared } = get();
-        if (cleared) {
-          set({ cleared: false });
-        }
-        return cleared;
       },
     })
   );

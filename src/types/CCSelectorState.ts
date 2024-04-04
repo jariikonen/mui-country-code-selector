@@ -72,9 +72,6 @@ interface CCSelectorState {
    */
   inputSelection: InputSelection;
 
-  /** A boolean indicating whether the phone number input has been cleared. */
-  cleared: boolean;
-
   /**
    * The state variable clearedRerender is used for triggering a rerender of
    * the component after the phone number input has been cleared and the
@@ -231,9 +228,6 @@ interface CCSelectorState {
 
   /** Clears the errorMsg state variable. */
   clearErrorMsg: () => void;
-
-  /** Returns the value of the state variable 'cleared' and resets it. */
-  isCleared: () => boolean;
 }
 
 export default CCSelectorState;
