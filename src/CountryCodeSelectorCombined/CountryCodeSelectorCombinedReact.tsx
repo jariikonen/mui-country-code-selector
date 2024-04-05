@@ -46,6 +46,8 @@ import InputSelection from '../types/InputSelection';
  * @returns jsx
  */
 function CountryCodeSelectorCombinedReact({
+  id,
+  name,
   value,
   onChange,
   countryCodeLabel = 'Country code',
@@ -365,12 +367,15 @@ function CountryCodeSelectorCombinedReact({
     }
   }, [defaultValue, handlePhoneNumberChange]);
 
-  // Inputting a forbidden character into the phone number input makes the
-  // cursor jump to the end of the field. This can be fixed by keeping track of
-  // the cursor position (more specifically the end and start indices of the
-  // selected text within the input element) in the state and setting those
-  // values again on every render. The placeInputSelection() function is used
-  // for setting the selection range based on values stored in the state.
+  // Preventing the input value from changing as the change event suggests,
+  // makes React loose track of the correct position of the cursor, and the
+  // cursor jumps to the end of the input. This happens, for example, when a
+  // forbidden character is inputted into the phone number input. This can be
+  // fixed by keeping track of the cursor position (more specifically the end
+  // and start indices of the selected text within the input element) in the
+  // state and setting those values again on every render. The
+  // placeInputSelection() function is used for setting the selection range
+  // based on values stored in the state.
   useEffect(() => {
     placeInputSelection(phoneInputRef.current, inputSelectionRef.current);
     if (inputRenderCountRef) {
@@ -415,6 +420,8 @@ function CountryCodeSelectorCombinedReact({
         {...selectorProps}
       />
       <TextField
+        id={id}
+        name={name}
         error={
           errorMsg !== null &&
           (errorMessageDisplay === 'status' || errorMessageDisplay === 'both')

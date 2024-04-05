@@ -1,0 +1,7 @@
+<CountryCodeSelectorCombined
+  value={homePhoneNumValue}
+  onChange={homePhoneOnChange}
+  selectorProps={{
+    slotProps: { paper: { sx: { width: 300 } } },
+  }}
+/>

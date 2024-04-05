@@ -1,0 +1,6 @@
+// ...
+
+const countryRef = useRef<CountryType | null>(null);
+const selectedCountryRef = useRef<CountryType | null>(null);
+
+// ...

@@ -20,6 +20,23 @@ import {
 
 interface CCSelectorCombinedProps {
   /**
+   * The global HTML id attribute passed to the input subcomponent of the
+   * combined component. Defines an identifier which must be unique in the
+   * whole document.
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id}
+   */
+  id?: string;
+
+  /**
+   * An HTML name attribute passed to the input subcomponent of the combined
+   * component. Name attribute is a string specifying a name for the input.
+   * This name is submitted along with the control's value when the form data
+   * is submitted.
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name}
+   */
+  name?: string;
+
+  /**
    * Variable holding the value of the phone number input field. Provide this
    * when you wish to use the component as a controlled component.
    */
@@ -236,7 +253,11 @@ interface CCSelectorCombinedProps {
    * input).
    * @see {@link https://mui.com/material-ui/api/text-field/}
    */
-  inputProps?: Partial<TextFieldProps> | Record<string, never>;
+  inputProps?:
+    | Partial<
+        Omit<TextFieldProps, 'onChange' | 'select' | 'SelectProps' | 'value'>
+      >
+    | Record<string, never>;
 
   /**
    * Props applied to the FormHelperText component of the combined country code

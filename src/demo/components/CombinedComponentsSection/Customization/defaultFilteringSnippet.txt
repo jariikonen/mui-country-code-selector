@@ -1,0 +1,11 @@
+import { createFilterOptions } from '@mui/material/Autocomplete';
+
+// ...
+
+export function createDefaultFilterOptions() {
+  return createFilterOptions({
+    matchFrom: 'any',
+    stringify: (option: CountryType) =>
+      `${option.country} ${option.iso} +${option.code}`,
+  });
+}

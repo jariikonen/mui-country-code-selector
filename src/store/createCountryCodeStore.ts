@@ -92,7 +92,11 @@ const createCountryCodeStore = () =>
         addMouseHandler(inputElement, setInputSelection);
         addBlurHandler(inputElement, toggleClearedRerender);
       },
-      initialize(errorMsgDelay, errorHandler, changeHandler) {
+      initialize(
+        errorMsgDelay = 3,
+        errorHandler = undefined,
+        changeHandler = undefined
+      ) {
         set({ errorMsgDelay, errorHandler, changeHandler });
         const { cleanUp } = get();
         return cleanUp;

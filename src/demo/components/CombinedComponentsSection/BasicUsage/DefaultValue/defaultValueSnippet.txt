@@ -1,0 +1,4 @@
+<CountryCodeSelectorCombined
+  inputRef={homePhoneNumRef}
+  defaultValue="+358 "
+/>

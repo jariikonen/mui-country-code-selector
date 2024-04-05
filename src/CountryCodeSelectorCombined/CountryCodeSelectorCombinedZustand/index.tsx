@@ -9,6 +9,8 @@ import CountryCodeSelectorCombinedInner from './CountryCodeSelectorCombinedZusta
  * @returns jsx
  */
 function CountryCodeSelectorCombined({
+  id,
+  name,
   value,
   onChange,
   inputRef,
@@ -46,6 +48,8 @@ function CountryCodeSelectorCombined({
   return (
     <CountryCodeStoreProvider>
       <CountryCodeSelectorCombinedInner
+        id={id}
+        name={name}
         value={value}
         onChange={onChange}
         inputRef={inputRef}

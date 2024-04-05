@@ -11,7 +11,8 @@ import Variant from '../types/Variant';
 /**
  * Creates a default filter options function for the CountryCodeSelector's
  * Autocomplete component.
- * @see {@link https://mui.com/material-ui/api/autocomplete/#props}
+ * @see {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-filterOptions}
+ * @see {@link https://mui.com/material-ui/react-autocomplete/#custom-filter}
  */
 export function createDefaultFilterOptions() {
   return createFilterOptions({

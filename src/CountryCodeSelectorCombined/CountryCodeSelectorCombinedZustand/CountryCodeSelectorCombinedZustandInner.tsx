@@ -30,6 +30,8 @@ interface CCSelectorCombinedInnerProps
  * provides the component-specific Zustand store for the inner component.
  */
 function CountryCodeSelectorCombinedInner({
+  id,
+  name,
   value,
   onChange,
   inputRef,
@@ -91,12 +93,15 @@ function CountryCodeSelectorCombinedInner({
     handleValueChange(value);
   }, [handleValueChange, value]);
 
-  // Inputting a forbidden character into the phone number input makes the
-  // cursor jump to the end of the field. This can be fixed by keeping track of
-  // the cursor position (more specifically the end and start indices of the
-  // selected text within the input element) in the state and setting those
-  // values again on every render. The placeInputSelection() store-function
-  // sets the selection range based on values stored in the store.
+  // Preventing the input value from changing as the change event suggests,
+  // makes React loose track of the correct position of the cursor, and the
+  // cursor jumps to the end of the input. This happens, for example, when a
+  // forbidden character is inputted into the phone number input. This can be
+  // fixed by keeping track of the cursor position (more specifically the end
+  // and start indices of the selected text within the input element) in the
+  // state and setting those values again on every render. The
+  // placeInputSelection() store - function sets the selection range based on
+  // values stored in the store.
   useEffect(() => {
     placeInputSelection();
     if (inputRenderCountRef) {
@@ -145,6 +150,8 @@ function CountryCodeSelectorCombinedInner({
         {...selectorProps}
       />
       <TextField
+        id={id}
+        name={name}
         error={
           errorMsg !== null &&
           (errorMessageDisplay === 'status' || errorMessageDisplay === 'both')

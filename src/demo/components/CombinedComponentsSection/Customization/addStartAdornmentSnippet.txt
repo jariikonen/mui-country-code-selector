@@ -1,0 +1,38 @@
+// ...
+
+const renderInput = (params: AutocompleteRenderInputParams) => {
+  const adornmentOption = selectedCountryRef.current;
+  let startAdornment = null;
+  if (adornmentOption) {
+    startAdornment = (
+      <Box
+        component="div"
+        sx={{ '& > img': { mr: 2, mt: 1, ml: 1, flexShrink: 0 } }}
+      >
+        <img
+          loading="lazy"
+          width="30"
+          src={`https://flagcdn.com/${adornmentOption.iso.toLowerCase()}.svg`}
+          alt=""
+        />
+      </Box>
+    );
+  }
+
+  const { InputProps } = params;
+  const InputPropsToUse = { ...InputProps, startAdornment };
+  const paramsToUse = { ...params, InputProps: InputPropsToUse };
+
+  return (
+    <TextField
+      {...paramsToUse}
+      label="Country code"
+      inputProps={{
+        ...params.inputProps,
+        autoComplete: 'new-password', // disable autocomplete and autofill
+      }}
+    />
+  );
+};
+
+// ...

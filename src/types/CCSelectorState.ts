@@ -134,13 +134,15 @@ interface CCSelectorState {
   toggleClearedRerender: () => void;
 
   /**
-   * Sets references to the phone number input DOM element. Adds also some event
-   * handlers and initializes the phone number input with the default value.
+   * Sets references to the phone number input DOM element. Adds also some
+   * event handlers and initializes the phone number input with the default
+   * value when used as an uncontrolled component.
    * @param element The phone number input DOM element.
    * @param inputRef The React MutableRef object received as a prop. This can
    *    be used to access the value of the component when used as an
    *    uncontrolled component.
-   * @param defaultValue The default value for the phone number input.
+   * @param defaultValue The default value for the phone number input when used
+   *    as an uncontrolled component.
    */
   setRefs: (
     element: HTMLInputElement | null,
@@ -163,9 +165,9 @@ interface CCSelectorState {
    * @see cleanUp
    */
   initialize: (
-    errorMsgDelay: number,
-    errorHandler: ((error: string) => void) | undefined,
-    changeHandler: ((event: { target: { value: string } }) => void) | undefined
+    errorMsgDelay?: number,
+    errorHandler?: ((error: string) => void) | undefined,
+    changeHandler?: ((event: { target: { value: string } }) => void) | undefined
   ) => () => void;
 
   /**

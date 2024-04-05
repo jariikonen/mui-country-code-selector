@@ -1,0 +1,19 @@
+<CountryCodeSelectorCombined
+  layout="stack"
+  stackProps={{
+    direction: 'row',
+    useFlexGap: true,
+    flexWrap: 'wrap',
+    spacing: { xs: 1 },
+  }}
+  selectorProps={{
+    sx: {
+      width: 1 / 3 - 0.01,
+    },
+  }}
+  inputProps={{
+    sx: {
+      width: 2 / 3 - 0.01,
+    },
+  }}
+/>

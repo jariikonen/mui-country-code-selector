@@ -1,0 +1,6 @@
+<CountryCodeSelectorCombined
+  value={homePhoneNumValue}
+  phoneNumberLabel="Home phone number"
+  onChange={homePhoneOnChange}
+  layout="gridItems"
+/>

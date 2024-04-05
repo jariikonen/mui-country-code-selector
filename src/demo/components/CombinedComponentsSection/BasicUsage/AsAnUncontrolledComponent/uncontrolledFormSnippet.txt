@@ -1,0 +1,5 @@
+<CountryCodeSelectorCombined
+  phoneNumberLabel="Home phone number"
+  inputRef={homePhoneNumRef}
+  layout="gridItems"
+/>

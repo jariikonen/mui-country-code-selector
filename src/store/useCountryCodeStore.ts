@@ -2,13 +2,31 @@ import { useContext } from 'react';
 import { useStoreWithEqualityFn } from 'zustand/traditional';
 import { shallow } from 'zustand/shallow';
 import CountryCodeStoreContext from './CountryCodeStoreContext';
+import CCSelectorState from '../types/CCSelectorState';
 
 /**
  * A custom hook that returns a country code store. Store is fetched through a
  * React context CountryCodeStoreContext and therefore the component using this
  * hook is expected to be surrounded by CountryCodeStoreProvider tags.
  */
-const useCountryCodeStore = () => {
+const useCountryCodeStore = (): Pick<
+  CCSelectorState,
+  | 'phoneNumStr'
+  | 'countryCodeValue'
+  | 'errorMsg'
+  | 'errorMsgDelay'
+  | 'errorMsgTimeoutObj'
+  | 'phoneNumberInput'
+  | 'clearedRerender'
+  | 'setPhoneNumberInput'
+  | 'setRefs'
+  | 'initialize'
+  | 'cleanUp'
+  | 'handlePhoneNumberChange'
+  | 'handleCountryCodeChange'
+  | 'handleValueChange'
+  | 'placeInputSelection'
+> => {
   const store = useContext(CountryCodeStoreContext);
   if (store === null) {
     throw new Error(

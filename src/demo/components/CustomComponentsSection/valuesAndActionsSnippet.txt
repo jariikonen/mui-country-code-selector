@@ -1,0 +1,20 @@
+// ...
+
+useEffect(() => initialize(3, undefined, onChange), [initialize, onChange]);
+
+useEffect(() => {
+  handleValueChange(value);
+}, [handleValueChange, value]);
+
+useEffect(() => {
+  placeInputSelection();
+});
+
+// ...
+
+<input
+  ref={setRefs}
+  type="text"
+  value={valueToUse}
+  onChange={handlePhoneNumberChange}
+/>
