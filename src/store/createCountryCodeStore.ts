@@ -51,6 +51,7 @@ const createCountryCodeStore = () =>
       inputSelection: { selectionStart: 0, selectionEnd: 0 },
       clearedRerender: false,
       changeHandler: undefined,
+      errorHandler: undefined,
       setPhoneNumberInput(inputElement) {
         set({ phoneNumberInput: inputElement });
       },
@@ -91,8 +92,8 @@ const createCountryCodeStore = () =>
         addMouseHandler(inputElement, setInputSelection);
         addBlurHandler(inputElement, toggleClearedRerender);
       },
-      initialize(errorMsgDelay, changeHandler) {
-        set({ errorMsgDelay, changeHandler });
+      initialize(errorMsgDelay, errorHandler, changeHandler) {
+        set({ errorMsgDelay, errorHandler, changeHandler });
         const { cleanUp } = get();
         return cleanUp;
       },
@@ -128,7 +129,11 @@ const createCountryCodeStore = () =>
         set(result);
         applyStateChanges(result);
         if (Object.keys(result).includes('errorMsg')) {
-          get().displayError();
+          const { displayError, errorHandler } = get();
+          displayError();
+          if (errorHandler && result.errorMsg) {
+            errorHandler(result.errorMsg);
+          }
         }
       },
       handleCountryCodeChange(

@@ -84,11 +84,17 @@ interface CCSelectorState {
   clearedRerender: boolean;
 
   /**
-   * A change handler function that is run with the current phone number value
-   * every time the value changes.
+   * An external change handler function to which the current phone number
+   * value is forwarded every time the value changes.
    * @see setChangeHandler
    */
   changeHandler: ((event: { target: { value: string } }) => void) | undefined;
+
+  /**
+   * An external error handler function to which the error message is
+   * forwarded.
+   */
+  errorHandler: ((error: string) => void) | undefined;
 
   /**
    * Sets the phoneNumberInput value.
@@ -148,14 +154,17 @@ interface CCSelectorState {
    * function in the component body. Provides an easy way to take care of the
    * initialization and the cleanup.
    * @param errorMsgDelay Time of the message delay in seconds.
-   * @param changeHandler A change handler function that is run with the
-   *    current phone number value every time the value changes.
+   * @param errorHandler An external error handler function to which the error
+   *    message is forwarded.
+   * @param changeHandler An external change handler function to which the
+   *    current phone number value is forwared every time the value changes.
    * @returns A cleanup function that removes the reset event handler from the
    *    form element.
    * @see cleanUp
    */
   initialize: (
     errorMsgDelay: number,
+    errorHandler: ((error: string) => void) | undefined,
     changeHandler: ((event: { target: { value: string } }) => void) | undefined
   ) => () => void;
 

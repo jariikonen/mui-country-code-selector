@@ -256,10 +256,13 @@ function CountryCodeSelectorCombinedReact({
       applyStateChanges(result);
       if (Object.keys(result).includes('errorMsg')) {
         displayError();
+        if (onError && result.errorMsg) {
+          onError(result.errorMsg);
+        }
         forceRerender();
       }
     },
-    [applyStateChanges, displayError, set]
+    [applyStateChanges, displayError, onError, set]
   );
 
   /** A handler for the country code selector's change events. */
@@ -380,13 +383,6 @@ function CountryCodeSelectorCombinedReact({
     phoneInputRef.current?.value
       ? true
       : undefined;
-
-  // pass error message to outside error handler if such exists
-  useEffect(() => {
-    if (errorMsg && onError) {
-      onError(errorMsg);
-    }
-  }, [onError, errorMsg]);
 
   return (
     <Wrapper

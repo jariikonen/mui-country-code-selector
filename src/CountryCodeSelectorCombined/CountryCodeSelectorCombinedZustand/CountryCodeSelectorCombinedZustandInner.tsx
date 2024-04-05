@@ -83,8 +83,8 @@ function CountryCodeSelectorCombinedInner({
       : { error: false };
 
   useEffect(
-    () => initialize(errorMessageDelay, onChange),
-    [errorMessageDelay, initialize, onChange]
+    () => initialize(errorMessageDelay, onError, onChange),
+    [errorMessageDelay, initialize, onChange, onError]
   );
 
   useEffect(() => {
@@ -115,13 +115,6 @@ function CountryCodeSelectorCombinedInner({
     document.activeElement === phoneNumberInput || phoneNumberInput?.value
       ? true
       : undefined;
-
-  // pass error message to outside error handler if such exists
-  useEffect(() => {
-    if (errorMsg && onError) {
-      onError(errorMsg);
-    }
-  }, [onError, errorMsg]);
 
   return (
     <Wrapper
