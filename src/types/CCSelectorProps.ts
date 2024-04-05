@@ -33,12 +33,15 @@ interface CCSelectorProps
   shrink?: boolean;
 
   /**
-   * Defines which variant of the AutoSelector and TextField component's are
-   * used.
+   * Defines which variant of the Autocomplete's input component is used.
    * @see {@link https://mui.com/material-ui/react-text-field/#basic-textfield}
    */
   variant?: Variant;
 
+  /**
+   * Passes a numeric React ref object to the selector component, which is then
+   * increased by one every time the component is rendered.
+   */
   renderCountRef?: MutableRefObject<number>;
 }
 

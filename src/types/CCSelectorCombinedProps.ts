@@ -219,8 +219,8 @@ interface CCSelectorCombinedProps {
   shrink?: boolean;
 
   /**
-   * Defines which variant of the AutoSelector and TextField component's are
-   * used.
+   * Defines which variant of the MUI TextField is used in the country code
+   * selector and phone number input components.
    * @see {@link https://mui.com/material-ui/react-text-field/#basic-textfield}
    */
   variant?: Variant;
