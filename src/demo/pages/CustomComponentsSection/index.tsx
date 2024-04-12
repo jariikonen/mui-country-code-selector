@@ -1,8 +1,8 @@
-import { H2, H3, H4, H5, P } from '../TypographyWrappers';
-import A from '../Link';
-import { ExampleWrapper } from '../ExampleWrapper';
+import { H2, H3, H4, H5, P } from '../../components/TypographyWrappers';
+import A from '../../components/Link';
+import { ExampleWrapper } from '../../components/ExampleWrapper';
 import CustomCountryCodeSelectorExample from './CustomCountryCodeSelectorExample';
-import CodeBox from '../CodeBox';
+import CodeBox from '../../components/CodeBox';
 
 export default function CustomComponentsSection() {
   return (

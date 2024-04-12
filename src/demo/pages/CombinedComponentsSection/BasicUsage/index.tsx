@@ -1,4 +1,4 @@
-import { H3 } from '../../TypographyWrappers';
+import { H3 } from '../../../components/TypographyWrappers';
 import AsAControlledComponent from './AsAControlledComponent';
 import AsAnUncontrolledComponent from './AsAnUncontrolledComponent';
 import DefaultValue from './DefaultValue';

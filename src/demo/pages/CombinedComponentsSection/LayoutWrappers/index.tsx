@@ -1,7 +1,7 @@
-import { H3, H4, H5, P } from '../../TypographyWrappers';
-import A from '../../Link';
-import CodeBox from '../../CodeBox';
-import { ExampleWrapper } from '../../ExampleWrapper';
+import { H3, H4, H5, P } from '../../../components/TypographyWrappers';
+import A from '../../../components/Link';
+import CodeBox from '../../../components/CodeBox';
+import { ExampleWrapper } from '../../../components/ExampleWrapper';
 import LayoutWrappersExample from './LayoutWrappersExample';
 
 export default function LayoutWrappers() {

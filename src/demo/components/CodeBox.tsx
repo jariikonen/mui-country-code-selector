@@ -48,14 +48,14 @@ export default function CodeBox({
    */
   const codeSamples = import.meta.glob(
     [
-      './*/*Example.tsx',
-      './*/*Snippet.txt',
-      './*/*/*Example.tsx',
-      './*/*/*Snippet.txt',
-      './*/*/*/*Example.tsx',
-      './*/*/*/*Snippet.txt',
-      './CustomComponentsSection/CustomCountryCodeSelector/CustomCountryCodeSelectorInner.tsx',
-      './CustomComponentsSection/CustomCountryCodeSelector/index.tsx',
+      '../pages/*/*Example.tsx',
+      '../pages/*/*Snippet.txt',
+      '../pages/*/*/*Example.tsx',
+      '../pages/*/*/*Snippet.txt',
+      '../pages/*/*/*/*Example.tsx',
+      '../pages/*/*/*/*Snippet.txt',
+      '../pages/CustomComponentsSection/CustomCountryCodeSelector/CustomCountryCodeSelectorInner.tsx',
+      '../pages/CustomComponentsSection/CustomCountryCodeSelector/index.tsx',
     ],
     {
       query: '?raw',

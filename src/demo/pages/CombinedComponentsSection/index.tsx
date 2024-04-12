@@ -1,10 +1,10 @@
-import { H2, P } from '../TypographyWrappers';
+import { H2, P } from '../../components/TypographyWrappers';
 import BasicUsage from './BasicUsage';
 import LayoutWrappers from './LayoutWrappers';
 import Variants from './Variants';
 import ValidationErrors from './Validation';
 import Customization from './Customization';
-import CodeBox from '../CodeBox';
+import CodeBox from '../../components/CodeBox';
 
 export default function CombinedComponentsSection() {
   return (

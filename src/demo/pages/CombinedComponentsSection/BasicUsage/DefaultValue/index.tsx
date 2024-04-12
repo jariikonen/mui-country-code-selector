@@ -1,5 +1,5 @@
-import { H4, P } from '../../../TypographyWrappers';
-import CodeBox from '../../../CodeBox';
+import { H4, P } from '../../../../components/TypographyWrappers';
+import CodeBox from '../../../../components/CodeBox';
 
 export default function DefaultValue() {
   return (

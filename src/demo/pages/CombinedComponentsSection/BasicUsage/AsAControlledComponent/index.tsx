@@ -1,8 +1,8 @@
-import { H4, P } from '../../../TypographyWrappers';
-import A from '../../../Link';
-import CodeBox from '../../../CodeBox';
+import { H4, P } from '../../../../components/TypographyWrappers';
+import A from '../../../../components/Link';
+import CodeBox from '../../../../components/CodeBox';
 import ControlledFormExample from './ControlledFormExample';
-import { ExampleWrapper } from '../../../ExampleWrapper';
+import { ExampleWrapper } from '../../../../components/ExampleWrapper';
 
 export default function AsAControlledComponent() {
   return (

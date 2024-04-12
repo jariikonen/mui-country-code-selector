@@ -1,10 +1,10 @@
 import { Container, CssBaseline } from '@mui/material';
-import { H1, P } from './components/TypographyWrappers';
-import A from './components/Link';
-import Footer from './components/Footer';
+import { H1, P } from '../components/TypographyWrappers';
+import A from '../components/Link';
+import Footer from '../components/Footer';
 import './demoPage.css';
-import CombinedComponentsSection from './components/CombinedComponentsSection';
-import CustomComponentsSection from './components/CustomComponentsSection';
+import CombinedComponentsSection from './CombinedComponentsSection';
+import CustomComponentsSection from './CustomComponentsSection';
 
 export default function DemoPage() {
   return (

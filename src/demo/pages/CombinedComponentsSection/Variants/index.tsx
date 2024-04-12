@@ -1,8 +1,8 @@
-import { H3, P } from '../../TypographyWrappers';
-import A from '../../Link';
-import { ExampleWrapper } from '../../ExampleWrapper';
+import { H3, P } from '../../../components/TypographyWrappers';
+import A from '../../../components/Link';
+import { ExampleWrapper } from '../../../components/ExampleWrapper';
 import VariantExample from './VariantExample';
-import CodeBox from '../../CodeBox';
+import CodeBox from '../../../components/CodeBox';
 
 export default function Variants() {
   return (
