@@ -4,7 +4,7 @@ import { TextField, FormHelperText } from '@mui/material';
 import CountryCodeSelector from '../../CountryCodeSelector/CountryCodeSelectorZustand';
 import useCountryCodeStore from '../../store/useCountryCodeStore';
 import CCSelectorCombinedProps from '../../types/CCSelectorCombinedProps';
-import Wrapper from '../Wrapper.ts';
+import Wrapper from '../Wrapper/index';
 
 /**
  * A utility type that makes all properties of the base type optional without

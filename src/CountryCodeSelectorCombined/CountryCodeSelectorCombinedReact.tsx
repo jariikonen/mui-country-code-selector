@@ -24,7 +24,7 @@ import {
   removeBlurHandler,
 } from '../lib/handlers';
 import placeInputSelection from '../lib/placeInputSelection';
-import Wrapper from './Wrapper.ts';
+import Wrapper from './Wrapper';
 import InputSelection from '../types/InputSelection';
 
 /**
