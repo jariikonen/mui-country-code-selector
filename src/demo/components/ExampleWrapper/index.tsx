@@ -20,6 +20,12 @@ export interface ExampleWrapperProps {
 
   /** A link to open the example to be edited in CodeSandbox. */
   codesandboxLink?: string;
+
+  /**
+   * The max-height css property of the toggleable code box. Default value is
+   * 20rem.
+   */
+  codeMaxHeight?: React.CSSProperties['maxHeight'];
 }
 
 export function ExampleWrapper({
@@ -27,6 +33,7 @@ export function ExampleWrapper({
   tsCodePath = undefined,
   stackblitzLink = undefined,
   codesandboxLink = undefined,
+  codeMaxHeight = '20rem',
 }: ExampleWrapperProps) {
   const codeBoxStyle = {
     lineHeight: '1',
@@ -34,6 +41,9 @@ export function ExampleWrapper({
     borderRadius: '0 0 0.5rem 0.5rem',
     padding: '1rem 1.5rem 1rem 1.5rem',
     margin: 0,
+    maxHeight: codeMaxHeight,
+    overflow: 'auto',
+    scrollbarColor: 'lightsteelblue transparent',
   };
 
   const [showCode, setShowCode] = useState<boolean>(false);
