@@ -4,13 +4,29 @@ import CodeBox from '../CodeBox';
 import FunctionBar from './FunctionBar';
 
 export interface ExampleWrapperProps {
+  /** The child nodes, i.e., the nodes to be wrapped as an example. */
   children: ReactNode;
+
+  /**
+   * A path fragment that uniquely identifies the correct TypeScript code
+   * fragment among the other imported code snippets. The first snippet whose
+   * path includes this property is displayed in a toggleable CodeBox.
+   * @see CodeBoxProps.tsPath
+   */
   tsCodePath?: string;
+
+  /** A link to open the example to be edited in StackBlitz. */
+  stackblitzLink?: string;
+
+  /** A link to open the example to be edited in CodeSandbox. */
+  codesandboxLink?: string;
 }
 
 export function ExampleWrapper({
   children,
   tsCodePath = undefined,
+  stackblitzLink = undefined,
+  codesandboxLink = undefined,
 }: ExampleWrapperProps) {
   const codeBoxStyle = {
     lineHeight: '1',
@@ -22,7 +38,7 @@ export function ExampleWrapper({
 
   const [showCode, setShowCode] = useState<boolean>(false);
 
-  const onCodeToggle = useCallback(() => {
+  const onCodeDisplayToggle = useCallback(() => {
     setShowCode(!showCode);
   }, [showCode]);
 
@@ -39,7 +55,12 @@ export function ExampleWrapper({
     >
       <Box sx={{ p: { xs: '2rem' } }}>{children}</Box>
       <Divider />
-      <FunctionBar showCodeDefault={false} onCodeToggle={onCodeToggle} />
+      <FunctionBar
+        showCodeDefault={false}
+        onCodeDisplayToggle={onCodeDisplayToggle}
+        stackblitzLink={stackblitzLink}
+        codesandboxLink={codesandboxLink}
+      />
       {tsCodePath && showCode && (
         <CodeBox tsPath={tsCodePath} style={codeBoxStyle} embedded />
       )}

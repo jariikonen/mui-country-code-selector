@@ -5,20 +5,34 @@ import BoltIcon from '@mui/icons-material/Bolt';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
 export interface FunctionBarProps {
+  /**
+   * A boolean to indicate whether the code is displayed when the component is
+   * first rendered.
+   */
   showCodeDefault: boolean;
-  onCodeToggle: () => void;
+
+  /** A handler function for the code display toggle. */
+  onCodeDisplayToggle: () => void;
+
+  /** A link to open the example to be edited in StackBlitz. */
+  stackblitzLink?: string;
+
+  /** A link to open the example to be edited in CodeSandbox. */
+  codesandboxLink?: string;
 }
 
 export default function FunctionBar({
   showCodeDefault,
-  onCodeToggle,
+  onCodeDisplayToggle,
+  stackblitzLink = undefined,
+  codesandboxLink = undefined,
 }: FunctionBarProps) {
   const [showCode, setShowCode] = useState<boolean>(showCodeDefault);
 
   const onClick = useCallback(() => {
     setShowCode(!showCode);
-    onCodeToggle();
-  }, [onCodeToggle, showCode]);
+    onCodeDisplayToggle();
+  }, [onCodeDisplayToggle, showCode]);
 
   return (
     <Grid
@@ -35,16 +49,28 @@ export default function FunctionBar({
             {showCode ? 'hide code' : 'show code'}
           </Button>
         </Tooltip>
-        <Tooltip title="Open in StackBlitz" arrow>
-          <IconButton color="primary" aria-label="Open in StackBlitz">
-            <BoltIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Open in CodeSandbox" arrow>
-          <IconButton color="primary" aria-label="Open in CodeSandbox">
-            <CheckBoxOutlineBlankIcon />
-          </IconButton>
-        </Tooltip>
+        {stackblitzLink && (
+          <Tooltip title="Open in StackBlitz" arrow>
+            <IconButton
+              color="primary"
+              aria-label="Open in StackBlitz"
+              href={stackblitzLink}
+            >
+              <BoltIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+        {codesandboxLink && (
+          <Tooltip title="Open in CodeSandbox" arrow>
+            <IconButton
+              color="primary"
+              aria-label="Open in CodeSandbox"
+              href={codesandboxLink}
+            >
+              <CheckBoxOutlineBlankIcon />
+            </IconButton>
+          </Tooltip>
+        )}
       </Grid>
     </Grid>
   );

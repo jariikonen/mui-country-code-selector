@@ -4,10 +4,11 @@ import { Box } from '@mui/material';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-interface CodeBoxProps {
+export interface CodeBoxProps {
   /**
-   * A path fragment that identifies the corrent TypeScript code fragment among
-   * the other imported code snippets.
+   * A path fragment that uniquely identifies the correct TypeScript code
+   * fragment among the other imported code snippets. The first snippet whose
+   * path includes this property is displayed in the CodeBox.
    */
   tsPath: string;
 
