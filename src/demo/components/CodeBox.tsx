@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -20,6 +20,11 @@ interface CodeBoxProps {
    * margins).
    */
   embedded?: boolean;
+
+  /**
+   * The max-height css property of the code box. Default value is 20rem.
+   */
+  maxHeight?: React.CSSProperties['maxHeight'];
 }
 
 /**
@@ -29,12 +34,16 @@ export default function CodeBox({
   tsPath,
   style = undefined,
   embedded = false,
+  maxHeight = '20rem',
 }: CodeBoxProps) {
   const defaultStyle = {
     lineHeight: '1',
     fontSize: '1rem',
     borderRadius: '0.5rem',
     padding: '1rem 1.5rem 1rem 1.5rem',
+    maxHeight,
+    overflow: 'auto',
+    scrollbarColor: 'lightsteelblue transparent',
   };
   const styleToUse = style ?? defaultStyle;
 
