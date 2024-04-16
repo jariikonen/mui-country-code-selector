@@ -26,6 +26,7 @@ export default function CustomizationExample() {
       selectedCountryRef.current = { ...countryRef.current };
     } else {
       selectedCountryRef.current = null;
+      countryRef.current = null;
     }
   }, []);
 
