@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "description": "A country code selector component",
-  "author": "Jari Ikonen (https://jariikonen.github.io)",
+  "author": "Jari Ikonen",
   "license": "MIT",
   "type": "module",
-  "main": "dist/mui-country-code-selector.js",
+  "browser": "dist/mui-country-code-selector.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
