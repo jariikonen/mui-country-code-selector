@@ -4,7 +4,11 @@ import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 import ComponentSize from '../../types/ComponentSize';
 import { Grid2ItemProps } from '../../types/GridProps';
 
-interface GridWrapperProps {
+/**
+ * Represents the props of the `Grid2Wrapper` component.
+ * @alpha
+ */
+export interface Grid2WrapperProps {
   grid2ItemProps: Grid2ItemProps | undefined;
   grid2SelectorProps: Grid2ItemProps | undefined;
   grid2InputProps: Grid2ItemProps | undefined;
@@ -16,10 +20,11 @@ interface GridWrapperProps {
 }
 
 /**
- * Wraps the combined country code selector's components into a Mui Grid2
- * component.
+ * Wraps the combined country code selector's subcomponents into a MUI `Grid2`
+ * components.
+ * @alpha
  */
-export default function GridWrapper({
+export default function Grid2Wrapper({
   grid2ItemProps,
   grid2SelectorProps,
   grid2InputProps,
@@ -28,7 +33,7 @@ export default function GridWrapper({
   inputSize,
   errorSize,
   children,
-}: GridWrapperProps) {
+}: Grid2WrapperProps) {
   const selectorPropsToApply = {
     ...grid2ItemProps,
     ...grid2SelectorProps,

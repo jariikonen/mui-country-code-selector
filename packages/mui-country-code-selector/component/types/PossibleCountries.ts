@@ -1,8 +1,9 @@
 import { CountryType } from '../lib/countryCodeData';
 
 /**
- * A type for data on country codes that are possible based on the phone
+ * Represents data about country codes that are possible based on the phone
  * number input.
+ * @alpha
  */
 interface PossibleCountries {
   /**
@@ -22,7 +23,7 @@ interface PossibleCountries {
   maxCodeDigits: number;
 
   /**
-   * Array of CountryType objects corresponding to the possible country codes.
+   * Array of `CountryType` objects corresponding to the possible country codes.
    */
   possibleCountries: readonly CountryType[];
 }

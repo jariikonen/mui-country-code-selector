@@ -5,9 +5,10 @@ import CountryCodeStoreContext from './CountryCodeStoreContext';
 import CCSelectorState from '../types/CCSelectorState';
 
 /**
- * A custom hook that returns a country code store. Store is fetched through a
- * React context CountryCodeStoreContext and therefore the component using this
- * hook is expected to be surrounded by CountryCodeStoreProvider tags.
+ * A custom hook that returns a country code store. Store is fetched from a
+ * React context and therefore the component using this hook is expected to be
+ * surrounded by `CountryCodeStoreProvider` tags.
+ * @alpha
  */
 const useCountryCodeStore = (): Pick<
   CCSelectorState,

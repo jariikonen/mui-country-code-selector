@@ -19,6 +19,10 @@ import {
 import GridWrapper from './GridWrapper';
 import Grid2Wrapper from './Grid2Wrapper';
 
+/**
+ * Props for the `Wrapper` component.
+ * @alpha
+ */
 export interface WrapperProps {
   layout?: LayoutProp;
   formGroupProps?: Partial<FormGroupProps>;
@@ -40,8 +44,9 @@ export interface WrapperProps {
 }
 
 /**
- * Wraps the combined country code selector's components into Mui Grid, Grid2
- * or FormGroup components according to the grid prop's value.
+ * Wraps the combined country code selector's subcomponents into MUI's `Grid`,
+ * `Grid2` or `FormGroup` components according to the `layout` prop's value.
+ * @alpha
  */
 export default function Wrapper({
   layout = undefined,
@@ -140,3 +145,5 @@ export default function Wrapper({
 
 export { GridWrapper };
 export { Grid2Wrapper };
+export type { Grid2WrapperProps } from './Grid2Wrapper';
+export type { GridWrapperProps } from './GridWrapper';

@@ -1,8 +1,7 @@
 /**
- * A CombinedCountryCodeSelector prop type that is used for defining if the
- * subcomponents of the combined component are wrapped in layout components,
- * and what kind of layout components are used, if they are.
- * @see CCSelectorCombinedProps.layout
+ * Represents a value of the `CombinedCountryCodeSelector`'s prop that defines
+ * what kind of layout components its subcomponents are wrapped in, if any.
+ * @alpha
  */
 type LayoutProp =
   | 'grid'

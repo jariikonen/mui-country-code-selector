@@ -1,6 +1,7 @@
 /**
- * A type for an object representing the text selection range within an input
- * element (phone number input in this context).
+ * Represents the text selection range within an input element (phone number
+ * input).
+ * @alpha
  */
 interface InputSelection {
   /** The start index of the text selection within the input element. */

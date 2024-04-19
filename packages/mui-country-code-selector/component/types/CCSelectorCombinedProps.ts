@@ -5,10 +5,10 @@ import {
   FormHelperTextProps,
   StackProps,
   TextFieldProps,
+  TextFieldVariants,
 } from '@mui/material';
 import CCSelectorProps from './CCSelectorProps';
 import { CountryType } from '../lib/countryCodeData';
-import Variant from './Variant';
 import LayoutProp from './LayoutProp';
 import ComponentSize from './ComponentSize';
 import {
@@ -18,21 +18,27 @@ import {
   GridItemProps,
 } from './GridProps';
 
+/**
+ * Represents the props of the `CountryCodeSelectorCombined` components.
+ * @alpha
+ */
 interface CCSelectorCombinedProps {
   /**
-   * The global HTML id attribute passed to the input subcomponent of the
+   * The global HTML `id` attribute passed to the input subcomponent of the
    * combined component. Defines an identifier which must be unique in the
-   * whole document.
-   * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id}
+   * whole document. See
+   * {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id}
+   * for more information.
    */
   id?: string;
 
   /**
-   * An HTML name attribute passed to the input subcomponent of the combined
+   * An HTML `name` attribute passed to the input subcomponent of the combined
    * component. Name attribute is a string specifying a name for the input.
    * This name is submitted along with the control's value when the form data
-   * is submitted.
-   * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name}
+   * is submitted. See
+   * {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name}
+   * for more information.
    */
   name?: string;
 
@@ -43,7 +49,7 @@ interface CCSelectorCombinedProps {
   value?: string;
 
   /**
-   * Phone number input's onChange event handler. Sets the value prop.
+   * Phone number input's change event handler. Sets the `value` prop.
    * Provide this when you wish to use the component as a controlled
    * component.
    */
@@ -59,10 +65,10 @@ interface CCSelectorCombinedProps {
   errorMessageDelay?: number;
 
   /**
-   * Determines how the error message is displayed. When set to 'both', error is
-   * displayed both as an error status of the component and by displaying an
-   * error message. When set to 'none' neither is displayed. Prop can also be
-   * set as 'message' or 'status' in which case the corresponding method is
+   * Determines how the error message is displayed. When set to `both`, error
+   * is displayed both as an error status of the component and by displaying an
+   * error message. When set to `none` neither is displayed. Prop can also be
+   * set as `message` or `status` in which case the corresponding method is
    * used to indicate the error.
    */
   errorMessageDisplay?: 'none' | 'message' | 'status' | 'both';
@@ -74,7 +80,7 @@ interface CCSelectorCombinedProps {
   onError?: (error: string) => void;
 
   /**
-   * A React Ref that will be set to point to the phone number input element.
+   * A React ref that will be set to point to the phone number input element.
    * Provide this to access the component's value when using the component as
    * an uncontrolled component.
    */
@@ -87,16 +93,15 @@ interface CCSelectorCombinedProps {
   defaultValue?: string;
 
   /**
-   * Defines if the subcomponents of a combined component are wrapped in
-   * layout components, and what kind of components are used, if they are. Prop
-   * accepts the following values: 'grid', 'gridItems', 'grid2', 'grid2Items',
-   * 'stack', and 'group'. Option 'grid' wraps the components into MUI Grid
-   * item components and creates a Grid container around them. Option
-   * 'gridItems' just wraps the components into Grid items and leaves the
-   * container out. Options 'grid2' and 'grid2Items' do the same with MUI Grid2
-   * components. Option 'stack' wraps the components in a MUI Stack component,
-   * and with the 'group' option the components are wrapped in a MUI FormGroup
-   * component.
+   * Defines what kind of layout components the subcomponents of a combined
+   * component are wrapped in. Accepts the following values: `grid`,
+   * `gridItems`, `grid2`, `grid2Items`, `stack`, and `group`. Option `grid`
+   * wraps the components into MUI Grid item components and creates a Grid
+   * container around them. Option `gridItems` just wraps the components into
+   * Grid items and leaves the container out. Options `grid2` and `grid2Items`
+   * do the same with MUI Grid2 components. Option `stack` wraps the components
+   * in a MUI Stack component, and with the `group` option the components are
+   * wrapped in a MUI FormGroup component.
    */
   layout?: LayoutProp;
 
@@ -114,29 +119,29 @@ interface CCSelectorCombinedProps {
 
   /**
    * Props passed to the MUI Grid item components if the country code
-   * components are wrapped in such. Is overwritten by gridSelectorProps and
-   * gridInputProps.
+   * components are wrapped in such. Is overwritten by `gridSelectorProps` and
+   * `gridInputProps`.
    */
   gridItemProps?: GridItemProps;
 
   /**
    * Props passed to the MUI Grid item component that the selector component
    * is wrapped in, if the country code components are wrapped in a Grid.
-   * Overwrites the gridItemProps.
+   * Overwrites the `gridItemProps`.
    */
   gridSelectorProps?: GridItemProps;
 
   /**
    * Props passed to the MUI Grid item component that the phone number input
    * component is wrapped in, if the country code components are wrapped in a
-   * Grid. Overwrites the gridItemProps.
+   * Grid. Overwrites the `gridItemProps`.
    */
   gridInputProps?: GridItemProps;
 
   /**
    * Props passed to the MUI Grid item component that the error message
    * component is wrapped in, if the country code components are wrapped in a
-   * Grid. Overwrites the gridItemProps.
+   * Grid. Overwrites the `gridItemProps`.
    */
   gridErrorProps?: GridItemProps;
 
@@ -148,29 +153,29 @@ interface CCSelectorCombinedProps {
 
   /**
    * Props passed to the MUI Grid2 item components if the country code
-   * components are wrapped in such. Is overwritten by grid2SelectorProps and
-   * grid2InputProps.
+   * components are wrapped in such. Is overwritten by `grid2SelectorProps` and
+   * `grid2InputProps`.
    */
   grid2ItemProps?: Grid2ItemProps;
 
   /**
    * Props passed to the MUI Grid2 item component that the selector component
    * is wrapped in, if the country code components are wrapped in a Grid2.
-   * Overwrites the grid2ItemProps.
+   * Overwrites the `grid2ItemProps`.
    */
   grid2SelectorProps?: Grid2ItemProps;
 
   /**
    * Props passed to the MUI Grid2 item component that the phone number input
    * component is wrapped in, if the country code components are wrapped in a
-   * Grid2. Overwrites the grid2ItemProps.
+   * Grid2. Overwrites the `grid2ItemProps`.
    */
   grid2InputProps?: Grid2ItemProps;
 
   /**
    * Props passed to the MUI Grid2 item component that the error message
    * component is wrapped in, if the country code components are wrapped in a
-   * Grid2. Overwrites the grid2ItemProps.
+   * Grid2. Overwrites the `grid2ItemProps`.
    */
   grid2ErrorProps?: Grid2ItemProps;
 
@@ -182,13 +187,16 @@ interface CCSelectorCombinedProps {
 
   /**
    * Sets the breakpoint size props of the selector components grid item, when
-   * the country code components are wrapped in a MUI Grid or MUI Grid2.
-   * Accepts an object with keys for MUI's responsive breakpoints (xs, sm, md,
-   * lg, and xl), and the values can be either a number, a string 'auto' or a
-   * boolean. If the value for a breakpoint is false the prop is ignored.
-   * @see {@link https://mui.com/material-ui/api/grid/#props}
-   * @see {@link https://mui.com/material-ui/api/grid/#grid-prop-xs}
-   * @see {@link https://mui.com/material-ui/customization/breakpoints/}
+   * the `grid` or `grid2` layout is used. Accepts an object with keys for
+   * MUI's responsive breakpoints (`xs`, `sm`, `md`, `lg`, and `xl`), and the
+   * values can be either a number, string `auto` or a boolean. If the value
+   * for a breakpoint is `false` the prop is ignored.
+   *
+   * See {@link https://mui.com/material-ui/api/grid/#props} (e.g.,
+   * {@link https://mui.com/material-ui/api/grid/#grid-prop-xs}) for more
+   * information about the MUI Grid props, and
+   * {@link https://mui.com/material-ui/customization/breakpoints/} for more
+   * information about MUI's responsive breakpoints.
    */
   selectorSize?: ComponentSize;
 
@@ -199,9 +207,12 @@ interface CCSelectorCombinedProps {
    * sm, md, lg, and xl), and the values can be either a number, a string
    * 'auto' or a boolean. If the value for a breakpoint is false the prop is
    * ignored.
-   * @see {@link https://mui.com/material-ui/api/grid/#props}
-   * @see {@link https://mui.com/material-ui/api/grid/#grid-prop-xs}
-   * @see {@link https://mui.com/material-ui/customization/breakpoints/}
+   *
+   * See {@link https://mui.com/material-ui/api/grid/#props} (e.g.,
+   * {@link https://mui.com/material-ui/api/grid/#grid-prop-xs}) for more
+   * information about the MUI Grid props, and
+   * {@link https://mui.com/material-ui/customization/breakpoints/} for more
+   * information about MUI's responsive breakpoints.
    */
   inputSize?: ComponentSize;
 
@@ -212,16 +223,21 @@ interface CCSelectorCombinedProps {
    * sm, md, lg, and xl), and the values can be either a number, a string
    * 'auto' or a boolean. If the value for a breakpoint is false the prop is
    * ignored.
-   * @see {@link https://mui.com/material-ui/api/grid/#props}
-   * @see {@link https://mui.com/material-ui/api/grid/#grid-prop-xs}
-   * @see {@link https://mui.com/material-ui/customization/breakpoints/}
+   *
+   * See {@link https://mui.com/material-ui/api/grid/#props} (e.g.,
+   * {@link https://mui.com/material-ui/api/grid/#grid-prop-xs}) for more
+   * information about the MUI Grid props, and
+   * {@link https://mui.com/material-ui/customization/breakpoints/} for more
+   * information about MUI's responsive breakpoints.
    */
   errorSize?: ComponentSize;
 
   /**
    * Custom options for setting how the select options are filtered based on
-   * the input.
-   * @see {@link https://mui.com/material-ui/react-autocomplete/#custom-filter}
+   * the input. See
+   * {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-filterOptions}
+   * and {@link https://mui.com/material-ui/react-autocomplete/#custom-filter}
+   * for more information about custom filtering.
    */
   filterOptions?: (
     options: CountryType[],
@@ -230,28 +246,32 @@ interface CCSelectorCombinedProps {
 
   /**
    * A boolean value that specifies whether or not to shrink the selector and
-   * phone number input components' labels.
-   * @see {@link https://mui.com/material-ui/react-text-field/#shrink}
+   * phone number input components' labels. See
+   * {@link https://mui.com/material-ui/react-text-field/#shrink} for more
+   * information.
    */
   shrink?: boolean;
 
   /**
    * Defines which variant of the MUI TextField is used in the country code
-   * selector and phone number input components.
-   * @see {@link https://mui.com/material-ui/react-text-field/#basic-textfield}
+   * selector and phone number input components. See
+   * {@link https://mui.com/material-ui/react-text-field/#basic-textfield}
+   * about the TextField variants.
    */
-  variant?: Variant;
+  variant?: TextFieldVariants;
 
   /**
-   * Props applied to the underlying CountryCodeSelector element.
-   * @see {@link https://mui.com/material-ui/api/autocomplete/}
+   * Props applied to the underlying CountryCodeSelector element. See
+   * {@link https://mui.com/material-ui/api/autocomplete/} for more information
+   * about MUI's Autocomplete's API.
    */
   selectorProps?: Partial<CCSelectorProps> | Record<string, never>;
 
   /**
    * Props applied to the underlying TextField component (the phone number
-   * input).
-   * @see {@link https://mui.com/material-ui/api/text-field/}
+   * input). See
+   * {@link https://mui.com/material-ui/api/text-field/} for more information
+   * about the MUI's TextField's API.
    */
   inputProps?:
     | Partial<
@@ -261,8 +281,9 @@ interface CCSelectorCombinedProps {
 
   /**
    * Props applied to the FormHelperText component of the combined country code
-   * selector component (a possible error message).
-   * @see {@link https://mui.com/material-ui/api/text-field/}
+   * selector component (a possible error message). See
+   * {@link https://mui.com/material-ui/api/form-helper-text/} for more
+   * information about the MUI's FormHelperText's API.
    */
   errorProps?: Partial<FormHelperTextProps> | Record<string, never>;
 

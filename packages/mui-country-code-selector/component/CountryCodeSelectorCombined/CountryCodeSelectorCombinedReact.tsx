@@ -28,22 +28,19 @@ import Wrapper from './Wrapper';
 import InputSelection from '../types/InputSelection';
 
 /**
- * A React component combining a CountryCodeSelector with a TextField phone
- * number input. Implemented using React's useState for the component's local
- * state.
+ * A complete phone number input React component with a country code selector
+ * autocomplete field. Based on MUI's `Autocomplete` (
+ * {@link https://mui.com/material-ui/react-autocomplete/}) and `TextField` (
+ * {@link https://mui.com/material-ui/react-text-field/}) components. These
+ * subcomponents are combined using a common state that is implemented
+ * differently in specific variants of the component.
  *
- * CountryCodeSelectorCombined is essentially a phone number input component
- * with a searchable autocomplete country code selector. The component can be
- * used either as a controlled or an uncontrolled component. The component is
- * uncontrolled when the value prop is left undefined and the value of the
- * phone number input is accessed through a ref (provide a ref using the
- * inputRef prop and it is set to point to the phone number input
- * element). When used as a controlled component the phone number input's value
- * is controlled from the outside of the component using the value and the
- * onChange props.
- * @see CountryCodeSelectorCombinedReactProps
- * @see {@link https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components}
- * @returns jsx
+ * This component variant uses React's state management utilities to create the
+ * common state between the subcomponents.
+ *
+ * @returns A complete phone number input React component with a country code
+ *    selector autocomplete field.
+ * @alpha
  */
 export default function CountryCodeSelectorCombinedReact({
   id,

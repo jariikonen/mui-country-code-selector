@@ -12,15 +12,12 @@ import {
 } from './common';
 
 /**
- * MUI AutoComplete component that provides a selection of countries and their
- * international phone number country codes. Needs also another input element
- * for inputting the phone number. Creates a Zustand store object for keeping
- * the state between these inputs. Store object is identified by the given id
- * string.
- * @see CountryCodeSelectorProps
- * @see CCodeState
- * @see useCountryCodeStore
- * @see {@link https://mui.com/material-ui/react-autocomplete}
+ * Autocomplete component to select the country code of a phone number from a
+ * list of countries. Based on the MUI Autocomplete component (
+ * {@link https://mui.com/material-ui/react-autocomplete}). Can be used in
+ * conjunction with a text input field and common state between the
+ * subcomponents to create a complete phone number input component.
+ * @alpha
  */
 function CountryCodeSelector({
   autoHighlight = true,

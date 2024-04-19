@@ -3,10 +3,20 @@ import CCSelectorCombinedProps from '../../types/CCSelectorCombinedProps';
 import CountryCodeSelectorCombinedInner from './CountryCodeSelectorCombinedZustandInner';
 
 /**
- * A React compnent combining a CountryCodeSelector with a TextField phone
- * number input and the country code Zustand store.
- * @see CountryCodeSelectorCombinedProps
- * @returns jsx
+ * A complete phone number input React component with a country code selector
+ * autocomplete field. Based on MUI's `Autocomplete` (
+ * {@link https://mui.com/material-ui/react-autocomplete/}) and `TextField` (
+ * {@link https://mui.com/material-ui/react-text-field/}) components. These
+ * subcomponents are combined using a common state that is implemented
+ * differently in specific variants of the component.
+ *
+ * This component variant uses the provided Zustand store as the common state
+ * between the subcomponents. See the documentation for `CCSelectorState` and
+ * `useCountryCodeStore` for more information about the store.
+ *
+ * @returns A complete phone number input React component with a country code
+ *    selector autocomplete field.
+ * @alpha
  */
 function CountryCodeSelectorCombined({
   id,

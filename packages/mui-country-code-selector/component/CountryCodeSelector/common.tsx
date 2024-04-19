@@ -3,16 +3,18 @@ import {
   AutocompleteRenderInputParams,
   Box,
   TextField,
+  TextFieldVariants,
   createFilterOptions,
 } from '@mui/material';
 import { CountryType } from '../lib/countryCodeData';
-import Variant from '../types/Variant';
 
 /**
- * Creates a default filter options function for the CountryCodeSelector's
- * Autocomplete component.
- * @see {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-filterOptions}
- * @see {@link https://mui.com/material-ui/react-autocomplete/#custom-filter}
+ * Creates a default filter options function for the `CountryCodeSelector`'s
+ * `Autocomplete` component. See
+ * {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-filterOptions}
+ * and {@link https://mui.com/material-ui/react-autocomplete/#custom-filter}
+ * for more information about custom filtering.
+ * @alpha
  */
 export function createDefaultFilterOptions() {
   return createFilterOptions({
@@ -23,12 +25,14 @@ export function createDefaultFilterOptions() {
 }
 
 /**
- * Default function for rendering the options in the CountryCodeSelector's
- * Autocomplete component.
- * @param props The props to apply on the li element.
- * @param option The option to render.
+ * Default function for rendering the options in the `CountryCodeSelector`'s
+ * `Autocomplete` component. See
+ * {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-renderOption}
+ * for more information about the `renderOption` prop.
+ * @param props - The props to apply on the `li` element.
+ * @param option - The option to render.
  * @returns The option element.
- * @see {@link https://mui.com/material-ui/api/autocomplete/#props}
+ * @alpha
  */
 export function defaultRenderOption(
   props: React.HTMLAttributes<HTMLLIElement>,
@@ -43,17 +47,21 @@ export function defaultRenderOption(
 
 /**
  * Returns a default function for rendering the input component of the
- * CountryCodeSelector's Autocomplete component.
- * @param label CountryCodeSelector component's label passed to the input
+ * `CountryCodeSelector`'s `Autocomplete` component. See
+ * {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-renderInput}
+ * for more information about the `renderInput` prop.
+ * @param label - CountryCodeSelector component's label passed to the input
  *    component.
- * @param shrink Indicates whether to shrink the label or not.
- * @param variant Variant of the TextField component to use.
- * @see {@link https://mui.com/material-ui/api/autocomplete/#props}
+ * @param shrink - Indicates whether to shrink the label or not.
+ * @param variant - Variant of the `TextField` component to use.
+ * @returns A function for rendering the input component of the
+ *    `CountryCodeSelector`'s `Autocomplete` component.
+ * @alpha
  */
 export function createDefaultRenderInput(
   label: string,
   shrink?: boolean,
-  variant?: Variant
+  variant?: TextFieldVariants
 ) {
   return function defaultRenderInput(params: AutocompleteRenderInputParams) {
     return (
@@ -73,9 +81,12 @@ export function createDefaultRenderInput(
 
 /**
  * A default function for getting the option label string in the
- * CountryCodeSelector's Autocomplete component.
- * @param option The option for which the string is to be formed.
- * @see {@link https://mui.com/material-ui/api/autocomplete/#props}
+ * `CountryCodeSelector`'s `Autocomplete` component. See
+ * {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-getOptionLabel}
+ * for more information about the `getOptionLabel` prop.
+ * @param option - The option for which the string is to be formed.
+ * @returns The option label string.
+ * @alpha
  */
 export function defaultGetOptionLabel(option: CountryType) {
   return `${option.country} (${option.iso})`;

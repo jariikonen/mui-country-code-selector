@@ -7,21 +7,25 @@
   "license": "MIT",
   "type": "module",
   "browser": "dist/mui-country-code-selector.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/mui-country-code-selector.d.ts",
   "files": [
-    "dist"
+    "dist/mui-country-code-selector.js",
+    "dist/mui-country-code-selector.d.ts"
   ],
   "scripts": {
     "dev": "vite",
     "build": "tsc --p ./tsconfig-build.json && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "create-doc": "api-extractor run --local --verbose && api-documenter markdown --input-folder ./temp --output-folder ./docs"
   },
   "dependencies": {
     "zustand": "^4.5.0"
   },
   "devDependencies": {
+    "@microsoft/api-documenter": "^7.24.2",
+    "@microsoft/api-extractor": "^7.43.1",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
     "@testing-library/user-event": "^14.5.2",

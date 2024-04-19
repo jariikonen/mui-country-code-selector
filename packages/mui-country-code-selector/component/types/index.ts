@@ -6,4 +6,3 @@ export * from './GridProps';
 export type { default as InputSelection } from './InputSelection';
 export type { default as LayoutProp } from './LayoutProp';
 export type { default as PossibleCountries } from './PossibleCountries';
-export type { default as Variant } from './Variant';

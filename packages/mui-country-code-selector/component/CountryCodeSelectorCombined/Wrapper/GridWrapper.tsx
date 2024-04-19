@@ -4,7 +4,11 @@ import { Grid } from '@mui/material';
 import ComponentSize from '../../types/ComponentSize';
 import { GridItemProps } from '../../types/GridProps';
 
-interface GridWrapperProps {
+/**
+ * Represents the props of the `GridWrapper` component.
+ * @alpha
+ */
+export interface GridWrapperProps {
   gridItemProps: GridItemProps | undefined;
   gridSelectorProps: GridItemProps | undefined;
   gridInputProps: GridItemProps | undefined;
@@ -16,8 +20,9 @@ interface GridWrapperProps {
 }
 
 /**
- * Wraps the combined country code selector's components into a Mui Grid
- * component.
+ * Wraps the combined country code selector's subcomponents into a MUI `Grid`
+ * and `Grid item`components.
+ * @alpha
  */
 export default function GridWrapper({
   gridItemProps,

@@ -8,9 +8,10 @@ import InputSelection from './InputSelection';
 import { CountryType } from '../lib/countryCodeData';
 
 /**
- * A type for a common state between the country code autocomplete component
- * and the external phone number input component.
- * @see useCountryCode
+ * Represents a common state between the country code autocomplete component
+ * and the phone number input component, which together form a complete phone
+ * number input component.
+ * @alpha
  */
 interface CCSelectorState {
   /**
@@ -32,10 +33,10 @@ interface CCSelectorState {
   /** The digits of the detected country code. */
   countryCodeDigits: string;
 
-  /** The CountryType object corresponding to the selected country code. */
+  /** The `CountryType` object corresponding to the selected country code. */
   countryCodeValue: CountryType | null;
 
-  /** Data on country codes that are possible based on the phoneNumStr. */
+  /** Data on country codes that are possible based on the `phoneNumStr`. */
   possibleCountries: PossibleCountries | null;
 
   /** Error message to be shown to the user. */
@@ -44,7 +45,7 @@ interface CCSelectorState {
   /** Time of the message delay in seconds. */
   errorMsgDelay: number;
 
-  /** Timeout object for timing how long the error message is displayed. */
+  /** `Timeout` object for timing how long the error message is displayed. */
   errorMsgTimeoutObj: NodeJS.Timeout | null;
 
   /**  The phone number input DOM element. */
@@ -73,11 +74,11 @@ interface CCSelectorState {
   inputSelection: InputSelection;
 
   /**
-   * The state variable clearedRerender is used for triggering a rerender of
+   * The state variable `clearedRerender` is used for triggering a rerender of
    * the component after the phone number input has been cleared and the
    * component has lost focus. The rerender is needed for getting the MUI
    * TextField's label to enlarge back to it's initial state. It is important
-   * that the value is subscribed to in the useCountryCodeStore for it to be
+   * that the value is subscribed to in the `useCountryCodeStore` for it to be
    * able to trigger the rerender. The value is toggled by the blur handler
    * when the input has been cleared and the element loses the focus.
    */
@@ -86,7 +87,6 @@ interface CCSelectorState {
   /**
    * An external change handler function to which the current phone number
    * value is forwarded every time the value changes.
-   * @see setChangeHandler
    */
   changeHandler: ((event: { target: { value: string } }) => void) | undefined;
 
@@ -97,52 +97,54 @@ interface CCSelectorState {
   errorHandler: ((error: string) => void) | undefined;
 
   /**
-   * Sets the phoneNumberInput value.
-   * @param inputElement The phone number input DOM element.
+   * Sets the `phoneNumberInput` value. Takes the phone number input DOM
+   * element as parameter.
    */
   setPhoneNumberInput: (
     inputElement: HTMLInputElement | undefined | null
   ) => void;
 
   /**
-   * Sets the error message delay (how long the message is shown).
-   * @param seconds Message delay in seconds.
+   * Sets the error message delay (how long the message is shown). Takes the
+   * delay in seconds as parameter.
    */
   setErrorMsgDelay: (seconds: number) => void;
 
   /**
    * Sets a change handler function that is run with the current phone number
    * value every time the value changes. This is used e.g., in the combined
-   * selector components (CountryCodeSelectorCombinedZustand and
-   * CountryCodeSelectorCombinedReact) to update the value prop when the
+   * selector components (`CountryCodeSelectorCombinedZustand` and
+   * `CountryCodeSelectorCombinedReact`) to update the value prop when the
    * component is used as a controlled component.
-   * @param handler The handler function.
    */
   setChangeHandler: (
     handler: ((event: { target: { value: string } }) => void) | undefined
   ) => void;
 
   /**
-   * Sets the inputSelection state variable.
-   * @param cursorSelection An object containing the start and end indices of
-   *    the text selection within the phone number input element.
-   * @see inputSelection
+   * Sets the `inputSelection` state variable. Takes an object containing the
+   * start and end indices of the text selection within the phone number input
+   * element as paramter.
    */
   setInputSelection: (inputSelection: InputSelection) => void;
 
-  /** Toggles the clearedRerender state variable */
+  /** Toggles the `clearedRerender` state variable */
   toggleClearedRerender: () => void;
 
   /**
    * Sets references to the phone number input DOM element. Adds also some
    * event handlers and initializes the phone number input with the default
    * value when used as an uncontrolled component.
-   * @param element The phone number input DOM element.
-   * @param inputRef The React MutableRef object received as a prop. This can
-   *    be used to access the value of the component when used as an
-   *    uncontrolled component.
-   * @param defaultValue The default value for the phone number input when used
-   *    as an uncontrolled component.
+   *
+   * Parameters:
+   *
+   * `element` - the phone number input DOM element,
+   *
+   * `inputRef` - a React MutableRef object (this can be used to access the
+   * value of the component when used as an uncontrolled component), and
+   *
+   * `defaultValue` - the default
+   * value for the phone number input when used as an uncontrolled component.
    */
   setRefs: (
     element: HTMLInputElement | null,
@@ -152,17 +154,22 @@ interface CCSelectorState {
 
   /**
    * Initializes the component and returns a cleanup function. This, or the
-   * individual setter and cleanup functions, must be called in a useEffect
-   * function in the component body. Provides an easy way to take care of the
+   * individual setter and cleanup functions, must be called in a `useEffect`
+   * hook in the component body. Provides an easy way to take care of the
    * initialization and the cleanup.
-   * @param errorMsgDelay Time of the message delay in seconds.
-   * @param errorHandler An external error handler function to which the error
-   *    message is forwarded.
-   * @param changeHandler An external change handler function to which the
+   *
+   * Parameters:
+   *
+   * `errorMsgDelay` - Time the error message is displayed in seconds.
+   *
+   * `errorHandler` - An external error handler function to which the error
+   *    message is forwarded to.
+   *
+   * `changeHandler` - An external change handler function to which the
    *    current phone number value is forwared every time the value changes.
+   *
    * @returns A cleanup function that removes the reset event handler from the
    *    form element.
-   * @see cleanUp
    */
   initialize: (
     errorMsgDelay?: number,
@@ -173,29 +180,34 @@ interface CCSelectorState {
   /**
    * The cleanup function which is executed when the component unmounts.
    * Removes the reset event listener added to the form DOM element. Is
-   * returned by the initialize function.
-   * @see initialize
+   * returned by the `initialize` function.
    */
   cleanUp: () => void;
 
   /**
-   * A handler function for the phone number input's onChange events. Takes
+   * A handler function for the phone number input's change events. Takes
    * care of detecting the country code from the input and setting the
-   * countryCodeDigits and the countryCodeVal based on that.
-   * @param event The onChange event object from the phone number input.
+   * `countryCodeDigits` and the `countryCodeVal` based on that.
+   *
+   * Parameters:
+   *
+   * `event` - The change event object from the phone number input.
    */
   handlePhoneNumberChange: (event: { target: { value: string } }) => void;
 
   /**
-   * A handler function for the CountryCodeSelector Autocomplete component's
-   * onChange events.
-   * @see {@link https://mui.com/material-ui/api/autocomplete/#Autocomplete-prop-onChange}
-   *   for more information on parameters.
-   * @param e The event source of the callback.
-   * @param value The new value of the component.
-   * @param reason One of "createOption", "selectOption", "removeOption",
-   *               "blur" or "clear".
-   * @param details
+   * A handler function for the `CountryCodeSelector`'s change events. See
+   * {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-onChange}
+   * for more information about the function parameters.
+   *
+   * Parameters:
+   *
+   * `e` - The event source of the callback.
+   *
+   * `value` - The new value of the component.
+   *
+   * `reason` - One of "createOption", "selectOption", "removeOption",
+   *    "blur" or "clear".
    */
   handleCountryCodeChange: (
     _event: unknown,
@@ -208,7 +220,10 @@ interface CCSelectorState {
    * Applies the state changes to outside variables using the changeHandler
    * function (controlled mode) or the reference to the phone number input
    * DOM element.
-   * @param state The partial state object containing the changes.
+   *
+   * Parameters:
+   *
+   * `state` - The partial state object containing the changes.
    */
   applyStateChanges: (state: Partial<CCSelectorState>) => void;
 
@@ -222,15 +237,17 @@ interface CCSelectorState {
    * onChange() handler function), this change must be handled using the
    * handlePhoneNumberChange() function so that the change is also taken into
    * account in the country code selector's value.
-   * @param value The value prop of a controlled component.
+   *
+   * Parameters:
+   *
+   * `value` - The value prop of a controlled component.
    */
   handleValueChange: (value: string | null | undefined) => void;
 
   /**
-   * Places the cursor position, or more specifically the start and end indices
-   * of the text selection within the phone number input element.
-   * @see inputSelection
-   * @see setInputSelection
+   * Places the cursor (more specifically the start and end indices of the
+   * text selection) within the phone number input element according to the
+   * `inputSelection` state variable.
    */
   placeInputSelection: () => void;
 

@@ -2,41 +2,48 @@ import { MutableRefObject } from 'react';
 import {
   AutocompleteProps,
   AutocompleteRenderInputParams,
+  TextFieldVariants,
 } from '@mui/material';
 import { CountryType } from '../lib/countryCodeData';
-import Variant from './Variant';
 
+/**
+ * Represents the props of the `CountryCodeSelector` components.
+ * @alpha
+ */
 interface CCSelectorProps
   extends Omit<
     AutocompleteProps<CountryType, false, false, false, 'div'>,
     'onChange' | 'options' | 'renderInput' | 'value'
   > {
   /**
-   * Sets the label string on underlying MUI AutoComplete component's
+   * Sets the `label` string on underlying MUI AutoComplete component's
    * TextField component.
    */
   label?: string;
 
   /**
-   * AutoComplete component's function for rendering the input element.
-   * @param params Parameters for the input element.
+   * A function for rendering the input element, that is passed to the
+   * underlying MUI Autocomplete component. See
+   * {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-renderInput}
+   * for more information about MUI's Autocomplete's `renderInput` prop.
    * @returns The input element.
-   * @see {@link https://mui.com/material-ui/api/autocomplete/#props}
    */
   renderInput?: (params: AutocompleteRenderInputParams) => React.ReactNode;
 
   /**
    * A boolean value that specifies whether or not to shrink the selector and
-   * phone number input components' labels.
-   * @see {@link https://mui.com/material-ui/react-text-field/#shrink}
+   * phone number input components' labels. See
+   * {@link https://mui.com/material-ui/react-text-field/#shrink} for more
+   * information.
    */
   shrink?: boolean;
 
   /**
-   * Defines which variant of the Autocomplete's input component is used.
-   * @see {@link https://mui.com/material-ui/react-text-field/#basic-textfield}
+   * Defines which variant of the Autocomplete's TextField component is used. See
+   * {@link https://mui.com/material-ui/react-text-field/#basic-textfield}
+   * about the TextField's variants.
    */
-  variant?: Variant;
+  variant?: TextFieldVariants;
 
   /**
    * Passes a numeric React ref object to the selector component, which is then

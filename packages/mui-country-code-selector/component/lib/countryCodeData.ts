@@ -1,3 +1,9 @@
+/**
+ * Represents data for an individual country. Contains records for the name,
+ * the international calling code, and two letter ISO 3166 country code of the
+ * country.
+ * @alpha
+ */
 export interface CountryType {
   /** Name of the country. */
   country: string;
@@ -6,13 +12,17 @@ export interface CountryType {
   code: string;
 
   /**
-   * Two letter ISO 3166 country code of the country.
-   * @ see {@link https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes}
+   * Two letter ISO 3166 country code of the country. See
+   * {@link https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes} for
+   * more information.
    */
   iso: string;
 }
 
-/** International calling code data for the countries of the world. */
+/**
+ * International calling code data for the countries of the world.
+ * @alpha
+ */
 export const countries: readonly CountryType[] = [
   { country: 'Afghanistan', code: '93', iso: 'AF' },
   { country: 'Albania', code: '355', iso: 'AL' },
