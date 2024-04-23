@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Box, Grid, Typography, Button } from '@mui/material';
-import { CountryCodeSelectorCombined } from '../..';
+import { CountryCodeSelectorCombined } from '../../component/CountryCodeSelectorCombined';
 
 function TestForm() {
   const [homePhoneNumValue, setHomePhoneNumValue] = useState('');
