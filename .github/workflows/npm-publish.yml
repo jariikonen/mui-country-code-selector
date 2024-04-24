@@ -18,8 +18,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-      - run: npm ci
-      - run: npm test
+      - name: Initialize
+        run: npm install -w mui-country-code-selector
+      - name: Run tests
+        run: npm test -w mui-country-code-selector
 
   tag_release:
     needs: [build]
