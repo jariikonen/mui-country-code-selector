@@ -1,8 +1,8 @@
-# mui-country-code-selector
-
 <p align="center">
    <img src="./public/MCCS.gif" width="60%" alt="Gif animation showing the mui-country-code-selector in action." />
 </p>
+
+# mui-country-code-selector
 
 The MUI Country Code Selector (MCCS) is the best way to add a phone number input with a country code selector to your [MUI](https://mui.com/material-ui/) form. It is built on MUI's Autocomplete and TextField components, and it can be customized either by passing props to the underlying components or by implementing a custom component using the provided [Zustand](https://github.com/pmndrs/zustand) store. The API tries to follow MUI's API style, and to fit well together with other MUI components. The MCCS can be used as a controlled or an uncontrolled component. It validates the input accepting only numbers and visual separator characters as a phone number, and the display of the validation errors can be customized. As the MCCS consists of two separate input elements (country code selector and phone number input), it provides props that can be used for wrapping the subcomponents in different ways to fit the layout. By default the filtering of options is done using the MUI Autocomplete's filtering function, but it can be improved with external libraries, for example, [match-sorter](https://github.com/kentcdodds/match-sorter).
 
