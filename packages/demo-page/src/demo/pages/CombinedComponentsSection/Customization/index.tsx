@@ -5,7 +5,6 @@ import { ExampleWrapper } from '../../../components/ExampleWrapper';
 import PropsExample from './PropsExample';
 import RenderInputExample from './RenderInputExample';
 import CustomizationExample from './CustomizationExample';
-import CustomizationUncontrolledExample from './CustomizationUncontrolledExample';
 
 export default function Customization() {
   return (
@@ -180,13 +179,9 @@ export default function Customization() {
         <code>renderInput</code> function.
       </P>
       <CodeBox tsPath="Customization/addStartAdornment" />
-      <H5>Complete example as a controlled component</H5>
+      <H5>Complete example</H5>
       <ExampleWrapper tsCodePath="Customization/CustomizationExample">
         <CustomizationExample />
-      </ExampleWrapper>
-      <H5>Complete example as an uncontrolled component</H5>
-      <ExampleWrapper tsCodePath="Customization/CustomizationUncontrolledExample">
-        <CustomizationUncontrolledExample />
       </ExampleWrapper>
       <H4>Customizing the phone number input</H4>
       <P>

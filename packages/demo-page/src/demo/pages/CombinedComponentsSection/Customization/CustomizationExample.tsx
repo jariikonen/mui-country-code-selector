@@ -16,14 +16,14 @@ import {
 } from 'mui-country-code-selector';
 
 export default function CustomizationExample() {
-  const [homePhoneNumValue, setHomePhoneNumValue] = useState('');
+  const [phoneNumValue, setPhoneNumValue] = useState('');
   const [result, setResult] = useState('');
   const countryRef = useRef<CountryType | null>(null);
   const selectedCountryRef = useRef<CountryType | null>(null);
 
-  const homePhoneOnChange = useCallback((e: { target: { value: string } }) => {
+  const phoneOnChange = useCallback((e: { target: { value: string } }) => {
     const { value } = e.target;
-    setHomePhoneNumValue(value);
+    setPhoneNumValue(value);
     if (value && countryRef.current?.country) {
       selectedCountryRef.current = { ...countryRef.current };
     } else {
@@ -33,7 +33,7 @@ export default function CustomizationExample() {
   }, []);
 
   const clearForm = useCallback(() => {
-    setHomePhoneNumValue('');
+    setPhoneNumValue('');
     setResult('');
   }, []);
 
@@ -115,7 +115,7 @@ export default function CustomizationExample() {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          setResult(`Phone, home: ${homePhoneNumValue}`);
+          setResult(`Phone, home: ${phoneNumValue}`);
           setTimeout(() => {
             setResult('');
           }, 6000);
@@ -123,9 +123,8 @@ export default function CustomizationExample() {
       >
         <Grid container columnSpacing={{ xs: 1 }} rowSpacing={{ xs: 1 }}>
           <CountryCodeSelectorCombined
-            value={homePhoneNumValue}
-            phoneNumberLabel="Home phone number"
-            onChange={homePhoneOnChange}
+            value={phoneNumValue}
+            onChange={phoneOnChange}
             layout="gridItems"
             selectorProps={{
               renderInput,

@@ -1,6 +1,14 @@
+const [phoneNumValue, setPhoneNumValue] = useState('');
+
+const phoneOnChange = useCallback(
+  (e: { target: { value: string } }) => setPhoneNumValue(e.target.value),
+  []
+);
+
+// ...
+
 <CountryCodeSelectorCombined
-  value={homePhoneNumValue}
-  phoneNumberLabel="Home phone number"
-  onChange={homePhoneOnChange}
+  value={phoneNumValue}
+  onChange={phoneOnChange}
   layout="gridItems"
 />

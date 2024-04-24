@@ -18,10 +18,10 @@ export default function AsAControlledComponent() {
         </A>{' '}
         components. When the component is used as a controlled component, it is
         passed a <i>value</i> and a <i>change handler</i> as props. In the code
-        below, the <code>homePhoneNumValue</code> is a state variable that is
-        passed to the component as the component&lsquo;s value, and the{' '}
-        <code>homePhoneOnChange</code> is a change event handler, i.e., a
-        function that changes the value when a change event is triggered.
+        below, the <code>phoneNumValue</code> is a state variable that is passed
+        to the component as the component&lsquo;s value, and the{' '}
+        <code>phoneOnChange</code> is a change event handler, i.e., a function
+        that changes the value when a change event is triggered.
       </P>
       <CodeBox tsPath="AsAControlledComponent/controlledFormSnippet.txt" />
       <P>

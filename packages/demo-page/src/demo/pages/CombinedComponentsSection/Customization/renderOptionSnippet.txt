@@ -22,8 +22,8 @@ function renderOption(
 // ...
 
 <CountryCodeSelectorCombined
-  value={homePhoneNumValue}
-  onChange={homePhoneOnChange}
+  value={phoneNumValue}
+  onChange={phoneOnChange}
   selectorProps={{
     renderOption,
   }}

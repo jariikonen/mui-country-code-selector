@@ -1,6 +1,6 @@
 <CountryCodeSelectorCombined
-  value={homePhoneNumValue}
-  onChange={homePhoneOnChange}
+  value={phoneNumValue}
+  onChange={phoneOnChange}
   selectorProps={{
     label: 'Selector',
     shrink: true,

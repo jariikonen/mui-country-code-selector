@@ -7,9 +7,9 @@ function getOptionLabel(option: CountryType) {
 
 // ...
 
-const homePhoneOnChange = useCallback((e: { target: { value: string } }) => {
+const phoneOnChange = useCallback((e: { target: { value: string } }) => {
   const { value } = e.target;
-  setHomePhoneNumValue(value);
+  setPhoneNumValue(value);
   if (value && countryRef.current?.country) {
     selectedCountryRef.current = { ...countryRef.current };
   } else {
@@ -21,7 +21,7 @@ const homePhoneOnChange = useCallback((e: { target: { value: string } }) => {
 
 <CountryCodeSelectorCombined
   // ...
-  onChange={homePhoneOnChange}
+  onChange={phoneOnChange}
 />
 
 // ...

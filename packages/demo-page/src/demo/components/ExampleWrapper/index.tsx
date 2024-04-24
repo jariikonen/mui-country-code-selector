@@ -33,7 +33,7 @@ export function ExampleWrapper({
   tsCodePath = undefined,
   stackblitzLink = undefined,
   codesandboxLink = undefined,
-  codeMaxHeight = '20rem',
+  codeMaxHeight = '25rem',
 }: ExampleWrapperProps) {
   const codeBoxStyle = {
     lineHeight: '1',

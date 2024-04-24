@@ -17,8 +17,8 @@ const filterOptions = (
 // ...
 
 <CountryCodeSelectorCombined
-  value={homePhoneNumValue}
-  onChange={homePhoneOnChange}
+  value={phoneNumValue}
+  onChange={phoneOnChange}
   selectorProps={{
     filterOptions,
   }}

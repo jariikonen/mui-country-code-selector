@@ -17,28 +17,43 @@ export default function DemoPage() {
         <A href="https://mui.com/material-ui/" newTab>
           MUI
         </A>{' '}
-        form. It is built on MUI&apos;s Autocomplete and TextField components,
-        and it can be customized either by passing props to the underlying MUI
-        components or by implementing a custom component using the provided{' '}
-        <A href="https://github.com/pmndrs/zustand" newTab>
-          Zustand
+        form. It is built on MUI&apos;s{' '}
+        <A href="https://mui.com/material-ui/react-autocomplete/" newTab>
+          Autocomplete
         </A>{' '}
-        store. The API tries to follow MUI&apos;s API style, and to fit well
-        together with other MUI components. The components can be used as
-        controlled or uncontrolled. They validate the input accepting only
-        numbers and visual separator characters as a phone number, and the
-        display of the validation errors can be customized. As the components
-        consist of two separate input elements (country code selector and phone
-        number input), the components provide props that can be used for
-        wrapping the subcomponents in different ways to fit the layout. By
-        default the filtering of options is done using the MUI
+        and{' '}
+        <A href="https://mui.com/material-ui/react-text-field/" newTab>
+          TextField
+        </A>{' '}
+        components. Since these MUI components are quite flexibly customizable
+        using props, the component can also be comprehensively customized by
+        passing props to the subcomponents. The API tries to follow MUI&apos;s
+        API style, and to fit well together with other MUI components. The MCCS
+        can be used as a controlled or an uncontrolled component. It validates
+        the input accepting only numbers and visual separator characters as a
+        phone number, and the display of the validation errors can be
+        customized. As the MCCS consists of two separate input elements (country
+        code selector and phone number input), it provides props that can be
+        used for wrapping the subcomponents in different ways to fit the layout.
+        By default the filtering of options is done using the MUI
         Autocomplete&apos;s filtering function, but it can be improved with
         external libraries, for example,{' '}
         <A href="https://github.com/kentcdodds/match-sorter" newTab>
           match-sorter
         </A>
-        . The easiest way to use the MCCS is with ready-made{' '}
-        <code>CountryCodeSelectorCombined</code> components.
+        .
+      </P>
+      <P>
+        There are currently two ways to use the MCCS. The easiest way is to use
+        the ready-made combined component, which, as the name suggests,{' '}
+        <i>combines</i> a <code>CountryCodeSelector</code> component with a MUI{' '}
+        <code>TextField</code> component. The latter functions as the actual
+        phone number input, while the former implements the country code
+        selector. The combining <code>CountryCodeSelectorCombined</code>{' '}
+        component adds the state between these subcomponents that glues them
+        together. The other way to use the MCCS, is to implement a custom
+        component with the provided Zustand store that contains the state
+        variables and actions required to implement custom phone number inputs.
       </P>
       <CombinedComponentsSection />
       <CustomComponentsSection />

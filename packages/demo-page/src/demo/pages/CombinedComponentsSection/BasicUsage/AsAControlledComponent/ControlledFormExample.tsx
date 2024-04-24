@@ -3,16 +3,16 @@ import { Box, Grid, Typography, Button } from '@mui/material';
 import { CountryCodeSelectorCombined } from 'mui-country-code-selector';
 
 function TestForm() {
-  const [homePhoneNumValue, setHomePhoneNumValue] = useState('');
+  const [phoneNumValue, setPhoneNumValue] = useState('');
   const [result, setResult] = useState('');
 
-  const homePhoneOnChange = useCallback(
-    (e: { target: { value: string } }) => setHomePhoneNumValue(e.target.value),
+  const phoneOnChange = useCallback(
+    (e: { target: { value: string } }) => setPhoneNumValue(e.target.value),
     []
   );
 
   const clearForm = useCallback(() => {
-    setHomePhoneNumValue('');
+    setPhoneNumValue('');
     setResult('');
   }, []);
 
@@ -21,7 +21,7 @@ function TestForm() {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          setResult(`Phone, home: ${homePhoneNumValue}`);
+          setResult(`Phone, home: ${phoneNumValue}`);
           setTimeout(() => {
             setResult('');
           }, 6000);
@@ -29,9 +29,8 @@ function TestForm() {
       >
         <Grid container columnSpacing={{ xs: 1 }} rowSpacing={{ xs: 1 }}>
           <CountryCodeSelectorCombined
-            value={homePhoneNumValue}
-            phoneNumberLabel="Home phone number"
-            onChange={homePhoneOnChange}
+            value={phoneNumValue}
+            onChange={phoneOnChange}
             layout="gridItems"
           />
           <Grid item xs={12}>

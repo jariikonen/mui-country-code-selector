@@ -35,7 +35,7 @@ export default function CodeBox({
   tsPath,
   style = undefined,
   embedded = false,
-  maxHeight = '20rem',
+  maxHeight = '25rem',
 }: CodeBoxProps) {
   const defaultStyle = {
     lineHeight: '1',
