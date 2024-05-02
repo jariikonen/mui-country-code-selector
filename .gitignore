@@ -25,3 +25,5 @@ dist-ssr
 
 # Other temporary files
 etc
+temp
+docs
