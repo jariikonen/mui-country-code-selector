@@ -9,7 +9,8 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "copy-docs": "cp -r ../mui-country-code-selector/docs ./dist"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",

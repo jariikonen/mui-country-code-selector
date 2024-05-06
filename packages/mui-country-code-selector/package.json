@@ -18,7 +18,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest run",
-    "create-doc": "mkdir -p etc && api-extractor run --local --verbose && api-documenter markdown --input-folder ./temp --output-folder ./docs"
+    "create-docs": "mkdir -p etc && api-extractor run --local --verbose && api-documenter markdown --input-folder ./temp --output-folder ./docs"
   },
   "dependencies": {
     "zustand": "^4.5.0"

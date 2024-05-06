@@ -1,0 +1,78 @@
+# This workflow will run tests and then publish a package to npm when a release is created.
+
+on:
+  push:
+    branches:
+      - main
+
+name: release and publish
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci -w mui-country-code-selector
+      - run: npm test -w mui-country-code-selector
+
+  release:
+    needs: [test]
+    # permissions for the GITHUB_TOKEN to allow deployment to GitHub Pages
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-22.04
+    steps:
+      # create a release
+      - uses: google-github-actions/release-please-action@a37ac6e4f6449ce8b3f7607e4d97d0146028dc0b # v4.1.0
+        id: release
+        with:
+          # a personal access token (PAT) (with Read and Write access to code/
+          # contents and pull requests) is needed for the release-please to be
+          # able to trigger another workflow that is run after the pull request
+          # is accepted
+          token: ${{ secrets.RELEASE_TOKEN }}
+          release-type: node
+
+      # build and publish package to npm
+      - uses: actions/checkout@v4
+        if: ${{ steps.release.outputs.release_created }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm ci -w mui-country-code-selector
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm run build -w mui-country-code-selector
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm run create-docs -w mui-country-code-selector
+        if: ${{ steps.release.outputs.release_created }}
+      #- run: npm publish -w mui-country-code-selector
+      #  env:
+      #    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      #  if: ${{ steps.release.outputs.release_created }}
+
+      # build and publish the demo page to GitHub pages
+      - run: npm ci -w demo-page
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm run build -w demo-page
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm run copy-docs -w demo-page
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./packages/demo-page/dist"
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
