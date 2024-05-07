@@ -44,7 +44,7 @@ export interface WrapperProps {
 }
 
 /**
- * Wraps the combined country code selector's subcomponents into MUI's `Grid`,
+ * Wraps the composite country code selector's subcomponents into MUI's `Grid`,
  * `Grid2` or `FormGroup` components according to the `layout` prop's value.
  * @alpha
  */
