@@ -19,7 +19,7 @@ export default function Variants() {
         component as basis for its selector and phone number input
         subcomponents. TextFields come in three variants: <i>outlined</i>{' '}
         (default), <i>filled</i> and <i>standard</i>. A variant used for the
-        both subcomponents of a combined component can be set with the{' '}
+        both subcomponents of a composite component can be set with the{' '}
         <code>variant</code> prop.
       </P>
       <CodeBox tsPath="Variants/variantSnippet.txt" />

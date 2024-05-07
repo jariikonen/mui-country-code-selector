@@ -9,29 +9,35 @@ export default function CustomComponentsSection() {
     <>
       <H2>Implementing a custom component</H2>
       <P>
-        The provided Zustand store contains the state and actions required to
-        implement a custom country code selector component, when used with
-        suitable autocomplete and input components. Using these subcomponents it
-        is possible to implement a custom country code selector components, that
-        change or extend the functionality of the basic MCCS, or the way it is
-        rendered.
+        The provided Zustand{' '}
+        <A href="/" newTab>
+          store
+        </A>{' '}
+        contains the state and actions required to implement a custom country
+        code selector component, when used with suitable autocomplete and input
+        components. Using these subcomponents it is possible to implement a
+        custom country code selector components, that change or extend the
+        functionality of the basic MCCS, or the way it is rendered.
       </P>
       <P>
         The full details of the country code store API can be found from the{' '}
-        <A href="#">API documentation</A> page, but here are some basic
-        guidelines. Subscribing to the store values and actions is done using
-        the <code>useCountryCodeStore</code> function.
+        <A href="#" newTab>
+          API documentation
+        </A>{' '}
+        page, but here are some basic guidelines. Subscribing to the store
+        values and actions is done using the <code>useCountryCodeStore</code>{' '}
+        function.
       </P>
       <CodeBox tsPath="CustomComponentsSection/subscribingSnippet" />
       <P>
         These values and actions are especially important. First, the store must
         be initialized with the <code>initialize</code> action. It takes three
-        optional parameters: time the error message is displayed in seconds, a
-        possible external error handler function, and a possible change event
-        handler. Then, if the component is used as a controlled component its
-        value can be changed from the outside. This must be handled with the{' '}
-        <code>handleValueChange</code> function in a <code>useEffect</code>{' '}
-        hook.
+        optional parameters: <i>time</i> the error message is displayed in
+        seconds, a possible external <i>error handler</i> function, and a
+        possible <i>change event handler</i>. Then, if the component is used as
+        a controlled component its value can be changed from the outside. This
+        must be handled with the <code>handleValueChange</code> function in a{' '}
+        <code>useEffect</code> hook.
       </P>
       <P>
         Preventing the input value from changing as the change event suggests,
@@ -70,17 +76,18 @@ export default function CustomComponentsSection() {
       </P>
       <H3>The store provider</H3>
       <P>
-        Normally, using a Zustand store does not require use of contexts. This
-        is because the store is normally used as the global state. However,
-        since each MCCS must have its own state (or every phone number input
-        will have the same values), we must wrap our custom component inside a{' '}
-        <code>CountryCodeStoreProvider</code> contex provider tags.
+        Normally, when a Zustand store is used as the global state, a context
+        provider is not needed. However, since each MCCS must have its own state
+        (otherwise every phone number input would have the same values), we must
+        wrap our custom component inside a <code>CountryCodeStoreProvider</code>{' '}
+        contex provider tags.
       </P>
       <CodeBox tsPath="CustomComponentsSection/contextProviderSnippet" />
       <P>
         This can be done, for example, in a higher order component, which
         abstracts away the need to use the context wrapper. See the{' '}
-        <A href="#customcountrycodeselector-index-tsx">source code</A> below.
+        <A href="#customcountrycodeselector-index-tsx">source code</A> of{' '}
+        <code>CustomCountryCodeSelector/index.tsx</code> below.
       </P>
       <H3>Example</H3>
       <ExampleWrapper tsCodePath="CustomComponentsSection/CustomCountryCodeSelectorExample">
