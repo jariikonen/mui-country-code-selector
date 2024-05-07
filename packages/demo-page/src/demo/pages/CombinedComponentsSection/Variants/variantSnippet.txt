@@ -1,9 +1,0 @@
-<CountryCodeSelectorCombined
-  variant="outlined"
-/>
-<CountryCodeSelectorCombined
-  variant="filled"
-/>
-<CountryCodeSelectorCombined
-  variant="standard"
-/>

@@ -1,0 +1,8 @@
+const phoneNumRef = useRef<HTMLInputElement | null>(null);
+
+// ...
+
+<CountryCodeSelectorComposite
+  inputRef={phoneNumRef}
+  layout="gridItems"
+/>

@@ -1,17 +1,27 @@
-import { useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Box, Grid, Typography, Button } from '@mui/material';
-import { CountryCodeSelectorComposite } from '../..';
+import { CountryCodeSelectorComposite } from 'mui-country-code-selector';
 
-function TestForm() {
-  const homePhoneNumRef = useRef<HTMLInputElement | null>(null);
+export default function PropsExample() {
+  const [phoneNumValue, setPhoneNumValue] = useState('');
   const [result, setResult] = useState('');
+
+  const phoneOnChange = useCallback(
+    (e: { target: { value: string } }) => setPhoneNumValue(e.target.value),
+    []
+  );
+
+  const clearForm = useCallback(() => {
+    setPhoneNumValue('');
+    setResult('');
+  }, []);
 
   return (
     <Box sx={{ flexGrow: 1, maxWidth: '600px' }}>
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          setResult(`Phone, home: ${homePhoneNumRef.current?.value}`);
+          setResult(`Phone, home: ${phoneNumValue}`);
           setTimeout(() => {
             setResult('');
           }, 6000);
@@ -19,9 +29,19 @@ function TestForm() {
       >
         <Grid container columnSpacing={{ xs: 1 }} rowSpacing={{ xs: 1 }}>
           <CountryCodeSelectorComposite
-            phoneNumberLabel="Home phone number"
-            inputRef={homePhoneNumRef}
+            value={phoneNumValue}
+            onChange={phoneOnChange}
             layout="gridItems"
+            selectorProps={{
+              label: 'Selector',
+              shrink: true,
+              variant: 'filled',
+            }}
+            inputProps={{
+              label: 'Input',
+              InputLabelProps: { shrink: true },
+              variant: 'filled',
+            }}
           />
           <Grid item xs={12}>
             <Grid container direction="row" columnSpacing={{ xs: 1 }}>
@@ -31,7 +51,7 @@ function TestForm() {
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="contained" type="reset">
+                <Button variant="contained" type="button" onClick={clearForm}>
                   Clear
                 </Button>
               </Grid>
@@ -47,5 +67,3 @@ function TestForm() {
     </Box>
   );
 }
-
-export default TestForm;

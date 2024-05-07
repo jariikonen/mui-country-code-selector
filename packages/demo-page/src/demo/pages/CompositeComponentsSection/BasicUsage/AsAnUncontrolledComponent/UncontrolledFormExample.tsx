@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
 import { Box, Grid, Typography, Button } from '@mui/material';
-import { CountryCodeSelectorComposite } from '../..';
+import { CountryCodeSelectorComposite } from 'mui-country-code-selector';
 
 function TestForm() {
-  const homePhoneNumRef = useRef<HTMLInputElement | null>(null);
+  const phoneNumRef = useRef<HTMLInputElement | null>(null);
   const [result, setResult] = useState('');
 
   return (
@@ -11,7 +11,7 @@ function TestForm() {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          setResult(`Phone, home: ${homePhoneNumRef.current?.value}`);
+          setResult(`Phone, home: ${phoneNumRef.current?.value}`);
           setTimeout(() => {
             setResult('');
           }, 6000);
@@ -19,8 +19,7 @@ function TestForm() {
       >
         <Grid container columnSpacing={{ xs: 1 }} rowSpacing={{ xs: 1 }}>
           <CountryCodeSelectorComposite
-            phoneNumberLabel="Home phone number"
-            inputRef={homePhoneNumRef}
+            inputRef={phoneNumRef}
             layout="gridItems"
           />
           <Grid item xs={12}>

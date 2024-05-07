@@ -4,7 +4,7 @@ import PossibleCountries from './PossibleCountries';
 
 /**
  * Represents a common state between the country code autocomplete component
- * and the phone number input component in the React version of the combined
+ * and the phone number input component in the React version of the composite
  * component.
  * @alpha
  */

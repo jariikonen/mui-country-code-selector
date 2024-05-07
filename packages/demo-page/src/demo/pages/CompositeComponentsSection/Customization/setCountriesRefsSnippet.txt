@@ -1,0 +1,27 @@
+// ...
+
+function getOptionLabel(option: CountryType) {
+  countryRef.current = option;
+  return `${option.country}`;
+}
+
+// ...
+
+const phoneOnChange = useCallback((e: { target: { value: string } }) => {
+  const { value } = e.target;
+  setPhoneNumValue(value);
+  if (value && countryRef.current?.country) {
+    selectedCountryRef.current = { ...countryRef.current };
+  } else {
+    selectedCountryRef.current = null;
+  }
+}, []);
+
+// ...
+
+<CountryCodeSelectorComposite
+  // ...
+  onChange={phoneOnChange}
+/>
+
+// ...

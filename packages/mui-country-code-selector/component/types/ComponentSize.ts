@@ -1,7 +1,7 @@
 import { GridSize } from '@mui/material';
 
 /**
- * Represents a value for the combined component props that change the size of
+ * Represents a value for the composite component props that change the size of
  * country code selector subcomponents in a MUI Grid (or Grid2).
  * @alpha
  */

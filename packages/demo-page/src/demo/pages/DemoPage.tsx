@@ -3,7 +3,7 @@ import { H1, P } from '../components/TypographyWrappers';
 import A from '../components/Link';
 import Footer from '../components/Footer';
 import './demoPage.css';
-import CombinedComponentsSection from './CombinedComponentsSection';
+import CompositeComponentsSection from './CompositeComponentsSection';
 import CustomComponentsSection from './CustomComponentsSection';
 
 export default function DemoPage() {
@@ -49,13 +49,13 @@ export default function DemoPage() {
         <i>combines</i> a <code>CountryCodeSelector</code> component with a MUI{' '}
         <code>TextField</code> component. The latter functions as the actual
         phone number input, while the former implements the country code
-        selector. The combining <code>CountryCodeSelectorCombined</code>{' '}
+        selector. The combining <code>CountryCodeSelectorComposite</code>{' '}
         component adds the state between these subcomponents that glues them
         together. The other way to use the MCCS, is to implement a custom
         component with the provided Zustand store that contains the state
         variables and actions required to implement custom phone number inputs.
       </P>
-      <CombinedComponentsSection />
+      <CompositeComponentsSection />
       <CustomComponentsSection />
       <Footer />
     </Container>

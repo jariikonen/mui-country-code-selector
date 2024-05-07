@@ -1,27 +1,44 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable react/jsx-props-no-spreading */
 import { useCallback, useState } from 'react';
-import { Box, Grid, Typography, Button } from '@mui/material';
-import { CountryCodeSelectorComposite } from '../../component/CountryCodeSelectorComposite';
+import {
+  Box,
+  Grid,
+  Typography,
+  Button,
+  AutocompleteRenderInputParams,
+} from '@mui/material';
+import { CountryCodeSelectorComposite } from 'mui-country-code-selector';
 
-function TestForm() {
-  const [homePhoneNumValue, setHomePhoneNumValue] = useState('');
+export default function RenderInputExample() {
+  const [phoneNumValue, setPhoneNumValue] = useState('');
   const [result, setResult] = useState('');
 
-  const homePhoneOnChange = useCallback(
-    (e: { target: { value: string } }) => setHomePhoneNumValue(e.target.value),
+  const phoneOnChange = useCallback(
+    (e: { target: { value: string } }) => setPhoneNumValue(e.target.value),
     []
   );
 
   const clearForm = useCallback(() => {
-    setHomePhoneNumValue('');
+    setPhoneNumValue('');
     setResult('');
   }, []);
+
+  const renderInput = (params: AutocompleteRenderInputParams) => (
+    <div ref={params.InputProps.ref}>
+      <label>
+        Country code:
+        <input type="text" {...params.inputProps} />
+      </label>
+    </div>
+  );
 
   return (
     <Box sx={{ flexGrow: 1, maxWidth: '600px' }}>
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          setResult(`Phone, home: ${homePhoneNumValue}`);
+          setResult(`Phone, home: ${phoneNumValue}`);
           setTimeout(() => {
             setResult('');
           }, 6000);
@@ -29,10 +46,12 @@ function TestForm() {
       >
         <Grid container columnSpacing={{ xs: 1 }} rowSpacing={{ xs: 1 }}>
           <CountryCodeSelectorComposite
-            value={homePhoneNumValue}
-            phoneNumberLabel="Home phone number"
-            onChange={homePhoneOnChange}
+            value={phoneNumValue}
+            onChange={phoneOnChange}
             layout="gridItems"
+            selectorProps={{
+              renderInput,
+            }}
           />
           <Grid item xs={12}>
             <Grid container direction="row" columnSpacing={{ xs: 1 }}>
@@ -58,5 +77,3 @@ function TestForm() {
     </Box>
   );
 }
-
-export default TestForm;

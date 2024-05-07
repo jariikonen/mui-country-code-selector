@@ -1,0 +1,25 @@
+import { matchSorter } from 'match-sorter';
+
+// ...
+
+const filterOptions = (
+  options: CountryType[],
+  { inputValue }: { inputValue: string; getOptionLabel: object }
+) => {
+  const inputVal = inputValue.startsWith('+')
+    ? inputValue.substring(1)
+    : inputValue;
+  return matchSorter<CountryType>(options, inputVal, {
+    keys: ['country', 'code', 'iso'],
+  });
+};
+
+// ...
+
+<CountryCodeSelectorComposite
+  value={phoneNumValue}
+  onChange={phoneOnChange}
+  selectorProps={{
+    filterOptions,
+  }}
+/>

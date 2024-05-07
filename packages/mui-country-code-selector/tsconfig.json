@@ -27,7 +27,7 @@
     "component",
     "src",
     "testSetup.ts",
-    "component/CountryCodeSelectorCombined",
+    "component/CountryCodeSelectorComposite",
     "component/CountryCodeSelector"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]

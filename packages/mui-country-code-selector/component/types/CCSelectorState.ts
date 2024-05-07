@@ -112,9 +112,9 @@ interface CCSelectorState {
 
   /**
    * Sets a change handler function that is run with the current phone number
-   * value every time the value changes. This is used e.g., in the combined
-   * selector components (`CountryCodeSelectorCombinedZustand` and
-   * `CountryCodeSelectorCombinedReact`) to update the value prop when the
+   * value every time the value changes. This is used e.g., in the composite
+   * selector components (`CountryCodeSelectorCompositeZustand` and
+   * `CountryCodeSelectorCompositeReact`) to update the value prop when the
    * component is used as a controlled component.
    */
   setChangeHandler: (

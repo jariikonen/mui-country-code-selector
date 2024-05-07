@@ -1,0 +1,4 @@
+<CountryCodeSelectorComposite
+  countryCodeLabel="Country"
+  phoneNumberLabel="Home phone number"
+/>

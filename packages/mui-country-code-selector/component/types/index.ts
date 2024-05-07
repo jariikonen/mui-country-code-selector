@@ -1,4 +1,4 @@
-export type { default as CCSelectorCombinedProps } from './CCSelectorCombinedProps';
+export type { default as CCSelectorCompositeProps } from './CCSelectorCompositeProps';
 export type { default as CCSelectorProps } from './CCSelectorProps';
 export type { default as CCSelectorState } from './CCSelectorState';
 export type { default as ComponentSize } from './ComponentSize';

@@ -1,0 +1,13 @@
+function getOptionLabel(option: CountryType) {
+  return `${option.code} ${option.iso} ${option.country}`;
+}
+
+// ...
+
+<CountryCodeSelectorComposite
+  value={phoneNumValue}
+  onChange={phoneOnChange}
+  selectorProps={{
+    getOptionLabel,
+  }}
+/>

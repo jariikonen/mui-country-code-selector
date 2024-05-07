@@ -1,5 +1,5 @@
 /**
- * Represents a value of the `CombinedCountryCodeSelector`'s prop that defines
+ * Represents a value of the `CompositeCountryCodeSelector`'s prop that defines
  * what kind of layout components its subcomponents are wrapped in, if any.
  * @alpha
  */
