@@ -7,6 +7,9 @@ on:
 
 name: release and publish
 
+env:
+  HUSKY: 0
+
 jobs:
   test:
     runs-on: ubuntu-22.04
@@ -15,8 +18,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm ci -w mui-country-code-selector
-      - run: npm test -w mui-country-code-selector
+      - run: npm i -w mui-country-code-selector
+      - run: npm run test -w mui-country-code-selector
 
   release:
     needs: [test]
@@ -49,19 +52,19 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
         if: ${{ steps.release.outputs.release_created }}
-      - run: npm ci -w mui-country-code-selector
+      - run: npm i -w mui-country-code-selector
         if: ${{ steps.release.outputs.release_created }}
       - run: npm run build -w mui-country-code-selector
         if: ${{ steps.release.outputs.release_created }}
       - run: npm run create-docs -w mui-country-code-selector
         if: ${{ steps.release.outputs.release_created }}
-      #- run: npm publish -w mui-country-code-selector
-      #  env:
-      #    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-      #  if: ${{ steps.release.outputs.release_created }}
+      - run: npm publish -w mui-country-code-selector
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        if: ${{ steps.release.outputs.release_created }}
 
       # build and publish the demo page to GitHub pages
-      - run: npm ci -w demo-page
+      - run: npm i -w demo-page
         if: ${{ steps.release.outputs.release_created }}
       - run: npm run build -w demo-page
         if: ${{ steps.release.outputs.release_created }}
@@ -69,10 +72,13 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        if: ${{ steps.release.outputs.release_created }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: "./packages/demo-page/dist"
+        if: ${{ steps.release.outputs.release_created }}
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        if: ${{ steps.release.outputs.release_created }}
