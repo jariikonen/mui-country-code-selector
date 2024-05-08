@@ -1,7 +1,7 @@
 {
   "name": "mui-country-code-selector",
   "version": "0.0.0",
-  "private": true,
+  "private": false,
   "description": "A country code selector component",
   "author": "Jari Ikonen",
   "license": "MIT",
@@ -11,6 +11,19 @@
   "files": [
     "dist/mui-country-code-selector.js",
     "dist/mui-country-code-selector.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jariikonen/mui-country-code-selector",
+    "directory": "packages/mui-country-code-selector"
+  },
+  "keywords": [
+    "telephone",
+    "phone",
+    "number",
+    "country",
+    "code",
+    "input"
   ],
   "scripts": {
     "dev": "vite",

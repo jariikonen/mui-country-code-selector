@@ -1,7 +1,7 @@
 {
   "name": "demo-page",
   "version": "0.0.0",
-  "private": true,
+  "private": false,
   "author": "Jari Ikonen",
   "type": "module",
   "scripts": {
