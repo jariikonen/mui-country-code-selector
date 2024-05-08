@@ -8,5 +8,11 @@
   "workspaces": [
     "packages/demo-page",
     "packages/mui-country-code-selector"
-  ]
+  ],
+  "devDependencies": {
+    "husky": "^9.0.11"
+  },
+  "scripts": {
+    "prepare": "husky"
+  }
 }
