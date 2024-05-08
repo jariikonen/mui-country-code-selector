@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Box, Grid, Typography, Button } from '@mui/material';
-import { CountryCodeSelectorComposite } from '../..';
+import { CountryCodeSelectorComposite } from '../../component/CountryCodeSelectorComposite';
 
 function TestForm() {
   const homePhoneNumRef = useRef<HTMLInputElement | null>(null);
