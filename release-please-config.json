@@ -3,8 +3,6 @@
   "bump-patch-for-minor-pre-major": true,
   "release-type": "node",
   "packages": {
-    ".": {},
-    "packages/demo-page": {},
     "packages/mui-country-code-selector": {
       "package-name": "mui-country-code-selector",
       "changelog-path": "packages/mui-country-code-selector/CHANGELOG.md"
