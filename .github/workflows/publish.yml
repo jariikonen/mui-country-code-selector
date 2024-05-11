@@ -5,7 +5,7 @@ on:
     branches:
       - main
 
-name: release and publish
+name: Release and Publish
 
 env:
   HUSKY: 0
