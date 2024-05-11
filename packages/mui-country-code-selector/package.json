@@ -31,7 +31,9 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest run",
-    "create-docs": "mkdir -p etc && api-extractor run --local --verbose && api-documenter markdown --input-folder ./temp --output-folder ./docs"
+    "create-docs": "mkdir -p etc && api-extractor run --local --verbose && api-documenter markdown --input-folder ./temp --output-folder ./docs",
+    "install-and-build": "npm i -w mui-country-code-selector && npm run build -w mui-country-code-selector && npm run create-docs -w mui-country-code-selector",
+    "cleanup": "rm -rf ./dist && rm -rf ./docs && rm -rf ./etc && rm -rf ./node_modules && rm -rf ./temp"
   },
   "dependencies": {
     "zustand": "^4.5.0"

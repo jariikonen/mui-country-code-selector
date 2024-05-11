@@ -10,7 +10,9 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest run",
-    "copy-docs": "cp -r ../mui-country-code-selector/docs ./dist"
+    "copy-docs": "cp -r ../mui-country-code-selector/docs ./dist",
+    "install-and-build": "npm i -w demo-page && npm run build -w demo-page && npm run copy-docs -w demo-page",
+    "cleanup": "rm -rf ./dist && rm -rf ./node_modules"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",

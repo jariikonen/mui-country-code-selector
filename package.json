@@ -13,6 +13,8 @@
     "husky": "^9.0.11"
   },
   "scripts": {
-    "prepare": "if [ -z $CI ]; then husky; fi"
+    "prepare": "if [ -z $CI ]; then husky; fi",
+    "install-and-build": "npm i -ws false & npm run install-and-build -w mui-country-code-selector && npm run install-and-build -w demo-page",
+    "cleanup": "rm -rf ./node_modules && npm run cleanup -w demo-page && npm run cleanup -w mui-country-code-selector"
   }
 }
