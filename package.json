@@ -14,7 +14,9 @@
   },
   "scripts": {
     "prepare": "if [ -z $CI ]; then husky; fi",
+    "test": "npm run test -w mui-country-code-selector",
     "install-and-build": "npm i -ws false & npm run install-and-build -w mui-country-code-selector && npm run install-and-build -w demo-page",
-    "cleanup": "rm -rf ./node_modules && npm run cleanup -w demo-page && npm run cleanup -w mui-country-code-selector"
+    "cleanup": "rm -rf ./node_modules && npm run cleanup -w demo-page && npm run cleanup -w mui-country-code-selector",
+    "clean-install-and-test": "npm run cleanup && npm run install-and-build && npm run test"
   }
 }
