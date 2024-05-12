@@ -33,7 +33,7 @@
     "test": "vitest run",
     "create-docs": "mkdir -p etc && api-extractor run --local --verbose && api-documenter markdown --input-folder ./temp --output-folder ./docs",
     "install-and-build": "npm i -w mui-country-code-selector && npm run build -w mui-country-code-selector && npm run create-docs -w mui-country-code-selector",
-    "cleanup": "rm -rf ./dist && rm -rf ./docs && rm -rf ./etc && rm -rf ./node_modules && rm -rf ./temp"
+    "cleanup": "rm -rf ./dist && rm -rf ./docs && rm -rf ./node_modules && rm -rf ./temp"
   },
   "dependencies": {
     "zustand": "^4.5.0"
