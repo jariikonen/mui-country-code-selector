@@ -1,2 +1,3 @@
 npm run lint -w mui-country-code-selector
 npm run test -w mui-country-code-selector
+npm run lint -w demo-page
