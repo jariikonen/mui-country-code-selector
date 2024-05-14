@@ -42,7 +42,6 @@ jobs:
           # able to trigger another workflow that is run after the pull request
           # is accepted
           token: ${{ secrets.RELEASE_TOKEN }}
-          release-type: node
 
       # build and publish package to npm
       - uses: actions/checkout@v4
