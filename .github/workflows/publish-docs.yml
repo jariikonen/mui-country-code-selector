@@ -34,7 +34,7 @@ jobs:
       - name: Build the MCCS and create API documentation
         run: npm i -w mui-country-code-selector && npm run build -w mui-country-code-selector && npm run create-docs -w mui-country-code-selector
       - name: Build the demo page
-        run: npm i -w demo-page && npm run build -w demo-page && npm run copy-docs -w demo-page
+        run: npm i -w demo-page && npm run build -w demo-page
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
