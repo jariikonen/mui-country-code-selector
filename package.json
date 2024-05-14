@@ -1,6 +1,6 @@
 {
   "name": "mui-country-code-selector-monorepo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "description": "A monorepo for the MUI Country Code Selector and its demo page",
   "author": "Jari Ikonen",
