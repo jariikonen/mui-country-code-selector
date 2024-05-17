@@ -7,7 +7,7 @@ import CountryCodeSelectorCompositeInner from './CountryCodeSelectorCompositeZus
  * autocomplete field. Based on MUI's `Autocomplete` (
  * {@link https://mui.com/material-ui/react-autocomplete/}) and `TextField` (
  * {@link https://mui.com/material-ui/react-text-field/}) components. These
- * subcomponents are composite using a common state that is implemented
+ * subcomponents are combined using a common state that is implemented
  * differently in specific variants of the component.
  *
  * This component variant uses the provided Zustand store as the common state
