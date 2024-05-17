@@ -1,0 +1,61 @@
+.open-sans-ff {
+  font-family: 'Open Sans', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: 'wdth' 100;
+}
+
+body {
+  font-family: open-sans-ff, Arial, Helvetica, sans-serif;
+  padding: 0.5rem 10% 2rem 10%;
+}
+
+h2 {
+  margin-top: 3.5rem;
+}
+
+td {
+  vertical-align: top;
+}
+
+blockquote {
+  background-color: rgb(255, 196, 210);
+  padding: 0.5rem 2rem;
+  border-radius: 1rem;
+  margin: 2rem 1.5rem;
+}
+
+thead tr {
+  border-bottom: solid thin black;
+}
+
+thead th {
+  text-align: left;
+}
+
+thead p {
+  margin-bottom: 0.8rem;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td {
+  padding-right: 1rem;
+}
+
+a {
+  font-weight: 500;
+  color: rgb(0, 106, 255);
+}
+
+a:hover {
+  color: rgb(255, 0, 149);
+}
+
+code {
+  font-size: large;
+  font-weight: lighter;
+}

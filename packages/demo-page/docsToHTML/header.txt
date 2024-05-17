@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link rel="icon" href="/mui-country-code-selector/favicon.ico" sizes="any" />
+<link
+  rel="icon"
+  href="/mui-country-code-selector/favicon/favicon.svg"
+  type="image/svg+xml"
+  sizes="any"
+/>
+<link rel="apple-touch-icon" href="/mui-country-code-selector/favicon/favicon-180.png" />
+<link rel="manifest" href="/mui-country-code-selector/manifest.json" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MUI Country Code Selector - API Documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" crossorigin href="/mui-country-code-selector/docs.css">
+<link rel="stylesheet" crossorigin href="/mui-country-code-selector/highlight.css">
+</head>
+<body>
+<a id="demo-page-link" href="/mui-country-code-selector/">Demo Page</a>
+  
