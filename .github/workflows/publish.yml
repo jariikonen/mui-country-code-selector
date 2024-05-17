@@ -51,11 +51,7 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
         if: ${{ steps.release.outputs.release_created }}
-      - run: npm i -w mui-country-code-selector
-        if: ${{ steps.release.outputs.release_created }}
-      - run: npm run build -w mui-country-code-selector
-        if: ${{ steps.release.outputs.release_created }}
-      - run: npm run create-docs -w mui-country-code-selector
+      - run: npm run install-and-build -w mui-country-code-selector
         if: ${{ steps.release.outputs.release_created }}
       - run: npm publish -w mui-country-code-selector
         env:
@@ -63,11 +59,7 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
 
       # build and publish the demo page to GitHub pages
-      - run: npm i -w demo-page
-        if: ${{ steps.release.outputs.release_created }}
-      - run: npm run build -w demo-page
-        if: ${{ steps.release.outputs.release_created }}
-      - run: npm run copy-docs -w demo-page
+      - run: npm run install-and-build -w demo-page
         if: ${{ steps.release.outputs.release_created }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
