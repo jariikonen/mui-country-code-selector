@@ -10,7 +10,7 @@ import { CountryType } from '../lib/countryCodeData';
 
 /**
  * Creates a default filter options function for the `CountryCodeSelector`'s
- * `Autocomplete` component. See
+ * underlying `Autocomplete` component. See
  * {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-filterOptions}
  * and {@link https://mui.com/material-ui/react-autocomplete/#custom-filter}
  * for more information about custom filtering.
@@ -26,7 +26,7 @@ export function createDefaultFilterOptions() {
 
 /**
  * Default function for rendering the options in the `CountryCodeSelector`'s
- * `Autocomplete` component. See
+ * underlying `Autocomplete` component. See
  * {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-renderOption}
  * for more information about the `renderOption` prop.
  * @param props - The props to apply on the `li` element.
@@ -47,7 +47,7 @@ export function defaultRenderOption(
 
 /**
  * Returns a default function for rendering the input component of the
- * `CountryCodeSelector`'s `Autocomplete` component. See
+ * `CountryCodeSelector`'s underlying `Autocomplete` component. See
  * {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-renderInput}
  * for more information about the `renderInput` prop.
  * @param label - CountryCodeSelector component's label passed to the input
@@ -81,8 +81,8 @@ export function createDefaultRenderInput(
 
 /**
  * A default function for getting the option label string in the
- * `CountryCodeSelector`'s `Autocomplete` component. See
- * {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-getOptionLabel}
+ * `CountryCodeSelector`'s underlying `Autocomplete` component.
+ * See {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-getOptionLabel}
  * for more information about the `getOptionLabel` prop.
  * @param option - The option for which the string is to be formed.
  * @returns The option label string.

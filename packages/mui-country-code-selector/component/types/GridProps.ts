@@ -1,7 +1,7 @@
 import { Grid2Props, GridProps } from '@mui/material';
 
 /**
- * Represents the props that can be passed to a MUI Grid container component
+ * Represents the props that can be passed to a MUI `Grid` container component
  * used for the layout of the subcomponents of composite country code selector
  * component.
  * @alpha
@@ -11,7 +11,7 @@ export type GridContainerProps = Partial<
 >;
 
 /**
- * Represents the props that can be passed to a MUI Grid item components
+ * Represents the props that can be passed to a MUI `Grid` item components
  * used for the layout of the subcomponents of composite country code selector
  * component.
  * @alpha
@@ -21,7 +21,7 @@ export type GridItemProps = Partial<
 >;
 
 /**
- * Represents the props that can be passed to a MUI Grid2 container component
+ * Represents the props that can be passed to a MUI `Grid2` container component
  * used for the layout of the subcomponents of composite country code selector
  * component.
  * @alpha
@@ -31,7 +31,7 @@ export type Grid2ContainerProps = Partial<
 >;
 
 /**
- * Represents the props that can be passed to a MUI Grid2 item components
+ * Represents the props that can be passed to a MUI `Grid2` item components
  * used for the layout of the subcomponents of composite country code selector
  * component.
  * @alpha

@@ -8,9 +8,9 @@ import InputSelection from './InputSelection';
 import { CountryType } from '../lib/countryCodeData';
 
 /**
- * Represents a common state between the country code autocomplete component
- * and the phone number input component, which together form a complete phone
- * number input component.
+ * Represents a common state between the autocomplete component for selecting
+ * the country code and the phone number input component, which together form
+ * a complete phone number input component.
  * @alpha
  */
 interface CCSelectorState {

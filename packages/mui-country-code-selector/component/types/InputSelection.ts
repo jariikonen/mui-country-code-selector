@@ -1,5 +1,5 @@
 /**
- * Represents the text selection range within an input element (phone number
+ * Represents the text selection range within the input element (phone number
  * input).
  * @alpha
  */

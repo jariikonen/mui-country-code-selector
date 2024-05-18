@@ -13,8 +13,8 @@ import {
 
 /**
  * Autocomplete component to select the country code of a phone number from a
- * list of countries. Based on the MUI Autocomplete component (
- * {@link https://mui.com/material-ui/react-autocomplete}). Can be used in
+ * list of countries. Based on the MUI `Autocomplete` component
+ * ({@link https://mui.com/material-ui/react-autocomplete}). Can be used in
  * conjunction with a text input field and common state between the
  * subcomponents to create a complete phone number input component.
  * @alpha
