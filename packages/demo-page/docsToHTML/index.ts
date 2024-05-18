@@ -45,6 +45,8 @@ const md = markdownit({
   },
 });
 
+// override the fenced block renderer to remove the pre tag from around the
+// code blocks (https://github.com/markdown-it/markdown-it/issues/269)
 md.renderer.rules.fence = (tokens, idx, options) => {
   const token = tokens[idx];
   const info = token.info ? md.utils.unescapeAll(token.info).trim() : '';
