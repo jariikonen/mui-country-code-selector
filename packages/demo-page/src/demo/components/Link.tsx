@@ -7,6 +7,11 @@ interface LinkProps extends MUILinkProps {
   newTab?: boolean;
 }
 
+const commonProps: MUILinkProps = {
+  color: 'rgb(0, 117, 226)',
+  sx: { '&:hover': { color: 'rgb(255, 0, 149)' } },
+};
+
 export default function Link({
   href,
   children,
@@ -15,13 +20,19 @@ export default function Link({
 }: LinkProps) {
   if (newTab) {
     return (
-      <MUILink href={href} target="_blank" rel="noopener noreferrer" {...rest}>
+      <MUILink
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        {...commonProps}
+        {...rest}
+      >
         {children}
       </MUILink>
     );
   }
   return (
-    <MUILink href={href} {...rest}>
+    <MUILink href={href} {...commonProps} {...rest}>
       {children}
     </MUILink>
   );

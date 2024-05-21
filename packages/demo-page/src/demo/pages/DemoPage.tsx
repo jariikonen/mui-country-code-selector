@@ -15,6 +15,9 @@ export default function DemoPage() {
         newTab
       >
         API documentation
+      </A>{' '}
+      <A href="https://github.com/jariikonen/mui-country-code-selector/" newTab>
+        Repository
       </A>
       <H1>MUI Country Code Selector</H1>
       <P>

@@ -21,5 +21,6 @@
 </head>
 <body>
 <div id="root-container">
-<a id="demo-page-link" href="/mui-country-code-selector/">Demo Page</a>
+<a id="demo-page-link" href="/mui-country-code-selector/" target="_blank" rel="noopener noreferrer">Demo-Page</a>
+<a href="https://github.com/jariikonen/mui-country-code-selector/" target="_blank" rel="noopener noreferrer">Repository</a>
   
