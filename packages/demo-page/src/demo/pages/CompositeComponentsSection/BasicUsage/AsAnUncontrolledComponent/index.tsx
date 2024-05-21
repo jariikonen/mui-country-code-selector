@@ -9,8 +9,8 @@ export default function AsAnUncontrolledComponent() {
     <>
       <H4>As an ucontrolled component</H4>
       <P>
-        When the component is used as an uncontrolled component, it is be passed
-        a React{' '}
+        When the component is used as an uncontrolled component, it is passed a
+        React{' '}
         <A href="https://react.dev/learn/referencing-values-with-refs" newTab>
           ref
         </A>

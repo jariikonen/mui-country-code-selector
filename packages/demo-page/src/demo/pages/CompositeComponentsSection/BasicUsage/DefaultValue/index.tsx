@@ -1,4 +1,5 @@
 import { H4, P } from '../../../../components/TypographyWrappers';
+import A from '../../../../components/Link';
 import CodeBox from '../../../../components/CodeBox';
 
 export default function DefaultValue() {
@@ -10,7 +11,13 @@ export default function DefaultValue() {
         can be set just by setting the initial value of the state variable, that
         is controlling the component&lsquo;s value. The default value of an
         uncontrolled component, however, is set using the{' '}
-        <code>defaultValue</code> prop.
+        <A
+          href="/mui-country-code-selector/docs/mui-country-code-selector.ccselectorcompositeprops.defaultvalue.html"
+          newTab
+        >
+          <code>defaultValue</code>
+        </A>{' '}
+        prop.
       </P>
       <CodeBox tsPath="DefaultValue/defaultValueSnippet.txt" />
     </>

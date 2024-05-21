@@ -28,13 +28,27 @@ export default function AsAControlledComponent() {
         Composite components have a few different{' '}
         <A href="#layout-wrappers">layout wrappers</A>, which define how the
         selector and phone number input are laid out in the HTML. The wrapper
-        can be selected with the <code>layout</code> prop. If the component is
-        placed on a form that is already laid out with a MUI{' '}
+        can be selected with the{' '}
+        <A
+          href="/mui-country-code-selector/docs/mui-country-code-selector.ccselectorcompositeprops.layout.html"
+          newTab
+        >
+          <code>layout</code>
+        </A>{' '}
+        prop (see also its{' '}
+        <A
+          href="/mui-country-code-selector/docs/mui-country-code-selector.layoutprop.html"
+          newTab
+        >
+          type
+        </A>
+        ). If the component is placed on a form that is already laid out with a
+        MUI{' '}
         <A href="https://mui.com/material-ui/react-grid/" newTab>
           Grid
         </A>
         , the easiest way to add the composite component is probably to use the{' '}
-        <code>gridItems</code> wrapper, like in the examples above and below.
+        <code>gridItems</code> option, like in the examples above and below.
         This wraps the subcomponents in Grid <i>item</i> elements.
       </P>
       <ExampleWrapper tsCodePath="AsAControlledComponent/ControlledFormExample.tsx">

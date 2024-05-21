@@ -10,6 +10,12 @@ export default function DemoPage() {
   return (
     <Container>
       <CssBaseline />
+      <A
+        href="/mui-country-code-selector/docs/mui-country-code-selector.html"
+        newTab
+      >
+        API documentation
+      </A>
       <H1>MUI Country Code Selector</H1>
       <P>
         The MUI Country Code Selector (MCCS) is the best way to add a phone
@@ -19,11 +25,11 @@ export default function DemoPage() {
         </A>{' '}
         form. It is built on MUI&apos;s{' '}
         <A href="https://mui.com/material-ui/react-autocomplete/" newTab>
-          Autocomplete
+          <code>Autocomplete</code>
         </A>{' '}
         and{' '}
         <A href="https://mui.com/material-ui/react-text-field/" newTab>
-          TextField
+          <code>TextField</code>
         </A>{' '}
         components, and it can be customized by passing props to the underlying
         components. The API is intended to follow MUI&apos;s API style and allow
@@ -36,8 +42,8 @@ export default function DemoPage() {
         separate input elements (country code selector and phone number input),
         it provides props that can be used for wrapping the subcomponents in
         different ways to fit them to the layout. By default the filtering of
-        options is done using the MUI Autocomplete&apos;s filtering function,
-        but it can be improved with external libraries, such as{' '}
+        options is done using the MUI <code>Autocomplete</code>&apos;s filtering
+        function, but it can be improved with external libraries, such as{' '}
         <A href="https://github.com/kentcdodds/match-sorter" newTab>
           match-sorter
         </A>
@@ -46,17 +52,32 @@ export default function DemoPage() {
       <P>
         There are currently two ways to use the MCCS. The easiest way is to use
         the ready-made composite component, which, as the name suggests, is a
-        composite of the <code>CountryCodeSelector</code> component and the{' '}
-        <code>TextField</code> component. The latter functions as the actual
-        phone number input, while the former implements the country code
-        selector. The <code>CountryCodeSelectorComposite</code> component adds
-        the state between these subcomponents that glues them together. The
-        other way to use the MCCS, is to implement a custom component with the
-        provided{' '}
+        composite of the{' '}
+        <A
+          href="/mui-country-code-selector/docs/mui-country-code-selector.countrycodeselector.html"
+          newTab
+        >
+          <code>CountryCodeSelector</code>
+        </A>{' '}
+        component and the <code>TextField</code> component. The latter functions
+        as the actual phone number input, while the former implements the
+        country code selector. The{' '}
+        <A
+          href="/mui-country-code-selector/docs/mui-country-code-selector.countrycodeselectorcomposite.html"
+          newTab
+        >
+          <code>CountryCodeSelectorComposite</code>
+        </A>{' '}
+        component adds the state between these subcomponents that glues them
+        together. The other way to use the MCCS, is to implement a custom
+        component with the provided{' '}
         <A href="https://github.com/pmndrs/zustand" newTab>
           Zustand
         </A>{' '}
-        <A href="/" newTab>
+        <A
+          href="/mui-country-code-selector/docs/mui-country-code-selector.ccselectorstate.html"
+          newTab
+        >
           store
         </A>{' '}
         that contains the state variables and actions required to implement

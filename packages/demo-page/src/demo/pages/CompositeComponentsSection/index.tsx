@@ -1,4 +1,5 @@
 import { H2, P } from '../../components/TypographyWrappers';
+import A from '../../components/Link';
 import BasicUsage from './BasicUsage';
 import LayoutWrappers from './LayoutWrappers';
 import Variants from './Variants';
@@ -13,13 +14,24 @@ export default function CompositeComponentsSection() {
       <H2 id="composite-components">Composite components</H2>
       <P>
         There are currently two versions of the composite component:{' '}
-        <code>CountryCodeSelectorCompositeZustand</code> and{' '}
-        <code>CountryCodeSelectorCompositeReact</code>. These differ in terms of
-        the state-management solution used. The former uses Zustand to keep the
-        state, while the latter uses React&lsquo;s own state-management
-        utilities. Both versions offer the same API, so in principle either may
-        be used. However, currently the default import is the Zustand version,
-        and it can be imported like this.
+        <A
+          href="/mui-country-code-selector/docs/mui-country-code-selector.countrycodeselectorcomposite.html"
+          newTab
+        >
+          <code>CountryCodeSelectorCompositeZustand</code>
+        </A>{' '}
+        and{' '}
+        <A
+          href="/mui-country-code-selector/docs/mui-country-code-selector.countrycodeselectorcompositereact.html"
+          newTab
+        >
+          <code>CountryCodeSelectorCompositeReact</code>
+        </A>
+        . These differ in terms of the state-management solution used. The
+        former uses Zustand to keep the state, while the latter uses
+        React&lsquo;s own state-management utilities. Both versions offer the
+        same API, so in principle either may be used. However, currently the
+        default import is the Zustand version, and it can be imported like this.
       </P>
       <CodeBox tsPath="CompositeComponentsSection/defaultImportSnippet" />
       <P>The specific versions can be imported like this.</P>
