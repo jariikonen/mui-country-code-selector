@@ -21,7 +21,7 @@ import Grid2Wrapper from './Grid2Wrapper';
 
 /**
  * Props for the `Wrapper` component.
- * @alpha
+ * @internal
  */
 export interface WrapperProps {
   layout?: LayoutProp;
@@ -46,7 +46,7 @@ export interface WrapperProps {
 /**
  * Wraps the composite country code selector's subcomponents into MUI's `Grid`,
  * `Grid2` or `FormGroup` components according to the `layout` prop's value.
- * @alpha
+ * @internal
  */
 export default function Wrapper({
   layout = undefined,

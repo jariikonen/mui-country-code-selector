@@ -6,7 +6,7 @@ import { GridItemProps } from '../../types/GridProps';
 
 /**
  * Represents the props of the `GridWrapper` component.
- * @alpha
+ * @internal
  */
 export interface GridWrapperProps {
   gridItemProps: GridItemProps | undefined;
@@ -20,9 +20,9 @@ export interface GridWrapperProps {
 }
 
 /**
- * Wraps the composite country code selector's subcomponents into a MUI `Grid`
+ * Wraps the composite country code selector's subcomponents into MUI `Grid`
  * and `Grid item`components.
- * @alpha
+ * @internal
  */
 export default function GridWrapper({
   gridItemProps,

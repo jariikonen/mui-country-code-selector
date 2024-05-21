@@ -197,10 +197,14 @@ export type Grid2ContainerProps = Partial<Omit<Grid2Props, 'xs' | 'sm' | 'md' | 
 // @alpha
 export type Grid2ItemProps = Partial<Omit<Grid2Props, 'spacing' | 'rowSpacing' | 'columnSpacing'>>;
 
-// @alpha
+// Warning: (ae-internal-missing-underscore) The name "Grid2Wrapper" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
 export function Grid2Wrapper({ grid2ItemProps, grid2SelectorProps, grid2InputProps, grid2ErrorProps, selectorSize, inputSize, errorSize, children, }: Grid2WrapperProps): JSX_2.Element;
 
-// @alpha
+// Warning: (ae-internal-missing-underscore) The name "Grid2WrapperProps" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
 export interface Grid2WrapperProps {
     // (undocumented)
     children: ReactNode;
@@ -226,10 +230,14 @@ export type GridContainerProps = Partial<Omit<GridProps, 'xs' | 'sm' | 'md' | 'l
 // @alpha
 export type GridItemProps = Partial<Omit<GridProps, 'spacing' | 'rowSpacing' | 'columnSpacing'>>;
 
-// @alpha
+// Warning: (ae-internal-missing-underscore) The name "GridWrapper" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
 export function GridWrapper({ gridItemProps, gridSelectorProps, gridInputProps, gridErrorProps, selectorSize, inputSize, errorSize, children, }: GridWrapperProps): JSX_2.Element;
 
-// @alpha
+// Warning: (ae-internal-missing-underscore) The name "GridWrapperProps" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
 export interface GridWrapperProps {
     // (undocumented)
     children: ReactNode;
@@ -269,10 +277,14 @@ export interface PossibleCountries {
 // @alpha
 export const useCountryCodeStore: () => Pick<CCSelectorState, 'phoneNumStr' | 'countryCodeValue' | 'errorMsg' | 'errorMsgDelay' | 'errorMsgTimeoutObj' | 'phoneNumberInput' | 'clearedRerender' | 'setPhoneNumberInput' | 'setRefs' | 'initialize' | 'cleanUp' | 'handlePhoneNumberChange' | 'handleCountryCodeChange' | 'handleValueChange' | 'placeInputSelection'>;
 
-// @alpha
+// Warning: (ae-internal-missing-underscore) The name "Wrapper" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
 export function Wrapper({ layout, formGroupProps, gridContainerProps, gridItemProps, gridSelectorProps, gridInputProps, gridErrorProps, grid2ContainerProps, grid2ItemProps, grid2SelectorProps, grid2InputProps, grid2ErrorProps, stackProps, selectorSize, inputSize, errorSize, children, }: WrapperProps): JSX_2.Element;
 
-// @alpha
+// Warning: (ae-internal-missing-underscore) The name "WrapperProps" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
 export interface WrapperProps {
     // (undocumented)
     children: ReactNode;
