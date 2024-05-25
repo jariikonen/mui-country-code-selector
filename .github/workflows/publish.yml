@@ -45,31 +45,31 @@ jobs:
 
       # build and publish package to npm
       - uses: actions/checkout@v4
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ contains(steps.release.outputs.paths_released, 'packages/mui-country-code-selector') }}
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ contains(steps.release.outputs.paths_released, 'packages/mui-country-code-selector') }}
       - run: npm run install-and-build -w mui-country-code-selector
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ contains(steps.release.outputs.paths_released, 'packages/mui-country-code-selector') }}
       - run: npm publish -w mui-country-code-selector
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ contains(steps.release.outputs.paths_released, 'packages/mui-country-code-selector') }}
 
       # build and publish the demo page to GitHub pages
       - run: npm run install-and-build -w demo-page
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ contains(steps.release.outputs.paths_released, 'packages/demo-page') }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ contains(steps.release.outputs.paths_released, 'packages/demo-page') }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: "./packages/demo-page/dist"
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ contains(steps.release.outputs.paths_released, 'packages/demo-page') }}
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        if: ${{ steps.release.outputs.release_created }}
+        if: ${{ contains(steps.release.outputs.paths_released, 'packages/demo-page') }}
