@@ -6,9 +6,7 @@
   "draft": false,
   "prerelease": false,
   "packages": {
-    "packages/demo-page": {
-      "release-as": "0.0.1"
-    },
+    "packages/demo-page": {},
     "packages/mui-country-code-selector": {}
   },
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
