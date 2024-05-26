@@ -45,14 +45,14 @@ jobs:
 
       # build and publish package to npm
       - uses: actions/checkout@v4
-        if: ${{ contains(steps.release.outputs.paths_released, 'packages/mui-country-code-selector') }}
+        if: ${{ contains(steps.release.outputs.paths_released, 'packages') }}
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-        if: ${{ contains(steps.release.outputs.paths_released, 'packages/mui-country-code-selector') }}
+        if: ${{ contains(steps.release.outputs.paths_released, 'packages') }}
       - run: npm run install-and-build -w mui-country-code-selector
-        if: ${{ contains(steps.release.outputs.paths_released, 'packages/mui-country-code-selector') }}
+        if: ${{ contains(steps.release.outputs.paths_released, 'packages') }}
       - run: npm publish -w mui-country-code-selector
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
