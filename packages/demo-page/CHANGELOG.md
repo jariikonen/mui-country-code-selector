@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.2](https://github.com/jariikonen/mui-country-code-selector/compare/demo-page-v0.0.1...demo-page-v0.0.2) (2024-05-29)
+
+
+### Bug Fixes
+
+* wrong component name ([3e5d064](https://github.com/jariikonen/mui-country-code-selector/commit/3e5d064d92b822741f36b2235c3aca6e60cc3805))
+
 ## 0.0.1 (2024-05-22)
 
 
