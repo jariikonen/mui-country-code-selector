@@ -9,5 +9,5 @@ fi
 
 echo "fixing links in .html files in $DOCS_DIR"
 for filename in "$DOCS_DIR/*.html"; do
-  sed -i "s/.md/.html/g" $filename
+  sed -i "s/\.md/\.html/g" $filename
 done
