@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.3](https://github.com/jariikonen/mui-country-code-selector/compare/demo-page-v0.0.2...demo-page-v0.0.3) (2024-05-30)
+
+
+### Bug Fixes
+
+* fixLink.sh does not take dot in '.md' into account ([207b799](https://github.com/jariikonen/mui-country-code-selector/commit/207b79961c2172441276a737808379dfd8f37273))
+
 ## [0.0.2](https://github.com/jariikonen/mui-country-code-selector/compare/demo-page-v0.0.1...demo-page-v0.0.2) (2024-05-29)
 
 
