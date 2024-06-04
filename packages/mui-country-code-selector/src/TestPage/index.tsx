@@ -39,7 +39,7 @@ export default function TestPage({ form = false }: TestPageProps) {
   return (
     <Container>
       <CssBaseline />
-      <SimpleSelector />
+      <SimpleSelector limitOptions={3} />
     </Container>
   );
 }

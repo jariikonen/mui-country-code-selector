@@ -5,13 +5,21 @@ import {
 } from '../../component/CountryCodeSelectorComposite';
 import { CountryType } from '../../component/lib/countryCodeData';
 
-export default function SimpleSelector() {
-  const filterOptions = createFilterOptions({
-    limit: 3,
-    matchFrom: 'any',
-    stringify: (option: CountryType) =>
-      `${option.country} ${option.iso} +${option.code}`,
-  });
+interface SimpleSelectorProps {
+  limitOptions?: number | undefined;
+}
+
+export default function SimpleSelector({
+  limitOptions = undefined,
+}: SimpleSelectorProps) {
+  const filterOptions = limitOptions
+    ? createFilterOptions({
+        limit: limitOptions,
+        matchFrom: 'any',
+        stringify: (option: CountryType) =>
+          `${option.country} ${option.iso} +${option.code}`,
+      })
+    : undefined;
 
   return (
     <Grid
