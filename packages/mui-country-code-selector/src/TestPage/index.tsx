@@ -1,6 +1,8 @@
 import { Container, CssBaseline, Typography } from '@mui/material';
-import ControlledFormExample from './ControlledFormExample';
-import UncontrolledFormExample from './UncontrolledFormExample';
+import ControlledFormExampleZustand from './ControlledFormExampleZustand';
+import ControlledFormExampleReact from './ControlledFormExampleReact';
+import UncontrolledFormExampleZustand from './UncontrolledFormExampleZustand';
+import UncontrolledFormExampleReact from './UncontrolledFormExampleReact';
 import SimpleSelector from './SimpleSelector';
 
 interface TestPageProps {
@@ -10,21 +12,34 @@ interface TestPageProps {
 export default function TestPage({ form = false }: TestPageProps) {
   if (form) {
     return (
-      <Container>
+      <Container sx={{ pb: { xs: 5 } }}>
         <CssBaseline />
-        <Typography variant="h4" sx={{ mb: { xs: 3 }, mt: { xs: 3 } }}>
+        <Typography variant="h4" sx={{ mb: { xs: 3 }, mt: { xs: 2 } }}>
           MUI Country Code Selector Test Page
         </Typography>
-        <Typography variant="h5" sx={{ mb: { xs: 3 }, mt: { xs: 3 } }}>
-          As a controlled component
+        <Typography variant="h5" sx={{ mb: { xs: 3 }, mt: { xs: 5 } }}>
+          As a controlled component (zustand)
         </Typography>
-        <ControlledFormExample />
-        <Typography variant="h5" sx={{ mb: { xs: 3 }, mt: { xs: 3 } }}>
-          As an uncontrolled component
+        <ControlledFormExampleZustand />
+        <Typography variant="h5" sx={{ mb: { xs: 3 }, mt: { xs: 5 } }}>
+          As a controlled component (React)
         </Typography>
-        <UncontrolledFormExample />
+        <ControlledFormExampleReact />
+        <Typography variant="h5" sx={{ mb: { xs: 3 }, mt: { xs: 5 } }}>
+          As an uncontrolled component (zustand)
+        </Typography>
+        <UncontrolledFormExampleZustand />
+        <Typography variant="h5" sx={{ mb: { xs: 3 }, mt: { xs: 5 } }}>
+          As an uncontrolled component (React)
+        </Typography>
+        <UncontrolledFormExampleReact />
       </Container>
     );
   }
-  return <SimpleSelector />;
+  return (
+    <Container>
+      <CssBaseline />
+      <SimpleSelector limitOptions={3} />
+    </Container>
+  );
 }

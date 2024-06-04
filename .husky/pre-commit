@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# do a clean install, run tests and linter
+npm run clean-install-and-test
+
 red='\033[0;31m'
 cyan='\033[0;36m'
 no_color='\033[0m'
@@ -14,6 +17,3 @@ then
     printf "${cyan}If this is okay, you can continue with the commit by prefixing the command with \"HUSKY=0\".\n${no_color}"
     exit 1
 fi
-
-# do a clean install, run tests and linter
-npm run clean-install-and-test
