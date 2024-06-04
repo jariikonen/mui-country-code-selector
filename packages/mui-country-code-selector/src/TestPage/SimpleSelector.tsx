@@ -1,4 +1,4 @@
-import { Box, Grid, createFilterOptions } from '@mui/material';
+import { Grid, createFilterOptions } from '@mui/material';
 import { CountryCodeSelectorComposite } from '../../component/CountryCodeSelectorComposite';
 import { CountryType } from '../../component/lib/countryCodeData';
 
@@ -11,15 +11,16 @@ export default function SimpleSelector() {
   });
 
   return (
-    <Box
-      sx={{ flexGrow: 1, maxWidth: '600px', mt: { xs: 10 }, ml: { xs: 10 } }}
+    <Grid
+      container
+      columnSpacing={{ xs: 1 }}
+      rowSpacing={{ xs: 1 }}
+      sx={{ marginTop: { xs: 1 } }}
     >
-      <Grid container columnSpacing={{ xs: 1 }} rowSpacing={{ xs: 1 }}>
-        <CountryCodeSelectorComposite
-          layout="gridItems"
-          selectorProps={{ filterOptions }}
-        />
-      </Grid>
-    </Box>
+      <CountryCodeSelectorComposite
+        layout="gridItems"
+        selectorProps={{ filterOptions }}
+      />
+    </Grid>
   );
 }

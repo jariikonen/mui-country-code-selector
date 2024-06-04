@@ -26,5 +26,10 @@ export default function TestPage({ form = false }: TestPageProps) {
       </Container>
     );
   }
-  return <SimpleSelector />;
+  return (
+    <Container>
+      <CssBaseline />
+      <SimpleSelector />
+    </Container>
+  );
 }
