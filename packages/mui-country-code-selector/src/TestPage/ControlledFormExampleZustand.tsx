@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Box, Grid, Typography, Button } from '@mui/material';
-import { CountryCodeSelectorComposite } from '../../component/CountryCodeSelectorComposite';
+import { CountryCodeSelectorCompositeZustand } from '../../component/CountryCodeSelectorComposite';
 
 function TestForm() {
   const [homePhoneNumValue, setHomePhoneNumValue] = useState('');
@@ -28,7 +28,7 @@ function TestForm() {
         }}
       >
         <Grid container columnSpacing={{ xs: 1 }} rowSpacing={{ xs: 1 }}>
-          <CountryCodeSelectorComposite
+          <CountryCodeSelectorCompositeZustand
             value={homePhoneNumValue}
             phoneNumberLabel="Home phone number"
             onChange={homePhoneOnChange}
