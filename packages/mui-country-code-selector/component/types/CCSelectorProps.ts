@@ -13,8 +13,16 @@ import { CountryType } from '../lib/countryCodeData';
 interface CCSelectorProps
   extends Omit<
     AutocompleteProps<CountryType, false, false, false, 'div'>,
-    'onChange' | 'options' | 'renderInput' | 'value'
+    'getOptionLabel' | 'onChange' | 'options' | 'renderInput' | 'value'
   > {
+  /**
+   * A function for rendering the selected option on underlying AutoComplete
+   * component. See
+   * {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-getOptionLabel}
+   * for more information about MUI's Autocomplete's `getOptionLabel` prop.
+   */
+  getOptionLabel?: ((option: CountryType) => string) | undefined;
+
   /**
    * Sets the `label` string on underlying MUI AutoComplete component's
    * TextField component.

@@ -1,5 +1,6 @@
 /**
- * Tests for both CountryCodeSelectorCompositeZustand and CountryCodeSelectorCompositeReact.
+ * Integration tests for CountryCodeSelectorCompositeZustand and
+ * CountryCodeSelectorCompositeReact.
  */
 
 import { useRef, useState } from 'react';
@@ -14,6 +15,11 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import CountryCodeSelectorCompositeZustand from './CountryCodeSelectorCompositeZustand';
 import CountryCodeSelectorCompositeReact from './CountryCodeSelectorCompositeReact';
+import {
+  DEFAULT_COUNTRY_CODE_LABEL,
+  DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION,
+} from '../CountryCodeSelector/common';
+import { DEFAULT_PHONE_NUMBER_LABEL } from './common';
 
 function TestComponentZustandControlled() {
   const [phoneNumValue, setPhoneNumValue] = useState('');
@@ -24,8 +30,6 @@ function TestComponentZustandControlled() {
         onChange={(e: { target: { value: string } }) =>
           setPhoneNumValue(e.target.value)
         }
-        countryCodeLabel="Country code"
-        phoneNumberLabel="Phone number"
         selectorProps={{ classes: { input: 'selectorTest' } }}
         inputProps={{ InputProps: { classes: { input: 'inputTest' } } }}
         // NOTICE! Because the cursor tests must wait for the error display to
@@ -47,8 +51,6 @@ function TestComponentReactControlled() {
         onChange={(e: { target: { value: string } }) =>
           setPhoneNumValue(e.target.value)
         }
-        countryCodeLabel="Country code"
-        phoneNumberLabel="Phone number"
         selectorProps={{ classes: { input: 'selectorTest' } }}
         inputProps={{ InputProps: { classes: { input: 'inputTest' } } }}
         // NOTICE! Because the cursor tests must wait for the error display to
@@ -67,8 +69,6 @@ function TestComponentZustandUncontrolled() {
     <div data-testid="container">
       <CountryCodeSelectorCompositeZustand
         inputRef={phoneNumRef}
-        countryCodeLabel="Country code"
-        phoneNumberLabel="Phone number"
         selectorProps={{ classes: { input: 'selectorTest' } }}
         inputProps={{ InputProps: { classes: { input: 'inputTest' } } }}
         // NOTICE! Because the cursor tests must wait for the error display to
@@ -87,8 +87,6 @@ function TestComponentReactUncontrolled() {
     <div data-testid="container">
       <CountryCodeSelectorCompositeReact
         inputRef={phoneNumRef}
-        countryCodeLabel="Country code"
-        phoneNumberLabel="Phone number"
         selectorProps={{ classes: { input: 'selectorTest' } }}
         inputProps={{ InputProps: { classes: { input: 'inputTest' } } }}
         // NOTICE! Because the cursor tests must wait for the error display to
@@ -101,10 +99,25 @@ function TestComponentReactUncontrolled() {
   );
 }
 
+// NOTICE! There are certain key phrases that trigger pre-test actions if they
+// appear in the name of the test. Here is a list of them:
+//
+//    - 'no default render'
+//    - 'small screen'
+//    - 'ZustandControlled'
+//    - 'ZustandUncontrolled'
+//    - 'ReactControlled'
+//    - 'ReactUncontrolled'
+//
+// See below what actions they trigger.
 beforeEach(() => {
   const testName = expect.getState().currentTestName;
   if (testName?.includes('no default render')) {
     return;
+  }
+  if (testName?.includes('small screen')) {
+    global.innerWidth = 500;
+    global.dispatchEvent(new Event('resize'));
   }
   if (testName?.includes('ZustandControlled')) {
     cleanup();
@@ -130,8 +143,10 @@ describe('basic functionality', () => {
     { type: 'ZustandUncontrolled' },
     { type: 'ReactUncontrolled' },
   ])('component is rendered ($type)', () => {
-    const countryCodeSelector = screen.getByLabelText('Country code');
-    const phoneNumberInput = screen.getByLabelText('Phone number');
+    const countryCodeSelector = screen.getByLabelText(
+      DEFAULT_COUNTRY_CODE_LABEL
+    );
+    const phoneNumberInput = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
     expect(countryCodeSelector).toBeDefined();
     expect(phoneNumberInput).toBeDefined();
   });
@@ -143,8 +158,8 @@ describe('basic functionality', () => {
     { type: 'ReactUncontrolled' },
   ])('value is changed when the phone number changes ($type)', async () => {
     const user = userEvent.setup();
-    const input = screen.getByLabelText('Phone number');
-    const selector = screen.getByLabelText('Country code');
+    const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
+    const selector = screen.getByLabelText(DEFAULT_COUNTRY_CODE_LABEL);
     await user.type(input, '+358 12345');
     expect(selector).toHaveValue('Finland (FI)');
   });
@@ -158,8 +173,8 @@ describe('basic functionality', () => {
     'country code is cleared when the clear button is pressed ($type)',
     async () => {
       const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
-      const selector = screen.getByLabelText('Country code');
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
+      const selector = screen.getByLabelText(DEFAULT_COUNTRY_CODE_LABEL);
       await user.type(input, '+358 12345');
       expect(selector).toHaveValue('Finland (FI)');
       expect(input).toHaveValue('+358 12345');
@@ -179,8 +194,8 @@ describe('basic functionality', () => {
     'selector is opened with suitable options when text is typed into selector, and one can be selected ($type)',
     async () => {
       const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
-      const selector = screen.getByLabelText('Country code');
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
+      const selector = screen.getByLabelText(DEFAULT_COUNTRY_CODE_LABEL);
 
       await user.type(selector, 'fi');
       expect(selector).toHaveValue('fi');
@@ -206,7 +221,7 @@ describe('error detection', () => {
     'displays an error when something else than a number or plus sign is typed as the first character of the phone number ($type)',
     async () => {
       const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
 
       await user.type(input, ' ');
       const error1 = screen.getByText(
@@ -237,7 +252,7 @@ describe('error detection', () => {
     'displays an error when two consecutive separator characters are typed into the phone number ($type)',
     async () => {
       const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
 
       await user.type(input, '1  ');
       const error1 = screen.getByText(
@@ -274,7 +289,7 @@ describe('error detection', () => {
     'displays an error when plus sign is used anywhere else than at the beginning of the phone number ($type)',
     async () => {
       const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
 
       await user.type(input, '1+');
       const error1 = screen.getByText(
@@ -292,8 +307,10 @@ describe('generic API functionality', () => {
     { type: 'ZustandUncontrolled' },
     { type: 'ReactUncontrolled' },
   ])('props can be passed to underlying components ($type)', () => {
-    const countryCodeSelector = screen.getByLabelText('Country code');
-    const phoneNumberInput = screen.getByLabelText('Phone number');
+    const countryCodeSelector = screen.getByLabelText(
+      DEFAULT_COUNTRY_CODE_LABEL
+    );
+    const phoneNumberInput = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
     expect(countryCodeSelector).toHaveClass('selectorTest');
     expect(phoneNumberInput).toHaveClass('inputTest');
   });
@@ -309,7 +326,7 @@ describe('cursor stability', () => {
     'cursor does not jump when a forbidden character is typed in the middle of the input (keyboard, $type)',
     async () => {
       const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
       const inputElement = input as HTMLInputElement;
 
       await user.type(input, '12345');
@@ -340,7 +357,7 @@ describe('cursor stability', () => {
     'cursor does not jump when a forbidden character is typed at the beginning of the value (keyboard, selectionStart = 0, $type)',
     async () => {
       const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
       const inputElement = input as HTMLInputElement;
 
       await user.type(input, '12345');
@@ -372,7 +389,7 @@ describe('cursor stability', () => {
     'cursor does not jump to the last position when the cursor is moved before a rerender (keyboard, $type)',
     async () => {
       const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
       const inputElement = input as HTMLInputElement;
 
       await user.type(input, '12345');
@@ -426,7 +443,7 @@ describe('cursor stability', () => {
     'cursors does not jump when a prohibited character is typed and an error is being displayed (keyboard, $type)',
     async () => {
       const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
       const inputElement = input as HTMLInputElement;
 
       await user.type(input, '12345');
@@ -458,7 +475,7 @@ describe('cursor stability', () => {
     { type: 'ReactUncontrolled' },
   ])('re-render does not change text selection (keyboard, $type)', async () => {
     const user = userEvent.setup();
-    const input = screen.getByLabelText('Phone number');
+    const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
     const inputElement = input as HTMLInputElement;
 
     await user.type(input, '12345');
@@ -500,7 +517,7 @@ describe('cursor stability', () => {
     're-render does not change text selection (keyboard, selectionStart = 0, $type)',
     async () => {
       const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
       const inputElement = input as HTMLInputElement;
 
       await user.type(input, '12345');
@@ -540,7 +557,7 @@ describe('cursor stability', () => {
     'cursor does not jump when it is positioned with $pointer and a forbidden character is typed ($type)',
     async ({ pointer }: { type: string; pointer: string }) => {
       const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
       const inputElement = input as HTMLInputElement;
 
       const keys = pointer === 'touch' ? '[TouchA]' : '[MouseLeft]';
@@ -573,7 +590,7 @@ describe('cursor stability', () => {
     'cursor does not jump when it is positioned at the beginning with $pointer and a forbidden character is typed (selectionStart = 0, $type)',
     async ({ pointer }: { type: string; pointer: string }) => {
       const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
       const inputElement = input as HTMLInputElement;
 
       const keys = pointer === 'touch' ? '[TouchA]' : '[MouseLeft]';
@@ -607,7 +624,7 @@ describe('cursor stability', () => {
     'cursor does not jump to the last position when the cursor is moved with $pointer before a rerender ($type)',
     async ({ pointer }: { type: string; pointer: string }) => {
       const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
       const inputElement = input as HTMLInputElement;
 
       const keys = pointer === 'touch' ? '[TouchA]' : '[MouseLeft]';
@@ -672,7 +689,7 @@ describe('cursor stability', () => {
     're-render does not change text selection ($pointer, $type)',
     async ({ pointer }: { type: string; pointer: string }) => {
       const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
       const inputElement = input as HTMLInputElement;
 
       const keys = pointer === 'touch' ? 'TouchA' : 'MouseLeft';
@@ -724,7 +741,7 @@ describe('cursor stability', () => {
     're-render does not change text selection ($pointer, selectionStart = 0, $type)',
     async ({ pointer }: { type: string; pointer: string }) => {
       const user = userEvent.setup();
-      const input = screen.getByLabelText('Phone number');
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
       const inputElement = input as HTMLInputElement;
 
       const keys = pointer === 'touch' ? 'TouchA' : 'MouseLeft';
@@ -759,6 +776,40 @@ describe('cursor stability', () => {
       expect(inputElement.selectionStart).toEqual(0);
       expect(inputElement.selectionEnd).toEqual(4);
       expect(input).toHaveValue('12345');
+    }
+  );
+});
+
+describe('responsive country code selector', () => {
+  it.each([
+    { type: 'ZustandControlled' },
+    { type: 'ReactControlled' },
+    { type: 'ZustandUncontrolled' },
+    { type: 'ReactUncontrolled' },
+  ])('abbreviated label is used on small screen ($type, small screen)', () => {
+    expect(window.innerWidth).toBe(500);
+    const selector = screen.getByLabelText(
+      DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION
+    );
+    expect(selector).toBeDefined();
+  });
+
+  it.each([
+    { type: 'ZustandControlled' },
+    { type: 'ReactControlled' },
+    { type: 'ZustandUncontrolled' },
+    { type: 'ReactUncontrolled' },
+  ])(
+    'ISO code is used as label for the selected country on small screen ($type, small screen)',
+    async () => {
+      expect(window.innerWidth).toBe(500);
+      const user = userEvent.setup();
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
+      const selector = screen.getByLabelText(
+        DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION
+      );
+      await user.type(input, '+358 12345');
+      expect(selector).toHaveValue('FI');
     }
   );
 });

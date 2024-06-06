@@ -1,14 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useEffect } from 'react';
-import { Autocomplete } from '@mui/material';
+import { Autocomplete, useTheme } from '@mui/material';
 import { countries } from '../lib/countryCodeData';
 import useCountryCodeStore from '../store/useCountryCodeStore';
 import CCSelectorProps from '../types/CCSelectorProps';
 import {
+  DEFAULT_COUNTRY_CODE_LABEL,
+  DEFAULT_SLOT_PROPS,
   createDefaultRenderInput,
   createDefaultFilterOptions,
   defaultRenderOption,
-  defaultGetOptionLabel,
+  createDefaultGetOptionLabel,
 } from './common';
 
 /**
@@ -23,12 +25,13 @@ function CountryCodeSelector({
   autoHighlight = true,
   autoSelect = true,
   filterOptions = createDefaultFilterOptions(),
-  getOptionLabel = defaultGetOptionLabel,
+  getOptionLabel = undefined,
   handleHomeEndKeys = false,
-  label = 'Country code',
+  label = DEFAULT_COUNTRY_CODE_LABEL,
   renderOption = defaultRenderOption,
   renderInput,
   shrink,
+  slotProps,
   variant,
   renderCountRef,
   ...rest
@@ -41,22 +44,35 @@ function CountryCodeSelector({
     }
   });
 
+  const theme = useTheme();
+
   let renderInputToUse = renderInput;
   if (!renderInputToUse) {
-    renderInputToUse = createDefaultRenderInput(label, shrink, variant);
+    renderInputToUse = createDefaultRenderInput(label, theme, shrink, variant);
   }
+
+  let getOptionLabelToUse = getOptionLabel;
+  if (!getOptionLabelToUse) {
+    getOptionLabelToUse = createDefaultGetOptionLabel(theme);
+  }
+
+  const slotPropsToUse = {
+    ...DEFAULT_SLOT_PROPS,
+    ...slotProps,
+  };
 
   return (
     <Autocomplete
       autoHighlight={autoHighlight}
       autoSelect={autoSelect}
       filterOptions={filterOptions}
-      getOptionLabel={getOptionLabel}
+      getOptionLabel={getOptionLabelToUse}
       handleHomeEndKeys={handleHomeEndKeys}
       onChange={handleCountryCodeChange}
       options={countries}
       renderOption={renderOption}
       renderInput={renderInputToUse}
+      slotProps={slotPropsToUse}
       value={countryCodeValue}
       {...rest}
     />

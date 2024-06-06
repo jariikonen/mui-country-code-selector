@@ -4,14 +4,17 @@ import {
   Autocomplete,
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
+  useTheme,
 } from '@mui/material';
 import { CountryType, countries } from '../lib/countryCodeData';
 import CCSelectorProps from '../types/CCSelectorProps';
 import {
+  DEFAULT_COUNTRY_CODE_LABEL,
+  DEFAULT_SLOT_PROPS,
   createDefaultRenderInput,
   createDefaultFilterOptions,
   defaultRenderOption,
-  defaultGetOptionLabel,
+  createDefaultGetOptionLabel,
 } from './common';
 
 /**
@@ -54,13 +57,14 @@ export default function CountryCodeSelector({
   autoHighlight = true,
   autoSelect = true,
   filterOptions = createDefaultFilterOptions(),
-  getOptionLabel = defaultGetOptionLabel,
+  getOptionLabel = undefined,
   handleHomeEndKeys = false,
-  label = 'Country code',
+  label = DEFAULT_COUNTRY_CODE_LABEL,
   onChange,
   renderOption = defaultRenderOption,
   renderInput,
   shrink,
+  slotProps,
   value,
   variant,
   renderCountRef,
@@ -72,22 +76,35 @@ export default function CountryCodeSelector({
     }
   });
 
+  const theme = useTheme();
+
   let renderInputToUse = renderInput;
   if (!renderInputToUse) {
-    renderInputToUse = createDefaultRenderInput(label, shrink, variant);
+    renderInputToUse = createDefaultRenderInput(label, theme, shrink, variant);
   }
+
+  let getOptionLabelToUse = getOptionLabel;
+  if (!getOptionLabelToUse) {
+    getOptionLabelToUse = createDefaultGetOptionLabel(theme);
+  }
+
+  const slotPropsToUse = {
+    ...DEFAULT_SLOT_PROPS,
+    ...slotProps,
+  };
 
   return (
     <Autocomplete
       autoHighlight={autoHighlight}
       autoSelect={autoSelect}
       filterOptions={filterOptions}
-      getOptionLabel={getOptionLabel}
+      getOptionLabel={getOptionLabelToUse}
       handleHomeEndKeys={handleHomeEndKeys}
       onChange={onChange}
       options={countries}
       renderOption={renderOption}
       renderInput={renderInputToUse}
+      slotProps={slotPropsToUse}
       value={value}
       {...rest}
     />
