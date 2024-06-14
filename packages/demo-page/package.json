@@ -22,7 +22,7 @@
     "@mui/icons-material": "^5.15.17",
     "@mui/material": "^5.15.17",
     "match-sorter": "^6.3.4",
-    "mui-country-code-selector": "^0.0.0",
+    "mui-country-code-selector": "file:../mui-country-code-selector",
     "react-syntax-highlighter": "^15.5.0"
   },
   "devDependencies": {
