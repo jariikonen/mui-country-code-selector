@@ -6,6 +6,16 @@ import { CountryType } from '../lib';
  */
 export const DEFAULT_PHONE_NUMBER_LABEL = 'Phone number';
 
+/** Default value for error message display time. */
+export const DEFAULT_ERROR_MESSAGE_DELAY = 3;
+
+/**
+ * Default value for how the error message is displayed. See the documentation
+ * for the `errorMessageDisplay` of CCSelectorCompositeProps for more
+ * information.
+ */
+export const DEFAULT_ERROR_MESSAGE_DISPLAY = 'both';
+
 /**
  * Default equality function for the underlying MUI `Autocomplete` component
  * of the selector subcomponent. See

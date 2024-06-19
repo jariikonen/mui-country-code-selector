@@ -48,17 +48,13 @@ function CountryCodeSelector({
 
   const theme = useTheme();
 
-  let renderInputToUse = renderInput;
-  if (!renderInputToUse) {
-    renderInputToUse = createDefaultRenderInput(label, theme, shrink, variant);
-  }
+  const renderInputToUse =
+    renderInput ?? createDefaultRenderInput(label, theme, shrink, variant);
 
   const getOptionKeyToUse = getOptionKey ?? defaultGetOptionKey;
 
-  let getOptionLabelToUse = getOptionLabel;
-  if (!getOptionLabelToUse) {
-    getOptionLabelToUse = createDefaultGetOptionLabel(theme);
-  }
+  const getOptionLabelToUse =
+    getOptionLabel ?? createDefaultGetOptionLabel(theme);
 
   const slotPropsToUse = {
     ...DEFAULT_SLOT_PROPS,
