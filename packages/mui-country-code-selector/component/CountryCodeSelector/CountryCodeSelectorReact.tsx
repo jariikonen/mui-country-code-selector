@@ -6,7 +6,7 @@ import {
   AutocompleteChangeReason,
   useTheme,
 } from '@mui/material';
-import { CountryType, countries } from '../lib/countryCodeData';
+import { CountryType } from '../lib/countryCodeData';
 import CCSelectorProps from '../types/CCSelectorProps';
 import {
   DEFAULT_COUNTRY_CODE_LABEL,
@@ -15,6 +15,7 @@ import {
   createDefaultFilterOptions,
   defaultRenderOption,
   createDefaultGetOptionLabel,
+  defaultGetOptionKey,
 } from './common';
 
 /**
@@ -40,6 +41,9 @@ export interface CCSelectorPropsReact extends CCSelectorProps {
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<CountryType> | undefined
   ) => void;
+
+  /** The calling codes and names of the countries of the world. */
+  countries: readonly CountryType[];
 }
 
 /**
@@ -57,6 +61,7 @@ export default function CountryCodeSelector({
   autoHighlight = true,
   autoSelect = true,
   filterOptions = createDefaultFilterOptions(),
+  getOptionKey = undefined,
   getOptionLabel = undefined,
   handleHomeEndKeys = false,
   label = DEFAULT_COUNTRY_CODE_LABEL,
@@ -68,6 +73,7 @@ export default function CountryCodeSelector({
   value,
   variant,
   renderCountRef,
+  countries,
   ...rest
 }: CCSelectorPropsReact) {
   useEffect(() => {
@@ -82,6 +88,8 @@ export default function CountryCodeSelector({
   if (!renderInputToUse) {
     renderInputToUse = createDefaultRenderInput(label, theme, shrink, variant);
   }
+
+  const getOptionKeyToUse = getOptionKey ?? defaultGetOptionKey;
 
   let getOptionLabelToUse = getOptionLabel;
   if (!getOptionLabelToUse) {
@@ -98,6 +106,7 @@ export default function CountryCodeSelector({
       autoHighlight={autoHighlight}
       autoSelect={autoSelect}
       filterOptions={filterOptions}
+      getOptionKey={getOptionKeyToUse}
       getOptionLabel={getOptionLabelToUse}
       handleHomeEndKeys={handleHomeEndKeys}
       onChange={onChange}

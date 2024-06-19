@@ -14,6 +14,7 @@ const useCountryCodeStore = (): Pick<
   CCSelectorState,
   | 'phoneNumStr'
   | 'countryCodeValue'
+  | 'countries'
   | 'errorMsg'
   | 'errorMsgDelay'
   | 'errorMsgTimeoutObj'
@@ -34,8 +35,7 @@ const useCountryCodeStore = (): Pick<
       'no provider - please, surround the component with CountryCodeStoreProvider tags'
     );
   }
-  // use shallow equality function and pick everything except inputSelection
-  // to optimize rerenders
+  // use shallow equality function to optimize rerenders
   return {
     phoneNumStr: useStoreWithEqualityFn(
       store,
@@ -45,6 +45,11 @@ const useCountryCodeStore = (): Pick<
     countryCodeValue: useStoreWithEqualityFn(
       store,
       (state) => state.countryCodeValue,
+      shallow
+    ),
+    countries: useStoreWithEqualityFn(
+      store,
+      (state) => state.countries,
       shallow
     ),
     errorMsg: useStoreWithEqualityFn(store, (state) => state.errorMsg, shallow),

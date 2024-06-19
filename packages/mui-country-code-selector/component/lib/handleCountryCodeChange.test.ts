@@ -1,16 +1,19 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { MutableRefObject } from 'react';
-import { countries } from './countryCodeData';
+import { getCountries } from './countryCodeData';
 import handleCountryCodeChange from './handleCountryCodeChange';
 
-const country = countries.filter((value) => value.country === 'Curacao')[0];
-const phoneNumber = '92349802347';
-const phoneNumberWithCountryCode = `+${country.code} ${phoneNumber}`;
-const phoneInputRef = {
-  current: { focus: () => 1 },
-} as unknown as MutableRefObject<HTMLInputElement>;
+describe('new country code is selected', async () => {
+  const countries = await getCountries();
+  const country = countries.filter((value) =>
+    value.country.includes('Curacao')
+  )[0];
+  const phoneNumber = '92349802347';
+  const phoneNumberWithCountryCode = `+${country.code} ${phoneNumber}`;
+  const phoneInputRef = {
+    current: { focus: () => 1 },
+  } as unknown as MutableRefObject<HTMLInputElement>;
 
-describe('new country code is selected', () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -45,7 +48,17 @@ describe('new country code is selected', () => {
   );
 });
 
-describe('clear button is pressed', () => {
+describe('clear button is pressed', async () => {
+  const countries = await getCountries();
+  const country = countries.filter((value) =>
+    value.country.includes('Curacao')
+  )[0];
+  const phoneNumber = '92349802347';
+  const phoneNumberWithCountryCode = `+${country.code} ${phoneNumber}`;
+  const phoneInputRef = {
+    current: { focus: () => 1 },
+  } as unknown as MutableRefObject<HTMLInputElement>;
+
   it(
     'and countryCodeValue parameter is null, an object to clear the ' +
       'phoneNumStr is returned',

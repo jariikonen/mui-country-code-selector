@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useEffect } from 'react';
 import { Autocomplete, useTheme } from '@mui/material';
-import { countries } from '../lib/countryCodeData';
 import useCountryCodeStore from '../store/useCountryCodeStore';
 import CCSelectorProps from '../types/CCSelectorProps';
 import {
@@ -11,6 +10,7 @@ import {
   createDefaultFilterOptions,
   defaultRenderOption,
   createDefaultGetOptionLabel,
+  defaultGetOptionKey,
 } from './common';
 
 /**
@@ -25,6 +25,7 @@ function CountryCodeSelector({
   autoHighlight = true,
   autoSelect = true,
   filterOptions = createDefaultFilterOptions(),
+  getOptionKey = undefined,
   getOptionLabel = undefined,
   handleHomeEndKeys = false,
   label = DEFAULT_COUNTRY_CODE_LABEL,
@@ -36,7 +37,8 @@ function CountryCodeSelector({
   renderCountRef,
   ...rest
 }: CCSelectorProps) {
-  const { handleCountryCodeChange, countryCodeValue } = useCountryCodeStore();
+  const { handleCountryCodeChange, countryCodeValue, countries } =
+    useCountryCodeStore();
 
   useEffect(() => {
     if (renderCountRef) {
@@ -50,6 +52,8 @@ function CountryCodeSelector({
   if (!renderInputToUse) {
     renderInputToUse = createDefaultRenderInput(label, theme, shrink, variant);
   }
+
+  const getOptionKeyToUse = getOptionKey ?? defaultGetOptionKey;
 
   let getOptionLabelToUse = getOptionLabel;
   if (!getOptionLabelToUse) {
@@ -66,6 +70,7 @@ function CountryCodeSelector({
       autoHighlight={autoHighlight}
       autoSelect={autoSelect}
       filterOptions={filterOptions}
+      getOptionKey={getOptionKeyToUse}
       getOptionLabel={getOptionLabelToUse}
       handleHomeEndKeys={handleHomeEndKeys}
       onChange={handleCountryCodeChange}

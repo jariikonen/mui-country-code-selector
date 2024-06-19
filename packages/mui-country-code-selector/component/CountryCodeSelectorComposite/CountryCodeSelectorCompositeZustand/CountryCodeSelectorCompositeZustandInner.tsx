@@ -5,6 +5,7 @@ import CountryCodeSelector from '../../CountryCodeSelector/CountryCodeSelectorZu
 import useCountryCodeStore from '../../store/useCountryCodeStore';
 import CCSelectorCompositeProps from '../../types/CCSelectorCompositeProps';
 import Wrapper from '../Wrapper/index';
+import { defaultIsOptionEqualToValue } from '../common';
 
 /**
  * A utility type that makes all properties of the base type optional without
@@ -146,6 +147,7 @@ function CountryCodeSelectorCompositeInner({
         shrink={shrink}
         variant={variant}
         fullWidth
+        isOptionEqualToValue={defaultIsOptionEqualToValue}
         renderCountRef={selectorRenderCountRef}
         {...selectorProps}
       />

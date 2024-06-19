@@ -36,6 +36,9 @@ interface CCSelectorState {
   /** The `CountryType` object corresponding to the selected country code. */
   countryCodeValue: CountryType | null;
 
+  /** The calling codes and names of the countries of the world. */
+  countries: readonly CountryType[];
+
   /** Data on country codes that are possible based on the `phoneNumStr`. */
   possibleCountries: PossibleCountries | null;
 

@@ -12,6 +12,7 @@ import { CountryType } from '../lib/countryCodeData';
 
 /**
  * Default label text for the `CountryCodeSelector` component.
+ * @alpha
  */
 export const DEFAULT_COUNTRY_CODE_LABEL = 'Country code';
 
@@ -69,8 +70,13 @@ export const DEFAULT_SLOT_PROPS = {
 export function createDefaultFilterOptions() {
   return createFilterOptions({
     matchFrom: 'any',
-    stringify: (option: CountryType) =>
-      `${option.country} ${option.iso} +${option.code}`,
+    stringify: (option: CountryType) => {
+      const country = Array.isArray(option.country)
+        ? option.country.join(' ')
+        : option.country;
+      const displayIso = option.displayIso ? option.displayIso : option.iso;
+      return `${country} ${option.iso} ${displayIso} +${option.code}`;
+    },
   });
 }
 
@@ -88,9 +94,22 @@ export function defaultRenderOption(
   props: React.HTMLAttributes<HTMLLIElement>,
   option: CountryType
 ): React.ReactNode {
+  const displayIso = option.displayIso ? option.displayIso : option.iso;
+
+  let countryShort = '';
+  let countryAdditional = '';
+  if (Array.isArray(option.country)) {
+    [countryShort, countryAdditional] = option.country;
+    if (countryAdditional) {
+      countryAdditional = ` (${countryAdditional})`;
+    }
+  } else {
+    countryShort = option.country;
+  }
   return (
     <Box component="li" {...props}>
-      {option.country} {option.iso} +{option.code}
+      {countryShort}
+      {countryAdditional} {displayIso} +{option.code}
     </Box>
   );
 }
@@ -136,6 +155,21 @@ export function createDefaultRenderInput(
 }
 
 /**
+ * Default function for getting the option key string in the
+ * `CountryCodeSelector`'s underlying `Autocomplete` component.
+ * See {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-getOptionKey}
+ * for more information about the `getOptionKey` prop.
+ * @returns The string to be used as the key of the option.
+ * @alpha
+ */
+export function defaultGetOptionKey(option: CountryType) {
+  const countryShort = Array.isArray(option.country)
+    ? option.country[0]
+    : option.country;
+  return `${countryShort}${option.code}${option.iso}`;
+}
+
+/**
  * Creates a default function for getting the option label string in the
  * `CountryCodeSelector`'s underlying `Autocomplete` component.
  * See {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-getOptionLabel}
@@ -147,9 +181,25 @@ export function createDefaultRenderInput(
 export function createDefaultGetOptionLabel(theme: Theme) {
   return function defaultGetOptionLabel(option: CountryType) {
     const breakpoint = theme.breakpoints.values.sm;
-    if (window.innerWidth < breakpoint) {
-      return `${option.iso}`;
+
+    const displayIso = option.displayIso
+      ? ` ${option.displayIso}`
+      : ` ${option.iso}`;
+
+    let countryShort = '';
+    let countryAdditional = '';
+    if (Array.isArray(option.country)) {
+      [countryShort, countryAdditional] = option.country;
+      if (countryAdditional) {
+        countryAdditional = ` (${countryAdditional})`;
+      }
+    } else {
+      countryShort = option.country;
     }
-    return `${option.country} (${option.iso})`;
+
+    if (window.innerWidth < breakpoint) {
+      return displayIso.trim();
+    }
+    return `${countryShort}${countryAdditional}${displayIso}`;
   };
 }

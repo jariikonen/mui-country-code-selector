@@ -156,15 +156,14 @@ export default function Customization() {
       <CodeBox tsPath="Customization/slotPropsSnippet" />
       <H5>Advanced example: using a flag as a start adornment in the input</H5>
       <P>
-        There are countless ways to customize the components, and the biggest
-        limit might be your imagination. One cool way is to add the flag also to
-        the selector&apos;s input field as a start adornment. To do this, you
-        must store the <code>CountryType</code> object representing the selected
-        option to the state. We can access the options in{' '}
-        <code>getOptionLabel</code> function, but at that point we don&apos;t
-        know if the option is the one that is selected. So we must store the
-        currently handled option to one state variable and set another state
-        variable when an option gets selected.
+        There are countless ways to customize the components. One cool way is to
+        add the flag also to the selector&apos;s input field as a start
+        adornment. To do this, you must store the <code>CountryType</code>{' '}
+        object representing the selected option to the state. We can access the
+        options in <code>getOptionLabel</code> function, but at that point we
+        don&apos;t know if the option is the one that is selected. So we must
+        store the currently handled option to one state variable and set another
+        state variable when an option gets selected.
       </P>
       <CodeBox tsPath="Customization/countriesRefsSnippet" />
       <P>

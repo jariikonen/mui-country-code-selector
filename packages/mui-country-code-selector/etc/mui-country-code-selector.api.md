@@ -80,6 +80,7 @@ export interface CCSelectorProps extends Omit<AutocompleteProps<CountryType, fal
 //
 // @internal
 export interface CCSelectorPropsReact extends CCSelectorProps {
+    countries: readonly CountryType[];
     onChange: (_e: unknown, value: CountryType | null, reason: AutocompleteChangeReason, details?: AutocompleteChangeDetails<CountryType> | undefined) => void;
     value: CountryType | null | undefined;
 }
@@ -95,6 +96,7 @@ export interface CCSelectorState {
     cleanUp: () => void;
     clearedRerender: boolean;
     clearErrorMsg: () => void;
+    countries: readonly CountryType[];
     countryCodeDigits: string;
     countryCodeValue: CountryType | null;
     defaultValue: string;
@@ -150,10 +152,7 @@ export interface ComponentSize {
 }
 
 // @alpha
-export const countries: readonly CountryType[];
-
-// @alpha
-function CountryCodeSelector({ autoHighlight, autoSelect, filterOptions, getOptionLabel, handleHomeEndKeys, label, renderOption, renderInput, shrink, slotProps, variant, renderCountRef, ...rest }: CCSelectorProps): JSX_2.Element;
+function CountryCodeSelector({ autoHighlight, autoSelect, filterOptions, getOptionKey, getOptionLabel, handleHomeEndKeys, label, renderOption, renderInput, shrink, slotProps, variant, renderCountRef, ...rest }: CCSelectorProps): JSX_2.Element;
 export { CountryCodeSelector }
 export { CountryCodeSelector as CountryCodeSelectorZustand }
 
@@ -168,7 +167,7 @@ export function CountryCodeSelectorCompositeReact({ id, name, value, onChange, c
 // Warning: (ae-internal-missing-underscore) The name "CountryCodeSelectorReact" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal
-export function CountryCodeSelectorReact({ autoHighlight, autoSelect, filterOptions, getOptionLabel, handleHomeEndKeys, label, onChange, renderOption, renderInput, shrink, slotProps, value, variant, renderCountRef, ...rest }: CCSelectorPropsReact): JSX_2.Element;
+export function CountryCodeSelectorReact({ autoHighlight, autoSelect, filterOptions, getOptionKey, getOptionLabel, handleHomeEndKeys, label, onChange, renderOption, renderInput, shrink, slotProps, value, variant, renderCountRef, countries, ...rest }: CCSelectorPropsReact): JSX_2.Element;
 
 // @alpha
 export function CountryCodeStoreProvider({ children }: {
@@ -178,8 +177,11 @@ export function CountryCodeStoreProvider({ children }: {
 // @alpha
 export interface CountryType {
     code: string;
-    country: string;
-    iso: string;
+    // Warning: (ae-forgotten-export) The symbol "CountryName" needs to be exported by the entry point index.d.ts
+    country: CountryName;
+    displayIso?: string;
+    // Warning: (ae-forgotten-export) The symbol "IsoAlpha2" needs to be exported by the entry point index.d.ts
+    iso: IsoAlpha2;
 }
 
 // @alpha
@@ -191,7 +193,7 @@ export function createDefaultGetOptionLabel(theme: Theme): (option: CountryType)
 // @alpha
 export function createDefaultRenderInput(label: string, theme: Theme, shrink?: boolean, variant?: TextFieldVariants): (params: AutocompleteRenderInputParams) => JSX_2.Element;
 
-// @public
+// @alpha
 export const DEFAULT_COUNTRY_CODE_LABEL = "Country code";
 
 // @alpha
@@ -214,7 +216,13 @@ export const DEFAULT_SLOT_PROPS: {
 };
 
 // @alpha
+export function defaultGetOptionKey(option: CountryType): string;
+
+// @alpha
 export function defaultRenderOption(props: React.HTMLAttributes<HTMLLIElement>, option: CountryType): React.ReactNode;
+
+// @alpha
+export function getCountries(locale?: string): Promise<readonly CountryType[]>;
 
 // @alpha
 export type Grid2ContainerProps = Partial<Omit<Grid2Props, 'xs' | 'sm' | 'md' | 'lg' | 'xl'>>;
@@ -300,7 +308,7 @@ export interface PossibleCountries {
 }
 
 // @alpha
-export const useCountryCodeStore: () => Pick<CCSelectorState, 'phoneNumStr' | 'countryCodeValue' | 'errorMsg' | 'errorMsgDelay' | 'errorMsgTimeoutObj' | 'phoneNumberInput' | 'clearedRerender' | 'setPhoneNumberInput' | 'setRefs' | 'initialize' | 'cleanUp' | 'handlePhoneNumberChange' | 'handleCountryCodeChange' | 'handleValueChange' | 'placeInputSelection'>;
+export const useCountryCodeStore: () => Pick<CCSelectorState, 'phoneNumStr' | 'countryCodeValue' | 'countries' | 'errorMsg' | 'errorMsgDelay' | 'errorMsgTimeoutObj' | 'phoneNumberInput' | 'clearedRerender' | 'setPhoneNumberInput' | 'setRefs' | 'initialize' | 'cleanUp' | 'handlePhoneNumberChange' | 'handleCountryCodeChange' | 'handleValueChange' | 'placeInputSelection'>;
 
 // Warning: (ae-internal-missing-underscore) The name "Wrapper" should be prefixed with an underscore because the declaration is marked as @internal
 //

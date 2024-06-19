@@ -8,7 +8,7 @@ import {
 import CCSelectorCompositeProps from '../types/CCSelectorCompositeProps';
 import CCSelectorReactState from '../types/CCSelectorReactState';
 import PossibleCountries from '../types/PossibleCountries';
-import { CountryType } from '../lib/countryCodeData';
+import { CountryType, getCountries } from '../lib/countryCodeData';
 import libHandlePhoneNumberChange from '../lib/handlePhoneNumberChange';
 import libHandleCountryCodeChange from '../lib/handleCountryCodeChange';
 import { getForm } from '../lib/helpers';
@@ -105,6 +105,8 @@ export default function CountryCodeSelectorCompositeReact({
   /** The digits of the detected country code. */
   const countryCodeDigitsRef = useRef('');
 
+  const [countries, setCountries] = useState<readonly CountryType[]>([]);
+
   /** Data on country codes that are possible based on the phoneNumStr. */
   const possibleCountriesRef = useRef<PossibleCountries | null>(null);
 
@@ -161,6 +163,9 @@ export default function CountryCodeSelectorCompositeReact({
             break;
           case 'countryCodeDigits':
             countryCodeDigitsRef.current = partialState[key]!;
+            break;
+          case 'countries':
+            setCountries(partialState[key]!);
             break;
           case 'possibleCountries':
             possibleCountriesRef.current = partialState[key]!;
@@ -249,7 +254,8 @@ export default function CountryCodeSelectorCompositeReact({
         phoneInputRef.current,
         countryCodeDigitsRef.current,
         possibleCountriesRef.current,
-        significantDigitsRef.current
+        significantDigitsRef.current,
+        countries
       );
       set(result);
       applyStateChanges(result);
@@ -261,7 +267,7 @@ export default function CountryCodeSelectorCompositeReact({
         forceRerender();
       }
     },
-    [applyStateChanges, displayError, onError, set]
+    [applyStateChanges, countries, displayError, onError, set]
   );
 
   /** A handler for the country code selector's change events. */
@@ -386,6 +392,16 @@ export default function CountryCodeSelectorCompositeReact({
       ? true
       : undefined;
 
+  useEffect(() => {
+    getCountries()
+      .then((ctrs) => setCountries(ctrs))
+      .catch((error) => {
+        if (error instanceof Error) {
+          reportError(error.message);
+        }
+      });
+  }, []);
+
   return (
     <Wrapper
       layout={layout}
@@ -414,6 +430,7 @@ export default function CountryCodeSelectorCompositeReact({
         value={countryCodeValue}
         variant={variant}
         renderCountRef={selectorRenderCountRef}
+        countries={countries}
         {...selectorProps}
       />
       <TextField

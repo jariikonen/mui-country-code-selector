@@ -161,7 +161,7 @@ describe('basic functionality', () => {
     const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
     const selector = screen.getByLabelText(DEFAULT_COUNTRY_CODE_LABEL);
     await user.type(input, '+358 12345');
-    expect(selector).toHaveValue('Finland (FI)');
+    expect(selector).toHaveValue('Finland FI');
   });
 
   it.each([
@@ -176,7 +176,7 @@ describe('basic functionality', () => {
       const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
       const selector = screen.getByLabelText(DEFAULT_COUNTRY_CODE_LABEL);
       await user.type(input, '+358 12345');
-      expect(selector).toHaveValue('Finland (FI)');
+      expect(selector).toHaveValue('Finland FI');
       expect(input).toHaveValue('+358 12345');
       const clear = screen.getByTitle('Clear');
       await user.click(clear);
@@ -205,7 +205,7 @@ describe('basic functionality', () => {
       expect(fiji).toBeDefined();
 
       await user.click(fiji);
-      expect(selector).toHaveValue('Fiji (FJ)');
+      expect(selector).toHaveValue('Fiji FJ');
       expect(input).toHaveValue('+679 ');
     }
   );
