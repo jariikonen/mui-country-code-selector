@@ -1,10 +1,12 @@
+/* eslint-disable class-methods-use-this */
+
 /**
  * Integration tests for CountryCodeSelectorCompositeZustand and
  * CountryCodeSelectorCompositeReact.
  */
 
 import { useRef, useState } from 'react';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   cleanup,
   render,
@@ -20,6 +22,30 @@ import {
   DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION,
 } from '../CountryCodeSelector/common';
 import { DEFAULT_PHONE_NUMBER_LABEL } from './common';
+
+class ResizeObserverMock {
+  static callback: (
+    entries: [{ contentBoxSize: [{ inlineSize: number }] }]
+  ) => void;
+
+  constructor(
+    callback: (entries: [{ contentBoxSize: [{ inlineSize: number }] }]) => void
+  ) {
+    ResizeObserverMock.callback = callback;
+  }
+
+  observe() {}
+
+  unobserve() {}
+
+  disconnect() {}
+
+  static resize(inlineSize: number) {
+    ResizeObserverMock.callback([{ contentBoxSize: [{ inlineSize }] }]);
+  }
+}
+
+vi.stubGlobal('ResizeObserver', ResizeObserverMock);
 
 function TestComponentZustandControlled() {
   const [phoneNumValue, setPhoneNumValue] = useState('');
@@ -99,11 +125,13 @@ function TestComponentReactUncontrolled() {
   );
 }
 
+let obj;
+let rerender: (ui: React.ReactNode) => void;
+
 // NOTICE! There are certain key phrases that trigger pre-test actions if they
 // appear in the name of the test. Here is a list of them:
 //
 //    - 'no default render'
-//    - 'small screen'
 //    - 'ZustandControlled'
 //    - 'ZustandUncontrolled'
 //    - 'ReactControlled'
@@ -115,22 +143,22 @@ beforeEach(() => {
   if (testName?.includes('no default render')) {
     return;
   }
-  if (testName?.includes('small screen')) {
-    global.innerWidth = 500;
-    global.dispatchEvent(new Event('resize'));
-  }
   if (testName?.includes('ZustandControlled')) {
     cleanup();
-    render(<TestComponentZustandControlled />);
+    obj = render(<TestComponentZustandControlled />);
+    rerender = obj.rerender;
   } else if (testName?.includes('ZustandUncontrolled')) {
     cleanup();
-    render(<TestComponentZustandUncontrolled />);
+    obj = render(<TestComponentZustandUncontrolled />);
+    rerender = obj.rerender;
   } else if (testName?.includes('ReactControlled')) {
     cleanup();
-    render(<TestComponentReactControlled />);
+    obj = render(<TestComponentReactControlled />);
+    rerender = obj.rerender;
   } else if (testName?.includes('ReactUncontrolled')) {
     cleanup();
-    render(<TestComponentReactUncontrolled />);
+    obj = render(<TestComponentReactUncontrolled />);
+    rerender = obj.rerender;
   }
 });
 
@@ -782,27 +810,32 @@ describe('cursor stability', () => {
 
 describe('responsive country code selector', () => {
   it.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
-  ])('abbreviated label is used on small screen ($type, small screen)', () => {
-    expect(window.innerWidth).toBe(500);
-    const selector = screen.getByLabelText(
-      DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION
-    );
-    expect(selector).toBeDefined();
-  });
+    [{ type: 'ZustandControlled' }, <TestComponentZustandControlled />],
+    [{ type: 'ReactControlled' }, <TestComponentReactControlled />],
+    [{ type: 'ZustandUncontrolled' }, <TestComponentZustandUncontrolled />],
+    [{ type: 'ReactUncontrolled' }, <TestComponentReactUncontrolled />],
+  ])(
+    'abbreviated label is used when component is small ($type)',
+    (_, component) => {
+      ResizeObserverMock.resize(140);
+      rerender(component);
+      const selector = screen.getByLabelText(
+        DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION
+      );
+      expect(selector).toBeDefined();
+    }
+  );
 
   it.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
+    [{ type: 'ZustandControlled' }, <TestComponentZustandControlled />],
+    [{ type: 'ReactControlled' }, <TestComponentReactControlled />],
+    [{ type: 'ZustandUncontrolled' }, <TestComponentZustandUncontrolled />],
+    [{ type: 'ReactUncontrolled' }, <TestComponentReactUncontrolled />],
   ])(
-    'ISO code is used as label for the selected country on small screen ($type, small screen)',
-    async () => {
-      expect(window.innerWidth).toBe(500);
+    'ISO code is used as label for the selected country when component is small ($type)',
+    async (_, component) => {
+      ResizeObserverMock.resize(140);
+      rerender(component);
       const user = userEvent.setup();
       const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
       const selector = screen.getByLabelText(

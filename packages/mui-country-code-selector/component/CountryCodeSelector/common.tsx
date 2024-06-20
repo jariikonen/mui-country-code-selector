@@ -4,7 +4,6 @@ import {
   Box,
   TextField,
   TextFieldVariants,
-  Theme,
   createFilterOptions,
 } from '@mui/material';
 import type { Property } from 'csstype';
@@ -26,7 +25,7 @@ export const DEFAULT_COUNTRY_CODE_LABEL = 'Country code';
  * information about the MUI's themes.
  * @alpha
  */
-export const DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION = 'Ctry.';
+export const DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION = 'Country';
 
 /**
  * Default width for the `CountryCodeSelector`'s option list (i.e., default
@@ -58,6 +57,13 @@ export const DEFAULT_SLOT_PROPS = {
     },
   },
 };
+
+/**
+ * A responsive breakpoint below which the CountryCodeSelector components use
+ * shorter labels.
+ * @alpha
+ */
+export const SELECTOR_RESPONSIVE_BREAKPOINT_WIDTH = 145;
 
 /**
  * Creates a default filter options function for the `CountryCodeSelector`'s
@@ -121,7 +127,7 @@ export function defaultRenderOption(
  * for more information about the `renderInput` prop.
  * @param label - CountryCodeSelector component's label passed to the input
  *    component.
- * @param theme - The MUI `Theme` object that the component uses.
+ * @param elementWidth - The width of the selector element.
  * @param shrink - Indicates whether to shrink the label or not.
  * @param variant - Variant of the `TextField` component to use.
  * @returns A function for rendering the input component of the
@@ -130,13 +136,13 @@ export function defaultRenderOption(
  */
 export function createDefaultRenderInput(
   label: string,
-  theme: Theme,
+  elementWidth: number,
   shrink?: boolean,
   variant?: TextFieldVariants
 ) {
   return function defaultRenderInput(params: AutocompleteRenderInputParams) {
     let labelToUse = label;
-    if (window.innerWidth < theme.breakpoints.values.sm) {
+    if (elementWidth < SELECTOR_RESPONSIVE_BREAKPOINT_WIDTH) {
       labelToUse = DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION;
     }
     return (
@@ -174,14 +180,12 @@ export function defaultGetOptionKey(option: CountryType) {
  * `CountryCodeSelector`'s underlying `Autocomplete` component.
  * See {@link https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-getOptionLabel}
  * for more information about the `getOptionLabel` prop.
- * @param theme - The theme object being used.
+ * @param elementWidth - The width of the selector element.
  * @returns A function for getting the option label string.
  * @alpha
  */
-export function createDefaultGetOptionLabel(theme: Theme) {
+export function createDefaultGetOptionLabel(elementWidth: number) {
   return function defaultGetOptionLabel(option: CountryType) {
-    const breakpoint = theme.breakpoints.values.sm;
-
     const displayIso = option.displayIso
       ? ` ${option.displayIso}`
       : ` ${option.iso}`;
@@ -197,7 +201,7 @@ export function createDefaultGetOptionLabel(theme: Theme) {
       countryShort = option.country;
     }
 
-    if (window.innerWidth < breakpoint) {
+    if (elementWidth < SELECTOR_RESPONSIVE_BREAKPOINT_WIDTH) {
       return displayIso.trim();
     }
     return `${countryShort}${countryAdditional}${displayIso}`;

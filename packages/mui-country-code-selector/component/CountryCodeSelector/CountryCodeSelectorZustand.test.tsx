@@ -2,7 +2,7 @@
  * Integration tests for CountryCodeSelectorZustand and a country code store.
  */
 
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
@@ -11,6 +11,21 @@ import { TextField } from '@mui/material';
 import CountryCodeSelector from './CountryCodeSelectorZustand';
 import CountryCodeStoreProvider from '../store/CountryCodeStoreProvider';
 import useCountryCodeStore from '../store/useCountryCodeStore';
+
+const ResizeObserverMock = vi.fn(
+  (
+    callback: (entries: [{ contentBoxSize: { inlineSize: number } }]) => void
+  ) => ({
+    callback,
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+    resize: (inlineSize: number) =>
+      callback([{ contentBoxSize: { inlineSize } }]),
+  })
+);
+
+vi.stubGlobal('ResizeObserver', ResizeObserverMock);
 
 function TestSelector() {
   const {

@@ -4,6 +4,6 @@ import TestPage from './TestPage';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <TestPage />
+    <TestPage form />
   </React.StrictMode>
 );

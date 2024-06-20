@@ -21,7 +21,6 @@ import { ReactNode } from 'react';
 import { StackProps } from '@mui/material';
 import { TextFieldProps } from '@mui/material';
 import { TextFieldVariants } from '@mui/material';
-import { Theme } from '@mui/material';
 
 // @alpha
 export interface CCSelectorCompositeProps {
@@ -188,16 +187,16 @@ export interface CountryType {
 export function createDefaultFilterOptions(): (options: CountryType[], state: FilterOptionsState<CountryType>) => CountryType[];
 
 // @alpha
-export function createDefaultGetOptionLabel(theme: Theme): (option: CountryType) => string;
+export function createDefaultGetOptionLabel(elementWidth: number): (option: CountryType) => string;
 
 // @alpha
-export function createDefaultRenderInput(label: string, theme: Theme, shrink?: boolean, variant?: TextFieldVariants): (params: AutocompleteRenderInputParams) => JSX_2.Element;
+export function createDefaultRenderInput(label: string, elementWidth: number, shrink?: boolean, variant?: TextFieldVariants): (params: AutocompleteRenderInputParams) => JSX_2.Element;
 
 // @alpha
 export const DEFAULT_COUNTRY_CODE_LABEL = "Country code";
 
 // @alpha
-export const DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION = "Ctry.";
+export const DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION = "Country";
 
 // @alpha
 export const DEFAULT_OPTION_LIST_MAX_WIDTH: Property.Width;
@@ -306,6 +305,9 @@ export interface PossibleCountries {
     minCodeDigits: number;
     possibleCountries: readonly CountryType[];
 }
+
+// @alpha
+export const SELECTOR_RESPONSIVE_BREAKPOINT_WIDTH = 145;
 
 // @alpha
 export const useCountryCodeStore: () => Pick<CCSelectorState, 'phoneNumStr' | 'countryCodeValue' | 'countries' | 'errorMsg' | 'errorMsgDelay' | 'errorMsgTimeoutObj' | 'phoneNumberInput' | 'clearedRerender' | 'setPhoneNumberInput' | 'setRefs' | 'initialize' | 'cleanUp' | 'handlePhoneNumberChange' | 'handleCountryCodeChange' | 'handleValueChange' | 'placeInputSelection'>;
