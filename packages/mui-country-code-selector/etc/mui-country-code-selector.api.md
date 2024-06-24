@@ -310,7 +310,7 @@ export interface PossibleCountries {
 export const SELECTOR_RESPONSIVE_BREAKPOINT_WIDTH = 145;
 
 // @alpha
-export const useCountryCodeStore: () => Pick<CCSelectorState, 'phoneNumStr' | 'countryCodeValue' | 'countries' | 'errorMsg' | 'errorMsgDelay' | 'errorMsgTimeoutObj' | 'phoneNumberInput' | 'clearedRerender' | 'setPhoneNumberInput' | 'setRefs' | 'initialize' | 'cleanUp' | 'handlePhoneNumberChange' | 'handleCountryCodeChange' | 'handleValueChange' | 'placeInputSelection'>;
+export const useCountryCodeStore: () => Pick<CCSelectorState, "phoneNumStr" | "countryCodeValue" | "countries" | "errorMsg" | "errorMsgDelay" | "errorMsgTimeoutObj" | "phoneNumberInput" | "clearedRerender" | "setPhoneNumberInput" | "setRefs" | "initialize" | "cleanUp" | "handlePhoneNumberChange" | "handleCountryCodeChange" | "handleValueChange" | "placeInputSelection">;
 
 // Warning: (ae-internal-missing-underscore) The name "Wrapper" should be prefixed with an underscore because the declaration is marked as @internal
 //
