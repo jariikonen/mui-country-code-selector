@@ -40,6 +40,10 @@ export default function CustomizationExample() {
     const adornmentOption = selectedCountryRef.current;
     let startAdornment = null;
     if (adornmentOption) {
+      const flagIso =
+        adornmentOption.iso.length > 2
+          ? adornmentOption.iso.slice(0, 2).toLowerCase()
+          : adornmentOption.iso.toLowerCase();
       startAdornment = (
         <Box
           component="div"
@@ -48,7 +52,7 @@ export default function CustomizationExample() {
           <img
             loading="lazy"
             width="30"
-            src={`https://flagcdn.com/${adornmentOption.iso.toLowerCase()}.svg`}
+            src={`https://flagcdn.com/${flagIso}.svg`}
             alt=""
           />
         </Box>
@@ -72,14 +76,52 @@ export default function CustomizationExample() {
   };
 
   function getOptionLabel(option: CountryType) {
+    const breakpoint = 600;
+
+    const displayIso = option.displayIso
+      ? ` ${option.displayIso}`
+      : ` ${option.iso}`;
+
+    let countryShort = '';
+    let countryAdditional = '';
+    if (Array.isArray(option.country)) {
+      [countryShort, countryAdditional] = option.country;
+      if (countryAdditional) {
+        countryAdditional = ` (${countryAdditional})`;
+      }
+    } else {
+      countryShort = option.country;
+    }
+
     countryRef.current = option;
-    return `${option.country}`;
+
+    if (window.innerWidth < breakpoint) {
+      return displayIso.trim();
+    }
+    return `${countryShort}${countryAdditional}${displayIso}`;
   }
 
   function renderOption(
     props: React.HTMLAttributes<HTMLLIElement>,
     option: CountryType
   ) {
+    const flagIso =
+      option.iso.length > 2
+        ? option.iso.slice(0, 2).toLowerCase()
+        : option.iso.toLowerCase();
+    const displayIso = option.displayIso ? option.displayIso : option.iso;
+
+    let countryShort = '';
+    let countryAdditional = '';
+    if (Array.isArray(option.country)) {
+      [countryShort, countryAdditional] = option.country;
+      if (countryAdditional) {
+        countryAdditional = ` (${countryAdditional})`;
+      }
+    } else {
+      countryShort = option.country;
+    }
+
     return (
       <Box
         component="li"
@@ -89,10 +131,11 @@ export default function CustomizationExample() {
         <img
           loading="lazy"
           width="30"
-          src={`https://flagcdn.com/${option.iso.toLowerCase()}.svg`}
-          alt={`flag of ${option.country}`}
+          src={`https://flagcdn.com/${flagIso}.svg`}
+          alt={`flag of ${countryShort}`}
         />
-        {option.country} {option.iso} +{option.code}
+        {countryShort}
+        {countryAdditional} {displayIso} +{option.code}
       </Box>
     );
   }
@@ -105,7 +148,11 @@ export default function CustomizationExample() {
       ? inputValue.substring(1)
       : inputValue;
     return matchSorter<CountryType>(options, inputVal, {
-      keys: ['country', 'code', 'iso'],
+      keys: [
+        { threshold: matchSorter.rankings.WORD_STARTS_WITH, key: 'country' },
+        'code',
+        'iso',
+      ],
     });
   };
 

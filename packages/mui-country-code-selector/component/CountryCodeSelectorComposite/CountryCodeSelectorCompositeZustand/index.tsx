@@ -1,5 +1,10 @@
 import CountryCodeStoreProvider from '../../store/CountryCodeStoreProvider';
 import CCSelectorCompositeProps from '../../types/CCSelectorCompositeProps';
+import {
+  DEFAULT_ERROR_MESSAGE_DELAY,
+  DEFAULT_ERROR_MESSAGE_DISPLAY,
+  DEFAULT_PHONE_NUMBER_LABEL,
+} from '../common';
 import CountryCodeSelectorCompositeInner from './CountryCodeSelectorCompositeZustandInner';
 
 /**
@@ -24,10 +29,10 @@ function CountryCodeSelectorComposite({
   value,
   onChange,
   inputRef,
-  countryCodeLabel = 'Country code',
-  phoneNumberLabel = 'Phone number',
-  errorMessageDelay = 3,
-  errorMessageDisplay = 'both',
+  countryCodeLabel,
+  phoneNumberLabel = DEFAULT_PHONE_NUMBER_LABEL,
+  errorMessageDelay = DEFAULT_ERROR_MESSAGE_DELAY,
+  errorMessageDisplay = DEFAULT_ERROR_MESSAGE_DISPLAY,
   onError = undefined,
   defaultValue = '',
   layout = undefined,

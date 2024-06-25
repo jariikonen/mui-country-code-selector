@@ -2,7 +2,7 @@
  * Integration tests for CountryCodeSelectorZustand and a country code store.
  */
 
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
@@ -12,15 +12,35 @@ import CountryCodeSelector from './CountryCodeSelectorZustand';
 import CountryCodeStoreProvider from '../store/CountryCodeStoreProvider';
 import useCountryCodeStore from '../store/useCountryCodeStore';
 
+const ResizeObserverMock = vi.fn(
+  (
+    callback: (entries: [{ contentBoxSize: { inlineSize: number } }]) => void
+  ) => ({
+    callback,
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+    resize: (inlineSize: number) =>
+      callback([{ contentBoxSize: { inlineSize } }]),
+  })
+);
+
+vi.stubGlobal('ResizeObserver', ResizeObserverMock);
+
 function TestSelector() {
   const {
-    setPhoneNumberInput,
     phoneNumStr,
     errorMsg,
+    setPhoneNumberInput,
+    initialize,
     handlePhoneNumberChange,
   } = useCountryCodeStore();
 
   const phoneInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
 
   useEffect(() => {
     setPhoneNumberInput(phoneInputRef.current);
@@ -65,7 +85,7 @@ describe('basic functionality', () => {
     const input = screen.getByLabelText('Phone number');
     const selector = screen.getByLabelText('Country code');
     await user.type(input, '+358 12345');
-    expect(selector).toHaveValue('Finland (FI)');
+    expect(selector).toHaveValue('Finland FI');
   });
 
   it('country code is cleared when the clear button is pressed', async () => {
@@ -73,7 +93,7 @@ describe('basic functionality', () => {
     const input = screen.getByLabelText('Phone number');
     const selector = screen.getByLabelText('Country code');
     await user.type(input, '+358 12345');
-    expect(selector).toHaveValue('Finland (FI)');
+    expect(selector).toHaveValue('Finland FI');
     expect(input).toHaveValue('+358 12345');
     const clear = screen.getByTitle('Clear');
     await user.click(clear);
@@ -92,9 +112,8 @@ describe('basic functionality', () => {
     const fiji = screen.getByText('Fiji FJ +679');
     expect(finland).toBeDefined();
     expect(fiji).toBeDefined();
-
     await user.click(fiji);
-    expect(selector).toHaveValue('Fiji (FJ)');
+    expect(selector).toHaveValue('Fiji FJ');
     expect(input).toHaveValue('+679 ');
   });
 });

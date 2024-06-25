@@ -1,18 +1,16 @@
 import CCSelectorState from '../types/CCSelectorState';
 import InputSelection from '../types/InputSelection';
 import PossibleCountries from '../types/PossibleCountries';
-import { CountryType, countries } from './countryCodeData';
+import { CountryType } from './countryCodeData';
 import { getDigits, resetCountryCode } from './helpers';
 
 /**
- * Implementation of the handler function for the phone number input's onChange
- * events. Takes care of detecting the country code from the input and returns
- * an object that can be used for setting the countryCodeDigits and the
- * countryCodeVal based on that.
+ * Handler function for the phone number input's onChange events. Takes care of
+ * detecting the country code from the input and returns an object that can be
+ * used for setting the countryCodeDigits and the countryCodeVal based on that.
  * @see CCSelectorState.handleCountryCodeChange
  * @param phoneNumberValue Value of the phone number input as received from the
  *   onChange event props.
- * @param previousPhoneNumValue The previous value of the phone number input.
  * @param phoneNumberInput The phone number input DOM element.
  * @param detectedCCDigits The digits of the previously known country code.
  * @param possibleCountries An object containing possible country codes based
@@ -21,6 +19,8 @@ import { getDigits, resetCountryCode } from './helpers';
  * @param significantDigits The digits of the phone number that are significant
  *   in terms of the country code. Contains only the digits without visual
  *   separator characters.
+ * @param countries The full selection of countries to take into consideration
+ *   as an array of CountryType objects.
  * @returns A partial CCSelectorState object that can be used to set the state.
  */
 export default function handlePhoneNumberChange(
@@ -28,7 +28,8 @@ export default function handlePhoneNumberChange(
   phoneNumberInput: HTMLInputElement | undefined | null,
   detectedCCDigits: string,
   possibleCountries: PossibleCountries | null,
-  significantDigits: string
+  significantDigits: string,
+  countries: readonly CountryType[]
 ): Partial<CCSelectorState> {
   /**
    * A closure that reads the phone number input's cursor position or more

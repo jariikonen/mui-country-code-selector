@@ -1,17 +1,20 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Autocomplete,
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
 } from '@mui/material';
-import { CountryType, countries } from '../lib/countryCodeData';
+import { CountryType } from '../lib/countryCodeData';
 import CCSelectorProps from '../types/CCSelectorProps';
 import {
+  DEFAULT_COUNTRY_CODE_LABEL,
+  DEFAULT_SLOT_PROPS,
   createDefaultRenderInput,
   createDefaultFilterOptions,
   defaultRenderOption,
-  defaultGetOptionLabel,
+  createDefaultGetOptionLabel,
+  defaultGetOptionKey,
 } from './common';
 
 /**
@@ -37,6 +40,9 @@ export interface CCSelectorPropsReact extends CCSelectorProps {
     reason: AutocompleteChangeReason,
     details?: AutocompleteChangeDetails<CountryType> | undefined
   ) => void;
+
+  /** The calling codes and names of the countries of the world. */
+  countries: readonly CountryType[];
 }
 
 /**
@@ -54,41 +60,74 @@ export default function CountryCodeSelector({
   autoHighlight = true,
   autoSelect = true,
   filterOptions = createDefaultFilterOptions(),
-  getOptionLabel = defaultGetOptionLabel,
+  getOptionKey = undefined,
+  getOptionLabel = undefined,
   handleHomeEndKeys = false,
-  label = 'Country code',
+  label = DEFAULT_COUNTRY_CODE_LABEL,
   onChange,
   renderOption = defaultRenderOption,
   renderInput,
   shrink,
+  slotProps,
   value,
   variant,
   renderCountRef,
+  countries,
   ...rest
 }: CCSelectorPropsReact) {
+  const elementRef = useRef<HTMLElement | null>(null);
+  const [elementWidth, setElementWidth] = useState(160);
+
+  useEffect(() => {
+    if (!elementRef.current) return undefined;
+    const resizeObserver = new ResizeObserver((entries) => {
+      if (entries[0].contentBoxSize) {
+        setElementWidth(entries[0].contentBoxSize[0].inlineSize);
+      }
+    });
+    resizeObserver.observe(elementRef.current);
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  const onRefChange = useCallback((element: HTMLInputElement | null) => {
+    elementRef.current = element;
+  }, []);
+
+  const renderInputToUse =
+    renderInput ??
+    createDefaultRenderInput(label, elementWidth, shrink, variant);
+
+  const getOptionKeyToUse = getOptionKey ?? defaultGetOptionKey;
+
+  const getOptionLabelToUse =
+    getOptionLabel ?? createDefaultGetOptionLabel(elementWidth);
+
+  const slotPropsToUse = {
+    ...DEFAULT_SLOT_PROPS,
+    ...slotProps,
+  };
+
   useEffect(() => {
     if (renderCountRef) {
       renderCountRef.current += 1; // eslint-disable-line no-param-reassign
     }
   });
 
-  let renderInputToUse = renderInput;
-  if (!renderInputToUse) {
-    renderInputToUse = createDefaultRenderInput(label, shrink, variant);
-  }
-
   return (
     <Autocomplete
       autoHighlight={autoHighlight}
       autoSelect={autoSelect}
       filterOptions={filterOptions}
-      getOptionLabel={getOptionLabel}
+      getOptionKey={getOptionKeyToUse}
+      getOptionLabel={getOptionLabelToUse}
       handleHomeEndKeys={handleHomeEndKeys}
       onChange={onChange}
       options={countries}
       renderOption={renderOption}
       renderInput={renderInputToUse}
+      slotProps={slotPropsToUse}
       value={value}
+      ref={onRefChange}
       {...rest}
     />
   );

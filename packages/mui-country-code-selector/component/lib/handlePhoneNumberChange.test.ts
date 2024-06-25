@@ -1,31 +1,35 @@
 import { describe, it, expect } from 'vitest';
 import { MutableRefObject } from 'react';
-import { countries } from './countryCodeData';
+import { getCountries } from './countryCodeData';
 import handlePhoneNumberChange from './handlePhoneNumberChange';
-
-const country = countries.filter((value) => value.country === 'Curacao')[0];
-const possibleCountries = {
-  digitsConsidered: country.code,
-  minCodeDigits: country.code.length,
-  maxCodeDigits: country.code.length,
-  possibleCountries: countries.filter((value) => value.code === country.code),
-};
-const anotherCountry = countries.filter(
-  (value) => value.country === 'Finland'
-)[0];
-const phoneNumber = '92349802347';
-const phoneNumberWithCountryCode = `+${country.code} ${phoneNumber}`;
-const phoneNumberWithCountryCodeNoSpaces = phoneNumberWithCountryCode.replace(
-  /\s|-/g,
-  ''
-);
-const phoneNumberWithAnotherCountryCode = `+${anotherCountry.code}${phoneNumber}`;
-const phoneInputRef = {
-  current: { focus: () => 1 },
-} as unknown as MutableRefObject<HTMLInputElement>;
+import { getDigits } from './helpers';
 
 // phoneNumStr is updated
-describe('an object for updating the phoneNumStr is returned', () => {
+describe('an object for updating the phoneNumStr is returned', async () => {
+  const countries = await getCountries();
+  const country = countries.filter((value) =>
+    value.country.includes('Curacao')
+  )[0];
+  const possibleCountries = {
+    digitsConsidered: country.code,
+    minCodeDigits: country.code.length,
+    maxCodeDigits: country.code.length,
+    possibleCountries: countries.filter((value) => value.code === country.code),
+  };
+  const anotherCountry = countries.filter(
+    (value) => value.country === 'Finland'
+  )[0];
+  const phoneNumber = '92349802347';
+  const phoneNumberWithCountryCode = `+${country.code} ${phoneNumber}`;
+  const phoneNumberWithCountryCodeNoSpaces = phoneNumberWithCountryCode.replace(
+    /\s|-/g,
+    ''
+  );
+  const phoneNumberWithAnotherCountryCode = `+${anotherCountry.code}${phoneNumber}`;
+  const phoneInputRef = {
+    current: { focus: () => 1 },
+  } as unknown as MutableRefObject<HTMLInputElement>;
+
   it(
     'when no country code has been set and the phone number value does not ' +
       'contain one',
@@ -35,7 +39,8 @@ describe('an object for updating the phoneNumStr is returned', () => {
         phoneInputRef.current,
         '',
         null,
-        ''
+        '',
+        countries
       );
 
       expect(result).toHaveProperty('phoneNumStr', phoneNumber);
@@ -51,7 +56,8 @@ describe('an object for updating the phoneNumStr is returned', () => {
         phoneInputRef.current,
         '',
         null,
-        ''
+        '',
+        countries
       );
 
       expect(result).toHaveProperty('phoneNumStr', phoneNumberWithCountryCode);
@@ -67,7 +73,8 @@ describe('an object for updating the phoneNumStr is returned', () => {
         phoneInputRef.current,
         country.code,
         possibleCountries,
-        country.code
+        country.code,
+        countries
       );
 
       expect(result).toHaveProperty('phoneNumStr', phoneNumber);
@@ -83,7 +90,8 @@ describe('an object for updating the phoneNumStr is returned', () => {
         phoneInputRef.current,
         country.code,
         possibleCountries,
-        country.code
+        country.code,
+        countries
       );
 
       expect(result).toHaveProperty('phoneNumStr', phoneNumberWithCountryCode);
@@ -99,7 +107,8 @@ describe('an object for updating the phoneNumStr is returned', () => {
         phoneInputRef.current,
         country.code,
         possibleCountries,
-        country.code
+        country.code,
+        countries
       );
 
       expect(result).toHaveProperty(
@@ -118,7 +127,8 @@ describe('an object for updating the phoneNumStr is returned', () => {
         phoneInputRef.current,
         country.code,
         possibleCountries,
-        country.code
+        country.code,
+        countries
       );
 
       expect(result).toHaveProperty(
@@ -130,7 +140,31 @@ describe('an object for updating the phoneNumStr is returned', () => {
 });
 
 // country code is detected
-describe('the country code is detected', () => {
+describe('the country code is detected', async () => {
+  const countries = await getCountries();
+  const country = countries.filter((value) =>
+    value.country.includes('Curacao')
+  )[0];
+  const possibleCountries = {
+    digitsConsidered: country.code,
+    minCodeDigits: country.code.length,
+    maxCodeDigits: country.code.length,
+    possibleCountries: countries.filter((value) => value.code === country.code),
+  };
+  const anotherCountry = countries.filter(
+    (value) => value.country === 'Finland'
+  )[0];
+  const phoneNumber = '92349802347';
+  const phoneNumberWithCountryCode = `+${country.code} ${phoneNumber}`;
+  const phoneNumberWithCountryCodeNoSpaces = phoneNumberWithCountryCode.replace(
+    /\s|-/g,
+    ''
+  );
+  const phoneNumberWithAnotherCountryCode = `+${anotherCountry.code}${phoneNumber}`;
+  const phoneInputRef = {
+    current: { focus: () => 1 },
+  } as unknown as MutableRefObject<HTMLInputElement>;
+
   it(
     'when no country code has been set and the phone number value ' +
       'contains a country code with a space between phone number parts',
@@ -140,7 +174,8 @@ describe('the country code is detected', () => {
         phoneInputRef.current,
         '',
         null,
-        ''
+        '',
+        countries
       );
 
       expect(result).toHaveProperty('countryCodeValue', country);
@@ -156,7 +191,8 @@ describe('the country code is detected', () => {
         phoneInputRef.current,
         '',
         null,
-        ''
+        '',
+        countries
       );
 
       expect(result).toHaveProperty('countryCodeValue', country);
@@ -172,7 +208,8 @@ describe('the country code is detected', () => {
         phoneInputRef.current,
         country.code,
         possibleCountries,
-        country.code
+        country.code,
+        countries
       );
 
       expect(result).toHaveProperty('countryCodeValue', anotherCountry);
@@ -181,7 +218,23 @@ describe('the country code is detected', () => {
 });
 
 // country code is not updated when it hasn't changed
-describe('the country code is not updated', () => {
+describe('the country code is not updated', async () => {
+  const countries = await getCountries();
+  const country = countries.filter((value) =>
+    value.country.includes('Curacao')
+  )[0];
+  const possibleCountries = {
+    digitsConsidered: country.code,
+    minCodeDigits: country.code.length,
+    maxCodeDigits: country.code.length,
+    possibleCountries: countries.filter((value) => value.code === country.code),
+  };
+  const phoneNumber = '92349802347';
+  const phoneNumberWithCountryCode = `+${country.code} ${phoneNumber}`;
+  const phoneInputRef = {
+    current: { focus: () => 1 },
+  } as unknown as MutableRefObject<HTMLInputElement>;
+
   it(
     'when a country code has been set and the phone number value ' +
       'contains the same country code',
@@ -189,9 +242,10 @@ describe('the country code is not updated', () => {
       const result = handlePhoneNumberChange(
         phoneNumberWithCountryCode,
         phoneInputRef.current,
-        country.code,
+        getDigits(country.code),
         possibleCountries,
-        country.code
+        getDigits(country.code),
+        countries
       );
 
       expect(result).not.toHaveProperty('countryCodeValue');
@@ -200,14 +254,20 @@ describe('the country code is not updated', () => {
 });
 
 // forbidden characters
-describe('an error message is returned', () => {
+describe('an error message is returned', async () => {
+  const countries = await getCountries();
+  const phoneInputRef = {
+    current: { focus: () => 1 },
+  } as unknown as MutableRefObject<HTMLInputElement>;
+
   it('when a forbidden character is used', () => {
     const result = handlePhoneNumberChange(
       'h',
       phoneInputRef.current,
       '',
       null,
-      ''
+      '',
+      countries
     );
 
     expect(result).toHaveProperty(
@@ -222,7 +282,8 @@ describe('an error message is returned', () => {
       phoneInputRef.current,
       '',
       null,
-      ''
+      '',
+      countries
     );
 
     const dashes = handlePhoneNumberChange(
@@ -230,7 +291,8 @@ describe('an error message is returned', () => {
       phoneInputRef.current,
       '',
       null,
-      ''
+      '',
+      countries
     );
 
     const spaceAndDash = handlePhoneNumberChange(
@@ -238,7 +300,8 @@ describe('an error message is returned', () => {
       phoneInputRef.current,
       '',
       null,
-      ''
+      '',
+      countries
     );
 
     const dashAndSpace = handlePhoneNumberChange(
@@ -246,7 +309,8 @@ describe('an error message is returned', () => {
       phoneInputRef.current,
       '',
       null,
-      ''
+      '',
+      countries
     );
 
     const errorMsgValue = 'Only one separator character between digits allowed';
@@ -262,7 +326,8 @@ describe('an error message is returned', () => {
       phoneInputRef.current,
       '',
       null,
-      ''
+      '',
+      countries
     );
 
     const result2 = handlePhoneNumberChange(
@@ -270,7 +335,8 @@ describe('an error message is returned', () => {
       phoneInputRef.current,
       '',
       null,
-      ''
+      '',
+      countries
     );
 
     const errorMsgValue =
@@ -285,7 +351,8 @@ describe('an error message is returned', () => {
       phoneInputRef.current,
       '',
       null,
-      ''
+      '',
+      countries
     );
 
     expect(result1).toHaveProperty(
@@ -300,7 +367,8 @@ describe('an error message is returned', () => {
       phoneInputRef.current,
       '',
       null,
-      ''
+      '',
+      countries
     );
 
     expect(result1).toHaveProperty(

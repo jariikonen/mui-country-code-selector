@@ -22,8 +22,10 @@
     "phone",
     "number",
     "country",
+    "calling",
     "code",
-    "input"
+    "input",
+    "ITU-T E.164"
   ],
   "scripts": {
     "dev": "vite",
@@ -50,6 +52,7 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react-swc": "^3.6.0",
+    "csstype": "^3.1.3",
     "eslint": "^8.56.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.1.0",

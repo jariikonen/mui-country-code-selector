@@ -1,6 +1,6 @@
 import { AutocompleteChangeReason } from '@mui/material';
 import { createStore, StoreApi } from 'zustand';
-import { CountryType } from '../lib/countryCodeData';
+import { CountryType, getCountries } from '../lib/countryCodeData';
 import CCSelectorState from '../types/CCSelectorState';
 import libPlaceInputSelection from '../lib/placeInputSelection';
 import libHandlePhoneNumberChange from '../lib/handlePhoneNumberChange';
@@ -41,6 +41,7 @@ const createCountryCodeStore = () =>
       significantDigits: '',
       countryCodeDigits: '',
       countryCodeValue: null,
+      countries: [],
       possibleCountries: null,
       errorMsg: null,
       errorMsgDelay: 3,
@@ -97,6 +98,13 @@ const createCountryCodeStore = () =>
         errorHandler = undefined,
         changeHandler = undefined
       ) {
+        getCountries()
+          .then((countries) => set({ countries }))
+          .catch((error) => {
+            if (error instanceof Error) {
+              reportError(error.message);
+            }
+          });
         set({ errorMsgDelay, errorHandler, changeHandler });
         const { cleanUp } = get();
         return cleanUp;
@@ -122,13 +130,15 @@ const createCountryCodeStore = () =>
           possibleCountries,
           significantDigits,
           applyStateChanges,
+          countries,
         } = get();
         const result = libHandlePhoneNumberChange(
           event.target.value,
           phoneNumberInput,
           countryCodeDigits,
           possibleCountries,
-          significantDigits
+          significantDigits,
+          countries
         );
         set(result);
         applyStateChanges(result);

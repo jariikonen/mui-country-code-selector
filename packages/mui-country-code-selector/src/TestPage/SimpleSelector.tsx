@@ -16,8 +16,12 @@ export default function SimpleSelector({
     ? createFilterOptions({
         limit: limitOptions,
         matchFrom: 'any',
-        stringify: (option: CountryType) =>
-          `${option.country} ${option.iso} +${option.code}`,
+        stringify: (option: CountryType) => {
+          const country = Array.isArray(option.country)
+            ? option.country.join(' ')
+            : option.country;
+          return `${country} ${option.iso} +${option.code}`;
+        },
       })
     : undefined;
 
