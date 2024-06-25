@@ -35,22 +35,37 @@ export default function DemoPage() {
           <code>TextField</code>
         </A>{' '}
         components, and it can be customized by passing props to the underlying
-        components. The API is intended to follow MUI&apos;s API style and allow
-        the use of its customization features, but since the component is still
-        a work in progress, not all features have been implemented yet. The MCCS
-        can be used as a controlled or an uncontrolled component. It validates
-        the input accepting only numbers and visual separator characters
-        (whitespace and hyphen) as a phone number, and the display of the
-        validation errors can be customized. As the MCCS consists of two
-        separate input elements (country code selector and phone number input),
-        it provides props that can be used for wrapping the subcomponents in
-        different ways to fit them to the layout. By default the filtering of
-        options is done using the MUI <code>Autocomplete</code>&apos;s filtering
-        function, but it can be improved with external libraries, such as{' '}
+        components. It can be used as a controlled or an uncontrolled component.
+        It validates the input accepting only numbers and visual separator
+        characters (whitespace and hyphen) as a phone number, and the display of
+        the validation errors can be customized. The country code can be
+        selected either using the autocomplete selector, by picking from the
+        dropdown menu or by typing the code straight in to the phone number
+        input. In the last case the code is detected and the value of the
+        selector is set accordingly.
+      </P>
+      <P>
+        As the MCCS consists of two separate input elements (country code
+        selector and phone number input), it provides props that can be used for
+        wrapping the subcomponents in different ways to fit them to the layout.
+        The selector subcomponent uses responsively shorter label texts when the
+        width of the input element is smaller than a customizable threshold
+        value. By default the filtering of options is done using the MUI&apos;s{' '}
+        <code>Autocomplete</code>&apos;s filtering function, but just like
+        MUI&apos;s <code>Autocomplete</code>, it can be improved with external
+        libraries, such as{' '}
         <A href="https://github.com/kentcdodds/match-sorter" newTab>
           match-sorter
         </A>
-        .
+        . The country code data consists of all{' '}
+        <A href="https://www.itu.int/pub/T-SP-E.164D" newTab>
+          ITU-T E.164
+        </A>{' '}
+        assigned calling codes and uses{' '}
+        <A href="https://www.iso.org/iso-3166-country-codes.html" newTab>
+          ISO 3166
+        </A>{' '}
+        country codes to identify the countries.
       </P>
       <P>
         There are currently two ways to use the MCCS. The easiest way is to use
