@@ -22,8 +22,10 @@
     "phone",
     "number",
     "country",
+    "calling",
     "code",
-    "input"
+    "input",
+    "ITU-T E.164"
   ],
   "scripts": {
     "dev": "vite",
