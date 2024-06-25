@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.0](https://github.com/jariikonen/mui-country-code-selector/compare/demo-page-v0.0.3...demo-page-v0.1.0) (2024-06-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* add responsive label texts to CountryCodeSelector and easily internationalizable ITU-T E.164 compliant country data system ([#15](https://github.com/jariikonen/mui-country-code-selector/issues/15))
+
+### Features
+
+* add responsive label texts to CountryCodeSelector and easily internationalizable ITU-T E.164 compliant country data system ([#15](https://github.com/jariikonen/mui-country-code-selector/issues/15)) ([a1c97b4](https://github.com/jariikonen/mui-country-code-selector/commit/a1c97b45f2b0adaeb8a00cb81737c1b7a23a2470))
+
 ## [0.0.3](https://github.com/jariikonen/mui-country-code-selector/compare/demo-page-v0.0.2...demo-page-v0.0.3) (2024-05-30)
 
 
