@@ -12,7 +12,7 @@ import { CountryType } from '../lib/countryCodeData';
  */
 interface CCSelectorProps
   extends Omit<
-    AutocompleteProps<CountryType, false, false, false, 'div'>,
+    AutocompleteProps<CountryType, false, boolean, false>,
     'getOptionLabel' | 'onChange' | 'options' | 'renderInput' | 'value'
   > {
   /**

@@ -66,7 +66,7 @@ export interface CCSelectorCompositeProps {
 }
 
 // @alpha
-export interface CCSelectorProps extends Omit<AutocompleteProps<CountryType, false, false, false, 'div'>, 'getOptionLabel' | 'onChange' | 'options' | 'renderInput' | 'value'> {
+export interface CCSelectorProps extends Omit<AutocompleteProps<CountryType, false, boolean, false>, 'getOptionLabel' | 'onChange' | 'options' | 'renderInput' | 'value'> {
     getOptionLabel?: ((option: CountryType) => string) | undefined;
     label?: string;
     renderCountRef?: MutableRefObject<number>;
