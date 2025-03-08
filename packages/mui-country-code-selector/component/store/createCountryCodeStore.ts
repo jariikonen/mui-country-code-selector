@@ -77,7 +77,7 @@ const createCountryCodeStore = () =>
           phoneNumberInput: inputElement,
         });
         if (inputRef !== undefined) {
-          inputRef.current = inputElement; // eslint-disable-line no-param-reassign
+          inputRef.current = inputElement;
         }
         const {
           handlePhoneNumberChange,
@@ -86,7 +86,7 @@ const createCountryCodeStore = () =>
         } = get();
         addResetHandler(formElement, handlePhoneNumberChange, defaultValue);
         if (inputElement) {
-          inputElement.value = defaultValue; // eslint-disable-line no-param-reassign
+          inputElement.value = defaultValue;
           handlePhoneNumberChange({ target: { value: defaultValue } });
         }
         addKeyboardHandler(inputElement, setInputSelection);

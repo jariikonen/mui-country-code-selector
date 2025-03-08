@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 import CCSelectorState from '../types/CCSelectorState';
 import InputSelection from '../types/InputSelection';
 import PossibleCountries from '../types/PossibleCountries';
@@ -185,7 +186,8 @@ export default function handlePhoneNumberChange(
           ? digits.slice(0, pastSignificantDigits.length)
           : null;
       return Boolean(
-        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        // it is correct to use eslint-disable-next-line
+        // @typescript-eslint/prefer-nullish-coalescing
         (currentValue && currentValue !== pastSignificantDigits) ||
           (currentValue &&
             possible?.maxCodeDigits &&
@@ -211,9 +213,9 @@ export default function handlePhoneNumberChange(
         ? _possible.digitsConsidered.length
         : _digits.length;
       const options =
-        (_possible &&
+        ((_possible &&
           _possible.digitsConsidered.length < _possible.minCodeDigits) ??
-        !_possible
+        !_possible)
           ? countries
           : _possible.possibleCountries;
       let matches: readonly CountryType[] = [];

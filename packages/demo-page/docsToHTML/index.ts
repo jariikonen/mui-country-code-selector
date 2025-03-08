@@ -38,6 +38,7 @@ const md = markdownit({
   highlight: (str) => {
     try {
       return hljs.highlight(str, { language: 'typescript' }).value;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (__) {
       /* empty */
     }

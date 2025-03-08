@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable react/jsx-props-no-spreading */
 import {
   AutocompleteRenderInputParams,
