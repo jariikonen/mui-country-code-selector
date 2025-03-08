@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "convert-docs": "tsx docsToHTML && sh docsToHTML/fixLinks.sh",
-    "install-and-build": "npm i -w demo-page && npm run convert-docs -w demo-page && npm run build -w demo-page",
+    "ci-and-build": "npm ci -w demo-page && npm run convert-docs -w demo-page && npm run build -w demo-page",
     "cleanup": "rm -rf ./dist && rm -rf ./node_modules && rm -rf ./public/docs",
     "rebuild-docs": "npm run convert-docs -w demo-page && npm run build -w demo-page"
   },
@@ -48,7 +48,8 @@
     "tsx": "^4.10.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^8.26.0",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "husky": "^9.1.7"
   },
   "peerDependencies": {
     "react": "^18.2.0",

@@ -31,10 +31,9 @@
     "dev": "vite",
     "build": "tsc --p ./tsconfig-build.json && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
     "test": "vitest run",
     "create-docs": "mkdir -p etc && api-extractor run --local --verbose && api-documenter markdown --input-folder ./temp --output-folder ./docs",
-    "install-and-build": "npm i -w mui-country-code-selector && npm run build -w mui-country-code-selector && npm run create-docs -w mui-country-code-selector",
+    "ci-and-build": "npm ci -w mui-country-code-selector && npm run build -w mui-country-code-selector && npm run create-docs -w mui-country-code-selector",
     "cleanup": "rm -rf ./dist && rm -rf ./docs && rm -rf ./node_modules && rm -rf ./temp"
   },
   "dependencies": {
@@ -68,7 +67,8 @@
     "typescript-eslint": "^8.26.0",
     "vite": "^6.2.0",
     "vite-plugin-dts": "^4.5.3",
-    "vitest": "^3.0.8"
+    "vitest": "^3.0.8",
+    "husky": "^9.1.7"
   },
   "peerDependencies": {
     "@emotion/react": "^11.11.4",
