@@ -324,7 +324,7 @@ export default function CountryCodeSelectorCompositeReact({
       formRef.current = form!;
       phoneInputRef.current = element;
       if (inputRef !== undefined) {
-        inputRef.current = element; // eslint-disable-line no-param-reassign
+        inputRef.current = element;
       }
     },
     [inputRef]
@@ -387,7 +387,7 @@ export default function CountryCodeSelectorCompositeReact({
   useEffect(() => {
     placeInputSelection(phoneInputRef.current, inputSelectionRef.current);
     if (inputRenderCountRef) {
-      inputRenderCountRef.current += 1; // eslint-disable-line no-param-reassign
+      inputRenderCountRef.current += 1;
     }
   });
 

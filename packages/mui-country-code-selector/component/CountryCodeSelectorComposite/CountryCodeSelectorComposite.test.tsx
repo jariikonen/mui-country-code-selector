@@ -1,5 +1,4 @@
-/* eslint-disable class-methods-use-this */
-
+/* eslint-disable react/jsx-key */
 /**
  * Integration tests for CountryCodeSelectorCompositeZustand and
  * CountryCodeSelectorCompositeReact.
@@ -34,11 +33,11 @@ class ResizeObserverMock {
     ResizeObserverMock.callback = callback;
   }
 
-  observe() {}
+  observe() {} // eslint-disable-line class-methods-use-this
 
-  unobserve() {}
+  unobserve() {} // eslint-disable-line class-methods-use-this
 
-  disconnect() {}
+  disconnect() {} // eslint-disable-line class-methods-use-this
 
   static resize(inlineSize: number) {
     ResizeObserverMock.callback([{ contentBoxSize: [{ inlineSize }] }]);

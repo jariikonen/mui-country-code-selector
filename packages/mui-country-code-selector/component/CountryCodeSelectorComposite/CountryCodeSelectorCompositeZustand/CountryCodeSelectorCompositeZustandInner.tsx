@@ -106,7 +106,7 @@ function CountryCodeSelectorCompositeInner({
   useEffect(() => {
     placeInputSelection();
     if (inputRenderCountRef) {
-      inputRenderCountRef.current += 1; // eslint-disable-line no-param-reassign
+      inputRenderCountRef.current += 1;
     }
   });
 

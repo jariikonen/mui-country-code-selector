@@ -74,7 +74,7 @@ function CountryCodeSelector({
 
   useEffect(() => {
     if (renderCountRef) {
-      renderCountRef.current += 1; // eslint-disable-line no-param-reassign
+      renderCountRef.current += 1;
     }
   });
 
