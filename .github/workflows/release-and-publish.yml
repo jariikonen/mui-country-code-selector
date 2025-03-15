@@ -51,7 +51,7 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
         if: ${{ contains(steps.release.outputs.paths_released, 'packages') }}
-      - run: npm run install-and-build -w mui-country-code-selector
+      - run: npm run ci-and-build -w mui-country-code-selector
         if: ${{ contains(steps.release.outputs.paths_released, 'packages') }}
       - run: npm publish -w mui-country-code-selector
         env:
@@ -59,7 +59,7 @@ jobs:
         if: ${{ contains(steps.release.outputs.paths_released, 'packages/mui-country-code-selector') }}
 
       # build and publish the demo page to GitHub pages
-      - run: npm run install-and-build -w demo-page
+      - run: npm run ci-and-build -w demo-page
         if: ${{ contains(steps.release.outputs.paths_released, 'packages/demo-page') }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
