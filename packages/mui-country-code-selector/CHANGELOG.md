@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/jariikonen/mui-country-code-selector/compare/mui-country-code-selector-v0.1.0...mui-country-code-selector-v0.1.1) (2025-03-15)
+
+
+### Bug Fixes
+
+* add missing country name file to the package ([a8736be](https://github.com/jariikonen/mui-country-code-selector/commit/a8736be4b5aa0941b3610e519f657b2c0c350555))
+
 ## [0.1.0](https://github.com/jariikonen/mui-country-code-selector/compare/mui-country-code-selector-v0.0.3...mui-country-code-selector-v0.1.0) (2024-06-25)
 
 
