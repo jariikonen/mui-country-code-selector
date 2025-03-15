@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
-      - run: npm run install-and-build -w mui-country-code-selector
+      - run: npm run ci-and-build -w mui-country-code-selector
       - run: npm publish -w mui-country-code-selector
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
