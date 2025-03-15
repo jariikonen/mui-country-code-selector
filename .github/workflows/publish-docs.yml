@@ -32,9 +32,9 @@ jobs:
         with:
           node-version: 20
       - name: Build the MCCS and create API documentation
-        run: npm run install-and-build -w mui-country-code-selector
+        run: npm run ci-and-build -w mui-country-code-selector
       - name: Build the demo page
-        run: npm run install-and-build -w demo-page
+        run: npm run ci-and-build -w demo-page
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
