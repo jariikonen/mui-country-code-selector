@@ -15,7 +15,7 @@ export default tseslint.config([
 
   // Import plugin
   {
-    files: ['**/*.{js,ts,tsx}'],
+    files: ['**/*.{ts,tsx}'],
     plugins: { import: importPlugin },
     settings: {
       'import/resolver': {
@@ -110,7 +110,7 @@ export default tseslint.config([
     },
   },
 
-  // eslint-plugin-jsx-a11y
+  // Accessibility - eslint-plugin-jsx-a11y
   {
     files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
     plugins: {
@@ -135,6 +135,8 @@ export default tseslint.config([
       'prettier/prettier': 'error',
     },
   },
+
+  // General rules
   {
     rules: {
       quotes: [

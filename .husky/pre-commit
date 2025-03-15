@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # do a clean install, run tests and linter
-npm run clean-install-and-test
+npm run cleanup-ci-build-and-test
 
 red='\033[0;31m'
 cyan='\033[0;36m'

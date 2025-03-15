@@ -10,7 +10,8 @@
   "types": "dist/mui-country-code-selector.d.ts",
   "files": [
     "dist/mui-country-code-selector.js",
-    "dist/mui-country-code-selector.d.ts"
+    "dist/mui-country-code-selector.d.ts",
+    "dist/en-*.js"
   ],
   "repository": {
     "type": "git",
