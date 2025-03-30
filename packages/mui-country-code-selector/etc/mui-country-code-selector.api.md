@@ -18,6 +18,7 @@ import { JSX as JSX_2 } from 'react/jsx-runtime';
 import { MutableRefObject } from 'react';
 import { Property } from 'csstype';
 import { ReactNode } from 'react';
+import { RefCallback } from 'react';
 import { StackProps } from '@mui/material';
 import { TextFieldProps } from '@mui/material';
 import { TextFieldVariants } from '@mui/material';
@@ -44,7 +45,7 @@ export interface CCSelectorCompositeProps {
     gridSelectorProps?: GridItemProps;
     id?: string;
     inputProps?: Partial<Omit<TextFieldProps, 'onChange' | 'select' | 'SelectProps' | 'value'>> | Record<string, never>;
-    inputRef?: MutableRefObject<HTMLInputElement | null>;
+    inputRef?: MutableRefObject<HTMLInputElement | null> | RefCallback<HTMLInputElement | null>;
     inputRenderCountRef?: MutableRefObject<number>;
     inputSize?: ComponentSize;
     layout?: LayoutProp;
@@ -131,7 +132,7 @@ export interface CCSelectorState {
     setErrorMsgDelay: (seconds: number) => void;
     setInputSelection: (inputSelection: InputSelection) => void;
     setPhoneNumberInput: (inputElement: HTMLInputElement | undefined | null) => void;
-    setRefs: (element: HTMLInputElement | null, inputRef?: MutableRefObject<HTMLInputElement | null>, defaultValue?: string) => void;
+    setRefs: (element: HTMLInputElement | null, inputRef?: MutableRefObject<HTMLInputElement | null> | RefCallback<HTMLInputElement | null>, defaultValue?: string) => void;
     significantDigits: string;
     toggleClearedRerender: () => void;
 }

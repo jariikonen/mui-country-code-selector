@@ -1,4 +1,4 @@
-import { MutableRefObject } from 'react';
+import { MutableRefObject, RefCallback } from 'react';
 import {
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
@@ -151,7 +151,9 @@ interface CCSelectorState {
    */
   setRefs: (
     element: HTMLInputElement | null,
-    inputRef?: MutableRefObject<HTMLInputElement | null>,
+    inputRef?:
+      | MutableRefObject<HTMLInputElement | null>
+      | RefCallback<HTMLInputElement | null>,
     defaultValue?: string
   ) => void;
 

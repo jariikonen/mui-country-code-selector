@@ -38,14 +38,14 @@ export default function CompositeComponentsSection() {
       <CodeBox tsPath="CompositeComponentsSection/specificImportsSnippet" />
       <P>
         The project started as an experiment in React state management, and as
-        an attempt to learn to use the Zustand library. That is why the
-        implementations are currently heavily based on the way a Zustand store
-        is used. While Zustand is a great library, it creates an unnecessary
-        dependency. Because of this, the likely future direction is to develop a
-        more optimized and easier to read version of the{' '}
-        <code>CountryCodeSelectorCompositeReact</code> using React&apos;s{' '}
-        <code>useReducer</code> and <code>useContext</code> hooks, and make it
-        the primary (and perhaps the only) version of the component.
+        an attempt to learn to use the{' '}
+        <A href="https://github.com/pmndrs/zustand" newTab>
+          Zustand
+        </A>{' '}
+        library. That is why the implementations are currently heavily based on
+        the way a Zustand store is used. It is possible that in the future the
+        Zustand version is deprecated in favor of the React&apos;s native state
+        management utilities.
       </P>
       <BasicUsage />
       <Labels />

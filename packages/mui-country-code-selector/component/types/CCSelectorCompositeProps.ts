@@ -1,4 +1,4 @@
-import { MutableRefObject } from 'react';
+import { MutableRefObject, RefCallback } from 'react';
 import {
   FilterOptionsState,
   FormGroupProps,
@@ -84,7 +84,9 @@ interface CCSelectorCompositeProps {
    * Provide this to access the component's value when using the component as
    * an uncontrolled component.
    */
-  inputRef?: MutableRefObject<HTMLInputElement | null>;
+  inputRef?:
+    | MutableRefObject<HTMLInputElement | null>
+    | RefCallback<HTMLInputElement | null>;
 
   /**
    * A default phone number value. Provide this if you wish to set the default
