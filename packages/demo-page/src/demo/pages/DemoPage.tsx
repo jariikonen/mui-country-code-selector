@@ -21,8 +21,8 @@ export default function DemoPage() {
       </A>
       <H1>MUI Country Code Selector</H1>
       <P>
-        The MUI Country Code Selector (MCCS) is the best way to add a phone
-        number input with a country code selector to your{' '}
+        The MUI Country Code Selector (MCCS) aims to be the best way to add a
+        phone number input with a country code selector to your{' '}
         <A href="https://mui.com/material-ui/" newTab>
           MUI
         </A>{' '}
