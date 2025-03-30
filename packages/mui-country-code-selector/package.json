@@ -7,6 +7,8 @@
   "license": "MIT",
   "type": "module",
   "browser": "dist/mui-country-code-selector.js",
+  "module": "dist/mui-country-code-selector.js",
+  "main": "dist/mui-country-code-selector.js",
   "types": "dist/mui-country-code-selector.d.ts",
   "files": [
     "dist/mui-country-code-selector.js",
