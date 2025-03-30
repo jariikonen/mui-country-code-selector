@@ -324,7 +324,11 @@ export default function CountryCodeSelectorCompositeReact({
       formRef.current = form!;
       phoneInputRef.current = element;
       if (inputRef !== undefined) {
-        inputRef.current = element;
+        if (typeof inputRef === 'function') {
+          inputRef(element);
+        } else {
+          inputRef.current = element;
+        }
       }
     },
     [inputRef]

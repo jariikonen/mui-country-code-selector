@@ -77,7 +77,11 @@ const createCountryCodeStore = () =>
           phoneNumberInput: inputElement,
         });
         if (inputRef !== undefined) {
-          inputRef.current = inputElement;
+          if (typeof inputRef === 'function') {
+            inputRef(inputElement);
+          } else {
+            inputRef.current = inputElement;
+          }
         }
         const {
           handlePhoneNumberChange,
