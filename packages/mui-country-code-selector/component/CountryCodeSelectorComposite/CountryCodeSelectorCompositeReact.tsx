@@ -112,6 +112,8 @@ export default function CountryCodeSelectorCompositeReact({
 
   const [countries, setCountries] = useState<readonly CountryType[]>([]);
 
+  const countriesSetRef = useRef(false);
+
   /** Data on country codes that are possible based on the phoneNumStr. */
   const possibleCountriesRef = useRef<PossibleCountries | null>(null);
 
@@ -302,13 +304,39 @@ export default function CountryCodeSelectorCompositeReact({
   // handlePhoneNumberChange() function so that the change is also taken into
   // account in the country code selector's value.
   useEffect(() => {
-    if (
-      isControlled &&
-      typeof value === 'string' &&
-      value !== phoneNumStrRef.current
-    ) {
-      handlePhoneNumberChange({ target: { value } });
-    }
+    let isCancelled = false;
+
+    // A function for checking that the country data has been initialized.
+    // Country data is fetched asynchronously, so it might not be ready right
+    // after the component is mounted.
+    const waitForCountries = async (maxAttempts = 20, interval = 100) => {
+      for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        if (isCancelled) return;
+
+        if (countriesSetRef.current) {
+          if (
+            isControlled &&
+            typeof value === 'string' &&
+            value !== phoneNumStrRef.current
+          ) {
+            handlePhoneNumberChange({ target: { value } });
+          }
+          return;
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, interval));
+      }
+
+      /* eslint-disable-next-line no-console */
+      console.error(
+        'Country code selector: Countries were not set after max attempts.'
+      );
+    };
+    waitForCountries();
+
+    return () => {
+      isCancelled = true; // Cleanup if component unmounts
+    };
   }, [handlePhoneNumberChange, isControlled, value]);
 
   /**
@@ -403,7 +431,10 @@ export default function CountryCodeSelectorCompositeReact({
 
   useEffect(() => {
     getCountries()
-      .then((ctrs) => setCountries(ctrs))
+      .then((ctrs) => {
+        setCountries(ctrs);
+        countriesSetRef.current = true;
+      })
       .catch((error) => {
         if (error instanceof Error) {
           reportError(error.message);

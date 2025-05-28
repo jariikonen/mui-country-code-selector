@@ -1,11 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useCallback, useEffect } from 'react';
+import { useCallback, useContext, useEffect, useRef } from 'react';
 import { TextField, FormHelperText } from '@mui/material';
 import CountryCodeSelector from '../../CountryCodeSelector/CountryCodeSelectorZustand';
 import useCountryCodeStore from '../../store/useCountryCodeStore';
 import CCSelectorCompositeProps from '../../types/CCSelectorCompositeProps';
 import Wrapper from '../Wrapper/index';
 import { defaultIsOptionEqualToValue } from '../common';
+import CountryCodeStoreContext from '../../store/CountryCodeStoreContext';
 
 /**
  * A utility type that makes all properties of the base type optional without
@@ -78,6 +79,16 @@ function CountryCodeSelectorCompositeInner({
     placeInputSelection,
   } = useCountryCodeStore();
 
+  // Subscribe to countries state and set countriesSetRef, when country data
+  // has been fetched.
+  const countriesSetRef = useRef(false);
+  const store = useContext(CountryCodeStoreContext);
+  store?.subscribe((state) => {
+    if (state.countries.length > 0) {
+      countriesSetRef.current = true;
+    }
+  });
+
   const valueToUse = value ?? phoneNumStr;
 
   const errorStatusProp =
@@ -91,7 +102,33 @@ function CountryCodeSelectorCompositeInner({
   );
 
   useEffect(() => {
-    handleValueChange(value);
+    let isCancelled = false;
+
+    // A function for checking that the country data has been initialized.
+    // Country data is fetched asynchronously, so it might not be ready right
+    // after the component is mounted.
+    const waitForCountries = async (maxAttempts = 20, interval = 100) => {
+      for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        if (isCancelled) return;
+
+        if (countriesSetRef.current) {
+          handleValueChange(value);
+          return;
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, interval));
+      }
+
+      /* eslint-disable-next-line no-console */
+      console.error(
+        'Country code selector: Countries were not set after max attempts.'
+      );
+    };
+    waitForCountries();
+
+    return () => {
+      isCancelled = true; // Cleanup if component unmounts
+    };
   }, [handleValueChange, value]);
 
   // Preventing the input value from changing as the change event suggests,
