@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/jariikonen/mui-country-code-selector/compare/mui-country-code-selector-v0.1.2...mui-country-code-selector-v0.1.3) (2025-05-28)
+
+
+### Bug Fixes
+
+* **mui-country-code-selector:** phone number changes made through value parameter not affecting country code ([9e91e61](https://github.com/jariikonen/mui-country-code-selector/commit/9e91e61136eb3baf19f40f0e7ca44789b31820f5))
+
 ## [0.1.2](https://github.com/jariikonen/mui-country-code-selector/compare/mui-country-code-selector-v0.1.1...mui-country-code-selector-v0.1.2) (2025-03-30)
 
 
