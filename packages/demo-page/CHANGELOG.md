@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/jariikonen/mui-country-code-selector/compare/demo-page-v0.1.0...demo-page-v0.1.1) (2025-03-30)
+
+
+### Bug Fixes
+
+* minor changes to the text ([4ec8718](https://github.com/jariikonen/mui-country-code-selector/commit/4ec871871ea59ef5a597baa796d9f88e46776a90))
+
 ## [0.1.0](https://github.com/jariikonen/mui-country-code-selector/compare/demo-page-v0.0.3...demo-page-v0.1.0) (2024-06-25)
 
 
