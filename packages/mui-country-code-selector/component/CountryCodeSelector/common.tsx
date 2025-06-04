@@ -98,10 +98,12 @@ export function createDefaultFilterOptions() {
  * @alpha
  */
 export function defaultRenderOption(
-  props: React.HTMLAttributes<HTMLLIElement>,
+  props: React.HTMLAttributes<HTMLLIElement> & { key: any },
   option: CountryType
 ): React.ReactNode {
   const displayIso = option.displayIso ? option.displayIso : option.iso;
+
+  const { key, ...restOfProps } = props;
 
   let countryShort = '';
   let countryAdditional = '';
@@ -114,7 +116,7 @@ export function defaultRenderOption(
     countryShort = option.country;
   }
   return (
-    <Box component="li" {...props}>
+    <Box component="li" key={key} {...restOfProps}>
       {countryShort}
       {countryAdditional} {displayIso} +{option.code}
     </Box>

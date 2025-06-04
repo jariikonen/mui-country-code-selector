@@ -26,9 +26,7 @@ export type GridItemProps = Partial<
  * component.
  * @alpha
  */
-export type Grid2ContainerProps = Partial<
-  Omit<Grid2Props, 'xs' | 'sm' | 'md' | 'lg' | 'xl'>
->;
+export type Grid2ContainerProps = Partial<Omit<Grid2Props, 'size' | 'offset'>>;
 
 /**
  * Represents the props that can be passed to a MUI `Grid2` item components
