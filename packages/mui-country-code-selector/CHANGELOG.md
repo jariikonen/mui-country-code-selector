@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.0](https://github.com/jariikonen/mui-country-code-selector/compare/mui-country-code-selector-v0.1.3...mui-country-code-selector-v0.2.0) (2025-06-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* update MUI peer dependency to 6.0.0 - breaking changes to Grid and Grid2 layout wrapper props
+
+### Features
+
+* update MUI peer dependency to 6.0.0 - breaking changes to Grid and Grid2 layout wrapper props ([f3aa1a9](https://github.com/jariikonen/mui-country-code-selector/commit/f3aa1a9c99d115ce1584309214f71963dc4fa432))
+
 ## [0.1.3](https://github.com/jariikonen/mui-country-code-selector/compare/mui-country-code-selector-v0.1.2...mui-country-code-selector-v0.1.3) (2025-05-28)
 
 
