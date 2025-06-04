@@ -16,11 +16,11 @@
     "rebuild-docs": "npm run convert-docs -w demo-page && npm run build -w demo-page"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
+    "@emotion/react": "^11.0.0",
+    "@emotion/styled": "^11.0.0",
     "@fontsource/roboto": "^5.0.13",
-    "@mui/icons-material": "^5.15.17",
-    "@mui/material": "^5.15.17",
+    "@mui/icons-material": "^6.0.0",
+    "@mui/material": "^6.0.0",
     "match-sorter": "^6.3.4",
     "mui-country-code-selector": "file:../mui-country-code-selector",
     "react-syntax-highlighter": "^15.6.1"
@@ -29,8 +29,8 @@
     "@eslint/js": "^9.21.0",
     "@types/markdown-it": "^14.1.1",
     "@types/node": "^20.12.11",
-    "@types/react": "^18.3.2",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
     "@types/react-syntax-highlighter": "^15.5.13",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.21.0",
@@ -52,7 +52,7 @@
     "vite": "^6.2.0"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   }
 }

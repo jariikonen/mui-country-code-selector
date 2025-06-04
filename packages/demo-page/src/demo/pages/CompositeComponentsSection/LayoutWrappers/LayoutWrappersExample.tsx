@@ -1,5 +1,4 @@
-import { Box, Grid } from '@mui/material';
-import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
+import { Box, Grid, Grid2 } from '@mui/material';
 import { CountryCodeSelectorComposite } from 'mui-country-code-selector';
 
 export default function LayoutWrappersExample() {
@@ -31,14 +30,14 @@ export default function LayoutWrappersExample() {
         grid2ContainerProps={{
           columnSpacing: { xs: 1 },
           rowSpacing: { xs: 1 },
-          sx: { mb: { xs: 0.5 } },
+          sx: { mb: { xs: 1 } },
         }}
       />
       <Grid2
         container
         columnSpacing={{ xs: 1 }}
         rowSpacing={{ xs: 1 }}
-        sx={{ mb: { xs: 0.5 } }}
+        sx={{ mb: { xs: 1 } }}
       >
         <CountryCodeSelectorComposite
           phoneNumberLabel="grid2Items"
@@ -51,7 +50,7 @@ export default function LayoutWrappersExample() {
         stackProps={{
           direction: 'row',
           spacing: { xs: 1 },
-          mt: { xs: 0.5 },
+          mt: { xs: 1 },
           mb: { xs: 1 },
         }}
         selectorProps={{

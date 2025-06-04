@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { ReactNode } from 'react';
 import { Grid } from '@mui/material';
-import ComponentSize from '../../types/ComponentSize';
+import { ComponentSizeLegacyGrid } from '../../types/ComponentSize';
 import { GridItemProps } from '../../types/GridProps';
 
 /**
@@ -13,9 +13,9 @@ export interface GridWrapperProps {
   gridSelectorProps: GridItemProps | undefined;
   gridInputProps: GridItemProps | undefined;
   gridErrorProps: GridItemProps | undefined;
-  selectorSize: ComponentSize | undefined;
-  inputSize: ComponentSize | undefined;
-  errorSize: ComponentSize | undefined;
+  selectorSize: ComponentSizeLegacyGrid | undefined;
+  inputSize: ComponentSizeLegacyGrid | undefined;
+  errorSize: ComponentSizeLegacyGrid | undefined;
   children: ReactNode;
 }
 

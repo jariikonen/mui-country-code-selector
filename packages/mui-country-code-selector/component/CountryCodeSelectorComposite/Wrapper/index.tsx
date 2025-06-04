@@ -7,9 +7,11 @@ import {
   Stack,
   StackProps,
 } from '@mui/material';
-import Grid2 from '@mui/material/Unstable_Grid2';
+import Grid2 from '@mui/material/Grid2';
 import LayoutProp from '../../types/LayoutProp';
-import ComponentSize from '../../types/ComponentSize';
+import ComponentSize, {
+  ComponentSizeLegacyGrid,
+} from '../../types/ComponentSize';
 import {
   Grid2ContainerProps,
   Grid2ItemProps,
@@ -18,6 +20,48 @@ import {
 } from '../../types/GridProps';
 import GridWrapper from './GridWrapper';
 import Grid2Wrapper from './Grid2Wrapper';
+
+const DEFAULT_SELECTOR_SIZE = { xs: 4 };
+const DEFAULT_INPUT_SIZE = { xs: 8 };
+const DEFAULT_ERROR_SIZE = { xs: 12 };
+
+function isComponenSizeLegacyGrid(
+  size: ComponentSize | ComponentSizeLegacyGrid
+): size is ComponentSizeLegacyGrid {
+  if (size && Object.keys(size).includes('grow')) {
+    return false;
+  }
+  return true;
+}
+
+function parseComponentSizeLegacyGrid(
+  size: ComponentSize | ComponentSizeLegacyGrid
+): ComponentSizeLegacyGrid {
+  if (!size || !isComponenSizeLegacyGrid(size)) {
+    throw new Error('Legacy Grid component\'s size cannot be "grow".');
+  }
+  return size;
+}
+
+function isComponentSizeGrid2(
+  size: ComponentSize | ComponentSizeLegacyGrid
+): size is ComponentSize {
+  if (size && Object.keys(size).includes('size')) {
+    return true;
+  }
+  return false;
+}
+
+function parseComponentSizeGrid2(
+  size: ComponentSize | ComponentSizeLegacyGrid
+): ComponentSize {
+  if (!size || !isComponentSizeGrid2(size)) {
+    throw new Error(
+      'The size of Grid2 components must be set using the "size" prop.'
+    );
+  }
+  return size;
+}
 
 /**
  * Props for the `Wrapper` component.
@@ -37,9 +81,9 @@ export interface WrapperProps {
   grid2InputProps?: Grid2ItemProps;
   grid2ErrorProps?: Grid2ItemProps;
   stackProps?: Partial<StackProps>;
-  selectorSize?: ComponentSize;
-  inputSize?: ComponentSize;
-  errorSize?: ComponentSize;
+  selectorSize?: ComponentSize | ComponentSizeLegacyGrid;
+  inputSize?: ComponentSize | ComponentSizeLegacyGrid;
+  errorSize?: ComponentSize | ComponentSizeLegacyGrid;
   children: ReactNode;
 }
 
@@ -62,11 +106,29 @@ export default function Wrapper({
   grid2InputProps = undefined,
   grid2ErrorProps = undefined,
   stackProps = undefined,
-  selectorSize = { xs: 4 },
-  inputSize = { xs: 8 },
-  errorSize = { xs: 12 },
+  selectorSize = undefined,
+  inputSize = undefined,
+  errorSize = undefined,
   children,
 }: WrapperProps) {
+  const legacySelectorSize = selectorSize
+    ? parseComponentSizeLegacyGrid(selectorSize)
+    : DEFAULT_SELECTOR_SIZE;
+  const legacyInputSize = inputSize
+    ? parseComponentSizeLegacyGrid(inputSize)
+    : DEFAULT_INPUT_SIZE;
+  const legacyErrorSize = errorSize
+    ? parseComponentSizeLegacyGrid(errorSize)
+    : DEFAULT_ERROR_SIZE;
+  const grid2SelectorSize = selectorSize
+    ? parseComponentSizeGrid2(selectorSize)
+    : { size: DEFAULT_SELECTOR_SIZE };
+  const grid2InputSize = inputSize
+    ? parseComponentSizeGrid2(inputSize)
+    : { size: DEFAULT_INPUT_SIZE };
+  const grid2ErrorSize = errorSize
+    ? parseComponentSizeGrid2(errorSize)
+    : { size: DEFAULT_ERROR_SIZE };
   switch (layout) {
     case 'grid':
       return (
@@ -76,9 +138,9 @@ export default function Wrapper({
             gridSelectorProps={gridSelectorProps}
             gridInputProps={gridInputProps}
             gridErrorProps={gridErrorProps}
-            selectorSize={selectorSize}
-            inputSize={inputSize}
-            errorSize={errorSize}
+            selectorSize={legacySelectorSize}
+            inputSize={legacyInputSize}
+            errorSize={legacyErrorSize}
           >
             {children}
           </GridWrapper>
@@ -91,9 +153,9 @@ export default function Wrapper({
           gridSelectorProps={gridSelectorProps}
           gridInputProps={gridInputProps}
           gridErrorProps={gridErrorProps}
-          selectorSize={selectorSize}
-          inputSize={inputSize}
-          errorSize={errorSize}
+          selectorSize={legacySelectorSize}
+          inputSize={legacyInputSize}
+          errorSize={legacyErrorSize}
         >
           {children}
         </GridWrapper>
@@ -106,9 +168,9 @@ export default function Wrapper({
             grid2SelectorProps={grid2SelectorProps}
             grid2InputProps={grid2InputProps}
             grid2ErrorProps={grid2ErrorProps}
-            selectorSize={selectorSize}
-            inputSize={inputSize}
-            errorSize={errorSize}
+            selectorSize={grid2SelectorSize}
+            inputSize={grid2InputSize}
+            errorSize={grid2ErrorSize}
           >
             {children}
           </Grid2Wrapper>
@@ -121,9 +183,9 @@ export default function Wrapper({
           grid2SelectorProps={grid2SelectorProps}
           grid2InputProps={grid2InputProps}
           grid2ErrorProps={grid2ErrorProps}
-          selectorSize={selectorSize}
-          inputSize={inputSize}
-          errorSize={errorSize}
+          selectorSize={grid2SelectorSize}
+          inputSize={grid2InputSize}
+          errorSize={grid2ErrorSize}
         >
           {children}
         </Grid2Wrapper>

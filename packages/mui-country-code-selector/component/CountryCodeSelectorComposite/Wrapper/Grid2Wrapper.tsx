@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { ReactNode } from 'react';
-import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
+import Grid2 from '@mui/material/Grid2';
 import ComponentSize from '../../types/ComponentSize';
 import { Grid2ItemProps } from '../../types/GridProps';
 
