@@ -1,4 +1,4 @@
-import { Box, Grid, Grid2 } from '@mui/material';
+import { Box, Grid, GridLegacy } from '@mui/material';
 import { CountryCodeSelectorComposite } from 'mui-country-code-selector';
 
 export default function LayoutWrappersExample() {
@@ -25,25 +25,25 @@ export default function LayoutWrappersExample() {
         />
       </Grid>
       <CountryCodeSelectorComposite
-        phoneNumberLabel="grid2"
-        layout="grid2"
-        grid2ContainerProps={{
+        phoneNumberLabel="gridLegacy"
+        layout="gridLegacy"
+        gridLegacyContainerProps={{
           columnSpacing: { xs: 1 },
           rowSpacing: { xs: 1 },
           sx: { mb: { xs: 1 } },
         }}
       />
-      <Grid2
+      <GridLegacy
         container
         columnSpacing={{ xs: 1 }}
         rowSpacing={{ xs: 1 }}
         sx={{ mb: { xs: 1 } }}
       >
         <CountryCodeSelectorComposite
-          phoneNumberLabel="grid2Items"
-          layout="grid2Items"
+          phoneNumberLabel="gridLegacyItems"
+          layout="gridLegacyItems"
         />
-      </Grid2>
+      </GridLegacy>
       <CountryCodeSelectorComposite
         phoneNumberLabel="default stack (no wrap)"
         layout="stack"

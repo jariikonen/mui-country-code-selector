@@ -23,14 +23,14 @@ function TestForm() {
             inputRef={homePhoneNumRef}
             layout="gridItems"
           />
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Grid container direction="row" columnSpacing={{ xs: 1 }}>
-              <Grid item>
+              <Grid>
                 <Button variant="contained" type="submit">
                   Submit
                 </Button>
               </Grid>
-              <Grid item>
+              <Grid>
                 <Button variant="contained" type="reset">
                   Clear
                 </Button>

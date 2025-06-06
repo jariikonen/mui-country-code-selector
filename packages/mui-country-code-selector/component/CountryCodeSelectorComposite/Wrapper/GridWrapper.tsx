@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { ReactNode } from 'react';
-import { Grid } from '@mui/material';
-import { ComponentSizeLegacyGrid } from '../../types/ComponentSize';
+import Grid from '@mui/material/Grid';
+import ComponentSize from '../../types/ComponentSize';
 import { GridItemProps } from '../../types/GridProps';
 
 /**
@@ -13,15 +13,15 @@ export interface GridWrapperProps {
   gridSelectorProps: GridItemProps | undefined;
   gridInputProps: GridItemProps | undefined;
   gridErrorProps: GridItemProps | undefined;
-  selectorSize: ComponentSizeLegacyGrid | undefined;
-  inputSize: ComponentSizeLegacyGrid | undefined;
-  errorSize: ComponentSizeLegacyGrid | undefined;
+  selectorSize: ComponentSize | undefined;
+  inputSize: ComponentSize | undefined;
+  errorSize: ComponentSize | undefined;
   children: ReactNode;
 }
 
 /**
- * Wraps the composite country code selector's subcomponents into MUI `Grid`
- * and `Grid item`components.
+ * Wraps the combined country code selector's subcomponents into MUI `Grid`
+ * components.
  * @internal
  */
 export default function GridWrapper({
@@ -55,19 +55,19 @@ export default function GridWrapper({
         switch (index) {
           case 0:
             return (
-              <Grid item key="selector" {...selectorPropsToApply}>
+              <Grid key="selector" {...selectorPropsToApply}>
                 {child}
               </Grid>
             );
           case 1:
             return (
-              <Grid item key="input" {...inputPropsToApply}>
+              <Grid key="input" {...inputPropsToApply}>
                 {child}
               </Grid>
             );
           case 2:
             return child !== null ? (
-              <Grid item key="error" {...errorPropsToApply}>
+              <Grid key="error" {...errorPropsToApply}>
                 {child}
               </Grid>
             ) : null;

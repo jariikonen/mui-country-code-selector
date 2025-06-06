@@ -7,10 +7,10 @@ type ResponsiveStyleValue<T> =
 
 /**
  * Represents a value for the composite component props that change the size of
- * country code selector's subcomponents in a MUI `Grid2`.
+ * country code selector's subcomponents in a MUI `Grid`.
  * @alpha
  */
-interface ComponentSize {
+interface ComponentSizeGrid {
   size: ResponsiveStyleValue<GridSize>;
 }
 
@@ -20,7 +20,7 @@ interface ComponentSize {
  * component).
  * @alpha
  */
-export interface ComponentSizeLegacyGrid {
+export interface ComponentSizeGridLegacy {
   xs?: number | false | 'auto';
   sm?: number | false | 'auto';
   md?: number | false | 'auto';
@@ -28,4 +28,4 @@ export interface ComponentSizeLegacyGrid {
   xl?: number | false | 'auto';
 }
 
-export default ComponentSize;
+export default ComponentSizeGrid;

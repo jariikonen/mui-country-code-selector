@@ -64,7 +64,7 @@ export default function ValidationExample() {
           onError={errorHandler}
         />
         {error && (
-          <Grid item xs={12} sx={{ color: 'red' }}>
+          <Grid size={{ xs: 12 }} sx={{ color: 'red' }}>
             <p>
               <b>{error}</b>
             </p>

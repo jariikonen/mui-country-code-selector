@@ -1,4 +1,4 @@
-import { Grid2Props, GridProps } from '@mui/material';
+import { GridLegacyProps, GridProps } from '@mui/material';
 
 /**
  * Represents the props that can be passed to a MUI `Grid` container component
@@ -6,9 +6,7 @@ import { Grid2Props, GridProps } from '@mui/material';
  * component.
  * @alpha
  */
-export type GridContainerProps = Partial<
-  Omit<GridProps, 'xs' | 'sm' | 'md' | 'lg' | 'xl'>
->;
+export type GridLegacyContainerProps = Partial<GridLegacyProps>;
 
 /**
  * Represents the props that can be passed to a MUI `Grid` item components
@@ -16,8 +14,8 @@ export type GridContainerProps = Partial<
  * component.
  * @alpha
  */
-export type GridItemProps = Partial<
-  Omit<GridProps, 'spacing' | 'rowSpacing' | 'columnSpacing'>
+export type GridLegacyItemProps = Partial<
+  Omit<GridLegacyProps, 'spacing' | 'rowSpacing' | 'columnSpacing'>
 >;
 
 /**
@@ -26,7 +24,7 @@ export type GridItemProps = Partial<
  * component.
  * @alpha
  */
-export type Grid2ContainerProps = Partial<Omit<Grid2Props, 'size' | 'offset'>>;
+export type GridContainerProps = Partial<Omit<GridProps, 'size' | 'offset'>>;
 
 /**
  * Represents the props that can be passed to a MUI `Grid2` item components
@@ -34,6 +32,6 @@ export type Grid2ContainerProps = Partial<Omit<Grid2Props, 'size' | 'offset'>>;
  * component.
  * @alpha
  */
-export type Grid2ItemProps = Partial<
-  Omit<Grid2Props, 'spacing' | 'rowSpacing' | 'columnSpacing'>
+export type GridItemProps = Partial<
+  Omit<GridProps, 'spacing' | 'rowSpacing' | 'columnSpacing'>
 >;
