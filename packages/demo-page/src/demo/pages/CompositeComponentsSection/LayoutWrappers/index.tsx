@@ -28,50 +28,52 @@ export default function LayoutWrappers() {
           type
         </A>
         ). It accepts the following values: <code>grid</code>,{' '}
-        <code>gridItems</code>, <code>grid2</code>, <code>grid2Items</code>,{' '}
-        <code>stack</code>, <code>group</code>, and <code>row</code>. These
-        represent the different wrappers that can be applied to the components.
-        Option <code>grid</code> wraps the components into MUI{' '}
+        <code>gridItems</code>, <code>gridLegacy</code>,{' '}
+        <code>gridLegacyItems</code>, <code>stack</code>, <code>group</code>,
+        and <code>row</code>. These represent the different wrappers that can be
+        applied to the components. Option <code>grid</code> wraps the components
+        into MUI&apos;s{' '}
         <A href="https://mui.com/material-ui/react-grid/" newTab>
           Grid
         </A>{' '}
         <i>item</i> components and creates a Grid <i>container</i> around them.
-        Option <code>gridItems</code> just wraps the components into Grid items
-        and leaves the surrounding container out. Options <code>grid2</code> and{' '}
-        <code>grid2Items</code> do the same with MUI{' '}
-        <A href="https://mui.com/material-ui/react-grid2/" newTab>
-          Grid2
+        Option <code>gridItems</code> wraps the components into Grid items and
+        leaves the surrounding container out. Options <code>gridLegacy</code>{' '}
+        and <code>gridLegacyItems</code> do the same with{' '}
+        <A href="https://mui.com/material-ui/react-grid-legacy/" newTab>
+          GridLegacy
         </A>{' '}
-        components. Option <code>stack</code> wraps the components in a MUI{' '}
+        components. Option <code>stack</code> wraps the components in{' '}
         <A href="https://mui.com/material-ui/react-stack/" newTab>
           Stack
         </A>{' '}
         component, and with the <code>group</code> option the components are
-        wrapped in a MUI{' '}
+        wrapped in{' '}
         <A href="https://mui.com/material-ui/api/form-group/" newTab>
           FormGroup
         </A>{' '}
         component. Option <code>row</code> is just a more convenient way to wrap
-        the components in MUI FormGroup and give the FormGroup a{' '}
-        <code>row</code> prop at one go. The <code>row</code> prop makes the
-        FormGroup render its children in a horizontal row.
+        the components in a FormGroup and give the FormGroup a <code>row</code>{' '}
+        prop at one go. The <code>row</code> prop makes the FormGroup render its
+        children in a horizontal row.
       </P>
       <H4>Grids</H4>
       <H5>As an individual grid</H5>
       <P>
-        With the <code>grid</code> and <code>grid2</code> options the composite
-        country code selector component can be laid out in its own MUI Grid
-        container component. This option wraps the components of the MCCS into
-        Grid item components, which are then wrapped inside a Grid container
-        component. So there is no need for an external Grid container.
+        With the <code>grid</code> and <code>gridLegacy</code> options the
+        composite country code selector component can be laid out in its own
+        Grid (or GridLegacy) container component. The selector and phone number
+        input components are wrapped into Grid item components, which are then
+        wrapped inside a Grid container component. So there is no need for an
+        external Grid container.
       </P>
       <CodeBox tsPath="LayoutWrappers/GridSnippet" />
       <H5>As items to an existing grid</H5>
       <P>
         If the component is placed in a form that is already laid out with MUI
-        Grid or Grid2 components, it is probably easiest to use the{' '}
-        <code>gridItems</code> or <code>grid2Items</code> wrapper. They wrap the
-        subcomponents in their own grid item components, which can work as part
+        Grid or GridLegacy components, it is possible to use the{' '}
+        <code>gridItems</code> or <code>gridLegacyItems</code> wrapper. They
+        wrap the subcomponents in grid item components, which then work as part
         of an already existing grid.
       </P>
       <CodeBox tsPath="LayoutWrappers/GridItemsSnippet" />
@@ -124,7 +126,7 @@ export default function LayoutWrappers() {
         >
           <code>gridErrorProps</code>
         </A>
-        , and their Grid2 equivalents.
+        , and their GridLegacy equivalents.
       </P>
       <H4>Stack</H4>
       <P>
@@ -199,13 +201,13 @@ export default function LayoutWrappers() {
         The <code>formGroupProps</code>, <code>gridContainerProps</code>,{' '}
         <code>gridItemProps</code>, <code>gridSelectorProps</code>,{' '}
         <code>gridInputProps</code>, <code>gridErrorProps</code>, and{' '}
-        <code>stackProps</code> props of the composite component, and the
-        corresponding props for the Grid2 properties can be used for passing
-        props to their respective components. There are also three convenience
-        props that can be used to set often used values:{' '}
+        <code>stackProps</code> of the composite component, and the
+        corresponding props for the GridLegacy properties can be used for
+        passing props to their respective components. There are also three
+        convenience props that can be used to set often used values:{' '}
         <code>selectorSize</code>, <code>inputSize</code>, and{' '}
         <code>errorSize</code>. These set the sizes of their respective grid
-        components (when using Grid or Grid2 wrappers). See the{' '}
+        components (when using Grid or GridLegacy wrappers). See the{' '}
         <A
           href="/mui-country-code-selector/docs/mui-country-code-selector.ccselectorcompositeprops.html"
           newTab

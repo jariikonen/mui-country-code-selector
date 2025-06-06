@@ -1,4 +1,4 @@
-import { MutableRefObject, RefCallback } from 'react';
+import { RefCallback, RefObject } from 'react';
 import {
   FilterOptionsState,
   FormGroupProps,
@@ -10,12 +10,12 @@ import {
 import CCSelectorProps from './CCSelectorProps';
 import { CountryType } from '../lib/countryCodeData';
 import LayoutProp from './LayoutProp';
-import ComponentSize, { ComponentSizeLegacyGrid } from './ComponentSize';
+import ComponentSize, { ComponentSizeGridLegacy } from './ComponentSize';
 import {
-  Grid2ContainerProps,
-  Grid2ItemProps,
   GridContainerProps,
   GridItemProps,
+  GridLegacyContainerProps,
+  GridLegacyItemProps,
 } from './GridProps';
 
 /**
@@ -85,7 +85,7 @@ interface CCSelectorCompositeProps {
    * an uncontrolled component.
    */
   inputRef?:
-    | MutableRefObject<HTMLInputElement | null>
+    | RefObject<HTMLInputElement | null>
     | RefCallback<HTMLInputElement | null>;
 
   /**
@@ -95,174 +95,170 @@ interface CCSelectorCompositeProps {
   defaultValue?: string;
 
   /**
-   * Defines what kind of layout components the subcomponents of a composite
-   * component are wrapped in. Accepts the following values: `grid`,
-   * `gridItems`, `grid2`, `grid2Items`, `stack`, and `group`. Option `grid`
-   * wraps the components into MUI Grid item components and creates a Grid
-   * container around them. Option `gridItems` just wraps the components into
-   * Grid items and leaves the container out. Options `grid2` and `grid2Items`
-   * do the same with MUI Grid2 components. Option `stack` wraps the components
-   * in a MUI Stack component, and with the `group` option the components are
-   * wrapped in a MUI FormGroup component.
+   * Defines what kind of layout components the subcomponents of the composite
+   * component are wrapped in. Accepts the following values: `gridLegacy`,
+   * `gridLegacyItems`, `grid`, `gridItems`, `stack`, and `group`. Option
+   * `gridLegacy` wraps the components into MUI GridLegacy item components and
+   * creates a GridLegacy container around them. Option `gridLegacyItems` just
+   * wraps the components into GridLegacy items and leaves the container out.
+   * Options `grid` and `gridItems` do the same with MUI Grid components.
+   * Option `stack` wraps the components in a MUI Stack component, and with the
+   * `group` option the components are wrapped in a MUI FormGroup component.
    */
   layout?: LayoutProp;
 
   /**
-   * Props passed to the MUI FormGroup component if the country code components
-   * are wrapped in one. See
-   * {@link https://v6.mui.com/material-ui/api/form-group/} for more information
-   * on what props can be passed to the component.
+   * Props passed to the MUI FormGroup component if the `group` layout wrapper
+   * is used. See {@link https://mui.com/material-ui/api/form-group/} for more
+   * information about what props can be passed to the component.
    */
   formGroupProps?: Partial<FormGroupProps>;
 
   /**
-   * Props passed to the MUI Grid container component if the country code
-   * components are wrapped in one. See
-   * {@link https://v6.mui.com/material-ui/api/grid/} for more information on
-   * what props can be passed to the component.
+   * Props passed to the MUI GridLegacy container component if the `gridLegacy`
+   * layout wrapper is used. See
+   * {@link https://mui.com/material-ui/api/grid-legacy/} for more information
+   * about what props can be passed to the component.
+   */
+  gridLegacyContainerProps?: GridLegacyContainerProps;
+
+  /**
+   * Props passed to the MUI GridLegacy item components if the `gridLegacy`
+   * or `gridLegacyItems` layout wrapper is used. Is overwritten by
+   * `gridLegacySelectorProps` and `gridLegacyInputProps`. See
+   * {@link https://mui.com/material-ui/api/grid-legacy/} for more information
+   * about what props can be passed to the component.
+   */
+  gridLegacyItemProps?: GridLegacyItemProps;
+
+  /**
+   * Props passed to the MUI GridLegacy item component that the selector
+   * component is wrapped in, if the `gridLegacy` or `gridLegacyItems` layout
+   * wrapper is used. Overwrites the `gridLegacyItemProps`. See
+   * {@link https://mui.com/material-ui/api/grid-legacy/} for more information
+   * about what props can be passed to the component.
+   */
+  gridLegacySelectorProps?: GridLegacyItemProps;
+
+  /**
+   * Props passed to the MUI GridLegacy item component that the phone number
+   * input component is wrapped in, if the `gridLegacy`or `gridLegacyItems`
+   * layout wrapper is used. Overwrites the `gridLegacyItemProps`. See
+   * {@link https://mui.com/material-ui/api/grid-legacy/} for more information
+   * about what props can be passed to the component.
+   */
+  gridLegacyInputProps?: GridLegacyItemProps;
+
+  /**
+   * Props passed to the MUI GridLegacy item component that the error message
+   * component is wrapped in, if the `gridLegacy`or `gridLegacyItems` layout
+   * wrapper is used. Overwrites the `gridLegacyItemProps`. See
+   * {@link https://mui.com/material-ui/api/grid-legacy/} for more information
+   * about what props can be passed to the component.
+   */
+  gridLegacyErrorProps?: GridLegacyItemProps;
+
+  /**
+   * Props passed to the MUI Grid container component if the `grid` layout
+   * wrapper is used. See {@link https://mui.com/material-ui/api/grid/}
+   * for more information about what props can be passed to the component.
    */
   gridContainerProps?: GridContainerProps;
 
   /**
-   * Props passed to the MUI Grid item components if the country code
-   * components are wrapped in such. Is overwritten by `gridSelectorProps` and
+   * Props passed to the MUI Grid item components if the `grid` or `gridItems`
+   * layout wrapper is used. Is overwritten by `gridSelectorProps` and
    * `gridInputProps`. See
-   * {@link https://v6.mui.com/material-ui/api/grid/} for more information on
-   * what props can be passed to the component.
+   * {@link https://mui.com/material-ui/api/grid/} for more information
+   * about what props can be passed to the component.
    */
   gridItemProps?: GridItemProps;
 
   /**
    * Props passed to the MUI Grid item component that the selector component
-   * is wrapped in, if the country code components are wrapped in a Grid.
-   * Overwrites the `gridItemProps`. See
-   * {@link https://v6.mui.com/material-ui/api/grid/} for more information on
-   * what props can be passed to the component.
+   * is wrapped in, if `grid` layout wrapper is used. Overwrites the
+   * `gridItemProps`. See {@link https://mui.com/material-ui/api/grid/} for
+   * more information about what props can be passed to the component.
    */
   gridSelectorProps?: GridItemProps;
 
   /**
    * Props passed to the MUI Grid item component that the phone number input
-   * component is wrapped in, if the country code components are wrapped in a
-   * Grid. Overwrites the `gridItemProps`. See
-   * {@link https://v6.mui.com/material-ui/api/grid/} for more information on
+   * component is wrapped in, if the `grid` or `gridItems` layout wrapper is
+   * used. Overwrites the `grid2ItemProps`. See
+   * {@link https://mui.com/material-ui/api/grid/} for more information about
    * what props can be passed to the component.
    */
   gridInputProps?: GridItemProps;
 
   /**
    * Props passed to the MUI Grid item component that the error message
-   * component is wrapped in, if the country code components are wrapped in a
-   * Grid. Overwrites the `gridItemProps`. See
-   * {@link https://v6.mui.com/material-ui/api/grid/} for more information on
+   * component is wrapped in, if the `grid` or `gridItems` layout wrapper is
+   * used. Overwrites the `grid2ItemProps`. See
+   * {@link https://mui.com/material-ui/api/grid/} for more information about
    * what props can be passed to the component.
    */
   gridErrorProps?: GridItemProps;
 
   /**
-   * Props passed to the MUI Grid2 container component if the country code
-   * components are wrapped in one. See
-   * {@link https://v6.mui.com/material-ui/api/grid-2/} for more information on
-   * what props can be passed to the component.
-   */
-  grid2ContainerProps?: Grid2ContainerProps;
-
-  /**
-   * Props passed to the MUI Grid2 item components if the country code
-   * components are wrapped in such. Is overwritten by `grid2SelectorProps` and
-   * `grid2InputProps`. See
-   * {@link https://v6.mui.com/material-ui/api/grid-2/} for more information on
-   * what props can be passed to the component.
-   */
-  grid2ItemProps?: Grid2ItemProps;
-
-  /**
-   * Props passed to the MUI Grid2 item component that the selector component
-   * is wrapped in, if the country code components are wrapped in a Grid2.
-   * Overwrites the `grid2ItemProps`. See
-   * {@link https://v6.mui.com/material-ui/api/grid-2/} for more information on
-   * what props can be passed to the component.
-   */
-  grid2SelectorProps?: Grid2ItemProps;
-
-  /**
-   * Props passed to the MUI Grid2 item component that the phone number input
-   * component is wrapped in, if the country code components are wrapped in a
-   * Grid2. Overwrites the `grid2ItemProps`. See
-   * {@link https://v6.mui.com/material-ui/api/grid-2/} for more information on
-   * what props can be passed to the component.
-   */
-  grid2InputProps?: Grid2ItemProps;
-
-  /**
-   * Props passed to the MUI Grid2 item component that the error message
-   * component is wrapped in, if the country code components are wrapped in a
-   * Grid2. Overwrites the `grid2ItemProps`. See
-   * {@link https://v6.mui.com/material-ui/api/grid-2/} for more information on
-   * what props can be passed to the component.
-   */
-  grid2ErrorProps?: Grid2ItemProps;
-
-  /**
-   * Props passed to the MUI Stack component if the country code components are
-   * wrapped in one. See
-   * {@link https://v6.mui.com/material-ui/api/stack/} for more information on
-   * what props can be passed to the component.
+   * Props passed to the MUI Stack component if the `stack` layout wrapper is
+   * used. See {@link https://mui.com/material-ui/api/stack/} for more
+   * information about what props can be passed to the component.
    */
   stackProps?: Partial<StackProps>;
 
   /**
    * Sets the breakpoint size props of the selector components grid item, when
-   * the `grid` or `grid2` layout is used. The Grid component accepts an object
+   * `gridLegacy` or `grid` layout is used. The Grid component accepts an object
    * with keys for MUI's responsive breakpoints (`xs`, `sm`, `md`, `lg`, and
    * `xl`), and the values can be either a number, string "auto", or a boolean.
-   * For the Grid2 component the object must be added to the props using key
+   * For the Grid component the object must be added to the props using key
    * `size`. If the value for a breakpoint is `false` the prop is ignored.
    *
-   * See {@link https://v6.mui.com/material-ui/api/grid/} for more
+   * See {@link https://mui.com/material-ui/api/grid/} for more
    * information about MUI Grid props,
-   * {@link https://v6.mui.com/material-ui/api/grid-2/} for more information
-   * about MUI Grid2 props, and
-   * {@link https://v6.mui.com/material-ui/customization/breakpoints/} for more
+   * {@link https://mui.com/material-ui/api/grid-legacy/} for more information
+   * about MUI GridLegacy props, and
+   * {@link https://mui.com/material-ui/customization/breakpoints/} for more
    * information about MUI's responsive breakpoints.
    */
-  selectorSize?: ComponentSize | ComponentSizeLegacyGrid;
+  selectorSize?: ComponentSize | ComponentSizeGridLegacy;
 
   /**
    * Sets the breakpoint size props of the phone number input components grid
-   * item, when the `grid` or `grid2` layout is used. The Grid component
+   * item, when the `gridLegacy` or `grid` layout is used. The Grid component
    * accepts an object with keys for MUI's responsive breakpoints (`xs`, `sm`,
    * `md`, `lg`, and `xl`), and the values can be either a number, string
-   * "auto", or a boolean. For the Grid2 component the object must be added to
+   * "auto", or a boolean. For the Grid component the object must be added to
    * the props using key `size`. If the value for a breakpoint is `false` the
    * prop is ignored.
    *
-   * See {@link https://v6.mui.com/material-ui/api/grid/} for more
+   * See {@link https://mui.com/material-ui/api/grid/} for more
    * information about MUI Grid props,
-   * {@link https://v6.mui.com/material-ui/api/grid-2/} for more information
-   * about MUI Grid2 props, and
-   * {@link https://v6.mui.com/material-ui/customization/breakpoints/} for more
+   * {@link https://mui.com/material-ui/api/grid-legacy/} for more information
+   * about MUI GridLegacy props, and
+   * {@link https://mui.com/material-ui/customization/breakpoints/} for more
    * information about MUI's responsive breakpoints.
    */
-  inputSize?: ComponentSize | ComponentSizeLegacyGrid;
+  inputSize?: ComponentSize | ComponentSizeGridLegacy;
 
   /**
    * Sets the breakpoint size props of the error message components grid item,
-   * when the `grid` or `grid2` layout is used. The Grid component accepts an
-   * object with keys for MUI's responsive breakpoints (`xs`, `sm`, `md`, `lg`,
-   * and `xl`), and the values can be either a number, string "auto", or a
-   * boolean. For the Grid2 component the object must be added to the props
+   * when the `gridLegacy` or `grid` layout is used. The Grid component accepts
+   * an object with keys for MUI's responsive breakpoints (`xs`, `sm`, `md`,
+   * `lg`, and `xl`), and the values can be either a number, string "auto", or
+   * a boolean. For the Grid component the object must be added to the props
    * using key `size`. If the value for a breakpoint is `false` the prop is
    * ignored.
    *
-   * See {@link https://v6.mui.com/material-ui/api/grid/} for more
+   * See {@link https://mui.com/material-ui/api/grid/} for more
    * information about MUI Grid props,
-   * {@link https://v6.mui.com/material-ui/api/grid-2/} for more information
-   * about MUI Grid2 props, and
-   * {@link https://v6.mui.com/material-ui/customization/breakpoints/} for more
+   * {@link https://mui.com/material-ui/api/grid-legacy/} for more
+   * information about MUI GridLegacy props, and
+   * {@link https://mui.com/material-ui/customization/breakpoints/} for more
    * information about MUI's responsive breakpoints.
    */
-  errorSize?: ComponentSize | ComponentSizeLegacyGrid;
+  errorSize?: ComponentSize | ComponentSizeGridLegacy;
 
   /**
    * Custom options for setting how the select options are filtered based on
@@ -323,13 +319,13 @@ interface CCSelectorCompositeProps {
    * Passes a numeric React ref object to the selector component, which is then
    * increased by one every time the component is rendered.
    */
-  selectorRenderCountRef?: MutableRefObject<number>;
+  selectorRenderCountRef?: RefObject<number>;
 
   /**
    * Passes a numeric React ref object to the phone number input component,
    * which is then increased by one every time the component is rendered.
    */
-  inputRenderCountRef?: MutableRefObject<number>;
+  inputRenderCountRef?: RefObject<number>;
 }
 
 export default CCSelectorCompositeProps;

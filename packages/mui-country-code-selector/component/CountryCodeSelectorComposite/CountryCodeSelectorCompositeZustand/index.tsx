@@ -37,16 +37,16 @@ function CountryCodeSelectorComposite({
   defaultValue = '',
   layout = undefined,
   formGroupProps,
+  gridLegacyContainerProps,
+  gridLegacyItemProps,
+  gridLegacySelectorProps,
+  gridLegacyInputProps,
+  gridLegacyErrorProps,
   gridContainerProps,
   gridItemProps,
   gridSelectorProps,
   gridInputProps,
   gridErrorProps,
-  grid2ContainerProps,
-  grid2ItemProps,
-  grid2SelectorProps,
-  grid2InputProps,
-  grid2ErrorProps,
   stackProps,
   selectorSize,
   inputSize,
@@ -76,16 +76,16 @@ function CountryCodeSelectorComposite({
         defaultValue={defaultValue}
         layout={layout}
         formGroupProps={formGroupProps}
+        gridLegacyContainerProps={gridLegacyContainerProps}
+        gridLegacyItemProps={gridLegacyItemProps}
+        gridLegacySelectorProps={gridLegacySelectorProps}
+        gridLegacyInputProps={gridLegacyInputProps}
+        gridLegacyErrorProps={gridLegacyErrorProps}
         gridContainerProps={gridContainerProps}
         gridItemProps={gridItemProps}
         gridSelectorProps={gridSelectorProps}
         gridInputProps={gridInputProps}
         gridErrorProps={gridErrorProps}
-        grid2ContainerProps={grid2ContainerProps}
-        grid2ItemProps={grid2ItemProps}
-        grid2SelectorProps={grid2SelectorProps}
-        grid2InputProps={grid2InputProps}
-        grid2ErrorProps={grid2ErrorProps}
         stackProps={stackProps}
         selectorSize={selectorSize}
         inputSize={inputSize}

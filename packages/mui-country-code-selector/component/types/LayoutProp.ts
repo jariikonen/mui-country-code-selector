@@ -4,10 +4,10 @@
  * @alpha
  */
 type LayoutProp =
+  | 'gridLegacy'
+  | 'gridLegacyItems'
   | 'grid'
   | 'gridItems'
-  | 'grid2'
-  | 'grid2Items'
   | 'stack'
   | 'group'
   | 'row';
