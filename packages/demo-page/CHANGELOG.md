@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.0](https://github.com/jariikonen/mui-country-code-selector/compare/demo-page-v0.2.0...demo-page-v0.3.0) (2025-06-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* update MUI peer dependency to 7.0.0 - breaking changes to layout wrapper API
+
+### Features
+
+* update MUI peer dependency to 7.0.0 - breaking changes to layout wrapper API ([dedaec4](https://github.com/jariikonen/mui-country-code-selector/commit/dedaec4fb401ff7de7ce7e09e6dbcfece4566b6e))
+
 ## [0.2.0](https://github.com/jariikonen/mui-country-code-selector/compare/demo-page-v0.1.1...demo-page-v0.2.0) (2025-06-04)
 
 
