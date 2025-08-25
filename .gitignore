@@ -26,3 +26,4 @@ dist-ssr
 # Other temporary files
 temp
 docs
+*.pclock.json
