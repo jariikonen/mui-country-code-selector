@@ -159,7 +159,7 @@ export { CountryCodeSelectorComposite }
 export { CountryCodeSelectorComposite as CountryCodeSelectorCompositeZustand }
 
 // @alpha
-export function CountryCodeSelectorCompositeReact({ id, name, value, onChange, countryCodeLabel, phoneNumberLabel, errorMessageDelay, errorMessageDisplay, onError, inputRef, defaultValue, layout, formGroupProps, gridLegacyContainerProps, gridLegacyItemProps, gridLegacySelectorProps, gridLegacyInputProps, gridLegacyErrorProps, gridContainerProps, gridItemProps, gridSelectorProps, gridInputProps, gridErrorProps, stackProps, selectorSize, inputSize, errorSize, filterOptions, shrink, variant, selectorProps, inputProps, errorProps, selectorRenderCountRef, inputRenderCountRef, }: CCSelectorCompositeProps): JSX.Element;
+export function CountryCodeSelectorCompositeReactNew({ id, name, value, onChange, countryCodeLabel, phoneNumberLabel, errorMessageDelay, errorMessageDisplay, onError, inputRef, defaultValue, layout, formGroupProps, gridLegacyContainerProps, gridLegacyItemProps, gridLegacySelectorProps, gridLegacyInputProps, gridLegacyErrorProps, gridContainerProps, gridItemProps, gridSelectorProps, gridInputProps, gridErrorProps, stackProps, selectorSize, inputSize, errorSize, filterOptions, shrink, variant, selectorProps, inputProps, errorProps, selectorRenderCountRef, }: CCSelectorCompositeProps): JSX.Element;
 
 // Warning: (ae-internal-missing-underscore) The name "CountryCodeSelectorReact" should be prefixed with an underscore because the declaration is marked as @internal
 //

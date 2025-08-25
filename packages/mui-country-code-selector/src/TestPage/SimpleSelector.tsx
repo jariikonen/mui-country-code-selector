@@ -1,7 +1,7 @@
 import { Grid, Typography, createFilterOptions } from '@mui/material';
 import {
   CountryCodeSelectorCompositeZustand,
-  CountryCodeSelectorCompositeReact,
+  CountryCodeSelectorCompositeReactNew as CountryCodeSelectorCompositeReact,
 } from '../../component/CountryCodeSelectorComposite';
 import { CountryType } from '../../component/lib/countryCodeData';
 
