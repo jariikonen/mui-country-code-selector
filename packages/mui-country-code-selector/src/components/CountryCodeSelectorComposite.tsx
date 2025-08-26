@@ -12,17 +12,13 @@ import {
 import useCountryCodeSelectorState from '../lib/useCountryCodeSelectorState';
 
 /**
- * A complete phone number input React component with a country code selector
- * autocomplete field. Based on MUI's `Autocomplete`
+ * A composite phone number input React component with a country code selector
+ * autocomplete field.
+ *
+ * Based on MUI's `Autocomplete`
  * ({@link https://mui.com/material-ui/react-autocomplete/}) and `TextField`
- * ({@link https://mui.com/material-ui/react-text-field/}) components. These
- * subcomponents are combined using a common state that is implemented
- * differently in specific variants of the component.
- *
- * This component variant uses React's state management utilities to create the
- * common state between the subcomponents.
- *
- * @returns A complete phone number input React component with a country code
+ * ({@link https://mui.com/material-ui/react-text-field/}) components.
+ * @returns A composite phone number input React component with a country code
  *    selector autocomplete field.
  * @alpha
  */

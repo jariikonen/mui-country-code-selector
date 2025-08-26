@@ -199,10 +199,7 @@ export interface CCSelectorPropsReact extends CCSelectorProps {
  * ({@link https://mui.com/material-ui/react-autocomplete}). Can be used in
  * conjunction with a text input field and common state between the
  * subcomponents to create a complete phone number input component.
- *
- * This version is only meant to be used internally by the
- * `CountryCodeSelectorCombinedReact` component.
- * @internal
+ * @alpha
  */
 export default function CountryCodeSelector({
   autoHighlight = true,
