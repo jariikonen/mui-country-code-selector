@@ -8,14 +8,14 @@ import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), dts({ include: ['component'] })],
+  plugins: [react(), dts({ include: ['src'] })],
   test: {
     environment: 'jsdom',
   },
   build: {
     copyPublicDir: false,
     lib: {
-      entry: resolve(__dirname, 'component/index.ts'),
+      entry: resolve(__dirname, 'src/components/index.ts'),
       formats: ['es'],
     },
     rollupOptions: {

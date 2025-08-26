@@ -23,12 +23,6 @@
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true
   },
-  "include": [
-    "component",
-    "src",
-    "testSetup.ts",
-    "component/CountryCodeSelectorComposite",
-    "component/CountryCodeSelector"
-  ],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

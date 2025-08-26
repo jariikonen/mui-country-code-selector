@@ -17,8 +17,6 @@ import { GridProps } from '@mui/material';
 import { GridSize } from '@mui/material';
 import { JSX } from 'react/jsx-runtime';
 import { MutableRefObject } from 'react';
-import { Property } from 'csstype';
-import { ReactNode } from 'react';
 import { RefCallback } from 'react';
 import { RefObject } from 'react';
 import { StackProps } from '@mui/material';
@@ -79,65 +77,19 @@ export interface CCSelectorProps extends Omit<AutocompleteProps<CountryType, fal
     variant?: TextFieldVariants;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "CCSelectorPropsReact" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export interface CCSelectorPropsReact extends CCSelectorProps {
-    countries: readonly CountryType[];
-    onChange: (_e: unknown, value: CountryType | null, reason: AutocompleteChangeReason, details?: AutocompleteChangeDetails<CountryType> | undefined) => void;
-    value: CountryType | null | undefined;
-}
-
 // @alpha
 export interface CCSelectorState {
-    applyStateChanges: (state: Partial<CCSelectorState>) => void;
-    changeHandler: ((event: {
-        target: {
-            value: string;
-        };
-    }) => void) | undefined;
-    cleanUp: () => void;
-    clearedRerender: boolean;
-    clearErrorMsg: () => void;
     countries: readonly CountryType[];
     countryCodeDigits: string;
     countryCodeValue: CountryType | null;
-    defaultValue: string;
-    displayError: () => void;
-    errorHandler: ((error: string) => void) | undefined;
     errorMsg: string | null;
     errorMsgDelay: number;
     errorMsgTimeoutObj: NodeJS.Timeout | null;
-    formElement: HTMLElement | undefined | null;
-    handleCountryCodeChange: (_event: unknown, value: CountryType | null, reason: AutocompleteChangeReason, details?: AutocompleteChangeDetails<CountryType> | undefined) => void;
-    handlePhoneNumberChange: (event: {
-        target: {
-            value: string;
-        };
-    }) => void;
-    handleValueChange: (value: string | null | undefined) => void;
-    initialize: (errorMsgDelay?: number, errorHandler?: ((error: string) => void) | undefined, changeHandler?: ((event: {
-        target: {
-            value: string;
-        };
-    }) => void) | undefined) => () => void;
     inputSelection: InputSelection;
-    phoneNumberInput: HTMLInputElement | undefined | null;
     phoneNumSplit: number;
     phoneNumStr: string;
-    placeInputSelection: () => void;
     possibleCountries: PossibleCountries | null;
-    setChangeHandler: (handler: ((event: {
-        target: {
-            value: string;
-        };
-    }) => void) | undefined) => void;
-    setErrorMsgDelay: (seconds: number) => void;
-    setInputSelection: (inputSelection: InputSelection) => void;
-    setPhoneNumberInput: (inputElement: HTMLInputElement | undefined | null) => void;
-    setRefs: (element: HTMLInputElement | null, inputRef?: MutableRefObject<HTMLInputElement | null> | RefCallback<HTMLInputElement | null>, defaultValue?: string) => void;
     significantDigits: string;
-    toggleClearedRerender: () => void;
 }
 
 // @alpha
@@ -148,28 +100,13 @@ export interface ComponentSize {
     size: ResponsiveStyleValue<GridSize>;
 }
 
-// @alpha
-function CountryCodeSelector({ autoHighlight, autoSelect, filterOptions, getOptionKey, getOptionLabel, handleHomeEndKeys, label, renderOption, renderInput, shrink, slotProps, variant, renderCountRef, ...rest }: CCSelectorProps): JSX.Element;
-export { CountryCodeSelector }
-export { CountryCodeSelector as CountryCodeSelectorZustand }
-
-// @alpha
-function CountryCodeSelectorComposite({ id, name, value, onChange, inputRef, countryCodeLabel, phoneNumberLabel, errorMessageDelay, errorMessageDisplay, onError, defaultValue, layout, formGroupProps, gridLegacyContainerProps, gridLegacyItemProps, gridLegacySelectorProps, gridLegacyInputProps, gridLegacyErrorProps, gridContainerProps, gridItemProps, gridSelectorProps, gridInputProps, gridErrorProps, stackProps, selectorSize, inputSize, errorSize, filterOptions, shrink, variant, selectorProps, inputProps, errorProps, selectorRenderCountRef, inputRenderCountRef, }: CCSelectorCompositeProps): JSX.Element;
-export { CountryCodeSelectorComposite }
-export { CountryCodeSelectorComposite as CountryCodeSelectorCompositeZustand }
-
-// @alpha
-export function CountryCodeSelectorCompositeReactNew({ id, name, value, onChange, countryCodeLabel, phoneNumberLabel, errorMessageDelay, errorMessageDisplay, onError, inputRef, defaultValue, layout, formGroupProps, gridLegacyContainerProps, gridLegacyItemProps, gridLegacySelectorProps, gridLegacyInputProps, gridLegacyErrorProps, gridContainerProps, gridItemProps, gridSelectorProps, gridInputProps, gridErrorProps, stackProps, selectorSize, inputSize, errorSize, filterOptions, shrink, variant, selectorProps, inputProps, errorProps, selectorRenderCountRef, }: CCSelectorCompositeProps): JSX.Element;
-
-// Warning: (ae-internal-missing-underscore) The name "CountryCodeSelectorReact" should be prefixed with an underscore because the declaration is marked as @internal
+// Warning: (ae-forgotten-export) The symbol "CCSelectorPropsReact" needs to be exported by the entry point index.d.ts
 //
-// @internal
-export function CountryCodeSelectorReact({ autoHighlight, autoSelect, filterOptions, getOptionKey, getOptionLabel, handleHomeEndKeys, label, onChange, renderOption, renderInput, shrink, slotProps, value, variant, renderCountRef, countries, ...rest }: CCSelectorPropsReact): JSX.Element;
+// @alpha
+export function CountryCodeSelector({ autoHighlight, autoSelect, filterOptions, getOptionKey, getOptionLabel, handleHomeEndKeys, label, onChange, renderOption, renderInput, shrink, slotProps, value, variant, renderCountRef, countries, ...rest }: CCSelectorPropsReact): JSX.Element;
 
 // @alpha
-export function CountryCodeStoreProvider({ children }: {
-    children: ReactNode;
-}): JSX.Element;
+export function CountryCodeSelectorComposite({ id, name, value, onChange, countryCodeLabel, phoneNumberLabel, errorMessageDelay, errorMessageDisplay, onError, inputRef, defaultValue, layout, formGroupProps, gridLegacyContainerProps, gridLegacyItemProps, gridLegacySelectorProps, gridLegacyInputProps, gridLegacyErrorProps, gridContainerProps, gridItemProps, gridSelectorProps, gridInputProps, gridErrorProps, stackProps, selectorSize, inputSize, errorSize, filterOptions, shrink, variant, selectorProps, inputProps, errorProps, selectorRenderCountRef, }: CCSelectorCompositeProps): JSX.Element;
 
 // @alpha
 export interface CountryType {
@@ -180,45 +117,6 @@ export interface CountryType {
     // Warning: (ae-forgotten-export) The symbol "IsoAlpha2" needs to be exported by the entry point index.d.ts
     iso: IsoAlpha2;
 }
-
-// @alpha
-export function createDefaultFilterOptions(): (options: CountryType[], state: FilterOptionsState<CountryType>) => CountryType[];
-
-// @alpha
-export function createDefaultGetOptionLabel(elementWidth: number): (option: CountryType) => string;
-
-// @alpha
-export function createDefaultRenderInput(label: string, elementWidth: number, shrink?: boolean, variant?: TextFieldVariants): (params: AutocompleteRenderInputParams) => JSX.Element;
-
-// @alpha
-export const DEFAULT_COUNTRY_CODE_LABEL = "Country code";
-
-// @alpha
-export const DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION = "Country";
-
-// @alpha
-export const DEFAULT_OPTION_LIST_MAX_WIDTH: Property.Width;
-
-// @alpha
-export const DEFAULT_OPTION_LIST_WIDTH: Property.Width;
-
-// @alpha
-export const DEFAULT_SLOT_PROPS: {
-    paper: {
-        sx: {
-            width: string & {};
-            maxWidth: string & {};
-        };
-    };
-};
-
-// @alpha
-export function defaultGetOptionKey(option: CountryType): string;
-
-// @alpha
-export function defaultRenderOption(props: React.HTMLAttributes<HTMLLIElement> & {
-    key: any;
-}, option: CountryType): React.ReactNode;
 
 // @alpha
 export function getCountries(locale?: string): Promise<readonly CountryType[]>;
@@ -234,60 +132,6 @@ export type GridLegacyContainerProps = Partial<GridLegacyProps>;
 
 // @alpha
 export type GridLegacyItemProps = Partial<Omit<GridLegacyProps, 'spacing' | 'rowSpacing' | 'columnSpacing'>>;
-
-// Warning: (ae-internal-missing-underscore) The name "GridLegacyWrapper" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export function GridLegacyWrapper({ gridItemProps, gridSelectorProps, gridInputProps, gridErrorProps, selectorSize, inputSize, errorSize, children, }: GridLegacyWrapperProps): JSX.Element;
-
-// Warning: (ae-internal-missing-underscore) The name "GridLegacyWrapperProps" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export interface GridLegacyWrapperProps {
-    // (undocumented)
-    children: ReactNode;
-    // (undocumented)
-    errorSize: ComponentSizeGridLegacy | undefined;
-    // (undocumented)
-    gridErrorProps: GridLegacyItemProps | undefined;
-    // (undocumented)
-    gridInputProps: GridLegacyItemProps | undefined;
-    // (undocumented)
-    gridItemProps: GridLegacyItemProps | undefined;
-    // (undocumented)
-    gridSelectorProps: GridLegacyItemProps | undefined;
-    // (undocumented)
-    inputSize: ComponentSizeGridLegacy | undefined;
-    // (undocumented)
-    selectorSize: ComponentSizeGridLegacy | undefined;
-}
-
-// Warning: (ae-internal-missing-underscore) The name "GridWrapper" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export function GridWrapper({ gridItemProps, gridSelectorProps, gridInputProps, gridErrorProps, selectorSize, inputSize, errorSize, children, }: GridWrapperProps): JSX.Element;
-
-// Warning: (ae-internal-missing-underscore) The name "GridWrapperProps" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export interface GridWrapperProps {
-    // (undocumented)
-    children: ReactNode;
-    // (undocumented)
-    errorSize: ComponentSize | undefined;
-    // (undocumented)
-    gridErrorProps: GridItemProps | undefined;
-    // (undocumented)
-    gridInputProps: GridItemProps | undefined;
-    // (undocumented)
-    gridItemProps: GridItemProps | undefined;
-    // (undocumented)
-    gridSelectorProps: GridItemProps | undefined;
-    // (undocumented)
-    inputSize: ComponentSize | undefined;
-    // (undocumented)
-    selectorSize: ComponentSize | undefined;
-}
 
 // @alpha
 export interface InputSelection {
@@ -307,55 +151,23 @@ export interface PossibleCountries {
 }
 
 // @alpha
-export const SELECTOR_RESPONSIVE_BREAKPOINT_WIDTH = 145;
-
-// @alpha
-export const useCountryCodeStore: () => Pick<CCSelectorState, "phoneNumStr" | "countryCodeValue" | "countries" | "errorMsg" | "errorMsgDelay" | "errorMsgTimeoutObj" | "phoneNumberInput" | "clearedRerender" | "setPhoneNumberInput" | "setRefs" | "initialize" | "cleanUp" | "handlePhoneNumberChange" | "handleCountryCodeChange" | "handleValueChange" | "placeInputSelection">;
-
-// Warning: (ae-internal-missing-underscore) The name "Wrapper" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export function Wrapper({ layout, formGroupProps, gridLegacyContainerProps, gridLegacyItemProps, gridLegacySelectorProps, gridLegacyInputProps, gridLegacyErrorProps, gridContainerProps, gridItemProps, gridSelectorProps, gridInputProps, gridErrorProps, stackProps, selectorSize, inputSize, errorSize, children, }: WrapperProps): JSX.Element;
-
-// Warning: (ae-internal-missing-underscore) The name "WrapperProps" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export interface WrapperProps {
-    // (undocumented)
-    children: ReactNode;
-    // (undocumented)
-    errorSize?: ComponentSize | ComponentSizeGridLegacy;
-    // (undocumented)
-    formGroupProps?: Partial<FormGroupProps>;
-    // (undocumented)
-    gridContainerProps?: GridContainerProps;
-    // (undocumented)
-    gridErrorProps?: GridItemProps;
-    // (undocumented)
-    gridInputProps?: GridItemProps;
-    // (undocumented)
-    gridItemProps?: GridItemProps;
-    // (undocumented)
-    gridLegacyContainerProps?: GridLegacyContainerProps;
-    // (undocumented)
-    gridLegacyErrorProps?: GridLegacyItemProps;
-    // (undocumented)
-    gridLegacyInputProps?: GridLegacyItemProps;
-    // (undocumented)
-    gridLegacyItemProps?: GridLegacyItemProps;
-    // (undocumented)
-    gridLegacySelectorProps?: GridLegacyItemProps;
-    // (undocumented)
-    gridSelectorProps?: GridItemProps;
-    // (undocumented)
-    inputSize?: ComponentSize | ComponentSizeGridLegacy;
-    // (undocumented)
-    layout?: LayoutProp;
-    // (undocumented)
-    selectorSize?: ComponentSize | ComponentSizeGridLegacy;
-    // (undocumented)
-    stackProps?: Partial<StackProps>;
-}
+export function useCountryCodeSelectorState(value?: string, defaultValue?: string, errorMessageDelay?: number, onChange?: (e: {
+    target: {
+        value: string;
+    };
+}) => void, onError?: (error: string) => void, inputRef?: RefObject<HTMLInputElement | null> | RefCallback<HTMLInputElement | null>): {
+    countryCodeValue: CountryType | null | undefined;
+    errorMsg: string | null;
+    phoneNumberInputValue: string;
+    handleCountryCodeChange: (_e: unknown, country: CountryType | null, reason: AutocompleteChangeReason) => void;
+    handlePhoneNumberChange: (e: {
+        target: {
+            value: string;
+        };
+    }) => void;
+    onInputRefChange: (element: HTMLInputElement | null) => void;
+    countries: readonly CountryType[];
+};
 
 // (No @packageDocumentation comment for this package)
 
