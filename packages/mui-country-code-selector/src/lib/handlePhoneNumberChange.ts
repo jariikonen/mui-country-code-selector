@@ -3,7 +3,7 @@ import CCSelectorState from '../types/CCSelectorState';
 import InputSelection from '../types/InputSelection';
 import PossibleCountries from '../types/PossibleCountries';
 import { CountryType } from './countryCodeData';
-import { getDigits, resetCountryCode } from './helpers';
+import { getDigits, resetCountryCode } from './commonFunctions';
 
 /**
  * Handler function for the phone number input's onChange events. Takes care of

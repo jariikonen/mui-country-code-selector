@@ -1,9 +1,6 @@
 import { Grid, Typography, createFilterOptions } from '@mui/material';
-import {
-  CountryCodeSelectorCompositeZustand,
-  CountryCodeSelectorCompositeReactNew as CountryCodeSelectorCompositeReact,
-} from '../../component/CountryCodeSelectorComposite';
-import { CountryType } from '../../component/lib/countryCodeData';
+import CountryCodeSelectorComposite from '../components/CountryCodeSelectorComposite';
+import { CountryType } from '../lib/countryCodeData';
 
 interface SimpleSelectorProps {
   limitOptions?: number | undefined;
@@ -35,14 +32,10 @@ export default function SimpleSelector({
       <Grid size={{ xs: 12 }}>
         <Typography variant="h5">Zustand</Typography>
       </Grid>
-      <CountryCodeSelectorCompositeZustand
-        layout="gridItems"
-        selectorProps={{ filterOptions }}
-      />
       <Grid size={{ xs: 12 }}>
         <Typography variant="h5">React</Typography>
       </Grid>
-      <CountryCodeSelectorCompositeReact
+      <CountryCodeSelectorComposite
         layout="gridItems"
         selectorProps={{ filterOptions }}
       />

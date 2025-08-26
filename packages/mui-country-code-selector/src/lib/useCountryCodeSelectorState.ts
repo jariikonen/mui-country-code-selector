@@ -10,11 +10,11 @@ import {
 import { AutocompleteChangeReason } from '@mui/material';
 import { CountryType, getCountries } from './countryCodeData';
 import { InputSelection, PossibleCountries } from '../types';
-import CCSelectorReactState from '../types/CCSelectorReactState';
-import { DEFAULT_ERROR_MESSAGE_DELAY } from '../CountryCodeSelectorComposite/common';
-import libHandlePhoneNumberChange from '../lib/handlePhoneNumberChange';
-import libHandleCountryCodeChange from '../lib/handleCountryCodeChange';
-import { getForm } from './helpers';
+import CCSelectorState from '../types/CCSelectorState';
+import { DEFAULT_ERROR_MESSAGE_DELAY } from '../components/constants';
+import libHandlePhoneNumberChange from './handlePhoneNumberChange';
+import libHandleCountryCodeChange from './handleCountryCodeChange';
+import { getForm, placeInputSelection } from './commonFunctions';
 import {
   addBlurHandler,
   addKeyboardHandler,
@@ -24,10 +24,51 @@ import {
   removeKeyboardHandler,
   removeMouseHandler,
   removeResetHandler,
-} from './handlers';
-import placeInputSelection from './placeInputSelection';
+} from './eventHandlers';
 
-export function useCountryCodeSelector(
+/**
+ * A custom hook for creating a country code selector composite component.
+ *
+ * Returns an object containing functions and values to create a composite
+ * component of country code selector and a phone number input component. The
+ * CountryCodeSelectorComposite component is created using this hook.
+ *
+ * Properties returned by the hook:
+ * - countryCodeValue: set this to control the value of the country code
+ *    selector component,
+ * - errorMsg: error message from the phone number input validation,
+ * - phoneNumberInputValue: set this to control the value of the phone number
+ *    input component,
+ * - handleCountryCodeChange(): set this as the onChange event handler of the
+ *    country codeSelector component,
+ * - handlePhoneNumberChange(): set this as the onChange event handler of the
+ *    phone number input component,
+ * - onInputRefChange(): put this to the inputRef prop of the phone number
+ *    input component; it sets the refs needed by the hook internally, and
+ * - countries: give these to CountryCodeSelector component used for selecting
+ *    the country code or use them as options in your custom selector
+ *    component.
+ * @param value - Variable holding the value of the phone number input field.
+ *    Provide this when you wish to use the component as a controlled
+ *    component.
+ * @param defaultValue - A default phone number value. Provide this if you wish
+ *    to set the default value when using the component as an uncontrolled
+ *    component.
+ * @param errorMessageDelay - Defines how long the error message is displayed
+ *    in seconds.
+ * @param onChange - Phone number input's change event handler. Sets the value
+ *    prop. Provide this when you wish to use the component as a controlled
+ *    component.
+ * @param onError - Passes a custom function for handling errors. The function
+ *    receives the error message as a parameter.
+ * @param inputRef - A React ref that will be set to point to the phone number
+ *    input element. Provide this to access the component's value when using
+ *    the component as an uncontrolled component.
+ * @returns An object containing functions and values to create a composite
+ *    component of country code selector and a phone number input component.
+ * @alpha
+ */
+export default function useCountryCodeSelectorState(
   value?: string,
   defaultValue = '',
   errorMessageDelay = DEFAULT_ERROR_MESSAGE_DELAY,
@@ -101,7 +142,7 @@ export function useCountryCodeSelector(
 
   /** Sets the React state according to the output from the library functions. */
   const set = useCallback(
-    (partialState: CCSelectorReactState | Partial<CCSelectorReactState>) => {
+    (partialState: CCSelectorState | Partial<CCSelectorState>) => {
       const keys = Object.keys(partialState);
 
       keys.forEach((key) => {
@@ -181,7 +222,7 @@ export function useCountryCodeSelector(
    * the current value of the referenced element.
    */
   const applyStateChanges = useCallback(
-    (result: Partial<CCSelectorReactState>) => {
+    (result: Partial<CCSelectorState>) => {
       // controlled
       if (
         onChange &&

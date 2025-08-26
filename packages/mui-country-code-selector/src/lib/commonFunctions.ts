@@ -1,3 +1,4 @@
+import { InputSelection } from '../types';
 import CCSelectorState from '../types/CCSelectorState';
 import PossibleCountries from '../types/PossibleCountries';
 
@@ -40,4 +41,23 @@ export function getForm(element: HTMLInputElement | null) {
     parent = parent?.parentElement;
   }
   return parent;
+}
+
+/**
+ * Places the cursor and the text selection by setting the text selection start
+ * and end indices within the (phone number) input element.
+ * @param inputElement
+ * @param inputSelection
+ */
+export function placeInputSelection(
+  inputElement: HTMLInputElement | undefined | null,
+  inputSelection: InputSelection
+) {
+  if (inputElement && inputElement === document.activeElement) {
+    inputElement.focus();
+    inputElement.setSelectionRange(
+      inputSelection.selectionStart,
+      inputSelection.selectionEnd
+    );
+  }
 }

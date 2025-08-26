@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Box, Grid, Typography, Button } from '@mui/material';
-import { CountryCodeSelectorCompositeReactNew as CountryCodeSelectorCompositeReact } from '../../component/CountryCodeSelectorComposite';
+import CountryCodeSelectorComposite from '../components/CountryCodeSelectorComposite';
 
 function TestForm() {
   const homePhoneNumRef = useRef<HTMLInputElement | null>(null);
@@ -18,7 +18,7 @@ function TestForm() {
         }}
       >
         <Grid container columnSpacing={{ xs: 1 }} rowSpacing={{ xs: 1 }}>
-          <CountryCodeSelectorCompositeReact
+          <CountryCodeSelectorComposite
             phoneNumberLabel="Home phone number"
             inputRef={homePhoneNumRef}
             layout="gridItems"

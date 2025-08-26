@@ -4,7 +4,7 @@
  * CountryCodeSelectorCompositeReact.
  */
 
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   cleanup,
@@ -14,13 +14,12 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
-import CountryCodeSelectorCompositeZustand from './CountryCodeSelectorCompositeZustand';
-import CountryCodeSelectorCompositeReact from './CountryCodeSelectorCompositeReact';
+import CountryCodeSelectorComposite from '../CountryCodeSelectorComposite';
 import {
   DEFAULT_COUNTRY_CODE_LABEL,
   DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION,
-} from '../CountryCodeSelector/common';
-import { DEFAULT_PHONE_NUMBER_LABEL } from './common';
+  DEFAULT_PHONE_NUMBER_LABEL,
+} from '../constants';
 
 class ResizeObserverMock {
   static callback: (
@@ -46,11 +45,11 @@ class ResizeObserverMock {
 
 vi.stubGlobal('ResizeObserver', ResizeObserverMock);
 
-function TestComponentZustandControlled() {
+function TestComponentControlled() {
   const [phoneNumValue, setPhoneNumValue] = useState('');
   return (
     <div data-testid="container">
-      <CountryCodeSelectorCompositeZustand
+      <CountryCodeSelectorComposite
         value={phoneNumValue}
         onChange={(e: { target: { value: string } }) =>
           setPhoneNumValue(e.target.value)
@@ -67,50 +66,11 @@ function TestComponentZustandControlled() {
   );
 }
 
-function TestComponentReactControlled() {
-  const [phoneNumValue, setPhoneNumValue] = useState('');
-  return (
-    <div data-testid="container">
-      <CountryCodeSelectorCompositeReact
-        value={phoneNumValue}
-        onChange={(e: { target: { value: string } }) =>
-          setPhoneNumValue(e.target.value)
-        }
-        selectorProps={{ classes: { input: 'selectorTest' } }}
-        inputProps={{ InputProps: { classes: { input: 'inputTest' } } }}
-        // NOTICE! Because the cursor tests must wait for the error display to
-        // disappear, the error message delay is set unusually short. This
-        // may cause some error detection tests to fail in some situations.
-        // Increase the delay if you suspect that this is the case.
-        errorMessageDelay={0.2}
-      />
-    </div>
-  );
-}
-
-function TestComponentZustandUncontrolled() {
+function TestComponentUncontrolled() {
   const phoneNumRef = useRef<HTMLInputElement | null>(null);
   return (
     <div data-testid="container">
-      <CountryCodeSelectorCompositeZustand
-        inputRef={phoneNumRef}
-        selectorProps={{ classes: { input: 'selectorTest' } }}
-        inputProps={{ InputProps: { classes: { input: 'inputTest' } } }}
-        // NOTICE! Because the cursor tests must wait for the error display to
-        // disappear, the error message delay is set unusually short. This
-        // may cause some error detection tests to fail in some situations.
-        // Increase the delay if you suspect that this is the case.
-        errorMessageDelay={0.2}
-      />
-    </div>
-  );
-}
-
-function TestComponentReactUncontrolled() {
-  const phoneNumRef = useRef<HTMLInputElement | null>(null);
-  return (
-    <div data-testid="container">
-      <CountryCodeSelectorCompositeReact
+      <CountryCodeSelectorComposite
         inputRef={phoneNumRef}
         selectorProps={{ classes: { input: 'selectorTest' } }}
         inputProps={{ InputProps: { classes: { input: 'inputTest' } } }}
@@ -131,10 +91,8 @@ let rerender: (ui: React.ReactNode) => void;
 // appear in the name of the test. Here is a list of them:
 //
 //    - 'no default render'
-//    - 'ZustandControlled'
-//    - 'ZustandUncontrolled'
-//    - 'ReactControlled'
-//    - 'ReactUncontrolled'
+//    - 'Controlled'
+//    - 'Uncontrolled'
 //
 // See below what actions they trigger.
 beforeEach(() => {
@@ -142,21 +100,13 @@ beforeEach(() => {
   if (testName?.includes('no default render')) {
     return;
   }
-  if (testName?.includes('ZustandControlled')) {
+  if (testName?.includes('Controlled')) {
     cleanup();
-    obj = render(<TestComponentZustandControlled />);
+    obj = render(<TestComponentControlled />);
     rerender = obj.rerender;
-  } else if (testName?.includes('ZustandUncontrolled')) {
+  } else if (testName?.includes('Uncontrolled')) {
     cleanup();
-    obj = render(<TestComponentZustandUncontrolled />);
-    rerender = obj.rerender;
-  } else if (testName?.includes('ReactControlled')) {
-    cleanup();
-    obj = render(<TestComponentReactControlled />);
-    rerender = obj.rerender;
-  } else if (testName?.includes('ReactUncontrolled')) {
-    cleanup();
-    obj = render(<TestComponentReactUncontrolled />);
+    obj = render(<TestComponentUncontrolled />);
     rerender = obj.rerender;
   }
 });
@@ -164,39 +114,32 @@ beforeEach(() => {
 afterEach(() => cleanup());
 
 describe('basic functionality', () => {
-  it.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
-  ])('component is rendered ($type)', () => {
-    const countryCodeSelector = screen.getByLabelText(
-      DEFAULT_COUNTRY_CODE_LABEL
-    );
-    const phoneNumberInput = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
-    expect(countryCodeSelector).toBeDefined();
-    expect(phoneNumberInput).toBeDefined();
-  });
+  it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
+    'component is rendered ($type)',
+    () => {
+      const countryCodeSelector = screen.getByLabelText(
+        DEFAULT_COUNTRY_CODE_LABEL
+      );
+      const phoneNumberInput = screen.getByLabelText(
+        DEFAULT_PHONE_NUMBER_LABEL
+      );
+      expect(countryCodeSelector).toBeDefined();
+      expect(phoneNumberInput).toBeDefined();
+    }
+  );
 
-  it.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
-  ])('value is changed when the phone number changes ($type)', async () => {
-    const user = userEvent.setup();
-    const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
-    const selector = screen.getByLabelText(DEFAULT_COUNTRY_CODE_LABEL);
-    await user.type(input, '+358 12345');
-    expect(selector).toHaveValue('Finland FI');
-  });
+  it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
+    'value is changed when the phone number changes ($type)',
+    async () => {
+      const user = userEvent.setup();
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
+      const selector = screen.getByLabelText(DEFAULT_COUNTRY_CODE_LABEL);
+      await user.type(input, '+358 12345');
+      expect(selector).toHaveValue('Finland FI');
+    }
+  );
 
-  it.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
-  ])(
+  it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
     'country code is cleared when the clear button is pressed ($type)',
     async () => {
       const user = userEvent.setup();
@@ -212,12 +155,7 @@ describe('basic functionality', () => {
     }
   );
 
-  it.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
-  ])(
+  it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
     'selector is opened with suitable options when text is typed into selector, and one can be selected ($type)',
     async () => {
       const user = userEvent.setup();
@@ -239,12 +177,7 @@ describe('basic functionality', () => {
 });
 
 describe('error detection', () => {
-  it.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
-  ])(
+  it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
     'displays an error when something else than a number or plus sign is typed as the first character of the phone number ($type)',
     async () => {
       const user = userEvent.setup();
@@ -270,12 +203,7 @@ describe('error detection', () => {
     }
   );
 
-  it.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
-  ])(
+  it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
     'displays an error when two consecutive separator characters are typed into the phone number ($type)',
     async () => {
       const user = userEvent.setup();
@@ -307,12 +235,7 @@ describe('error detection', () => {
     }
   );
 
-  it.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
-  ])(
+  it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
     'displays an error when plus sign is used anywhere else than at the beginning of the phone number ($type)',
     async () => {
       const user = userEvent.setup();
@@ -328,28 +251,23 @@ describe('error detection', () => {
 });
 
 describe('generic API functionality', () => {
-  it.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
-  ])('props can be passed to underlying components ($type)', () => {
-    const countryCodeSelector = screen.getByLabelText(
-      DEFAULT_COUNTRY_CODE_LABEL
-    );
-    const phoneNumberInput = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
-    expect(countryCodeSelector).toHaveClass('selectorTest');
-    expect(phoneNumberInput).toHaveClass('inputTest');
-  });
+  it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
+    'props can be passed to underlying components ($type)',
+    () => {
+      const countryCodeSelector = screen.getByLabelText(
+        DEFAULT_COUNTRY_CODE_LABEL
+      );
+      const phoneNumberInput = screen.getByLabelText(
+        DEFAULT_PHONE_NUMBER_LABEL
+      );
+      expect(countryCodeSelector).toHaveClass('selectorTest');
+      expect(phoneNumberInput).toHaveClass('inputTest');
+    }
+  );
 });
 
 describe('cursor stability', () => {
-  it.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
-  ])(
+  it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
     'cursor does not jump when a forbidden character is typed in the middle of the input (keyboard, $type)',
     async () => {
       const user = userEvent.setup();
@@ -375,12 +293,7 @@ describe('cursor stability', () => {
     }
   );
 
-  it.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
-  ])(
+  it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
     'cursor does not jump when a forbidden character is typed at the beginning of the value (keyboard, selectionStart = 0, $type)',
     async () => {
       const user = userEvent.setup();
@@ -407,12 +320,7 @@ describe('cursor stability', () => {
     }
   );
 
-  it.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
-  ])(
+  it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
     'cursor does not jump to the last position when the cursor is moved before a rerender (keyboard, $type)',
     async () => {
       const user = userEvent.setup();
@@ -461,12 +369,7 @@ describe('cursor stability', () => {
     }
   );
 
-  it.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
-  ])(
+  it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
     'cursors does not jump when a prohibited character is typed and an error is being displayed (keyboard, $type)',
     async () => {
       const user = userEvent.setup();
@@ -495,52 +398,45 @@ describe('cursor stability', () => {
   // selections yet (the selectionStart and selectionEnd properties of the
   // input element). See https://github.com/testing-library/user-event/issues/966
   // for more information.
-  it.todo.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
-  ])('re-render does not change text selection (keyboard, $type)', async () => {
-    const user = userEvent.setup();
-    const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
-    const inputElement = input as HTMLInputElement;
+  it.todo.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
+    're-render does not change text selection (keyboard, $type)',
+    async () => {
+      const user = userEvent.setup();
+      const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
+      const inputElement = input as HTMLInputElement;
 
-    await user.type(input, '12345');
-    expect(inputElement.selectionStart).toEqual(5);
-    expect(inputElement.selectionEnd).toEqual(5);
+      await user.type(input, '12345');
+      expect(inputElement.selectionStart).toEqual(5);
+      expect(inputElement.selectionEnd).toEqual(5);
 
-    await user.keyboard('{ArrowLeft}{ArrowLeft}');
-    expect(inputElement.selectionStart).toEqual(3);
-    expect(inputElement.selectionEnd).toEqual(3);
+      await user.keyboard('{ArrowLeft}{ArrowLeft}');
+      expect(inputElement.selectionStart).toEqual(3);
+      expect(inputElement.selectionEnd).toEqual(3);
 
-    // trigger an error and select text two characters to the left
-    await user.keyboard('{w}{Shift>}{ArrowLeft}{ArrowLeft}{/Shift}');
-    const error1 = screen.getByText(
-      'Only digits and visual separator characters (" ", "-") are allowed'
-    );
-    expect(error1).toBeDefined();
-    // a rerender is triggered when the error display times out and the
-    // error message is removed from the DOM
-    await waitForElementToBeRemoved(
-      screen.queryByText(
+      // trigger an error and select text two characters to the left
+      await user.keyboard('{w}{Shift>}{ArrowLeft}{ArrowLeft}{/Shift}');
+      const error1 = screen.getByText(
         'Only digits and visual separator characters (" ", "-") are allowed'
-      )
-    );
-    expect(inputElement.selectionStart).toEqual(1);
-    expect(inputElement.selectionEnd).toEqual(3);
-    expect(input).toHaveValue('12345');
-  });
+      );
+      expect(error1).toBeDefined();
+      // a rerender is triggered when the error display times out and the
+      // error message is removed from the DOM
+      await waitForElementToBeRemoved(
+        screen.queryByText(
+          'Only digits and visual separator characters (" ", "-") are allowed'
+        )
+      );
+      expect(inputElement.selectionStart).toEqual(1);
+      expect(inputElement.selectionEnd).toEqual(3);
+      expect(input).toHaveValue('12345');
+    }
+  );
 
   // React testing library's keyboard API does not yet support testing cursor
   // selections yet (the selectionStart and selectionEnd properties of the
   // input element). See https://github.com/testing-library/user-event/issues/966
   // for more information.
-  it.todo.each([
-    { type: 'ZustandControlled' },
-    { type: 'ReactControlled' },
-    { type: 'ZustandUncontrolled' },
-    { type: 'ReactUncontrolled' },
-  ])(
+  it.todo.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
     're-render does not change text selection (keyboard, selectionStart = 0, $type)',
     async () => {
       const user = userEvent.setup();
@@ -576,10 +472,8 @@ describe('cursor stability', () => {
   );
 
   it.each([
-    { type: 'ZustandControlled', pointer: 'mouse' },
-    { type: 'ReactControlled', pointer: 'mouse' },
-    { type: 'ZustandControlled', pointer: 'touch' },
-    { type: 'ReactControlled', pointer: 'touch' },
+    { type: 'Controlled', pointer: 'mouse' },
+    { type: 'Controlled', pointer: 'touch' },
   ])(
     'cursor does not jump when it is positioned with $pointer and a forbidden character is typed ($type)',
     async ({ pointer }: { type: string; pointer: string }) => {
@@ -609,10 +503,8 @@ describe('cursor stability', () => {
   );
 
   it.each([
-    { type: 'ZustandControlled', pointer: 'mouse' },
-    { type: 'ReactControlled', pointer: 'mouse' },
-    { type: 'ZustandControlled', pointer: 'touch' },
-    { type: 'ReactControlled', pointer: 'touch' },
+    { type: 'Controlled', pointer: 'mouse' },
+    { type: 'Controlled', pointer: 'touch' },
   ])(
     'cursor does not jump when it is positioned at the beginning with $pointer and a forbidden character is typed (selectionStart = 0, $type)',
     async ({ pointer }: { type: string; pointer: string }) => {
@@ -643,10 +535,8 @@ describe('cursor stability', () => {
   );
 
   it.each([
-    { type: 'ZustandControlled', pointer: 'mouse' },
-    { type: 'ReactControlled', pointer: 'mouse' },
-    { type: 'ZustandControlled', pointer: 'touch' },
-    { type: 'ReactControlled', pointer: 'touch' },
+    { type: 'Controlled', pointer: 'mouse' },
+    { type: 'Controlled', pointer: 'touch' },
   ])(
     'cursor does not jump to the last position when the cursor is moved with $pointer before a rerender ($type)',
     async ({ pointer }: { type: string; pointer: string }) => {
@@ -708,10 +598,8 @@ describe('cursor stability', () => {
   // https://testing-library.com/docs/user-event/pointer#selectiontarget for
   // documentation about how the selection could in theory be made.
   it.todo.each([
-    { type: 'ZustandControlled', pointer: 'mouse' },
-    { type: 'ReactControlled', pointer: 'mouse' },
-    { type: 'ZustandControlled', pointer: 'touch' },
-    { type: 'ReactControlled', pointer: 'touch' },
+    { type: 'Controlled', pointer: 'mouse' },
+    { type: 'Controlled', pointer: 'touch' },
   ])(
     're-render does not change text selection ($pointer, $type)',
     async ({ pointer }: { type: string; pointer: string }) => {
@@ -760,10 +648,8 @@ describe('cursor stability', () => {
   // https://testing-library.com/docs/user-event/pointer#selectiontarget for
   // documentation about how the selection could in theory be made.
   it.todo.each([
-    { type: 'ZustandControlled', pointer: 'mouse' },
-    { type: 'ReactControlled', pointer: 'mouse' },
-    { type: 'ZustandControlled', pointer: 'touch' },
-    { type: 'ReactControlled', pointer: 'touch' },
+    { type: 'Controlled', pointer: 'mouse' },
+    { type: 'Controlled', pointer: 'touch' },
   ])(
     're-render does not change text selection ($pointer, selectionStart = 0, $type)',
     async ({ pointer }: { type: string; pointer: string }) => {
@@ -809,10 +695,8 @@ describe('cursor stability', () => {
 
 describe('responsive country code selector', () => {
   it.each([
-    [{ type: 'ZustandControlled' }, <TestComponentZustandControlled />],
-    [{ type: 'ReactControlled' }, <TestComponentReactControlled />],
-    [{ type: 'ZustandUncontrolled' }, <TestComponentZustandUncontrolled />],
-    [{ type: 'ReactUncontrolled' }, <TestComponentReactUncontrolled />],
+    [{ type: 'Controlled' }, <TestComponentControlled />],
+    [{ type: 'Uncontrolled' }, <TestComponentUncontrolled />],
   ])(
     'abbreviated label is used when component is small ($type)',
     (_, component) => {
@@ -826,10 +710,8 @@ describe('responsive country code selector', () => {
   );
 
   it.each([
-    [{ type: 'ZustandControlled' }, <TestComponentZustandControlled />],
-    [{ type: 'ReactControlled' }, <TestComponentReactControlled />],
-    [{ type: 'ZustandUncontrolled' }, <TestComponentZustandUncontrolled />],
-    [{ type: 'ReactUncontrolled' }, <TestComponentReactUncontrolled />],
+    [{ type: 'Controlled' }, <TestComponentControlled />],
+    [{ type: 'Uncontrolled' }, <TestComponentUncontrolled />],
   ])(
     'ISO code is used as label for the selected country when component is small ($type)',
     async (_, component) => {

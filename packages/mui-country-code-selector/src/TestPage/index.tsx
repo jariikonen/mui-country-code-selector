@@ -1,8 +1,6 @@
 import { Container, CssBaseline, Typography } from '@mui/material';
-import ControlledFormExampleZustand from './ControlledFormExampleZustand';
-import ControlledFormExampleReact from './ControlledFormExampleReact';
-import UncontrolledFormExampleZustand from './UncontrolledFormExampleZustand';
-import UncontrolledFormExampleReact from './UncontrolledFormExampleReact';
+import ControlledFormExample from './ControlledFormExample';
+import UncontrolledFormExample from './UncontrolledFormExample';
 import SimpleSelector from './SimpleSelector';
 
 interface TestPageProps {
@@ -18,21 +16,13 @@ export default function TestPage({ form = false }: TestPageProps) {
           MUI Country Code Selector Test Page
         </Typography>
         <Typography variant="h5" sx={{ mb: { xs: 3 }, mt: { xs: 5 } }}>
-          As a controlled component (zustand)
+          As a controlled component
         </Typography>
-        <ControlledFormExampleZustand />
-        <Typography variant="h5" sx={{ mb: { xs: 3 }, mt: { xs: 5 } }}>
-          As a controlled component (React)
-        </Typography>
-        <ControlledFormExampleReact />
-        <Typography variant="h5" sx={{ mb: { xs: 3 }, mt: { xs: 5 } }}>
-          As an uncontrolled component (zustand)
-        </Typography>
-        <UncontrolledFormExampleZustand />
+        <ControlledFormExample />
         <Typography variant="h5" sx={{ mb: { xs: 3 }, mt: { xs: 5 } }}>
           As an uncontrolled component (React)
         </Typography>
-        <UncontrolledFormExampleReact />
+        <UncontrolledFormExample />
       </Container>
     );
   }

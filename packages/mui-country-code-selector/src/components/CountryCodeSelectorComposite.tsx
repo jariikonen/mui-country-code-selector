@@ -2,14 +2,14 @@
 import { useRef } from 'react';
 import { TextField, FormHelperText } from '@mui/material';
 import CCSelectorCompositeProps from '../types/CCSelectorCompositeProps';
-import CountryCodeSelectorReact from '../CountryCodeSelector/CountryCodeSelectorReact';
+import CountryCodeSelector from './CountryCodeSelector';
 import Wrapper from './Wrapper';
 import {
   DEFAULT_ERROR_MESSAGE_DELAY,
   DEFAULT_ERROR_MESSAGE_DISPLAY,
   DEFAULT_PHONE_NUMBER_LABEL,
-} from './common';
-import { useCountryCodeSelector } from '../lib/useCountryCodeSelector';
+} from './constants';
+import useCountryCodeSelectorState from '../lib/useCountryCodeSelectorState';
 
 /**
  * A complete phone number input React component with a country code selector
@@ -26,7 +26,7 @@ import { useCountryCodeSelector } from '../lib/useCountryCodeSelector';
  *    selector autocomplete field.
  * @alpha
  */
-export default function CountryCodeSelectorCompositeReact({
+export default function CountryCodeSelectorComposite({
   id,
   name,
   value,
@@ -81,7 +81,7 @@ export default function CountryCodeSelectorCompositeReact({
     handlePhoneNumberChange,
     onInputRefChange,
     countries,
-  } = useCountryCodeSelector(
+  } = useCountryCodeSelectorState(
     value,
     defaultValue,
     errorMessageDelay,
@@ -115,7 +115,7 @@ export default function CountryCodeSelectorCompositeReact({
       inputSize={inputSize}
       errorSize={errorSize}
     >
-      <CountryCodeSelectorReact
+      <CountryCodeSelector
         filterOptions={filterOptions}
         fullWidth
         label={countryCodeLabel}

@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { MutableRefObject } from 'react';
-import { getCountries } from './countryCodeData';
-import handlePhoneNumberChange from './handlePhoneNumberChange';
-import { getDigits } from './helpers';
+import { getCountries } from '../countryCodeData';
+import handlePhoneNumberChange from '../handlePhoneNumberChange';
+import { getDigits } from '../commonFunctions';
 
 // phoneNumStr is updated
 describe('an object for updating the phoneNumStr is returned', async () => {

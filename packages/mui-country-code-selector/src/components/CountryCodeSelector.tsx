@@ -1,70 +1,24 @@
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable react/jsx-props-no-spreading */
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
+  Autocomplete,
+  AutocompleteChangeDetails,
+  AutocompleteChangeReason,
   AutocompleteRenderInputParams,
   Box,
+  createFilterOptions,
   TextField,
   TextFieldVariants,
-  createFilterOptions,
 } from '@mui/material';
-import type { Property } from 'csstype';
 import { CountryType } from '../lib/countryCodeData';
-
-/**
- * Default label text for the `CountryCodeSelector` component.
- * @alpha
- */
-export const DEFAULT_COUNTRY_CODE_LABEL = 'Country code';
-
-/**
- * Default abbreviation for the label text. Used when `window.innerWidth` is
- * smaller than `theme.breakpoints.values.sm` (i.e. the viewport width is
- * smaller than the smallest breakpoint in the MUI theme that the component
- * uses). See {@link https://mui.com/material-ui/customization/breakpoints/}
- * for more information about the breakpoints and
- * {@link https://mui.com/material-ui/customization/theming/} for more
- * information about the MUI's themes.
- * @alpha
- */
-export const DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION = 'Country';
-
-/**
- * Default width for the `CountryCodeSelector`'s option list (i.e., default
- * `width` of the `paper` subcomponent of the underlying `Autocomplete`
- * component).
- * @alpha
- */
-export const DEFAULT_OPTION_LIST_WIDTH: Property.Width = '20rem';
-
-/**
- * Default `max-width` for the `CountryCodeSelector`'s option list (i.e.,
- * default `max-width` of the `paper` subcomponent of the underlying
- * `Autocomplete` component).
- * @alpha
- */
-export const DEFAULT_OPTION_LIST_MAX_WIDTH: Property.Width = '90vw';
-
-/**
- * Default slot props object for `CountryCodeSelector`'s underlying
- * `Autocomplete` component. Sets the default `min-width` for the `paper`
- * component that implements the dropdown option list.
- * @alpha
- */
-export const DEFAULT_SLOT_PROPS = {
-  paper: {
-    sx: {
-      width: DEFAULT_OPTION_LIST_WIDTH,
-      maxWidth: DEFAULT_OPTION_LIST_MAX_WIDTH,
-    },
-  },
-};
-
-/**
- * A responsive breakpoint below which the CountryCodeSelector components use
- * shorter labels.
- * @alpha
- */
-export const SELECTOR_RESPONSIVE_BREAKPOINT_WIDTH = 145;
+import CCSelectorProps from '../types/CCSelectorProps';
+import {
+  DEFAULT_COUNTRY_CODE_LABEL,
+  DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION,
+  DEFAULT_SLOT_PROPS,
+  SELECTOR_RESPONSIVE_BREAKPOINT_WIDTH,
+} from './constants';
 
 /**
  * Creates a default filter options function for the `CountryCodeSelector`'s
@@ -74,7 +28,7 @@ export const SELECTOR_RESPONSIVE_BREAKPOINT_WIDTH = 145;
  * for more information about custom filtering.
  * @alpha
  */
-export function createDefaultFilterOptions() {
+function createDefaultFilterOptions() {
   return createFilterOptions({
     matchFrom: 'any',
     stringify: (option: CountryType) => {
@@ -97,7 +51,7 @@ export function createDefaultFilterOptions() {
  * @returns The option element.
  * @alpha
  */
-export function defaultRenderOption(
+function defaultRenderOption(
   props: React.HTMLAttributes<HTMLLIElement> & { key: any },
   option: CountryType
 ): React.ReactNode {
@@ -137,7 +91,7 @@ export function defaultRenderOption(
  *    `CountryCodeSelector`'s `Autocomplete` component.
  * @alpha
  */
-export function createDefaultRenderInput(
+function createDefaultRenderInput(
   label: string,
   elementWidth: number,
   shrink?: boolean,
@@ -171,7 +125,7 @@ export function createDefaultRenderInput(
  * @returns The string to be used as the key of the option.
  * @alpha
  */
-export function defaultGetOptionKey(option: CountryType) {
+function defaultGetOptionKey(option: CountryType) {
   const countryShort = Array.isArray(option.country)
     ? option.country[0]
     : option.country;
@@ -187,7 +141,7 @@ export function defaultGetOptionKey(option: CountryType) {
  * @returns A function for getting the option label string.
  * @alpha
  */
-export function createDefaultGetOptionLabel(elementWidth: number) {
+function createDefaultGetOptionLabel(elementWidth: number) {
   return function defaultGetOptionLabel(option: CountryType) {
     const displayIso = option.displayIso
       ? ` ${option.displayIso}`
@@ -209,4 +163,120 @@ export function createDefaultGetOptionLabel(elementWidth: number) {
     }
     return `${countryShort}${countryAdditional}${displayIso}`;
   };
+}
+
+/**
+ * Props for the version of the CountryCodeSelector that uses React's
+ * `useState` for the state.
+ * @internal
+ */
+export interface CCSelectorPropsReact extends CCSelectorProps {
+  /**
+   * Value of the country code selector element. Provide this when you wish to
+   * use the component as a controlled component.
+   */
+  value: CountryType | null | undefined;
+
+  /**
+   * CountryCodeSelector's onChange event handler. Sets the component's value.
+   * Provide this when you wish to use the component as a controlled
+   * component.
+   */
+  onChange: (
+    _e: unknown,
+    value: CountryType | null,
+    reason: AutocompleteChangeReason,
+    details?: AutocompleteChangeDetails<CountryType> | undefined
+  ) => void;
+
+  /** The calling codes and names of the countries of the world. */
+  countries: readonly CountryType[];
+}
+
+/**
+ * Autocomplete component to select the country code of a phone number from a
+ * a list of countries. Based on the MUI `Autocomplete` component
+ * ({@link https://mui.com/material-ui/react-autocomplete}). Can be used in
+ * conjunction with a text input field and common state between the
+ * subcomponents to create a complete phone number input component.
+ *
+ * This version is only meant to be used internally by the
+ * `CountryCodeSelectorCombinedReact` component.
+ * @internal
+ */
+export default function CountryCodeSelector({
+  autoHighlight = true,
+  autoSelect = true,
+  filterOptions = createDefaultFilterOptions(),
+  getOptionKey = undefined,
+  getOptionLabel = undefined,
+  handleHomeEndKeys = false,
+  label = DEFAULT_COUNTRY_CODE_LABEL,
+  onChange,
+  renderOption = defaultRenderOption,
+  renderInput,
+  shrink,
+  slotProps,
+  value,
+  variant,
+  renderCountRef,
+  countries,
+  ...rest
+}: CCSelectorPropsReact) {
+  const elementRef = useRef<HTMLElement | null>(null);
+  const [elementWidth, setElementWidth] = useState(160);
+
+  useEffect(() => {
+    if (!elementRef.current) return undefined;
+    const resizeObserver = new ResizeObserver((entries) => {
+      if (entries[0].contentBoxSize) {
+        setElementWidth(entries[0].contentBoxSize[0].inlineSize);
+      }
+    });
+    resizeObserver.observe(elementRef.current);
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  const onRefChange = useCallback((element: HTMLInputElement | null) => {
+    elementRef.current = element;
+  }, []);
+
+  const renderInputToUse =
+    renderInput ??
+    createDefaultRenderInput(label, elementWidth, shrink, variant);
+
+  const getOptionKeyToUse = getOptionKey ?? defaultGetOptionKey;
+
+  const getOptionLabelToUse =
+    getOptionLabel ?? createDefaultGetOptionLabel(elementWidth);
+
+  const slotPropsToUse = {
+    ...DEFAULT_SLOT_PROPS,
+    ...slotProps,
+  };
+
+  useEffect(() => {
+    if (renderCountRef) {
+      renderCountRef.current += 1;
+    }
+  });
+
+  return (
+    <Autocomplete
+      autoHighlight={autoHighlight}
+      autoSelect={autoSelect}
+      filterOptions={filterOptions}
+      getOptionKey={getOptionKeyToUse}
+      getOptionLabel={getOptionLabelToUse}
+      handleHomeEndKeys={handleHomeEndKeys}
+      onChange={onChange}
+      options={countries}
+      renderOption={renderOption}
+      renderInput={renderInputToUse}
+      slotProps={slotPropsToUse}
+      value={value}
+      ref={onRefChange}
+      {...rest}
+    />
+  );
 }

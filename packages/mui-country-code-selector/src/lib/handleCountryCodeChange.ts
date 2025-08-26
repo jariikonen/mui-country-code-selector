@@ -1,7 +1,7 @@
 import { AutocompleteChangeReason } from '@mui/material';
 import { CountryType } from './countryCodeData';
 import CCSelectorState from '../types/CCSelectorState';
-import { getDigits, resetCountryCode } from './helpers';
+import { getDigits, resetCountryCode } from './commonFunctions';
 
 /**
  * Implementation of the handler function for the CountryCodeSelector

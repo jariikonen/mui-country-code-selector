@@ -8,7 +8,6 @@ function isObject(v: unknown): v is object {
 export default function isCountryNameRecord(
   value: unknown
 ): value is CountryNameRecord {
-  // record is not an object
   if (!isObject(value)) {
     return false;
   }

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { MutableRefObject } from 'react';
-import { getCountries } from './countryCodeData';
-import handleCountryCodeChange from './handleCountryCodeChange';
+import { getCountries } from '../countryCodeData';
+import handleCountryCodeChange from '../handleCountryCodeChange';
 
 describe('new country code is selected', async () => {
   const countries = await getCountries();

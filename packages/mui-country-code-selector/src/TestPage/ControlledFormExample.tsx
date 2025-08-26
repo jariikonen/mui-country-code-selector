@@ -1,26 +1,37 @@
-import { useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Box, Grid, Typography, Button } from '@mui/material';
-import { CountryCodeSelectorCompositeZustand } from '../../component/CountryCodeSelectorComposite';
+import CountryCodeSelectorComposite from '../components/CountryCodeSelectorComposite';
 
 function TestForm() {
-  const homePhoneNumRef = useRef<HTMLInputElement | null>(null);
+  const [homePhoneNumValue, setHomePhoneNumValue] = useState('');
   const [result, setResult] = useState('');
+
+  const homePhoneOnChange = useCallback(
+    (e: { target: { value: string } }) => setHomePhoneNumValue(e.target.value),
+    []
+  );
+
+  const clearForm = useCallback(() => {
+    setHomePhoneNumValue('');
+    setResult('');
+  }, []);
 
   return (
     <Box sx={{ flexGrow: 1, maxWidth: '600px' }}>
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          setResult(`Phone, home: ${homePhoneNumRef.current?.value}`);
+          setResult(`Phone, home: ${homePhoneNumValue}`);
           setTimeout(() => {
             setResult('');
           }, 6000);
         }}
       >
         <Grid container columnSpacing={{ xs: 1 }} rowSpacing={{ xs: 1 }}>
-          <CountryCodeSelectorCompositeZustand
+          <CountryCodeSelectorComposite
+            value={homePhoneNumValue}
             phoneNumberLabel="Home phone number"
-            inputRef={homePhoneNumRef}
+            onChange={homePhoneOnChange}
             layout="gridItems"
           />
           <Grid size={{ xs: 12 }}>
@@ -31,7 +42,7 @@ function TestForm() {
                 </Button>
               </Grid>
               <Grid>
-                <Button variant="contained" type="reset">
+                <Button variant="contained" type="button" onClick={clearForm}>
                   Clear
                 </Button>
               </Grid>

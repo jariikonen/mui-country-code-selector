@@ -8,7 +8,7 @@ import PossibleCountries from './PossibleCountries';
  * component.
  * @alpha
  */
-interface CCSelectorReactState {
+interface CCSelectorState {
   /** The whole phone number including the country code as a string. */
   phoneNumStr: string;
 
@@ -56,4 +56,4 @@ interface CCSelectorReactState {
   inputSelection: InputSelection;
 }
 
-export default CCSelectorReactState;
+export default CCSelectorState;
