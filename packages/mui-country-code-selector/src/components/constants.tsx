@@ -7,13 +7,8 @@ import type { Property } from 'csstype';
 export const DEFAULT_COUNTRY_CODE_LABEL = 'Country code';
 
 /**
- * Default abbreviation for the label text. Used when `window.innerWidth` is
- * smaller than `theme.breakpoints.values.sm` (i.e. the viewport width is
- * smaller than the smallest breakpoint in the MUI theme that the component
- * uses). See {@link https://mui.com/material-ui/customization/breakpoints/}
- * for more information about the breakpoints and
- * {@link https://mui.com/material-ui/customization/theming/} for more
- * information about the MUI's themes.
+ * Default abbreviation for the label text. Used when the selector element's
+ * width is less than the `SELECTOR_RESPONSIVE_BREAKPOINT_WIDTH`.
  * @alpha
  */
 export const DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION = 'Country';
@@ -59,15 +54,20 @@ export const SELECTOR_RESPONSIVE_BREAKPOINT_WIDTH = 145;
 /**
  * Default label text for the phone number input `TextField` subcomponent of
  * the `CountryCodeSelectorComposite` component.
+ * @alpha
  */
 export const DEFAULT_PHONE_NUMBER_LABEL = 'Phone number';
 
-/** Default value for error message display time. */
+/**
+ * Default value for error message display time.
+ * @alpha
+ */
 export const DEFAULT_ERROR_MESSAGE_DELAY = 3;
 
 /**
  * Default value for how the error message is displayed. See the documentation
  * for the `errorMessageDisplay` of CCSelectorCompositeProps for more
  * information.
+ * @alpha
  */
 export const DEFAULT_ERROR_MESSAGE_DISPLAY = 'both';

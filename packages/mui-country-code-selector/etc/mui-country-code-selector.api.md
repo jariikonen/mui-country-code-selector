@@ -125,10 +125,10 @@ export const DEFAULT_COUNTRY_CODE_LABEL = "Country code";
 // @alpha
 export const DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION = "Country";
 
-// @public
+// @alpha
 export const DEFAULT_ERROR_MESSAGE_DELAY = 3;
 
-// @public
+// @alpha
 export const DEFAULT_ERROR_MESSAGE_DISPLAY = "both";
 
 // @alpha
@@ -137,7 +137,7 @@ export const DEFAULT_OPTION_LIST_MAX_WIDTH: Property.Width;
 // @alpha
 export const DEFAULT_OPTION_LIST_WIDTH: Property.Width;
 
-// @public
+// @alpha
 export const DEFAULT_PHONE_NUMBER_LABEL = "Phone number";
 
 // @alpha

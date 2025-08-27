@@ -29,23 +29,23 @@ import {
 /**
  * A custom hook for creating a country code selector composite component.
  *
- * Returns an object containing functions and values to create a composite
+ * Returns an object containing functions and values for creating a composite
  * component of country code selector and a phone number input component. The
  * CountryCodeSelectorComposite component is created using this hook.
  *
  * Properties returned by the hook:
- * - countryCodeValue: set this to control the value of the country code
+ * `countryCodeValue`: set this to control the value of the country code
  *    selector component,
- * - errorMsg: error message from the phone number input validation,
- * - phoneNumberInputValue: set this to control the value of the phone number
+ * `errorMsg`: error message from the phone number input validation,
+ * `phoneNumberInputValue`: set this to control the value of the phone number
  *    input component,
- * - handleCountryCodeChange(): set this as the onChange event handler of the
+ * `handleCountryCodeChange()`: set this as the onChange event handler of the
  *    country codeSelector component,
- * - handlePhoneNumberChange(): set this as the onChange event handler of the
+ * `handlePhoneNumberChange()`: set this as the onChange event handler of the
  *    phone number input component,
- * - onInputRefChange(): put this to the inputRef prop of the phone number
+ * `onInputRefChange()`: put this to the inputRef prop of the phone number
  *    input component; it sets the refs needed by the hook internally, and
- * - countries: give these to CountryCodeSelector component used for selecting
+ * `countries`: give these to CountryCodeSelector component used for selecting
  *    the country code or use them as options in your custom selector
  *    component.
  * @param value - Variable holding the value of the phone number input field.
