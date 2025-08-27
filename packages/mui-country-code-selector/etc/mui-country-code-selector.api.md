@@ -17,6 +17,7 @@ import { GridProps } from '@mui/material';
 import { GridSize } from '@mui/material';
 import { JSX } from 'react/jsx-runtime';
 import { MutableRefObject } from 'react';
+import { Property } from 'csstype';
 import { RefCallback } from 'react';
 import { RefObject } from 'react';
 import { StackProps } from '@mui/material';
@@ -119,6 +120,37 @@ export interface CountryType {
 }
 
 // @alpha
+export const DEFAULT_COUNTRY_CODE_LABEL = "Country code";
+
+// @alpha
+export const DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION = "Country";
+
+// @public
+export const DEFAULT_ERROR_MESSAGE_DELAY = 3;
+
+// @public
+export const DEFAULT_ERROR_MESSAGE_DISPLAY = "both";
+
+// @alpha
+export const DEFAULT_OPTION_LIST_MAX_WIDTH: Property.Width;
+
+// @alpha
+export const DEFAULT_OPTION_LIST_WIDTH: Property.Width;
+
+// @public
+export const DEFAULT_PHONE_NUMBER_LABEL = "Phone number";
+
+// @alpha
+export const DEFAULT_SLOT_PROPS: {
+    paper: {
+        sx: {
+            width: string & {};
+            maxWidth: string & {};
+        };
+    };
+};
+
+// @alpha
 export function getCountries(locale?: string): Promise<readonly CountryType[]>;
 
 // @alpha
@@ -149,6 +181,9 @@ export interface PossibleCountries {
     minCodeDigits: number;
     possibleCountries: readonly CountryType[];
 }
+
+// @alpha
+export const SELECTOR_RESPONSIVE_BREAKPOINT_WIDTH = 145;
 
 // @alpha
 export function useCountryCodeSelectorState(value?: string, defaultValue?: string, errorMessageDelay?: number, onChange?: (e: {
