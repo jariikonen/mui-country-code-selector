@@ -1,11 +1,13 @@
+import { CountryCodeSelectorComposite } from 'mui-country-code-selector';
+
+// ...
+
 const [phoneNumValue, setPhoneNumValue] = useState('');
 
 const phoneOnChange = useCallback(
   (e: { target: { value: string } }) => setPhoneNumValue(e.target.value),
   []
 );
-
-// ...
 
 <CountryCodeSelectorComposite
   value={phoneNumValue}

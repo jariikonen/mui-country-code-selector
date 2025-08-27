@@ -25,14 +25,16 @@ npm install mui-country-code-selector --save
 The component can be used as a controlled component by passing it a value and a change handler like this:
 
 ```
+import { CountryCodeSelectorComposite } from 'mui-country-code-selector';
+
+// ...
+
 const [phoneNumValue, setPhoneNumValue] = useState('');
 
 const phoneOnChange = useCallback(
   (e: { target: { value: string } }) => setPhoneNumValue(e.target.value),
   []
 );
-
-// ...
 
 <CountryCodeSelectorComposite
   value={phoneNumValue}
@@ -48,9 +50,11 @@ Since the component is a composite of two elements, there are many ways to lay i
 You can use the component as an uncontrolled component by passing it a [ref](https://react.dev/learn/referencing-values-with-refs), which is then set to point to the phone number input element of the composite component. The value of the component can then be accessed through this ref.
 
 ```
-const phoneNumRef = useRef<HTMLInputElement | null>(null);
+import { CountryCodeSelectorComposite } from 'mui-country-code-selector';
 
 // ...
+
+const phoneNumRef = useRef<HTMLInputElement | null>(null);
 
 <CountryCodeSelectorComposite
   inputRef={phoneNumRef}

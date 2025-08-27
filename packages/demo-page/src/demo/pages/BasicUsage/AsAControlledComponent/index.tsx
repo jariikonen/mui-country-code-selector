@@ -12,7 +12,10 @@ export default function AsAControlledComponent() {
         The component can be used as a controlled component by passing it a
         value and a change handler like this:
       </P>
-      <CodeBox tsPath="AsAControlledComponent/controlledFormSnippet.txt" />
+      <CodeBox
+        tsPath="AsAControlledComponent/controlledFormSnippet.txt"
+        maxHeight={'30 rem'}
+      />
       <P>
         Since the component is a composite of two elements, there are many ways
         to lay it out in the HTML. To make this easy, there are different{' '}
