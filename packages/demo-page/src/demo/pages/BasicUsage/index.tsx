@@ -1,15 +1,15 @@
-import { H3 } from '../../../components/TypographyWrappers';
+import { H2 } from '../../components/TypographyWrappers';
 import AsAControlledComponent from './AsAControlledComponent';
 import AsAnUncontrolledComponent from './AsAnUncontrolledComponent';
-import DefaultValue from './DefaultValue';
+import Installation from './Installation';
 
 export default function BasicUsage() {
   return (
     <>
-      <H3 id="basic-usage">Basic usage</H3>
+      <H2 id="basic-usage">Basic usage</H2>
+      <Installation />
       <AsAControlledComponent />
       <AsAnUncontrolledComponent />
-      <DefaultValue />
     </>
   );
 }

@@ -14,7 +14,7 @@ export default function Customization() {
         Passing props to selector and input components
       </H4>
       <P>
-        The composite country code selector components can be customized by
+        The composite country code selector component can be customized by
         passing props to the underlying country code selector and phone number
         input subcomponents. This can be done with the{' '}
         <code>selectorProps</code> and <code>inputProps</code> props of the

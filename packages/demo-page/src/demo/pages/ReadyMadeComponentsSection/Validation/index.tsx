@@ -7,9 +7,9 @@ import ValidationExample from './ValidationExample';
 export default function ValidationErrors() {
   return (
     <>
-      <H3 id="validation-errors">Validation errors</H3>
+      <H3 id="validation">Phone number validation</H3>
       <P>
-        The MUI Country Code Selector (MCCS) validates phone number inputs
+        The MUI Country Code Selector (MCCS) validates the phone number input
         according to the following rules. A telephone number consists of a three
         digit country code, which starts with a plus sign (&apos;+&apos;), an
         area code or a mobile prefix (and possibly{' '}
