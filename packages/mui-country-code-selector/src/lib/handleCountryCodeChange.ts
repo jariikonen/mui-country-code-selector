@@ -21,11 +21,11 @@ import { getDigits, resetCountryCode } from './commonFunctions';
  * @returns
  */
 export default function handleCountryCodeChange(
-  countryCodeValue: CountryType | null,
+  countryCodeValue: CountryType | undefined | null,
   phoneNumberInput: HTMLInputElement | undefined | null,
   countryCodeDigits: string,
   phoneNumStr: string,
-  reason: AutocompleteChangeReason
+  reason: AutocompleteChangeReason,
 ): Partial<CCSelectorState> {
   /**
    * Forms a RegExp object that can be used for clearing the country code
@@ -38,7 +38,7 @@ export default function handleCountryCodeChange(
   function getCCRegExp(cCDigits: string) {
     const separators = '(\\s*|-*)';
     return new RegExp(
-      `${['\\+', ...cCDigits].join(separators) + separators}0*`
+      `${['\\+', ...cCDigits].join(separators) + separators}0*`,
     );
   }
 
@@ -57,7 +57,7 @@ export default function handleCountryCodeChange(
   function setNewCountryCode(
     _value: CountryType,
     detectedCCDigits: string,
-    phoneNum: string
+    phoneNum: string,
   ): Partial<CCSelectorState> {
     const newCCPart = `+${_value.code} `;
     const cleanedPhoneNum = phoneNum.startsWith('0')

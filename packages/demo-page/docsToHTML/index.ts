@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import fs from 'fs';
 import path from 'path';
 import markdownit from 'markdown-it';
@@ -72,7 +71,7 @@ md.renderer.rules.fence = (tokens, idx, options) => {
 fs.readdir(sourceDir, (dirErr, files) => {
   if (dirErr) {
     console.error(
-      `Error: reading directory "${dirErr.path}" failed (${dirErr.code})`
+      `Error: reading directory "${dirErr.path}" failed (${dirErr.code})`,
     );
     process.exit(1);
   }
@@ -83,7 +82,7 @@ fs.readdir(sourceDir, (dirErr, files) => {
     fs.readFile(path.join(sourceDir, file), 'utf8', (fileErr, data) => {
       if (fileErr) {
         console.error(
-          `Error: reading file ${fileErr.path} failed (${fileErr.code})`
+          `Error: reading file ${fileErr.path} failed (${fileErr.code})`,
         );
         process.exit(1);
       }
@@ -96,7 +95,7 @@ fs.readdir(sourceDir, (dirErr, files) => {
       fs.writeFile(filePath, fileContent, (writeErr) => {
         if (writeErr) {
           console.error(
-            `Error: writing file ${writeErr.path} failed (${writeErr.code})`
+            `Error: writing file ${writeErr.path} failed (${writeErr.code})`,
           );
           process.exit(1);
         }

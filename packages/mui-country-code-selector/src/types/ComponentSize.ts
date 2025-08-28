@@ -2,8 +2,8 @@ import { Breakpoint, GridSize } from '@mui/material';
 
 type ResponsiveStyleValue<T> =
   | T
-  | Array<T | null>
-  | { [key in Breakpoint]?: T | null };
+  | (T | null)[]
+  | Partial<Record<Breakpoint, T | null>>;
 
 /**
  * Represents a value for the composite component props that change the size of

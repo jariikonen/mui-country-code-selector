@@ -1,3 +1,4 @@
+/* eslint-disable react-x/no-children-map */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { ReactNode } from 'react';
 import { GridLegacy } from '@mui/material';

@@ -25,11 +25,16 @@ export default function CustomCountryCodeSelectorComposite({
   filterOptions,
   shrink,
   variant,
-  selectorProps = {},
-  inputProps = {},
-  errorProps = {},
+  selectorProps,
+  inputProps,
+  errorProps,
   selectorRenderCountRef,
 }: CCSelectorCompositeProps) {
+  selectorProps ??= {};
+  inputProps ??= {};
+  errorProps ??= {};
+
+  // manage the input ref internally if not provided from outside
   let phoneInputRef = useRef<HTMLInputElement | null>(null);
   let inputRefToUse = inputRef;
   if (inputRefToUse === undefined) {
@@ -55,7 +60,7 @@ export default function CustomCountryCodeSelectorComposite({
     errorMessageDelay,
     onChange,
     onError,
-    inputRef
+    inputRef,
   );
 
   const defaultTextFieldShrink =

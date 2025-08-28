@@ -76,7 +76,7 @@ export default function useCountryCodeSelectorState(
   onError?: (error: string) => void,
   inputRef?:
     | RefObject<HTMLInputElement | null>
-    | RefCallback<HTMLInputElement | null>
+    | RefCallback<HTMLInputElement | null>,
 ) {
   /** Value of the country code selector. */
   const [countryCodeValue, setCountryCodeValue] = useState<
@@ -184,7 +184,7 @@ export default function useCountryCodeSelectorState(
         }
       });
     },
-    []
+    [],
   );
 
   /** Sets the timeout for the error message display. */
@@ -243,7 +243,7 @@ export default function useCountryCodeSelectorState(
         }
       }
     },
-    [isControlled, onChange]
+    [isControlled, onChange],
   );
 
   // A function for forcing the component to rerender
@@ -258,7 +258,7 @@ export default function useCountryCodeSelectorState(
         countryCodeDigitsRef.current,
         possibleCountriesRef.current,
         significantDigitsRef.current,
-        countries
+        countries,
       );
       set(result);
       applyStateChanges(result);
@@ -270,7 +270,7 @@ export default function useCountryCodeSelectorState(
         forceRerender();
       }
     },
-    [applyStateChanges, countries, displayError, onError, set]
+    [applyStateChanges, countries, displayError, onError, set],
   );
 
   /** A handler for the country code selector's change events. */
@@ -278,19 +278,19 @@ export default function useCountryCodeSelectorState(
     (
       _e: unknown,
       country: CountryType | null,
-      reason: AutocompleteChangeReason
+      reason: AutocompleteChangeReason,
     ) => {
       const result = libHandleCountryCodeChange(
         country,
         phoneInputRef.current,
         countryCodeDigitsRef.current,
         phoneNumStrRef.current,
-        reason
+        reason,
       );
       set(result);
       applyStateChanges(result);
     },
-    [applyStateChanges, set]
+    [applyStateChanges, set],
   );
 
   // When the component is used as a controlled component the value of the
@@ -322,13 +322,15 @@ export default function useCountryCodeSelectorState(
 
         await new Promise((resolve) => setTimeout(resolve, interval));
       }
-
-      /* eslint-disable-next-line no-console */
-      console.error(
-        'Country code selector: Countries were not set after max attempts.'
+      throw new Error(
+        'Country code selector: Countries were not set after max attempts.',
       );
     };
-    waitForCountries();
+    waitForCountries().catch((error) => {
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
+    });
 
     return () => {
       isCancelled = true; // Cleanup if component unmounts
@@ -355,7 +357,7 @@ export default function useCountryCodeSelectorState(
         }
       }
     },
-    [inputRef]
+    [inputRef],
   );
 
   const setInputSelection = useCallback((inputSelection: InputSelection) => {

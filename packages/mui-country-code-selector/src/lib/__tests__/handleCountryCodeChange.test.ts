@@ -1,18 +1,19 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { MutableRefObject } from 'react';
+import { RefObject } from 'react';
 import { getCountries } from '../countryCodeData';
 import handleCountryCodeChange from '../handleCountryCodeChange';
 
-describe('new country code is selected', async () => {
+describe.only('new country code is selected', async () => {
   const countries = await getCountries();
-  const country = countries.filter((value) =>
-    value.country.includes('Curacao')
-  )[0];
+  const country = countries.find((value) => value.country.includes('Curacao'));
   const phoneNumber = '92349802347';
+  if (!country) {
+    throw new Error('country not found');
+  }
   const phoneNumberWithCountryCode = `+${country.code} ${phoneNumber}`;
   const phoneInputRef = {
     current: { focus: () => 1 },
-  } as unknown as MutableRefObject<HTMLInputElement>;
+  } as unknown as RefObject<HTMLInputElement>;
 
   afterEach(() => {
     vi.restoreAllMocks();
@@ -24,7 +25,7 @@ describe('new country code is selected', async () => {
       phoneInputRef.current,
       '',
       phoneNumber,
-      'selectOption'
+      'selectOption',
     );
 
     expect(result).toHaveProperty('phoneNumStr', phoneNumberWithCountryCode);
@@ -40,24 +41,25 @@ describe('new country code is selected', async () => {
         phoneInputRef.current,
         '',
         phoneNumber,
-        'selectOption'
+        'selectOption',
       );
 
       expect(spy).toHaveBeenCalledTimes(1);
-    }
+    },
   );
 });
 
 describe('clear button is pressed', async () => {
   const countries = await getCountries();
-  const country = countries.filter((value) =>
-    value.country.includes('Curacao')
-  )[0];
+  const country = countries.find((value) => value.country.includes('Curacao'));
+  if (!country) {
+    throw new Error('country not found');
+  }
   const phoneNumber = '92349802347';
   const phoneNumberWithCountryCode = `+${country.code} ${phoneNumber}`;
   const phoneInputRef = {
     current: { focus: () => 1 },
-  } as unknown as MutableRefObject<HTMLInputElement>;
+  } as unknown as RefObject<HTMLInputElement>;
 
   it(
     'and countryCodeValue parameter is null, an object to clear the ' +
@@ -68,11 +70,11 @@ describe('clear button is pressed', async () => {
         phoneInputRef.current,
         country.code,
         phoneNumberWithCountryCode,
-        'clear'
+        'clear',
       );
 
       expect(result).toHaveProperty('phoneNumStr', phoneNumber);
-    }
+    },
   );
 
   // because we should not trust that Autocomplete component's onChange event's
@@ -88,10 +90,10 @@ describe('clear button is pressed', async () => {
         phoneInputRef.current,
         country.code,
         phoneNumberWithCountryCode,
-        'clear'
+        'clear',
       );
 
       expect(result).toHaveProperty('phoneNumStr', phoneNumber);
-    }
+    },
   );
 });

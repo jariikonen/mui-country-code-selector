@@ -69,14 +69,14 @@ export default function CodeBox({
     {
       query: '?raw',
       import: 'default',
-    }
+    },
   );
   const [tsCode, setTSCode] = useState('');
 
   useEffect(() => {
     async function importCode() {
       const tsCodeKey = Object.keys(codeSamples).find((m) =>
-        m.includes(tsPath)
+        m.includes(tsPath),
       );
       if (tsCodeKey) {
         const tsCodeString = (await codeSamples[tsCodeKey]()) as string;
@@ -85,7 +85,9 @@ export default function CodeBox({
         }
       }
     }
-    void importCode(); // eslint-disable-line no-void
+    importCode().catch((err) => {
+      console.error(err);
+    });
   }, [codeSamples, tsPath]);
 
   return (

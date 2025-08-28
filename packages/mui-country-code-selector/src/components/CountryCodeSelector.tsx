@@ -52,8 +52,8 @@ function createDefaultFilterOptions() {
  * @alpha
  */
 function defaultRenderOption(
-  props: React.HTMLAttributes<HTMLLIElement> & { key: any },
-  option: CountryType
+  props: React.HTMLAttributes<HTMLLIElement> & { key: string | number },
+  option: CountryType,
 ): React.ReactNode {
   const displayIso = option.displayIso ? option.displayIso : option.iso;
 
@@ -95,7 +95,7 @@ function createDefaultRenderInput(
   label: string,
   elementWidth: number,
   shrink?: boolean,
-  variant?: TextFieldVariants
+  variant?: TextFieldVariants,
 ) {
   return function defaultRenderInput(params: AutocompleteRenderInputParams) {
     let labelToUse = label;
@@ -186,7 +186,7 @@ export interface CCSelectorPropsReact extends CCSelectorProps {
     _e: unknown,
     value: CountryType | null,
     reason: AutocompleteChangeReason,
-    details?: AutocompleteChangeDetails<CountryType> | undefined
+    details?: AutocompleteChangeDetails<CountryType>,
   ) => void;
 
   /** The calling codes and names of the countries of the world. */
@@ -204,7 +204,7 @@ export interface CCSelectorPropsReact extends CCSelectorProps {
 export default function CountryCodeSelector({
   autoHighlight = true,
   autoSelect = true,
-  filterOptions = createDefaultFilterOptions(),
+  filterOptions = undefined,
   getOptionKey = undefined,
   getOptionLabel = undefined,
   handleHomeEndKeys = false,
@@ -222,6 +222,10 @@ export default function CountryCodeSelector({
 }: CCSelectorPropsReact) {
   const elementRef = useRef<HTMLElement | null>(null);
   const [elementWidth, setElementWidth] = useState(160);
+
+  if (!filterOptions) {
+    filterOptions = createDefaultFilterOptions();
+  }
 
   useEffect(() => {
     if (!elementRef.current) return undefined;

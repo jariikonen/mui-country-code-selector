@@ -30,7 +30,7 @@ export default function handlePhoneNumberChange(
   detectedCCDigits: string,
   possibleCountries: PossibleCountries | null,
   significantDigits: string,
-  countries: readonly CountryType[]
+  countries: readonly CountryType[],
 ): Partial<CCSelectorState> {
   /**
    * A closure that reads the phone number input's cursor position or more
@@ -59,10 +59,12 @@ export default function handlePhoneNumberChange(
   function possibleCC(
     _digits: string,
     _firstChar: string,
-    _detectedCCDigits: string
+    _detectedCCDigits: string,
   ) {
     return Boolean(
-      _digits.length > 0 && _firstChar === '+' && _detectedCCDigits.length === 0
+      _digits.length > 0 &&
+        _firstChar === '+' &&
+        _detectedCCDigits.length === 0,
     );
   }
 
@@ -81,13 +83,13 @@ export default function handlePhoneNumberChange(
   function possibleLongerCC(
     _cCPart: string,
     _detectedCCDigits: string,
-    _possible: PossibleCountries | null
+    _possible: PossibleCountries | null,
   ) {
     return Boolean(
       _cCPart.length > 0 &&
         _cCPart === _detectedCCDigits &&
         _possible &&
-        _possible.maxCodeDigits > _cCPart.length
+        _possible.maxCodeDigits > _cCPart.length,
     );
   }
 
@@ -112,7 +114,7 @@ export default function handlePhoneNumberChange(
      */
     function getPossibleCountriesForRange(
       digitRange: string,
-      _possible: PossibleCountries | null
+      _possible: PossibleCountries | null,
     ) {
       const options = _possible ? _possible.possibleCountries : countries;
       let minCodeDigits = Number.MAX_SAFE_INTEGER;
@@ -172,7 +174,7 @@ export default function handlePhoneNumberChange(
     digits: string,
     pastSignificantDigits: string,
     _detectedCCDigits: string,
-    possible: PossibleCountries | null
+    possible: PossibleCountries | null,
   ) => {
     /**
      * A closure that returns true if the part of the phone number string
@@ -192,7 +194,7 @@ export default function handlePhoneNumberChange(
           (currentValue &&
             possible?.maxCodeDigits &&
             digits.length > currentValue.length &&
-            currentValue.length < possible.maxCodeDigits)
+            currentValue.length < possible.maxCodeDigits),
       );
     }
 
@@ -207,7 +209,7 @@ export default function handlePhoneNumberChange(
      */
     function getExactMatch(
       _digits: string,
-      _possible: PossibleCountries | null
+      _possible: PossibleCountries | null,
     ) {
       let rangeEnd = _possible
         ? _possible.digitsConsidered.length
@@ -224,7 +226,7 @@ export default function handlePhoneNumberChange(
         const rEnd = rangeEnd;
         matches = options.filter(
           (countryObj) =>
-            countryObj.code.replace(/\s|-/g, '') === _digits.slice(0, rEnd)
+            countryObj.code.replace(/\s|-/g, '') === _digits.slice(0, rEnd),
         );
         if (matches.length > 0) {
           return matches;
@@ -284,33 +286,33 @@ export default function handlePhoneNumberChange(
     selectionStart: selectionStart > 0 ? selectionStart : 0,
     selectionEnd: selectionEnd > 0 ? selectionEnd : 0,
   };
-  if (phoneNumberValue.match(/[^+\d\s-]/)) {
+  if (/[^+\d\s-]/.exec(phoneNumberValue)) {
     return {
       errorMsg:
         'Only digits and visual separator characters (" ", "-") are allowed',
       inputSelection,
     };
   }
-  if (phoneNumberValue.match(/^[^+\d]/)) {
+  if (/^[^+\d]/.exec(phoneNumberValue)) {
     return {
       errorMsg: 'Phone number must start with a number or a plus character',
       inputSelection,
     };
   }
-  if (phoneNumberValue.match(/\s{2,}|-{2,}|\s-|-\s/)) {
+  if (/\s{2,}|-{2,}|\s-|-\s/.exec(phoneNumberValue)) {
     return {
       errorMsg: 'Only one separator character between digits allowed',
       inputSelection,
     };
   }
-  if (phoneNumberValue.match(/\+.*\+/)) {
+  if (/\+.*\+/.exec(phoneNumberValue)) {
     return {
       errorMsg:
         'Only one plus character is allowed at the beginning of the phone number',
       inputSelection,
     };
   }
-  if (phoneNumberValue.match(/\+/) && !phoneNumberValue.startsWith('+')) {
+  if (/\+/.exec(phoneNumberValue) && !phoneNumberValue.startsWith('+')) {
     return {
       errorMsg: 'Plus can only be the first character of the phone number',
       inputSelection,
@@ -358,7 +360,7 @@ export default function handlePhoneNumberChange(
         digits,
         newSignificantDigits,
         detectedCCDigits,
-        newPossibleCountries
+        newPossibleCountries,
       ),
       phoneNumStr: phoneNumberValue,
       inputSelection: getInputSelection(),

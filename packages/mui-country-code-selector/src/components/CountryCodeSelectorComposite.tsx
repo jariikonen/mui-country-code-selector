@@ -53,11 +53,15 @@ export default function CountryCodeSelectorComposite({
   filterOptions,
   shrink,
   variant,
-  selectorProps = {},
-  inputProps = {},
-  errorProps = {},
+  selectorProps,
+  inputProps,
+  errorProps,
   selectorRenderCountRef,
 }: CCSelectorCompositeProps) {
+  selectorProps ??= {};
+  inputProps ??= {};
+  errorProps ??= {};
+
   let phoneInputRef = useRef<HTMLInputElement | null>(null);
   let inputRefToUse = inputRef;
   if (inputRefToUse === undefined) {
@@ -69,6 +73,7 @@ export default function CountryCodeSelectorComposite({
       phoneInputRef = inputRefToUse;
     }
   }
+
   const {
     countryCodeValue,
     errorMsg,
@@ -83,7 +88,7 @@ export default function CountryCodeSelectorComposite({
     errorMessageDelay,
     onChange,
     onError,
-    inputRef
+    inputRef,
   );
 
   const defaultTextFieldShrink =
