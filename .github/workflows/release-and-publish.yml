@@ -12,14 +12,18 @@ env:
 
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm ci -w mui-country-code-selector
-      - run: npm run test -w mui-country-code-selector
+          cache: "pnpm"
+      - run: pnpm --filter mui-country-code-selector run ci-and-build
+      - run: pnpm --filter mui-country-code-selector run test
 
   release:
     needs: [test]
@@ -31,7 +35,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       # create a release
       - uses: google-github-actions/release-please-action@a37ac6e4f6449ce8b3f7607e4d97d0146028dc0b # v4.1.0
@@ -46,26 +50,30 @@ jobs:
       # build and publish package to npm
       - uses: actions/checkout@v4
         if: ${{ contains(steps.release.outputs.paths_released, 'packages') }}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+          cache: "pnpm"
           registry-url: https://registry.npmjs.org/
         if: ${{ contains(steps.release.outputs.paths_released, 'packages') }}
-      - run: npm run ci-and-build -w mui-country-code-selector
+      - run: pnpm --filter mui-country-code-selector run ci-and-build
         if: ${{ contains(steps.release.outputs.paths_released, 'packages') }}
-      - run: npm publish -w mui-country-code-selector
+      - run: cd packages/mui-country-code-selector && npm publish && cd ../..
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         if: ${{ contains(steps.release.outputs.paths_released, 'packages/mui-country-code-selector') }}
 
       # build and publish the demo page to GitHub pages
-      - run: npm run ci-and-build -w demo-page
+      - run: pnpm --filter demo-page run ci-and-build
         if: ${{ contains(steps.release.outputs.paths_released, 'packages/demo-page') }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
         if: ${{ contains(steps.release.outputs.paths_released, 'packages/demo-page') }}
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: "./packages/demo-page/dist"
         if: ${{ contains(steps.release.outputs.paths_released, 'packages/demo-page') }}

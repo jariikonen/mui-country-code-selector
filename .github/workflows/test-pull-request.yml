@@ -1,4 +1,4 @@
-# This workflow runs tests everytime a pull request is opened or updated.
+# This workflow runs tests everytime a pull request is opened to main or updated.
 
 on:
   pull_request:
@@ -9,11 +9,15 @@ name: Test code in pull request
 
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm ci -w mui-country-code-selector
-      - run: npm run test -w mui-country-code-selector
+          cache: "pnpm"
+      - run: pnpm --filter mui-country-code-selector run ci-and-build
+      - run: pnpm --filter mui-country-code-selector run test

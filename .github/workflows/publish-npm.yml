@@ -14,14 +14,18 @@ concurrency:
 jobs:
   # build and publish package to npm
   publish:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+          cache: "pnpm"
           registry-url: https://registry.npmjs.org/
-      - run: npm run ci-and-build -w mui-country-code-selector
-      - run: npm publish -w mui-country-code-selector
+      - run: pnpm --filter mui-country-code-selector run ci-and-build
+      - run: cd packages/mui-country-code-selector && npm publish && cd ../..
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

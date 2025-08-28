@@ -14,11 +14,11 @@
   },
   "scripts": {
     "prepare": "husky",
-    "test": "npm run test -w mui-country-code-selector",
-    "lint": "npm run lint -w mui-country-code-selector && npm run lint -w demo-page",
-    "ci-and-build": "npm ci --workspaces=false && npm run ci-and-build -w mui-country-code-selector && npm run ci-and-build -w demo-page",
-    "cleanup": "rm -rf ./node_modules && npm run cleanup -w demo-page && npm run cleanup -w mui-country-code-selector",
-    "cleanup-ci-build-and-test": "npm run cleanup && npm run ci-and-build && npm run test && npm run lint",
-    "rebuild-documentation": "npm run build -w mui-country-code-selector && npm run create-docs -w mui-country-code-selector && npm run cleanup -w demo-page && npm run ci-and-build -w demo-page"
+    "test": "pnpm --recursive --filter='!.' run test",
+    "lint": "pnpm --recursive --filter='!.' run lint",
+    "ci-and-build": "pnpm install --frozen-lockfile && pnpm --recursive --filter='!.' run ci-and-build",
+    "cleanup": "rm -rf ./node_modules && pnpm --recursive --filter='!.' run cleanup",
+    "cleanup-ci-build-and-test": "pnpm run cleanup && pnpm run ci-and-build && pnpm run test && pnpm run lint",
+    "rebuild-documentation": "pnpm --filter='mui-country-code-selector' run build && pnpm --filter='mui-country-code-selector' run create-docs && pnpm --filter='demo-page' run cleanup && pnpm --filter='demo-page' run ci-and-build"
   }
 }

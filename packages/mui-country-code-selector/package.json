@@ -36,7 +36,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "test": "vitest run",
     "create-docs": "mkdir -p etc && api-extractor run --local --verbose && api-documenter markdown --input-folder ./temp --output-folder ./docs",
-    "ci-and-build": "npm ci -w mui-country-code-selector && npm run build -w mui-country-code-selector && npm run create-docs -w mui-country-code-selector",
+    "ci-and-build": "pnpm --filter='mui-country-code-selector' i --frozen-lockfile && pnpm --filter='mui-country-code-selector' run build && pnpm --filter='mui-country-code-selector' run create-docs",
     "cleanup": "rm -rf ./dist && rm -rf ./docs && rm -rf ./node_modules && rm -rf ./temp"
   },
   "devDependencies": {
