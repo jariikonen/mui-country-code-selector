@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react-x/no-missing-key */
 /* eslint-disable react/jsx-key */
 /**
@@ -21,14 +22,15 @@ import {
   DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION,
   DEFAULT_PHONE_NUMBER_LABEL,
 } from '../constants';
+import { CCSelectorCompositeProps } from '../../types';
 
 class ResizeObserverMock {
   static callback: (
-    entries: [{ contentBoxSize: [{ inlineSize: number }] }],
+    entries: [{ contentBoxSize: [{ inlineSize: number }] }]
   ) => void;
 
   constructor(
-    callback: (entries: [{ contentBoxSize: [{ inlineSize: number }] }]) => void,
+    callback: (entries: [{ contentBoxSize: [{ inlineSize: number }] }]) => void
   ) {
     ResizeObserverMock.callback = callback;
   }
@@ -46,7 +48,7 @@ class ResizeObserverMock {
 
 vi.stubGlobal('ResizeObserver', ResizeObserverMock);
 
-function TestComponentControlled() {
+function TestComponentControlled(props: Partial<CCSelectorCompositeProps>) {
   const [phoneNumValue, setPhoneNumValue] = useState('');
   return (
     <div data-testid="container">
@@ -62,12 +64,13 @@ function TestComponentControlled() {
         // may cause some error detection tests to fail in some situations.
         // Increase the delay if you suspect that this is the case.
         errorMessageDelay={0.2}
+        {...props}
       />
     </div>
   );
 }
 
-function TestComponentUncontrolled() {
+function TestComponentUncontrolled(props: Partial<CCSelectorCompositeProps>) {
   const phoneNumRef = useRef<HTMLInputElement | null>(null);
   return (
     <div data-testid="container">
@@ -80,6 +83,7 @@ function TestComponentUncontrolled() {
         // may cause some error detection tests to fail in some situations.
         // Increase the delay if you suspect that this is the case.
         errorMessageDelay={0.2}
+        {...props}
       />
     </div>
   );
@@ -119,14 +123,14 @@ describe('basic functionality', () => {
     'component is rendered ($type)',
     () => {
       const countryCodeSelector = screen.getByLabelText(
-        DEFAULT_COUNTRY_CODE_LABEL,
+        DEFAULT_COUNTRY_CODE_LABEL
       );
       const phoneNumberInput = screen.getByLabelText(
-        DEFAULT_PHONE_NUMBER_LABEL,
+        DEFAULT_PHONE_NUMBER_LABEL
       );
       expect(countryCodeSelector).toBeDefined();
       expect(phoneNumberInput).toBeDefined();
-    },
+    }
   );
 
   it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
@@ -137,7 +141,7 @@ describe('basic functionality', () => {
       const selector = screen.getByLabelText(DEFAULT_COUNTRY_CODE_LABEL);
       await user.type(input, '+358 12345');
       expect(selector).toHaveValue('Finland FI');
-    },
+    }
   );
 
   it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
@@ -153,7 +157,7 @@ describe('basic functionality', () => {
       await user.click(clear);
       expect(selector).toHaveValue('');
       expect(input).toHaveValue('12345');
-    },
+    }
   );
 
   it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
@@ -173,7 +177,7 @@ describe('basic functionality', () => {
       await user.click(fiji);
       expect(selector).toHaveValue('Fiji FJ');
       expect(input).toHaveValue('+679 ');
-    },
+    }
   );
 });
 
@@ -186,22 +190,22 @@ describe('error detection', () => {
 
       await user.type(input, ' ');
       const error1 = screen.getByText(
-        'Phone number must start with a number or a plus character',
+        'Phone number must start with a number or a plus character'
       );
       expect(error1).toBeDefined();
 
       await user.type(input, '-');
       const error2 = screen.getByText(
-        'Phone number must start with a number or a plus character',
+        'Phone number must start with a number or a plus character'
       );
       expect(error2).toBeDefined();
 
       await user.type(input, 'a');
       const error3 = screen.getByText(
-        'Only digits and visual separator characters (" ", "-") are allowed',
+        'Only digits and visual separator characters (" ", "-") are allowed'
       );
       expect(error3).toBeDefined();
-    },
+    }
   );
 
   it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
@@ -212,28 +216,28 @@ describe('error detection', () => {
 
       await user.type(input, '1  ');
       const error1 = screen.getByText(
-        'Only one separator character between digits allowed',
+        'Only one separator character between digits allowed'
       );
       expect(error1).toBeDefined();
 
       await user.type(input, '12--');
       const error2 = screen.getByText(
-        'Only one separator character between digits allowed',
+        'Only one separator character between digits allowed'
       );
       expect(error2).toBeDefined();
 
       await user.type(input, '123- ');
       const error3 = screen.getByText(
-        'Only one separator character between digits allowed',
+        'Only one separator character between digits allowed'
       );
       expect(error3).toBeDefined();
 
       await user.type(input, '1234 -');
       const error4 = screen.getByText(
-        'Only one separator character between digits allowed',
+        'Only one separator character between digits allowed'
       );
       expect(error4).toBeDefined();
-    },
+    }
   );
 
   it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
@@ -244,10 +248,10 @@ describe('error detection', () => {
 
       await user.type(input, '1+');
       const error1 = screen.getByText(
-        'Plus can only be the first character of the phone number',
+        'Plus can only be the first character of the phone number'
       );
       expect(error1).toBeDefined();
-    },
+    }
   );
 });
 
@@ -256,14 +260,14 @@ describe('generic API functionality', () => {
     'props can be passed to underlying components ($type)',
     () => {
       const countryCodeSelector = screen.getByLabelText(
-        DEFAULT_COUNTRY_CODE_LABEL,
+        DEFAULT_COUNTRY_CODE_LABEL
       );
       const phoneNumberInput = screen.getByLabelText(
-        DEFAULT_PHONE_NUMBER_LABEL,
+        DEFAULT_PHONE_NUMBER_LABEL
       );
       expect(countryCodeSelector).toHaveClass('selectorTest');
       expect(phoneNumberInput).toHaveClass('inputTest');
-    },
+    }
   );
 });
 
@@ -285,13 +289,13 @@ describe('cursor stability', () => {
 
       await user.keyboard('{w}');
       const error1 = screen.getByText(
-        'Only digits and visual separator characters (" ", "-") are allowed',
+        'Only digits and visual separator characters (" ", "-") are allowed'
       );
       expect(error1).toBeDefined();
       expect(inputElement.selectionStart).toEqual(2);
       expect(inputElement.selectionEnd).toEqual(2);
       expect(input).toHaveValue('12345');
-    },
+    }
   );
 
   it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
@@ -312,13 +316,13 @@ describe('cursor stability', () => {
 
       await user.keyboard('{w}');
       const error2 = screen.getByText(
-        'Only digits and visual separator characters (" ", "-") are allowed',
+        'Only digits and visual separator characters (" ", "-") are allowed'
       );
       expect(error2).toBeDefined();
       expect(inputElement.selectionStart).toEqual(0);
       expect(inputElement.selectionEnd).toEqual(0);
       expect(input).toHaveValue('12345');
-    },
+    }
   );
 
   it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
@@ -339,15 +343,15 @@ describe('cursor stability', () => {
       // trigger an error and move cursor two characters to the left
       await user.keyboard('{w}{ArrowLeft}{ArrowLeft}');
       const error1 = screen.getByText(
-        'Only digits and visual separator characters (" ", "-") are allowed',
+        'Only digits and visual separator characters (" ", "-") are allowed'
       );
       expect(error1).toBeDefined();
       // a rerender is triggered when the error display times out and the
       // error message is removed from the DOM
       await waitForElementToBeRemoved(
         screen.queryByText(
-          'Only digits and visual separator characters (" ", "-") are allowed',
-        ),
+          'Only digits and visual separator characters (" ", "-") are allowed'
+        )
       );
       expect(inputElement.selectionStart).toEqual(1);
       expect(input).toHaveValue('12345');
@@ -355,19 +359,19 @@ describe('cursor stability', () => {
       // move cursor to the beginning (selectionStart = 0, which is falsy)
       await user.keyboard('{w}{ArrowLeft}');
       const error2 = screen.getByText(
-        'Only digits and visual separator characters (" ", "-") are allowed',
+        'Only digits and visual separator characters (" ", "-") are allowed'
       );
       expect(error2).toBeDefined();
       // a rerender is triggered when the error display times out and the
       // error message is removed from the DOM
       await waitForElementToBeRemoved(
         screen.queryByText(
-          'Only digits and visual separator characters (" ", "-") are allowed',
-        ),
+          'Only digits and visual separator characters (" ", "-") are allowed'
+        )
       );
       expect(inputElement.selectionStart).toEqual(0);
       expect(input).toHaveValue('12345');
-    },
+    }
   );
 
   it.each([{ type: 'Controlled' }, { type: 'Uncontrolled' }])(
@@ -387,12 +391,12 @@ describe('cursor stability', () => {
 
       await user.keyboard('{w}{w}');
       const error1 = screen.getByText(
-        'Only digits and visual separator characters (" ", "-") are allowed',
+        'Only digits and visual separator characters (" ", "-") are allowed'
       );
       expect(error1).toBeDefined();
       expect(inputElement.selectionStart).toEqual(3);
       expect(inputElement.selectionEnd).toEqual(3);
-    },
+    }
   );
 
   // React testing library's keyboard API does not yet support testing cursor
@@ -417,20 +421,20 @@ describe('cursor stability', () => {
       // trigger an error and select text two characters to the left
       await user.keyboard('{w}{Shift>}{ArrowLeft}{ArrowLeft}{/Shift}');
       const error1 = screen.getByText(
-        'Only digits and visual separator characters (" ", "-") are allowed',
+        'Only digits and visual separator characters (" ", "-") are allowed'
       );
       expect(error1).toBeDefined();
       // a rerender is triggered when the error display times out and the
       // error message is removed from the DOM
       await waitForElementToBeRemoved(
         screen.queryByText(
-          'Only digits and visual separator characters (" ", "-") are allowed',
-        ),
+          'Only digits and visual separator characters (" ", "-") are allowed'
+        )
       );
       expect(inputElement.selectionStart).toEqual(1);
       expect(inputElement.selectionEnd).toEqual(3);
       expect(input).toHaveValue('12345');
-    },
+    }
   );
 
   // React testing library's keyboard API does not yet support testing cursor
@@ -456,20 +460,20 @@ describe('cursor stability', () => {
       // which is falsy)
       await user.keyboard('{w}{Shift>}{Home>}{ArrowLeft}{/Home}{/Shift}');
       const error2 = screen.getByText(
-        'Only digits and visual separator characters (" ", "-") are allowed',
+        'Only digits and visual separator characters (" ", "-") are allowed'
       );
       expect(error2).toBeDefined();
       // a rerender is triggered when the error display times out and the
       // error message is removed from the DOM
       await waitForElementToBeRemoved(
         screen.queryByText(
-          'Only digits and visual separator characters (" ", "-") are allowed',
-        ),
+          'Only digits and visual separator characters (" ", "-") are allowed'
+        )
       );
       expect(inputElement.selectionStart).toEqual(0);
       expect(inputElement.selectionEnd).toEqual(3);
       expect(input).toHaveValue('12345');
-    },
+    }
   );
 
   it.each([
@@ -494,13 +498,13 @@ describe('cursor stability', () => {
 
       await user.keyboard('{w}');
       const error1 = screen.getByText(
-        'Only digits and visual separator characters (" ", "-") are allowed',
+        'Only digits and visual separator characters (" ", "-") are allowed'
       );
       expect(error1).toBeDefined();
       expect(inputElement.selectionStart).toEqual(2);
       expect(inputElement.selectionEnd).toEqual(2);
       expect(input).toHaveValue('12345');
-    },
+    }
   );
 
   it.each([
@@ -526,13 +530,13 @@ describe('cursor stability', () => {
 
       await user.keyboard('{w}');
       const error = screen.getByText(
-        'Only digits and visual separator characters (" ", "-") are allowed',
+        'Only digits and visual separator characters (" ", "-") are allowed'
       );
       expect(error).toBeDefined();
       expect(inputElement.selectionStart).toEqual(0);
       expect(inputElement.selectionEnd).toEqual(0);
       expect(input).toHaveValue('12345');
-    },
+    }
   );
 
   it.each([
@@ -559,15 +563,15 @@ describe('cursor stability', () => {
       await user.keyboard('{w}');
       await user.pointer({ target: input, offset: 4, keys });
       const error1 = screen.getByText(
-        'Only digits and visual separator characters (" ", "-") are allowed',
+        'Only digits and visual separator characters (" ", "-") are allowed'
       );
       expect(error1).toBeDefined();
       // a rerender is triggered when the error display times out and the
       // error message is removed from the DOM
       await waitForElementToBeRemoved(
         screen.queryByText(
-          'Only digits and visual separator characters (" ", "-") are allowed',
-        ),
+          'Only digits and visual separator characters (" ", "-") are allowed'
+        )
       );
       expect(inputElement.selectionStart).toEqual(4);
       expect(inputElement.selectionEnd).toEqual(4);
@@ -578,19 +582,19 @@ describe('cursor stability', () => {
       await user.keyboard('{w}');
       await user.pointer({ target: input, offset: 0, keys });
       const error2 = screen.getByText(
-        'Only digits and visual separator characters (" ", "-") are allowed',
+        'Only digits and visual separator characters (" ", "-") are allowed'
       );
       expect(error2).toBeDefined();
       // a rerender is triggered when the error display times out and the
       // error message is removed from the DOM
       await waitForElementToBeRemoved(
         screen.queryByText(
-          'Only digits and visual separator characters (" ", "-") are allowed',
-        ),
+          'Only digits and visual separator characters (" ", "-") are allowed'
+        )
       );
       expect(inputElement.selectionStart).toEqual(0);
       expect(input).toHaveValue('12345');
-    },
+    }
   );
 
   // Making text selections with a pointer doesn't seem to work either. See the
@@ -627,20 +631,20 @@ describe('cursor stability', () => {
       expect(inputElement.selectionStart).toEqual(4);
       expect(inputElement.selectionEnd).toEqual(5);
       const error1 = screen.getByText(
-        'Only digits and visual separator characters (" ", "-") are allowed',
+        'Only digits and visual separator characters (" ", "-") are allowed'
       );
       expect(error1).toBeDefined();
       // a rerender is triggered when the error display times out and the
       // error message is removed from DOM
       await waitForElementToBeRemoved(
         screen.queryByText(
-          'Only digits and visual separator characters (" ", "-") are allowed',
-        ),
+          'Only digits and visual separator characters (" ", "-") are allowed'
+        )
       );
       expect(inputElement.selectionStart).toEqual(4);
       expect(inputElement.selectionEnd).toEqual(5);
       expect(input).toHaveValue('12345');
-    },
+    }
   );
 
   // Making text selections with a pointer doesn't seem to work either. See the
@@ -677,20 +681,104 @@ describe('cursor stability', () => {
       expect(inputElement.selectionStart).toEqual(0);
       expect(inputElement.selectionEnd).toEqual(4);
       const error2 = screen.getByText(
-        'Only digits and visual separator characters (" ", "-") are allowed',
+        'Only digits and visual separator characters (" ", "-") are allowed'
       );
       expect(error2).toBeDefined();
       // a rerender is triggered when the error display times out and the
       // error message is removed from DOM
       await waitForElementToBeRemoved(
         screen.queryByText(
-          'Only digits and visual separator characters (" ", "-") are allowed',
-        ),
+          'Only digits and visual separator characters (" ", "-") are allowed'
+        )
       );
       expect(inputElement.selectionStart).toEqual(0);
       expect(inputElement.selectionEnd).toEqual(4);
       expect(input).toHaveValue('12345');
-    },
+    }
+  );
+});
+
+describe('props that affect appearance', () => {
+  it.each([
+    [{ type: 'Controlled' }, <TestComponentControlled />],
+    [{ type: 'Uncontrolled' }, <TestComponentUncontrolled />],
+  ])('props can be passed to underlying components ($type)', (_, component) => {
+    rerender(
+      // eslint-disable-next-line react-x/no-clone-element
+      React.cloneElement<CCSelectorCompositeProps>(
+        component as React.ReactElement<CCSelectorCompositeProps>,
+        {
+          selectorProps: { size: 'small', margin: 'dense', error: true },
+          inputProps: {
+            size: 'small',
+            margin: 'dense',
+            error: true,
+            InputProps: { classes: { input: 'inputTest' } },
+          },
+        }
+      )
+    );
+    const countryCodeSelector = screen.getByLabelText(
+      DEFAULT_COUNTRY_CODE_LABEL
+    );
+    const cCSParentDiv = countryCodeSelector.parentElement;
+    const cCSFormControlDiv = cCSParentDiv?.parentElement;
+    const phoneNumberInput = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
+    const pNIParentDiv = phoneNumberInput.parentElement;
+    const pNIFormControlDiv = pNIParentDiv?.parentElement;
+    expect(countryCodeSelector).toHaveClass('MuiInputBase-inputSizeSmall');
+    expect(cCSParentDiv).toHaveClass('Mui-error');
+    expect(cCSFormControlDiv).toHaveClass('MuiFormControl-marginDense');
+    expect(phoneNumberInput).toHaveClass('MuiInputBase-inputSizeSmall');
+    expect(pNIParentDiv).toHaveClass('Mui-error');
+    expect(pNIFormControlDiv).toHaveClass('MuiFormControl-marginDense');
+  });
+
+  it.each([
+    [{ type: 'Controlled' }, <TestComponentControlled />],
+    [{ type: 'Uncontrolled' }, <TestComponentUncontrolled />],
+  ])(
+    'props passed to the main component are handled correctly ($type)',
+    (_, component) => {
+      rerender(
+        // eslint-disable-next-line react-x/no-clone-element
+        React.cloneElement<CCSelectorCompositeProps>(
+          component as React.ReactElement<CCSelectorCompositeProps>,
+          {
+            size: 'small',
+            margin: 'dense',
+            error: true,
+            disabled: true,
+            helperText: 'test helper text',
+          }
+        )
+      );
+      const countryCodeSelector = screen.getByLabelText(
+        DEFAULT_COUNTRY_CODE_LABEL
+      );
+      const cCSParentDiv = countryCodeSelector.parentElement;
+      const cCSFormControlDiv = cCSParentDiv?.parentElement;
+
+      const phoneNumberInput = screen.getByLabelText(
+        DEFAULT_PHONE_NUMBER_LABEL
+      );
+      const pNIParentDiv = phoneNumberInput.parentElement;
+      const pNIFormControlDiv = pNIParentDiv?.parentElement;
+
+      const helperText = screen.getByText('test helper text');
+
+      expect(countryCodeSelector).toHaveClass('MuiInputBase-inputSizeSmall');
+      expect(countryCodeSelector).toBeDisabled();
+      expect(cCSParentDiv).toHaveClass('Mui-error');
+      expect(cCSFormControlDiv).toHaveClass('MuiFormControl-marginDense');
+
+      expect(phoneNumberInput).toHaveClass('MuiInputBase-inputSizeSmall');
+      expect(phoneNumberInput).toBeDisabled();
+      expect(pNIParentDiv).toHaveClass('Mui-error');
+      expect(pNIFormControlDiv).toHaveClass('MuiFormControl-marginDense');
+
+      expect(helperText).toBeDefined();
+    }
   );
 });
 
@@ -704,10 +792,10 @@ describe('responsive country code selector', () => {
       ResizeObserverMock.resize(140);
       rerender(component);
       const selector = screen.getByLabelText(
-        DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION,
+        DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION
       );
       expect(selector).toBeDefined();
-    },
+    }
   );
 
   it.each([
@@ -721,10 +809,10 @@ describe('responsive country code selector', () => {
       const user = userEvent.setup();
       const input = screen.getByLabelText(DEFAULT_PHONE_NUMBER_LABEL);
       const selector = screen.getByLabelText(
-        DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION,
+        DEFAULT_COUNTRY_CODE_LABEL_ABBREVIATION
       );
       await user.type(input, '+358 12345');
       expect(selector).toHaveValue('FI');
-    },
+    }
   );
 });

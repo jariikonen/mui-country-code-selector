@@ -1,4 +1,4 @@
-import { MutableRefObject } from 'react';
+import { RefObject } from 'react';
 import {
   AutocompleteProps,
   AutocompleteRenderInputParams,
@@ -10,9 +10,9 @@ import { CountryType } from '../lib/countryCodeData';
  * Represents the props of the `CountryCodeSelector` components.
  * @alpha
  */
-interface CCSelectorProps
+interface CCSelectorProps<DisableClearable extends boolean = false>
   extends Omit<
-    AutocompleteProps<CountryType, false, boolean, false>,
+    AutocompleteProps<CountryType, false, DisableClearable, false>,
     'getOptionLabel' | 'onChange' | 'options' | 'renderInput' | 'value'
   > {
   /**
@@ -57,7 +57,11 @@ interface CCSelectorProps
    * Passes a numeric React ref object to the selector component, which is then
    * increased by one every time the component is rendered.
    */
-  renderCountRef?: MutableRefObject<number>;
+  renderCountRef?: RefObject<number>;
+
+  margin?: 'none' | 'dense' | 'normal';
+
+  error?: boolean;
 }
 
 export default CCSelectorProps;

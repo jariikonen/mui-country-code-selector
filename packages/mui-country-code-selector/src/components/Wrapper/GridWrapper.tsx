@@ -14,6 +14,7 @@ export interface GridWrapperProps {
   gridSelectorProps: GridItemProps | undefined;
   gridInputProps: GridItemProps | undefined;
   gridErrorProps: GridItemProps | undefined;
+  gridHelperTextProps: GridItemProps | undefined;
   selectorSize: ComponentSize | undefined;
   inputSize: ComponentSize | undefined;
   errorSize: ComponentSize | undefined;
@@ -30,6 +31,7 @@ export default function GridWrapper({
   gridSelectorProps,
   gridInputProps,
   gridErrorProps,
+  gridHelperTextProps,
   selectorSize,
   inputSize,
   errorSize,
@@ -48,6 +50,11 @@ export default function GridWrapper({
   const errorPropsToApply = {
     ...gridItemProps,
     ...gridErrorProps,
+    ...errorSize,
+  };
+  const helperTextPropsToApply = {
+    ...gridItemProps,
+    ...gridHelperTextProps,
     ...errorSize,
   };
   return (
@@ -69,6 +76,12 @@ export default function GridWrapper({
           case 2:
             return child !== null ? (
               <Grid key="error" {...errorPropsToApply}>
+                {child}
+              </Grid>
+            ) : null;
+          case 3:
+            return child !== null ? (
+              <Grid key="helpertext" {...helperTextPropsToApply}>
                 {child}
               </Grid>
             ) : null;

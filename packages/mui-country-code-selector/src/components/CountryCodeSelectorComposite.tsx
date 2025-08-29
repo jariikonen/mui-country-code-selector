@@ -41,11 +41,13 @@ export default function CountryCodeSelectorComposite({
   gridLegacySelectorProps,
   gridLegacyInputProps,
   gridLegacyErrorProps,
+  gridLegacyHelperTextProps,
   gridContainerProps,
   gridItemProps,
   gridSelectorProps,
   gridInputProps,
   gridErrorProps,
+  gridHelperTextProps,
   stackProps,
   selectorSize,
   inputSize,
@@ -56,7 +58,12 @@ export default function CountryCodeSelectorComposite({
   selectorProps,
   inputProps,
   errorProps,
-  selectorRenderCountRef,
+  helperText,
+  size,
+  margin,
+  disabled,
+  error,
+  ...rest
 }: CCSelectorCompositeProps) {
   selectorProps ??= {};
   inputProps ??= {};
@@ -88,7 +95,7 @@ export default function CountryCodeSelectorComposite({
     errorMessageDelay,
     onChange,
     onError,
-    inputRef,
+    inputRef
   );
 
   const defaultTextFieldShrink =
@@ -106,11 +113,13 @@ export default function CountryCodeSelectorComposite({
       gridLegacySelectorProps={gridLegacySelectorProps}
       gridLegacyInputProps={gridLegacyInputProps}
       gridLegacyErrorProps={gridLegacyErrorProps}
+      gridLegacyHelperTextProps={gridLegacyHelperTextProps}
       gridContainerProps={gridContainerProps}
       gridItemProps={gridItemProps}
       gridSelectorProps={gridSelectorProps}
       gridInputProps={gridInputProps}
       gridErrorProps={gridErrorProps}
+      gridHelperTextProps={gridHelperTextProps}
       stackProps={stackProps}
       selectorSize={selectorSize}
       inputSize={inputSize}
@@ -124,27 +133,38 @@ export default function CountryCodeSelectorComposite({
         shrink={shrink}
         value={countryCodeValue}
         variant={variant}
-        renderCountRef={selectorRenderCountRef}
         countries={countries}
+        size={size}
+        margin={margin}
+        error={error}
+        disabled={disabled}
         {...selectorProps}
       />
       <TextField
         id={id}
         name={name}
         error={
-          errorMsg !== null &&
-          (errorMessageDisplay === 'status' || errorMessageDisplay === 'both')
+          (errorMsg !== null &&
+            (errorMessageDisplay === 'status' ||
+              errorMessageDisplay === 'both')) ||
+          error
         }
         fullWidth
         inputRef={onInputRefChange}
-        InputLabelProps={{
-          shrink: shrink ?? defaultTextFieldShrink,
+        slotProps={{
+          inputLabel: {
+            shrink: shrink ?? defaultTextFieldShrink,
+          },
         }}
         label={phoneNumberLabel}
         onChange={handlePhoneNumberChange}
         type="text"
         value={valueToUse}
         variant={variant}
+        size={size}
+        margin={margin}
+        disabled={disabled}
+        {...rest}
         {...inputProps}
       />
       {errorMsg &&
@@ -154,6 +174,7 @@ export default function CountryCodeSelectorComposite({
             {errorMsg}
           </FormHelperText>
         )}
+      {helperText && !errorMsg && <FormHelperText>{helperText}</FormHelperText>}
     </Wrapper>
   );
 }

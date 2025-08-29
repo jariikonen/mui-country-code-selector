@@ -16,7 +16,6 @@ import { GridLegacyProps } from '@mui/material';
 import { GridProps } from '@mui/material';
 import { GridSize } from '@mui/material';
 import { JSX } from 'react/jsx-runtime';
-import { MutableRefObject } from 'react';
 import { Property } from 'csstype';
 import { RefCallback } from 'react';
 import { RefObject } from 'react';
@@ -25,9 +24,13 @@ import { TextFieldProps } from '@mui/material';
 import { TextFieldVariants } from '@mui/material';
 
 // @alpha
-export interface CCSelectorCompositeProps {
+export interface CCSelectorCompositeProps extends Omit<TextFieldProps, 'helperText' | 'inputProps' | 'onChange' | 'onError' | 'select' | 'SelectProps' | 'value' | 'variant' | 'size' | 'margin' | 'disabled' | 'error'> {
     countryCodeLabel?: string;
     defaultValue?: string;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    error?: boolean;
     errorMessageDelay?: number;
     errorMessageDisplay?: 'none' | 'message' | 'status' | 'both';
     errorProps?: Partial<FormHelperTextProps> | Record<string, never>;
@@ -36,20 +39,25 @@ export interface CCSelectorCompositeProps {
     formGroupProps?: Partial<FormGroupProps>;
     gridContainerProps?: GridContainerProps;
     gridErrorProps?: GridItemProps;
+    gridHelperTextProps?: GridItemProps;
     gridInputProps?: GridItemProps;
     gridItemProps?: GridItemProps;
     gridLegacyContainerProps?: GridLegacyContainerProps;
     gridLegacyErrorProps?: GridLegacyItemProps;
+    gridLegacyHelperTextProps?: GridLegacyItemProps;
     gridLegacyInputProps?: GridLegacyItemProps;
     gridLegacyItemProps?: GridLegacyItemProps;
     gridLegacySelectorProps?: GridLegacyItemProps;
     gridSelectorProps?: GridItemProps;
+    helperText?: React.ReactNode;
     id?: string;
-    inputProps?: Partial<Omit<TextFieldProps, 'onChange' | 'select' | 'SelectProps' | 'value'>> | Record<string, never>;
+    // Warning: (ae-forgotten-export) The symbol "AnyTextFieldProps" needs to be exported by the entry point index.d.ts
+    inputProps?: Partial<Omit<AnyTextFieldProps, 'onChange' | 'select' | 'SelectProps' | 'value'>> | Record<string, never>;
     inputRef?: RefObject<HTMLInputElement | null> | RefCallback<HTMLInputElement | null>;
-    inputRenderCountRef?: RefObject<number>;
     inputSize?: ComponentSize | ComponentSizeGridLegacy;
     layout?: LayoutProp;
+    // (undocumented)
+    margin?: 'none' | 'dense' | 'normal';
     name?: string;
     onChange?: (e: {
         target: {
@@ -59,20 +67,25 @@ export interface CCSelectorCompositeProps {
     onError?: (error: string) => void;
     phoneNumberLabel?: string;
     selectorProps?: Partial<CCSelectorProps> | Record<string, never>;
-    selectorRenderCountRef?: RefObject<number>;
     // Warning: (ae-forgotten-export) The symbol "ComponentSizeGridLegacy" needs to be exported by the entry point index.d.ts
     selectorSize?: ComponentSize | ComponentSizeGridLegacy;
     shrink?: boolean;
+    // (undocumented)
+    size?: 'small' | 'medium';
     stackProps?: Partial<StackProps>;
     value?: string;
     variant?: TextFieldVariants;
 }
 
 // @alpha
-export interface CCSelectorProps extends Omit<AutocompleteProps<CountryType, false, boolean, false>, 'getOptionLabel' | 'onChange' | 'options' | 'renderInput' | 'value'> {
+export interface CCSelectorProps<DisableClearable extends boolean = false> extends Omit<AutocompleteProps<CountryType, false, DisableClearable, false>, 'getOptionLabel' | 'onChange' | 'options' | 'renderInput' | 'value'> {
+    // (undocumented)
+    error?: boolean;
     getOptionLabel?: ((option: CountryType) => string) | undefined;
     label?: string;
-    renderCountRef?: MutableRefObject<number>;
+    // (undocumented)
+    margin?: 'none' | 'dense' | 'normal';
+    renderCountRef?: RefObject<number>;
     renderInput?: (params: AutocompleteRenderInputParams) => React.ReactNode;
     shrink?: boolean;
     variant?: TextFieldVariants;
@@ -104,10 +117,10 @@ export interface ComponentSize {
 // Warning: (ae-forgotten-export) The symbol "CCSelectorPropsReact" needs to be exported by the entry point index.d.ts
 //
 // @alpha
-export function CountryCodeSelector({ autoHighlight, autoSelect, filterOptions, getOptionKey, getOptionLabel, handleHomeEndKeys, label, onChange, renderOption, renderInput, shrink, slotProps, value, variant, renderCountRef, countries, ...rest }: CCSelectorPropsReact): JSX.Element;
+export function CountryCodeSelector({ autoHighlight, autoSelect, filterOptions, getOptionKey, getOptionLabel, handleHomeEndKeys, label, onChange, renderOption, renderInput, shrink, slotProps, value, variant, renderCountRef, countries, size, margin, error, disabled, ...rest }: CCSelectorPropsReact): JSX.Element;
 
 // @alpha
-export function CountryCodeSelectorComposite({ id, name, value, onChange, countryCodeLabel, phoneNumberLabel, errorMessageDelay, errorMessageDisplay, onError, inputRef, defaultValue, layout, formGroupProps, gridLegacyContainerProps, gridLegacyItemProps, gridLegacySelectorProps, gridLegacyInputProps, gridLegacyErrorProps, gridContainerProps, gridItemProps, gridSelectorProps, gridInputProps, gridErrorProps, stackProps, selectorSize, inputSize, errorSize, filterOptions, shrink, variant, selectorProps, inputProps, errorProps, selectorRenderCountRef, }: CCSelectorCompositeProps): JSX.Element;
+export function CountryCodeSelectorComposite({ id, name, value, onChange, countryCodeLabel, phoneNumberLabel, errorMessageDelay, errorMessageDisplay, onError, inputRef, defaultValue, layout, formGroupProps, gridLegacyContainerProps, gridLegacyItemProps, gridLegacySelectorProps, gridLegacyInputProps, gridLegacyErrorProps, gridLegacyHelperTextProps, gridContainerProps, gridItemProps, gridSelectorProps, gridInputProps, gridErrorProps, gridHelperTextProps, stackProps, selectorSize, inputSize, errorSize, filterOptions, shrink, variant, selectorProps, inputProps, errorProps, helperText, size, margin, disabled, error, ...rest }: CCSelectorCompositeProps): JSX.Element;
 
 // @alpha
 export interface CountryType {

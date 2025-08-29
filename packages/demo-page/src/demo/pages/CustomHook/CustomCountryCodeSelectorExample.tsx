@@ -28,7 +28,6 @@ export default function CustomCountryCodeSelectorComposite({
   selectorProps,
   inputProps,
   errorProps,
-  selectorRenderCountRef,
 }: CCSelectorCompositeProps) {
   selectorProps ??= {};
   inputProps ??= {};
@@ -60,7 +59,7 @@ export default function CustomCountryCodeSelectorComposite({
     errorMessageDelay,
     onChange,
     onError,
-    inputRef,
+    inputRef
   );
 
   const defaultTextFieldShrink =
@@ -86,7 +85,6 @@ export default function CustomCountryCodeSelectorComposite({
           shrink={shrink}
           value={countryCodeValue}
           variant={variant}
-          renderCountRef={selectorRenderCountRef}
           countries={countries}
           {...selectorProps}
         />

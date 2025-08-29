@@ -16,8 +16,7 @@ interface ComponentSizeGrid {
 
 /**
  * Represents a value for the composite component props that change the size of
- * country code selector's subcomponents in a MUI `Grid` (the legacy grid
- * component).
+ * country code selector's subcomponents in a MUI `GridLegacy`.
  * @alpha
  */
 export interface ComponentSizeGridLegacy {

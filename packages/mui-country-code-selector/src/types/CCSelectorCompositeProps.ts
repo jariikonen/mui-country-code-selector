@@ -18,11 +18,32 @@ import {
   GridLegacyItemProps,
 } from './GridProps';
 
+type AnyTextFieldProps = TextFieldVariants extends infer V
+  ? V extends TextFieldVariants
+    ? TextFieldProps<V>
+    : never
+  : never;
+
 /**
  * Represents the props of the `CountryCodeSelectorComposite` components.
  * @alpha
  */
-interface CCSelectorCompositeProps {
+interface CCSelectorCompositeProps
+  extends Omit<
+    TextFieldProps,
+    | 'helperText'
+    | 'inputProps'
+    | 'onChange'
+    | 'onError'
+    | 'select'
+    | 'SelectProps'
+    | 'value'
+    | 'variant'
+    | 'size'
+    | 'margin'
+    | 'disabled'
+    | 'error'
+  > {
   /**
    * The global HTML `id` attribute passed to the input subcomponent of the
    * composite component. Defines an identifier which must be unique in the
@@ -159,6 +180,15 @@ interface CCSelectorCompositeProps {
   gridLegacyErrorProps?: GridLegacyItemProps;
 
   /**
+   * Props passed to the MUI GridLegacy item component that the error message
+   * component is wrapped in, if the `gridLegacy`or `gridLegacyItems` layout
+   * wrapper is used. Overwrites the `gridLegacyItemProps`. See
+   * {@link https://mui.com/material-ui/api/grid-legacy/} for more information
+   * about what props can be passed to the component.
+   */
+  gridLegacyHelperTextProps?: GridLegacyItemProps;
+
+  /**
    * Props passed to the MUI Grid container component if the `grid` layout
    * wrapper is used. See {@link https://mui.com/material-ui/api/grid/}
    * for more information about what props can be passed to the component.
@@ -199,6 +229,15 @@ interface CCSelectorCompositeProps {
    * what props can be passed to the component.
    */
   gridErrorProps?: GridItemProps;
+
+  /**
+   * Props passed to the MUI Grid item component that the error message
+   * component is wrapped in, if the `grid` or `gridItems` layout wrapper is
+   * used. Overwrites the `grid2ItemProps`. See
+   * {@link https://mui.com/material-ui/api/grid/} for more information about
+   * what props can be passed to the component.
+   */
+  gridHelperTextProps?: GridItemProps;
 
   /**
    * Props passed to the MUI Stack component if the `stack` layout wrapper is
@@ -303,7 +342,7 @@ interface CCSelectorCompositeProps {
    */
   inputProps?:
     | Partial<
-        Omit<TextFieldProps, 'onChange' | 'select' | 'SelectProps' | 'value'>
+        Omit<AnyTextFieldProps, 'onChange' | 'select' | 'SelectProps' | 'value'>
       >
     | Record<string, never>;
 
@@ -316,16 +355,19 @@ interface CCSelectorCompositeProps {
   errorProps?: Partial<FormHelperTextProps> | Record<string, never>;
 
   /**
-   * Passes a numeric React ref object to the selector component, which is then
-   * increased by one every time the component is rendered.
+   * The helper text content to be displayed under the phone number input.
+   * When an error is present, the error message is displayed instead of the
+   * helper text.
    */
-  selectorRenderCountRef?: RefObject<number>;
+  helperText?: React.ReactNode;
 
-  /**
-   * Passes a numeric React ref object to the phone number input component,
-   * which is then increased by one every time the component is rendered.
-   */
-  inputRenderCountRef?: RefObject<number>;
+  size?: 'small' | 'medium';
+
+  margin?: 'none' | 'dense' | 'normal';
+
+  disabled?: boolean;
+
+  error?: boolean;
 }
 
 export default CCSelectorCompositeProps;

@@ -39,7 +39,7 @@ export default function PropsExample() {
             }}
             inputProps={{
               label: 'Input',
-              InputLabelProps: { shrink: true },
+              slotProps: { inputLabel: { shrink: true } },
               variant: 'filled',
             }}
           />

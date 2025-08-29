@@ -14,6 +14,7 @@ export interface GridLegacyWrapperProps {
   gridSelectorProps: GridLegacyItemProps | undefined;
   gridInputProps: GridLegacyItemProps | undefined;
   gridErrorProps: GridLegacyItemProps | undefined;
+  gridHelperTextProps: GridLegacyItemProps | undefined;
   selectorSize: ComponentSizeGridLegacy | undefined;
   inputSize: ComponentSizeGridLegacy | undefined;
   errorSize: ComponentSizeGridLegacy | undefined;
@@ -30,6 +31,7 @@ export default function GridLegacyWrapper({
   gridSelectorProps,
   gridInputProps,
   gridErrorProps,
+  gridHelperTextProps,
   selectorSize,
   inputSize,
   errorSize,
@@ -48,6 +50,11 @@ export default function GridLegacyWrapper({
   const errorPropsToApply = {
     ...gridItemProps,
     ...gridErrorProps,
+    ...errorSize,
+  };
+  const helperTextPropsToApply = {
+    ...gridItemProps,
+    ...gridHelperTextProps,
     ...errorSize,
   };
   return (
@@ -69,6 +76,12 @@ export default function GridLegacyWrapper({
           case 2:
             return child !== null ? (
               <GridLegacy item key="error" {...errorPropsToApply}>
+                {child}
+              </GridLegacy>
+            ) : null;
+          case 3:
+            return child !== null ? (
+              <GridLegacy item key="helper-text" {...helperTextPropsToApply}>
                 {child}
               </GridLegacy>
             ) : null;

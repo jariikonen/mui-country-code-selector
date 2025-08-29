@@ -1,4 +1,10 @@
-/** The accepted ISO 3166 two letter country codes in an array. */
+/**
+ * ISO 3166 two letter country codes in an array.
+ *
+ * The list also includes some four letter codes for areas that have their own
+ * calling codes, but which do not have their own two letter country code, such
+ * as Bonaire, Sint Eustatius and Saba (BQBO, BQSE, BQSA) and Ascencion (SHAC).
+ */
 export const isoAlpha2Arr = [
   'AD',
   'AE',

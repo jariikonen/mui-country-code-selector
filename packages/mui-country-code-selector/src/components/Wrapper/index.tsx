@@ -75,11 +75,13 @@ export interface WrapperProps {
   gridLegacySelectorProps?: GridLegacyItemProps;
   gridLegacyInputProps?: GridLegacyItemProps;
   gridLegacyErrorProps?: GridLegacyItemProps;
+  gridLegacyHelperTextProps?: GridLegacyItemProps;
   gridContainerProps?: GridContainerProps;
   gridItemProps?: GridItemProps;
   gridSelectorProps?: GridItemProps;
   gridInputProps?: GridItemProps;
   gridErrorProps?: GridItemProps;
+  gridHelperTextProps?: GridItemProps;
   stackProps?: Partial<StackProps>;
   selectorSize?: ComponentSize | ComponentSizeGridLegacy;
   inputSize?: ComponentSize | ComponentSizeGridLegacy;
@@ -101,11 +103,13 @@ export default function Wrapper({
   gridLegacySelectorProps = undefined,
   gridLegacyInputProps = undefined,
   gridLegacyErrorProps = undefined,
+  gridLegacyHelperTextProps = undefined,
   gridContainerProps = undefined,
   gridItemProps = undefined,
   gridSelectorProps = undefined,
   gridInputProps = undefined,
   gridErrorProps = undefined,
+  gridHelperTextProps = undefined,
   stackProps = undefined,
   selectorSize = undefined,
   inputSize = undefined,
@@ -139,6 +143,7 @@ export default function Wrapper({
             gridSelectorProps={gridLegacySelectorProps}
             gridInputProps={gridLegacyInputProps}
             gridErrorProps={gridLegacyErrorProps}
+            gridHelperTextProps={gridLegacyHelperTextProps}
             selectorSize={legacySelectorSize}
             inputSize={legacyInputSize}
             errorSize={legacyErrorSize}
@@ -154,6 +159,7 @@ export default function Wrapper({
           gridSelectorProps={gridLegacySelectorProps}
           gridInputProps={gridLegacyInputProps}
           gridErrorProps={gridLegacyErrorProps}
+          gridHelperTextProps={gridLegacyHelperTextProps}
           selectorSize={legacySelectorSize}
           inputSize={legacyInputSize}
           errorSize={legacyErrorSize}
@@ -169,6 +175,7 @@ export default function Wrapper({
             gridSelectorProps={gridSelectorProps}
             gridInputProps={gridInputProps}
             gridErrorProps={gridErrorProps}
+            gridHelperTextProps={gridHelperTextProps}
             selectorSize={gridSelectorSize}
             inputSize={gridInputSize}
             errorSize={gridErrorSize}
@@ -184,6 +191,7 @@ export default function Wrapper({
           gridSelectorProps={gridSelectorProps}
           gridInputProps={gridInputProps}
           gridErrorProps={gridErrorProps}
+          gridHelperTextProps={gridHelperTextProps}
           selectorSize={gridSelectorSize}
           inputSize={gridInputSize}
           errorSize={gridErrorSize}

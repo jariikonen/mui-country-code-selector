@@ -20,7 +20,7 @@ export default function TestPage({ form = false }: TestPageProps) {
         </Typography>
         <ControlledFormExample />
         <Typography variant="h5" sx={{ mb: { xs: 3 }, mt: { xs: 5 } }}>
-          As an uncontrolled component (React)
+          As an uncontrolled component
         </Typography>
         <UncontrolledFormExample />
       </Container>

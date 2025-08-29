@@ -8,7 +8,7 @@
   }}
   inputProps={{
     label: 'Input',
-    InputLabelProps: { shrink: true },
+    slotProps: { inputLabel: { shrink: true } },
     variant: 'filled',
   }}
 />

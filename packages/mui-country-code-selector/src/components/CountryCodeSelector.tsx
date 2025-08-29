@@ -53,7 +53,7 @@ function createDefaultFilterOptions() {
  */
 function defaultRenderOption(
   props: React.HTMLAttributes<HTMLLIElement> & { key: string | number },
-  option: CountryType,
+  option: CountryType
 ): React.ReactNode {
   const displayIso = option.displayIso ? option.displayIso : option.iso;
 
@@ -87,6 +87,9 @@ function defaultRenderOption(
  * @param elementWidth - The width of the selector element.
  * @param shrink - Indicates whether to shrink the label or not.
  * @param variant - Variant of the `TextField` component to use.
+ * @param margin - The `TextField` component's margin.
+ * @param error - If `true`, the `TextField` component is displayed in an error
+ *    state.
  * @returns A function for rendering the input component of the
  *    `CountryCodeSelector`'s `Autocomplete` component.
  * @alpha
@@ -96,6 +99,8 @@ function createDefaultRenderInput(
   elementWidth: number,
   shrink?: boolean,
   variant?: TextFieldVariants,
+  margin?: 'none' | 'dense' | 'normal',
+  error?: boolean
 ) {
   return function defaultRenderInput(params: AutocompleteRenderInputParams) {
     let labelToUse = label;
@@ -106,12 +111,16 @@ function createDefaultRenderInput(
       <TextField
         {...params}
         label={labelToUse}
-        inputProps={{
-          ...params.inputProps,
-          autoComplete: 'new-password', // disable autocomplete and autofill
+        slotProps={{
+          htmlInput: {
+            ...params.inputProps,
+            autoComplete: 'new-password', // disable autocomplete and autofill
+          },
+          inputLabel: { shrink },
         }}
         variant={variant}
-        InputLabelProps={{ shrink }}
+        margin={margin}
+        error={error}
       />
     );
   };
@@ -186,7 +195,7 @@ export interface CCSelectorPropsReact extends CCSelectorProps {
     _e: unknown,
     value: CountryType | null,
     reason: AutocompleteChangeReason,
-    details?: AutocompleteChangeDetails<CountryType>,
+    details?: AutocompleteChangeDetails<CountryType>
   ) => void;
 
   /** The calling codes and names of the countries of the world. */
@@ -218,6 +227,10 @@ export default function CountryCodeSelector({
   variant,
   renderCountRef,
   countries,
+  size,
+  margin,
+  error,
+  disabled,
   ...rest
 }: CCSelectorPropsReact) {
   const elementRef = useRef<HTMLElement | null>(null);
@@ -244,7 +257,14 @@ export default function CountryCodeSelector({
 
   const renderInputToUse =
     renderInput ??
-    createDefaultRenderInput(label, elementWidth, shrink, variant);
+    createDefaultRenderInput(
+      label,
+      elementWidth,
+      shrink,
+      variant,
+      margin,
+      error
+    );
 
   const getOptionKeyToUse = getOptionKey ?? defaultGetOptionKey;
 
@@ -276,6 +296,8 @@ export default function CountryCodeSelector({
       renderInput={renderInputToUse}
       slotProps={slotPropsToUse}
       value={value}
+      size={size}
+      disabled={disabled}
       ref={onRefChange}
       {...rest}
     />
